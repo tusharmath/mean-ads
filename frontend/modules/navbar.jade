@@ -1,0 +1,6 @@
+
+nav.navigation-bar.light(ng-controller='NavbarCtrl')
+  nav.navigation-bar-content
+    item.element.brand Meanjs adwords
+    item.element-divider
+    a.element(ng-repeat="module in modules", ng-href="{{module.path}}", ng-class="{active:isActive(module.path)}") {{module.name}}
