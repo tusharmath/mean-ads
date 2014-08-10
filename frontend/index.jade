@@ -11,7 +11,7 @@ html
     //---inject---
   body.metro(ng-app="mean-ads")
 
-    div(ng-include='\'modules/navbar\'')
+    div(ng-include='\'modules/nav/navbar\'')
     div.container(ng-view)
     //---inject:js---
     script(src='lib/angular/angular.js')
@@ -24,6 +24,11 @@ html
     script(src='lib/jquery-ui/ui/jquery-ui.js')
     script(src='lib/metro-ui-css/min/metro.min.js')
     script(src='app.js')
+    script(src='modules/campaign.js')
     script(src='modules/main.js')
     script(src='modules/navbar.js')
+    script(src='modules/admin/admin.js')
+    script(src='modules/admin/campaign.js')
+    script(src='modules/nav/navbar.js')
+    script(src='modules/admin/campaign/campaign.js')
     //---inject---
