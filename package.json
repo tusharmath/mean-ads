@@ -26,5 +26,8 @@
     "nib": "^1.0.3",
     "gulp": "^3.8.1",
     "gulp-stylus": "^1.0.2"
+  },
+  "scripts": {
+    "start": "nodemon server.coffee"
   }
 }
