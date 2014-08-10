@@ -59,6 +59,7 @@ gulp.task 'watch', ['livereload-start'], ->
   .on 'change', (file) ->
     livereload.changed file.path
 
+# TODO: remove bower-copy
 gulp.task 'bower-copy', ->
   bowerFiles()
   .pipe gulp.dest 'frontend/lib'
@@ -79,4 +80,5 @@ gulp.task 'inject-scripts', ['bower-copy', 'coffee', 'stylus'], ->
           "script(src='#{filepath}')"
   .pipe gulp.dest 'frontend'
 
+# TODO: Remove bower-copy from serve
 gulp.task 'serve', ['bower-copy', 'inject-scripts', 'spawn', 'watch', 'watch-server'], ->
