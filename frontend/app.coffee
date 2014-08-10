@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('meanjsAdwordsApp', [
+angular.module('mean-ads', [
   'ngCookies',
   'ngResource',
   'ngSanitize',

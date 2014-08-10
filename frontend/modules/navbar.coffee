@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('meanjsAdwordsApp')
+angular.module('mean-ads')
 .controller 'NavbarCtrl', ($scope, $location) ->
   $scope.modules = [
     name:"Home"
@@ -11,4 +11,3 @@ angular.module('meanjsAdwordsApp')
   $scope.isActive = (route) ->
     route is $location.path()
   return
-  

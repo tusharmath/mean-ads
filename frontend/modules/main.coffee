@@ -1,5 +1,4 @@
 'use strict'
 
-angular.module('meanjsAdwordsApp')
+angular.module('mean-ads')
 .controller 'MainCtrl', ($scope) ->
-  

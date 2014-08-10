@@ -1,5 +1,5 @@
 {
-  "name": "meanjs-adwords",
+  "name": "mean-ads",
   "version": "0.0.0",
   "dependencies": {
     "static-favicon": "^2.0.0-alpha",

@@ -1,6 +1,6 @@
 {
   "generator-lean-mean": {
-    "appName": "meanjs adwords",
+    "appName": "mean-ads",
     "scaffolds": [
       "navbar"
     ],
