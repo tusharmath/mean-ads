@@ -1,2 +1,2 @@
 #NPM Global
-npm install -g coffee-script gulp nodemon karma
+npm install -g coffee-script gulp
