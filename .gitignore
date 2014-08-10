@@ -1,3 +1,4 @@
 node_modules/
 .tmp/
 frontend/lib/
+bower_components/
