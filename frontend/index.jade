@@ -12,14 +12,16 @@ html
   body.metro(ng-app="mean-ads")
 
     div(ng-include='\'modules/nav/navbar\'')
-    div.container(ng-view)
+
+    .container
+      .grid(ng-view)
     //---inject:js---
     script(src='lib/angular/angular.js')
     script(src='lib/angular-animate/angular-animate.js')
     script(src='lib/angular-cookies/angular-cookies.js')
     script(src='lib/angular-resource/angular-resource.js')
-    script(src='lib/angular-route/angular-route.js')
     script(src='lib/angular-sanitize/angular-sanitize.js')
+    script(src='lib/angular-route/angular-route.js')
     script(src='lib/jquery/dist/jquery.js')
     script(src='lib/jquery-ui/ui/jquery-ui.js')
     script(src='lib/metro-ui-css/min/metro.min.js')

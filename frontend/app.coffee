@@ -12,10 +12,7 @@ angular.module('mean-ads', [
       .when '/',
         templateUrl: 'modules/main'
         controller: 'MainCtrl'
-      .when '/admin',
-        templateUrl: 'modules/admin/admin'
-        controller: 'AdminCtrl'
       .otherwise
         redirectTo: '/'
 
-    $locationProvider.html5Mode true
+    $locationProvider.html5Mode false
