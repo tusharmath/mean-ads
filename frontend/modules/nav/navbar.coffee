@@ -10,8 +10,22 @@
         path:"/"
        #---begin:modules---#
       ,
-        name:"Admin"
-        path:"/admin"
+        name:"Campaigns"
+        path:"/campaigns"
+
+      ,
+        name:"Ads"
+        path:"/ads"
+
+      ,
+        name:"Styles"
+        path:"/styles"
+
+      ,
+        name:"Keywords"
+        path:"/keywords"
+
+
        #---end:modules---#
       ]
 
