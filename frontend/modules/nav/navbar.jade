@@ -3,4 +3,6 @@ nav.navigation-bar.light(ng-controller='NavbarCtrl as navCtrl')
     nav.navigation-bar-content
       item.element.brand Mean Ads
       item.element-divider
-      a.element(ng-repeat="module in navCtrl.modules", ng-href="#{{module.path}}", ng-class="{active:navCtrl.isActive(module.path)}") {{module.name}}
+      a.element(ng-repeat="module in navCtrl.modules"
+      ng-href="#{{module.path}}"
+      ng-class="{active:navCtrl.isActive(module.path)}") {{module.name}}
