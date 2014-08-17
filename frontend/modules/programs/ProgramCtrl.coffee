@@ -17,8 +17,4 @@ class ProgramCtrl
             status: "stale"
             algorithm: "weighted selections"
         ]
-
-    isActive: (route) ->
-        route is injected.$location.path()
-
 angular.module('mean-ads').controller 'ProgramCtrl', ProgramCtrl

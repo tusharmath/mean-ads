@@ -14,8 +14,8 @@ angular.module('mean-ads', [
         .when '/programs',
             templateUrl: 'modules/programs/program'
             controller: "ProgramCtrl as prgCtrl"
-        .when '/slots',
-            templateUrl: 'modules/slots/slot'
+        .when '/campaigns',
+            templateUrl: 'modules/campaigns/campaign'
         .when '/ads',
             templateUrl: 'modules/ads/ad'
         .when '/keywords',

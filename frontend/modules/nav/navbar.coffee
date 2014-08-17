@@ -11,8 +11,8 @@ class NavbarCtrl
             name: "Programs"
             path: "/programs"
         ,
-            name: "Slots"
-            path: "/slots"
+            name: "Campaigns"
+            path: "/campaigns"
         ,
             name: "Ads"
             path: "/ads"

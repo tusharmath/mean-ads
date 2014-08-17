@@ -17,12 +17,7 @@ div
         tbody
 
             tr(ng-repeat="program in prgCtrl.programs")
-                td
-                    label
-                        input(type="checkbox")
-                        span &nbsp;
-                        span {{$index+101}}
-
+                td {{$index+101}}
                 td
                     .text-capitalize {{program.name}}
                 td
