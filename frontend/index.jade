@@ -15,10 +15,11 @@ html
                     a.navbar-brand(href="#") Mean Ads
         .container
             .row
-                .col-md-3
-                    div(ng-include='\'modules/nav/navbar\'')
-                .col-md-9
+                .col-md-10
                     .grid(ng-view)
+                .col-md-2
+                    div(ng-include='\'modules/nav/navbar\'')
+
         //---inject:js---
 
         script(src='lib/angular/angular.js')
