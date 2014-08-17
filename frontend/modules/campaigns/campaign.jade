@@ -28,7 +28,7 @@ table.table
             td
                 strong.text-capitalize.text-muted {{campaign.algorithm}}
             td
-                span.text-capitalize.label.label-success {{campaign.status}}
+                span.text-capitalize.label(ng-class="{'label-success':campaign.status == 'active', 'label-danger': campaign.status === 'in active' }") {{campaign.status}}
             td
                 a(href="#") Edit
                 span &nbsp;

@@ -6,7 +6,7 @@ class CampaignCtrl
             slotCount: 123
             gauge: "clicks"
             adCount : 345
-            status: "Active"
+            status: "active"
             algorithm: "round robin"
         ,
             name: "engineer's den"
@@ -14,7 +14,7 @@ class CampaignCtrl
             slotCount: 19
             gauge: "impressions"
             adCount : 37
-            status: "In active"
+            status: "in active"
             algorithm: "weighted selections"
         ]
 
