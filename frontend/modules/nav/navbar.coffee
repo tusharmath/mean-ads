@@ -8,8 +8,8 @@ class NavbarCtrl
             path: "/"
            #---begin:modules---#
         ,
-            name: "Campaigns"
-            path: "/campaigns"
+            name: "Programs"
+            path: "/programs"
         ,
             name: "Slots"
             path: "/slots"

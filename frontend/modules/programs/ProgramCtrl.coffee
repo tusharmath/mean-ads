@@ -1,6 +1,6 @@
-class CampaignCtrl
+class ProgramCtrl
     constructor: () ->
-        @campaigns = [
+        @programs = [
             name: "doctors paradise"
             style: "Blue front"
             slotCount: 123
@@ -21,4 +21,4 @@ class CampaignCtrl
     isActive: (route) ->
         route is injected.$location.path()
 
-angular.module('mean-ads').controller 'CampaignCtrl', CampaignCtrl
+angular.module('mean-ads').controller 'ProgramCtrl', ProgramCtrl

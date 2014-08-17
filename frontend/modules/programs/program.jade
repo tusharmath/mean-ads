@@ -12,11 +12,11 @@ div
                 th.text-right Slots
                 th.text-right Ads
                 th Gauge
-                th Algorithm
+                th Delivery
                 th.text-right Status
         tbody
 
-            tr(ng-repeat="campaign in cmpCtrl.campaigns")
+            tr(ng-repeat="program in prgCtrl.programs")
                 td
                     label
                         input(type="checkbox")
@@ -24,16 +24,16 @@ div
                         span {{$index+101}}
 
                 td
-                    .text-capitalize {{campaign.name}}
+                    .text-capitalize {{program.name}}
                 td
-                    a.text-capitalize(href="#") {{campaign.style}}
+                    a.text-capitalize(href="#") {{program.style}}
                 td.text-right
-                    a(href="#") {{campaign.slotCount}}
+                    a(href="#") {{program.slotCount}}
                 td.text-right
-                    a(href="#") {{campaign.adCount}}
+                    a(href="#") {{program.adCount}}
                 td
-                    strong.text-capitalize.text-muted {{campaign.gauge}}
+                    strong.text-capitalize.text-muted {{program.gauge}}
                 td
-                    strong.text-capitalize.text-muted {{campaign.algorithm}}
+                    strong.text-capitalize.text-muted {{program.algorithm}}
                 td.text-right
-                    span.text-capitalize.label(ng-class="{'label-success':campaign.status == 'active', 'label-danger': campaign.status === 'stale' }")  {{campaign.status}}
+                    span.text-capitalize.label(ng-class="{'label-success':program.status == 'active', 'label-danger': program.status === 'stale' }")  {{program.status}}
