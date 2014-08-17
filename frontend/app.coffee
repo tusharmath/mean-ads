@@ -4,8 +4,7 @@ angular.module('mean-ads', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute',
-    'ngAnimate'
+    'ngRoute'
 ])
   .config ($routeProvider, $locationProvider, $httpProvider) ->
     $routeProvider
