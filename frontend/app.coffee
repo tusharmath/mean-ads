@@ -13,12 +13,12 @@ angular.module('mean-ads', [
             templateUrl: 'modules/main'
             controller: 'MainCtrl'
         .when '/campaigns',
-            templateUrl: 'modules/campaign'
+            templateUrl: 'modules/campaigns/campaign'
         .when '/ads',
-            templateUrl: 'modules/ad'
+            templateUrl: 'modules/ads/ad'
         .when '/keywords',
-            templateUrl: 'modules/keyword'
+            templateUrl: 'modules/keywords/keyword'
         .when '/styles',
-            templateUrl: 'modules/style'
+            templateUrl: 'modules/styles/style'
         .otherwise redirectTo: '/'
     $locationProvider.html5Mode false
