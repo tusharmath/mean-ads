@@ -1,7 +1,7 @@
 .btn-group
     button.btn.btn-default Create
-    button.btn.btn-default Edit
-    button.btn.btn-default Archive
+    button.btn.btn-default.disabled Edit
+    button.btn.btn-default.disabled Archive
 div
     table.table
         thead
@@ -35,4 +35,4 @@ div
                 td
                     strong.text-capitalize.text-muted {{campaign.algorithm}}
                 td
-                    span.text-capitalize.label(ng-class="{'label-success':campaign.status == 'active', 'label-danger': campaign.status === 'stale' }") {{campaign.status}}
+                    span.text-capitalize.label(ng-class="{'label-success':campaign.status == 'active', 'label-danger': campaign.status === 'stale' }")  {{campaign.status}}
