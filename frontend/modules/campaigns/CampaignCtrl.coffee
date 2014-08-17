@@ -14,7 +14,7 @@ class CampaignCtrl
             slotCount: 19
             gauge: "impressions"
             adCount : 37
-            status: "in active"
+            status: "stale"
             algorithm: "weighted selections"
         ]
 
