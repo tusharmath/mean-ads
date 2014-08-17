@@ -10,15 +10,15 @@ class NavbarCtrl
         ,
             name: "Campaigns"
             path: "/campaigns"
-
+        ,
+            name: "Slots"
+            path: "/slots"
         ,
             name: "Ads"
             path: "/ads"
-
         ,
             name: "Styles"
             path: "/styles"
-
         ,
             name: "Keywords"
             path: "/keywords"
