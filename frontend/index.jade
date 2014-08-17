@@ -1,56 +1,46 @@
 //- TODO: Remove from git
 doctype html
 html
-  head
-    title Meanjs adwords
-    //---inject:css---
-    link(rel='stylesheet' href='lib/fontawesome/css/font-awesome.css')
-    link(rel='stylesheet' href='lib/metro-ui-css/css/metro-bootstrap-responsive.css')
-    link(rel='stylesheet' href='lib/metro-ui-css/css/metro-bootstrap.css')
-    link(rel='stylesheet' href='styles/main.css')
-    //---inject---
-  body.metro(ng-app="mean-ads")
+    head
+        title Meanjs adwords
+        //---inject:css---
+        link(rel='stylesheet' href='lib/fontawesome/css/font-awesome.css')
+        link(rel='stylesheet' href='lib/bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet' href='styles/main.css')
+        //---inject---
+    body.metro(ng-app="mean-ads")
+        nav.navbar.navbar-default
+            .container
+                .navbar-header
+                    a.navbar-brand(href="#") Mean Ads
+        .container
+            .row
+                .col-md-3
+                    div(ng-include='\'modules/nav/navbar\'')
+                .col-md-9
+                    .grid(ng-view)
+        //---inject:js---
 
-    div(ng-include='\'modules/nav/navbar\'')
+        script(src='lib/angular/angular.js')
 
-    .container
-      .grid(ng-view)
-    //---inject:js---
-    
-    script(src='lib/angular/angular.js')
-    
-    script(src='lib/angular-animate/angular-animate.js')
-    
-    script(src='lib/angular-cookies/angular-cookies.js')
-    
-    script(src='lib/angular-resource/angular-resource.js')
-    
-    script(src='lib/angular-route/angular-route.js')
-    
-    script(src='lib/angular-sanitize/angular-sanitize.js')
-    
-    script(src='lib/jquery/dist/jquery.js')
-    
-    script(src='lib/jquery-ui/ui/jquery-ui.js')
-    
-    script(src='lib/metro-ui-css/min/metro.min.js')
-    
-    script(src='app.js')
-    
-    script(src='modules/campaign.js')
-    
-    script(src='modules/main.js')
-    
-    script(src='modules/mainCtrl.js')
-    
-    script(src='modules/navbar.js')
-    
-    script(src='modules/admin/admin.js')
-    
-    script(src='modules/admin/campaign.js')
-    
-    script(src='modules/nav/navbar.js')
-    
-    script(src='modules/admin/campaign/campaign.js')
-    
-    //---inject---
+        script(src='lib/angular-cookies/angular-cookies.js')
+
+        script(src='lib/angular-resource/angular-resource.js')
+
+        script(src='lib/angular-route/angular-route.js')
+
+        script(src='lib/angular-sanitize/angular-sanitize.js')
+
+        script(src='lib/jquery/dist/jquery.js')
+
+        script(src='lib/jquery-ui/ui/jquery-ui.js')
+
+        script(src='lib/bootstrap/dist/js/bootstrap.js')
+
+        script(src='app.js')
+
+        script(src='modules/mainCtrl.js')
+
+        script(src='modules/nav/navbar.js')
+
+        //---inject---

@@ -1,8 +1,3 @@
-nav.navigation-bar.light(ng-controller='NavbarCtrl as navCtrl')
-  .container
-    nav.navigation-bar-content
-      item.element.brand Mean Ads
-      item.element-divider
-      a.element(ng-repeat="module in navCtrl.modules"
-      ng-href="#{{module.path}}"
-      ng-class="{active:navCtrl.isActive(module.path)}") {{module.name}}
+ul.nav.nav-pills.nav-stacked(ng-controller='NavbarCtrl as navCtrl')
+    li(ng-repeat="module in navCtrl.modules" ng-class="{active:navCtrl.isActive(module.path)}")
+        a(ng-href="#{{module.path}}") {{module.name}}

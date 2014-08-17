@@ -20,7 +20,7 @@ gulp.task 'coffee', ->
   gulp
   .src ['frontend/**/*.coffee']
   .pipe changed './.tmp'
-  .pipe coffee(bare:true).on 'error', gutil.log
+  .pipe coffee(bare: true).on 'error', gutil.log
   .pipe gulp.dest './.tmp'
 
 gulp.task 'coffee-and-reload', ['coffee'], ->
@@ -30,7 +30,7 @@ gulp.task 'stylus', ->
   gulp
   .src ['frontend/styles/**/*.styl']
   .pipe changed './.tmp'
-  .pipe stylus use:nib(),errors:true
+  .pipe stylus use: nib(), errors: true
   .pipe gulp.dest './.tmp/styles'
 
 gulp.task 'stylus-and-reload', ['stylus'], ->
@@ -66,10 +66,10 @@ gulp.task 'bower-copy', ->
 
 
 gulp.task 'inject-scripts', ['bower-copy', 'coffee', 'stylus'], ->
-  gulp.src ['frontend/lib/**/*', './.tmp/**/*'], read:false
+  gulp.src ['frontend/lib/**/*', './.tmp/**/*'], read: false
   .pipe inject 'frontend/index.jade',
-    starttag:'//---inject:{{ext}}---'
-    endtag:'//---inject---'
+    starttag: '//---inject:{{ext}}---'
+    endtag: '//---inject---'
     transform: (filepath, file, index, length) ->
       filepath = filepath.replace /^.+?\//, '' #removes frontend/, .tmp/
       ext = filepath.split('.').pop()
