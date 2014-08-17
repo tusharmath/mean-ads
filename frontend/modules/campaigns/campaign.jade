@@ -1,2 +1,37 @@
-h1 Campaign
-p This is Campaign view
+table.table
+    thead
+        tr
+            th #
+            th Campaign
+            th Style
+            th Slots
+            th Ads
+            th Gauge
+            th Algorithm
+            th Status
+            th Actions
+
+    tbody
+
+        tr(ng-repeat="campaign in cmpCtrl.campaigns")
+            td {{$index+101}}
+            td
+                .text-capitalize {{campaign.name}}
+            td
+                a.text-capitalize(href="#") {{campaign.style}}
+            td
+                a(href="#") {{campaign.slotCount}}
+            td
+                a(href="#") {{campaign.adCount}}
+            td
+                strong.text-capitalize.text-muted {{campaign.gauge}}
+            td
+                strong.text-capitalize.text-muted {{campaign.algorithm}}
+            td
+                span.text-capitalize.label.label-success {{campaign.status}}
+            td
+                a(href="#") Edit
+                span &nbsp;
+                a(href="#") Stop
+                span &nbsp;
+                a(href="#") Archive

@@ -16,7 +16,7 @@ html
         .container
             .row
                 .col-md-10
-                    .grid(ng-view)
+                    div(ng-view)
                 .col-md-2
                     div(ng-include='\'modules/nav/navbar\'')
 
@@ -41,6 +41,8 @@ html
         script(src='app.js')
 
         script(src='modules/mainCtrl.js')
+
+        script(src='modules/campaigns/CampaignCtrl.js')
 
         script(src='modules/nav/navbar.js')
 
