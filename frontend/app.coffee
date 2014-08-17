@@ -6,13 +6,14 @@ angular.module('mean-ads', [
     'ngSanitize',
     'ngRoute'
 ])
-  .config ($routeProvider, $locationProvider, $httpProvider) ->
+.config ($routeProvider, $locationProvider, $httpProvider) ->
     $routeProvider
         .when '/',
             templateUrl: 'modules/main'
             controller: 'MainCtrl'
         .when '/campaigns',
             templateUrl: 'modules/campaigns/campaign'
+            controller: "CampaignCtrl as cmpCtrl"
         .when '/ads',
             templateUrl: 'modules/ads/ad'
         .when '/keywords',
