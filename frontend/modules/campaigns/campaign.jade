@@ -6,33 +6,34 @@ div
     table.table
         thead
             tr
-                th
                 th #
                 th Campaign
                 th Style
-                th Slots
-                th Ads
+                th.text-right Slots
+                th.text-right Ads
                 th Gauge
                 th Algorithm
-                th Status
-
+                th.text-right Status
         tbody
 
             tr(ng-repeat="campaign in cmpCtrl.campaigns")
                 td
-                    input(type="checkbox")
-                td {{$index+101}}
+                    label
+                        input(type="checkbox")
+                        span &nbsp;
+                        span {{$index+101}}
+
                 td
                     .text-capitalize {{campaign.name}}
                 td
                     a.text-capitalize(href="#") {{campaign.style}}
-                td
+                td.text-right
                     a(href="#") {{campaign.slotCount}}
-                td
+                td.text-right
                     a(href="#") {{campaign.adCount}}
                 td
                     strong.text-capitalize.text-muted {{campaign.gauge}}
                 td
                     strong.text-capitalize.text-muted {{campaign.algorithm}}
-                td
+                td.text-right
                     span.text-capitalize.label(ng-class="{'label-success':campaign.status == 'active', 'label-danger': campaign.status === 'stale' }")  {{campaign.status}}
