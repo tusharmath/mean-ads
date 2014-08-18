@@ -20,7 +20,7 @@ gulp.task 'coffee', ->
     gulp
     .src ['frontend/**/*.coffee']
     .pipe changed './.tmp'
-    .pipe coffee(bare: true).on 'error', gutil.log
+    .pipe coffee(bare: false).on 'error', gutil.log
     .pipe gulp.dest './.tmp'
 
 gulp.task 'coffee-and-reload', ['coffee'], ->
