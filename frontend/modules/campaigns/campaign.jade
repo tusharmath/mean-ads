@@ -3,6 +3,9 @@ div.panel.panel-default
         .btn-group
             button.btn.btn-default Create
             button.btn.btn-default.disabled Edit
+            button.btn.btn-default.disabled Stop
+            button.btn.btn-default.disabled Start
+            button.btn.btn-default Archive
         .clearfix
     .panel-body
         table.table
@@ -14,7 +17,8 @@ div.panel.panel-default
                     th.text-right Duration
                     th Commitment
                     th.text-right Ads
-                    th.text-right Health
+                    th Status
+                    th Health
             tbody
                 tr(ng-repeat="campaign in cmpCtrl.campaigns")
                     td {{$index+1002}}
@@ -27,5 +31,7 @@ div.panel.panel-default
                         strong.text-capitalize.text-muted {{campaign.commitment}} {{campaign.gauge}}
                     td.text-right
                         a(href="#") {{campaign.adCount}}
-                    td.text-right
-                        span.text-capitalize.label(class="label-{{campaign.status}}")  {{campaign.status}}
+                    td
+                        strong.text-capitalize.text-muted {{campaign.status}}
+                    td
+                        span.text-capitalize.label(class="label-{{campaign.health}}")  {{campaign.health}}

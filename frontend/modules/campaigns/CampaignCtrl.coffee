@@ -6,7 +6,8 @@ class CampaignCtrl
             commitment: 4000
             gauge: "clicks"
             adCount: 14
-            status: "success"
+            health: "success"
+            status: "stopped"
             program: "Engineer's Den"
         ,
             name: "Kormangala Orthopedics"
@@ -14,7 +15,8 @@ class CampaignCtrl
             commitment: 100
             gauge : "impressions"
             adCount: 198
-            status: "danger"
+            health: "danger"
+            status: "running"
             program: "Slim Looking"
         ]
 angular.module('mean-ads').controller 'CampaignCtrl', CampaignCtrl
