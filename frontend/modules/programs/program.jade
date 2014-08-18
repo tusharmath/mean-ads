@@ -1,31 +1,31 @@
-.btn-group
-    button.btn.btn-default Create
-    button.btn.btn-default.disabled Edit
-    button.btn.btn-default.disabled Archive
-div
-    table.table
-        thead
-            tr.text-capitalize
-                th #
-                th Program
-                th Style
-                th.text-right Campaigns
-                th Gauge
-                th Delivery
-                th.text-right Status
-        tbody
+div.panel.panel-default
+    .panel-heading
+        .btn-group
+            button.btn.btn-default Create
+            button.btn.btn-default.disabled Edit
+            button.btn.btn-default.disabled Archive
+        .clearfix
+    .panel-body
+        table.table
+            thead
+                tr.text-capitalize
+                    th #
+                    th Program
+                    th Style
+                    th.text-right Campaigns
+                    th Gauge
+                    th Delivery
+            tbody
 
-            tr(ng-repeat="program in prgCtrl.programs")
-                td {{$index+101}}
-                td
-                    .text-capitalize {{program.name}}
-                td
-                    a.text-capitalize(href="#") {{program.style}}
-                td.text-right
-                    a(href="#") {{program.campaignCount}}
-                td
-                    strong.text-capitalize.text-muted {{program.gauge}}
-                td
-                    strong.text-capitalize.text-muted {{program.algorithm}}
-                td.text-right
-                    span.text-capitalize.label(ng-class="{'label-success':program.status == 'active', 'label-danger': program.status === 'stale' }")  {{program.status}}
+                tr(ng-repeat="program in prgCtrl.programs")
+                    td {{$index+101}}
+                    td
+                        .text-capitalize {{program.name}}
+                    td
+                        a.text-capitalize(href="#") {{program.style}}
+                    td.text-right
+                        a(href="#") {{program.campaignCount}}
+                    td
+                        strong.text-capitalize.text-muted {{program.gauge}}
+                    td
+                        strong.text-capitalize.text-muted {{program.algorithm}}

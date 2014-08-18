@@ -2,11 +2,19 @@ class CampaignCtrl
     constructor: () ->
         @campaigns = [
             name: "Indiranagar Dentistry"
-            startDate: new Date 10, 10, 2010
-            endDate: new Date 10, 12, 2010
+            duration: "6 months"
             commitment: 4000
+            gauge: "clicks"
             adCount: 14
-            status: "active"
+            status: "success"
             program: "Engineer's Den"
+        ,
+            name: "Kormangala Orthopedics"
+            duration: "3 months"
+            commitment: 100
+            gauge : "impressions"
+            adCount: 198
+            status: "danger"
+            program: "Slim Looking"
         ]
 angular.module('mean-ads').controller 'CampaignCtrl', CampaignCtrl
