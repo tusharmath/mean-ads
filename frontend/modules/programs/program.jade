@@ -10,7 +10,6 @@ div
                 th Program
                 th Style
                 th.text-right Campaigns
-                th.text-right Ads
                 th Gauge
                 th Delivery
                 th.text-right Status
@@ -23,9 +22,7 @@ div
                 td
                     a.text-capitalize(href="#") {{program.style}}
                 td.text-right
-                    a(href="#") {{program.slotCount}}
-                td.text-right
-                    a(href="#") {{program.adCount}}
+                    a(href="#") {{program.campaignCount}}
                 td
                     strong.text-capitalize.text-muted {{program.gauge}}
                 td

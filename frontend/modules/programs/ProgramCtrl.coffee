@@ -5,7 +5,7 @@ class ProgramCtrl
             style: "Blue front"
             slotCount: 123
             gauge: "clicks"
-            adCount : 345
+            campaignCount : 345
             status: "active"
             algorithm: "round robin"
         ,
@@ -13,7 +13,7 @@ class ProgramCtrl
             style: "slim looking"
             slotCount: 19
             gauge: "impressions"
-            adCount : 37
+            campaignCount : 37
             status: "stale"
             algorithm: "weighted selections"
         ]
