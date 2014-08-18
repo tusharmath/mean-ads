@@ -1,4 +1,7 @@
 class CampaignCtrl
     constructor: () ->
-        @campaigns = []
+        alert('hi')
+        @campaigns = [
+
+        ]
 angular.module('mean-ads').controller 'CampaignCtrl', CampaignCtrl
