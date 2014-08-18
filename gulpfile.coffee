@@ -1,5 +1,6 @@
 gulp = require 'gulp'
 gulpFilter = require 'gulp-filter'
+gulpRimraf = require 'gulp-rimraf'
 uglify = require 'gulp-uglify'
 changed = require 'gulp-changed'
 gutil = require 'gulp-util'
@@ -15,6 +16,10 @@ node = null
 uglifyFilter = gulpFilter ['**/*.js']
 bowerFilesFilter = gulpFilter ['**/*.js', '**/*.css']
 bowerInjectFilter = gulpFilter ['**/*.min.js', '**/*.css']
+
+gulp.task 'rimraf', ->
+    gulp.src './.tmp/**', read: false
+    .pipe gulpRimraf force: true
 
 gulp.task 'coffee', ->
     gulp
@@ -82,4 +87,7 @@ gulp.task 'inject-scripts', ['bower-copy', 'coffee', 'stylus'], ->
 
 # TODO: Remove bower-copy from serve
 gulp.task 'serve', [
-    'bower-copy', 'inject-scripts', 'spawn', 'watch', 'watch-server'], ->
+    'rimraf', 'bower-copy'
+    'inject-scripts', 'spawn'
+    'watch', 'watch-server'
+    ], ->
