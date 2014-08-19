@@ -1,2 +1,35 @@
-h1 Ad
-p This is the Ad view.
+div.panel.panel-default
+    .panel-heading
+        .btn-group
+            button.btn.btn-default Create
+            button.btn.btn-default.disabled Edit
+            button.btn.btn-default.disabled Details
+            button.btn.btn-default Archive
+        .clearfix
+    .panel-body
+        table.table
+            thead
+                tr.text-capitalize
+                    th #
+                    th Client
+                    th Campaign
+                    th.text-right Subscription
+                    th Credits
+                    th Gauge
+                    th Status
+            tbody
+                tr(ng-repeat="subs in subCtrl.subscriptions")
+                    td {{$index + 1024}}
+                    td {{subs.client}}
+                    td
+                        a(href="#") {{subs.campaign}}
+                    td.text-right {{subs.startDate|date}} - {{subs.endDate|date}}
+
+                    td
+                        strong.text-capitalize.text-primary {{subs.creditsRemaining}}/{{subs.totalCredits}}
+
+                    td
+                        strong.text-capitalize.text-muted {{subs.gauge}}
+                    td
+                        strong.text-capitalize
+                            span.label.label-danger.text-muted In Active
