@@ -19,6 +19,7 @@ angular.module("mean-ads", [
             controller: "CampaignCtrl as cmpCtrl"
         .when "/subscriptions",
             templateUrl: "modules/subscriptions/subscription"
+            controller: "SubscriptionCtrl as subCtrl"
         .when "/keywords",
             templateUrl: "modules/keywords/keyword"
         .when "/styles",
