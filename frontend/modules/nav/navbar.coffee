@@ -14,8 +14,8 @@ class NavbarCtrl
             name: "Campaigns"
             path: "/campaigns"
         ,
-            name: "Ads"
-            path: "/ads"
+            name: "Subscriptions"
+            path: "/subscriptions"
         ,
             name: "Styles"
             path: "/styles"

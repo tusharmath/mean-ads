@@ -17,8 +17,8 @@ angular.module("mean-ads", [
         .when "/campaigns",
             templateUrl: "modules/campaigns/campaign"
             controller: "CampaignCtrl as cmpCtrl"
-        .when "/ads",
-            templateUrl: "modules/ads/ad"
+        .when "/subscriptions",
+            templateUrl: "modules/subscriptions/subscription"
         .when "/keywords",
             templateUrl: "modules/keywords/keyword"
         .when "/styles",
