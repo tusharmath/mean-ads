@@ -12,22 +12,23 @@ div.panel.panel-default
                 tr.text-capitalize
                     th #
                     th Client
-                    th Campaign
                     th.text-right Subscription
                     th Credits
+                    th Campaign
                     th Gauge
                     th Status
             tbody
                 tr(ng-repeat="subs in subCtrl.subscriptions")
                     td {{$index + 1024}}
                     td {{subs.client}}
+                    td.text-right {{subs.startDate|date}} - {{subs.endDate|date}}
+                    td
+                        strong.text-capitalize.text-primary
+                            span {{subs.creditsRemaining}}
+                            span &nbsp;/&nbsp;
+                            span {{subs.totalCredits}}
                     td
                         a(href="#") {{subs.campaign}}
-                    td.text-right {{subs.startDate|date}} - {{subs.endDate|date}}
-
-                    td
-                        strong.text-capitalize.text-primary {{subs.creditsRemaining}}/{{subs.totalCredits}}
-
                     td
                         strong.text-capitalize.text-muted {{subs.gauge}}
                     td
