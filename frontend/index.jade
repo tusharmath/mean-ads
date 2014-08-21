@@ -3,12 +3,13 @@ doctype html
 html
     head
         title mean-ads
-        //---inject:css---
-        link(rel='stylesheet' href='lib/fontawesome/css/font-awesome.css')
-        link(rel='stylesheet' href='lib/bootstrap/dist/css/bootstrap.css')
+
+        link(rel='stylesheet' href='lib/font-awesome.css')
+        link(rel='stylesheet' href='lib/bootstrap.css')
         link(rel='stylesheet' href='styles/main.css')
-        //---inject---
-    body.metro(ng-app="mean-ads")
+        script(data-main="require-config.js" src="lib/require.js")
+
+    body.metro
         nav.navbar.navbar-default
             .container
                 .navbar-header
@@ -19,35 +20,3 @@ html
                     div(ng-view)
                 .col-md-2
                     div(ng-include='\'modules/nav/navbar\'')
-
-        //---inject:js---
-
-        script(src='lib/angular/angular.js')
-
-        script(src='lib/angular-cookies/angular-cookies.js')
-
-        script(src='lib/angular-resource/angular-resource.js')
-
-        script(src='lib/angular-route/angular-route.js')
-
-        script(src='lib/angular-sanitize/angular-sanitize.js')
-
-        script(src='lib/jquery/dist/jquery.js')
-
-        script(src='lib/jquery-ui/ui/jquery-ui.js')
-
-        script(src='lib/bootstrap/dist/js/bootstrap.js')
-
-        script(src='app.js')
-
-        script(src='modules/mainCtrl.js')
-
-        script(src='modules/campaigns/CampaignCtrl.js')
-
-        script(src='modules/nav/navbar.js')
-
-        script(src='modules/programs/ProgramCtrl.js')
-
-        script(src='modules/subscriptions/SubscriptionCtrl.js')
-
-        //---inject---
