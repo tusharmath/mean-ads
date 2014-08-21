@@ -6,7 +6,7 @@ changed = require 'gulp-changed'
 gutil = require 'gulp-util'
 inject = require 'gulp-inject'
 livereload = require 'gulp-livereload'
-bowerFiles = require 'gulp-bower-files'
+bowerFiles = require 'main-bower-files'
 coffee = require 'gulp-coffee'
 stylus = require 'gulp-stylus'
 nib = require 'nib'
@@ -66,7 +66,7 @@ gulp.task 'watch', ['livereload-start'], ->
 
 # TODO: remove bower-copy
 gulp.task 'bower-copy', ->
-    bowerFiles()
+    gulp.src bowerFiles()
     .pipe gulp.dest 'frontend/lib'
 
 
