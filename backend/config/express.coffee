@@ -6,16 +6,14 @@ errorHandler = require 'errorhandler'
 session = require 'express-session'
 config = require './config'
 mongoStore = require('connect-mongo') session
-liveReload = require 'connect-livereload'
-coffeeMiddleware = requre 'coffee-middleware'
+liveReload = require 'express-livereload'
+coffeeMiddleware = require 'coffee-middleware'
 
 module.exports = (app) ->
     env = app.get 'env'
     if env is 'development'
-        app
-        .use liveReload()
-        .use errorHandler()
-
+        liveReload app, watchDir: path.join config.root, 'frontend'
+        app.use errorHandler()
         #disables caching of scripts in development module
         #TODO: only for certain paths?
         .use (req, res, next) ->
@@ -29,7 +27,6 @@ module.exports = (app) ->
         collection: 'sessions'
 
     app
-    .use express.static path.join config.root, '.tmp'
     .use express.static path.join config.root, 'frontend'
     .use coffeeMiddleware
         compress: config.coffeeCompress
