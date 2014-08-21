@@ -7,7 +7,7 @@ session = require 'express-session'
 config = require './config'
 mongoStore = require('connect-mongo') session
 liveReload = require 'connect-livereload'
-
+coffeeMiddleware = requre 'coffee-middleware'
 
 module.exports = (app) ->
     env = app.get 'env'
@@ -31,6 +31,9 @@ module.exports = (app) ->
     app
     .use express.static path.join config.root, '.tmp'
     .use express.static path.join config.root, 'frontend'
+    .use coffeeMiddleware
+        compress: config.coffeeCompress
+        src: path.join config.root, 'frontend'
     .set 'views', "#{config.root}/frontend"
     .set 'view engine', 'jade'
     .use cookieParser()
