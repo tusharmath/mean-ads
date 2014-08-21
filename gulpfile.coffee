@@ -18,7 +18,7 @@ bowerFilesFilter = gulpFilter ['**/*.js', '**/*.css']
 bowerInjectFilter = gulpFilter ['**/*.min.js', '**/*.css']
 
 gulp.task 'rimraf', ->
-    gulp.src './.tmp/**', read: false
+    gulp.src './.tmp', read: false
     .pipe gulpRimraf force: true
 
 gulp.task 'coffee', ->
