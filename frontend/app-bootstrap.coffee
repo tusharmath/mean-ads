@@ -1,2 +1,1 @@
-define ["angular"], (angular) ->
-    angular.bootstrap document, ['mean-ads']
+define ["angular"], (angular) -> angular.bootstrap document, ['mean-ads']
