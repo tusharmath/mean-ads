@@ -7,8 +7,10 @@ require.config
         "app-bootstrap": [
             "app"
             "lib/angular-route"
-            "modules/nav/NavbarCtrl"
             "modules/MainCtrl"
+
+            # Modules
+            "modules/nav/NavbarCtrl"
             "modules/programs/ProgramCtrl"
             "modules/campaigns/CampaignCtrl"
             "modules/subscriptions/SubscriptionCtrl"
