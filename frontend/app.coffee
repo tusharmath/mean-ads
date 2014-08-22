@@ -20,6 +20,7 @@ define [
                 controller: "SubscriptionCtrl as subCtrl"
             .when "/keywords",
                 templateUrl: "modules/keywords/keyword"
+                controller: "KeywordCtrl as kwCtrl"
             .when "/styles",
                 templateUrl: "modules/styles/style"
                 controller: "StyleCtrl as stylCtrl"

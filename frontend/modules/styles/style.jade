@@ -3,7 +3,7 @@ div.panel.panel-default
         .btn-group
             button.btn.btn-default Create
             button.btn.btn-default.disabled Edit
-            button.btn.btn-default.disabled Details
+            button.btn.btn-default Preview
         .clearfix
     .panel-body
         table.table
@@ -13,7 +13,6 @@ div.panel.panel-default
                     th Style
                     th.text-right Programs
                     th Size
-                    th
             tbody
                 tr(ng-repeat="style in stylCtrl.styles")
                     td {{$index + 1024}}
@@ -21,5 +20,3 @@ div.panel.panel-default
                     td.text-right
                         a(href="#"){{style.programs}}
                     td {{style.size}} bytes
-                    td.text-right
-                        a(href="#") Preview

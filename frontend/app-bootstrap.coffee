@@ -6,5 +6,6 @@ require [
     "modules/campaigns/CampaignCtrl"
     "modules/subscriptions/SubscriptionCtrl"
     "modules/styles/StyleCtrl"
+    "modules/keywords/KeywordCtrl"
 ], (angular) ->
     angular.bootstrap document, ['mean-ads']
