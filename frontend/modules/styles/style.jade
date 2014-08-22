@@ -1,2 +1,25 @@
-h1 Style
-p This is the Style view.
+div.panel.panel-default
+    .panel-heading
+        .btn-group
+            button.btn.btn-default Create
+            button.btn.btn-default.disabled Edit
+            button.btn.btn-default.disabled Details
+        .clearfix
+    .panel-body
+        table.table
+            thead
+                tr.text-capitalize
+                    th #
+                    th Style
+                    th.text-right Programs
+                    th Size
+                    th
+            tbody
+                tr(ng-repeat="style in stylCtrl.styles")
+                    td {{$index + 1024}}
+                    td {{style.name}}
+                    td.text-right
+                        a(href="#"){{style.programs}}
+                    td {{style.size}} bytes
+                    td.text-right
+                        a(href="#") Preview

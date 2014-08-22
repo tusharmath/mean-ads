@@ -22,5 +22,6 @@ define [
                 templateUrl: "modules/keywords/keyword"
             .when "/styles",
                 templateUrl: "modules/styles/style"
+                controller: "StyleCtrl as stylCtrl"
             .otherwise redirectTo: "/"
         $locationProvider.html5Mode false
