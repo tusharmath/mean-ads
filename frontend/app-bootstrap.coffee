@@ -1,6 +1,6 @@
 require [
     "angular"
-    "modules/MainCtrl"
+    "modules/dashboard/DashboardCtrl"
     "modules/nav/NavbarCtrl"
     "modules/programs/ProgramCtrl"
     "modules/campaigns/CampaignCtrl"

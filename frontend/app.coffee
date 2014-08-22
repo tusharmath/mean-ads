@@ -6,9 +6,9 @@ define [
     angular.module("mean-ads", ["ngRoute"])
     .config ($routeProvider, $locationProvider, $httpProvider) ->
         $routeProvider
-            .when "/",
-                templateUrl: "modules/main"
-                controller: "MainCtrl"
+            .when "/dashboard",
+                templateUrl: "modules/dashboard/dashboard"
+                controller: "DashboardCtrl as dashCtrl"
             .when "/programs",
                 templateUrl: "modules/programs/program"
                 controller: "ProgramCtrl as prgCtrl"
