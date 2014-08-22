@@ -1,4 +1,4 @@
-require ["angular"], (angular) ->
+define ["app"], (app) ->
     class SubscriptionCtrl
         constructor: () ->
             @subscriptions = [
@@ -18,4 +18,4 @@ require ["angular"], (angular) ->
                 totalCredits: 976
                 gauge: "impressions"
             ]
-    angular.module('mean-ads').controller 'SubscriptionCtrl', SubscriptionCtrl
+    app.controller 'SubscriptionCtrl', SubscriptionCtrl

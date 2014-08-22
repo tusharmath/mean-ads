@@ -1,4 +1,4 @@
-require ["angular"], (angular) ->
+define ["app"], (app) ->
     class CampaignCtrl
         constructor: () ->
             @campaigns = [
@@ -20,4 +20,4 @@ require ["angular"], (angular) ->
                 status: "running"
                 program: "Slim Looking"
             ]
-    angular.module('mean-ads').controller 'CampaignCtrl', CampaignCtrl
+    app.controller 'CampaignCtrl', CampaignCtrl

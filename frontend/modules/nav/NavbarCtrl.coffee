@@ -1,4 +1,4 @@
-require ["angular"], (angular) ->
+define ["app"], (app) ->
     injected = 0
 
     class NavbarCtrl
@@ -30,4 +30,4 @@ require ["angular"], (angular) ->
 
     NavbarCtrl.$inject = ['$location']
 
-    angular.module('mean-ads').controller 'NavbarCtrl', NavbarCtrl
+    app.controller 'NavbarCtrl', NavbarCtrl

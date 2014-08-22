@@ -1,4 +1,7 @@
-define ["angular"], (angular) ->
+define [
+    "angular"
+    "lib/angular-route"
+], (angular) ->
     "use strict"
     angular.module("mean-ads", ["ngRoute"])
     .config ($routeProvider, $locationProvider, $httpProvider) ->

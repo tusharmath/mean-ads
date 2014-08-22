@@ -1,2 +1,2 @@
-require ["angular"], (angular) ->
-    angular.module('mean-ads').controller 'MainCtrl', ($scope) ->
+define ["app"], (app) ->
+    app.controller 'MainCtrl', ($scope) ->

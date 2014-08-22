@@ -1,4 +1,4 @@
-require ["angular"], (angular) ->
+define ["app"], (app) ->
     class ProgramCtrl
         constructor: () ->
             @programs = [
@@ -18,4 +18,4 @@ require ["angular"], (angular) ->
                 status: "stale"
                 algorithm: "weighted selections"
             ]
-    angular.module('mean-ads').controller 'ProgramCtrl', ProgramCtrl
+    app.controller 'ProgramCtrl', ProgramCtrl
