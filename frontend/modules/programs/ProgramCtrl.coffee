@@ -1,4 +1,4 @@
-define ["angular"], (angular) ->
+require ["angular"], (angular) ->
     class ProgramCtrl
         constructor: () ->
             @programs = [
