@@ -24,5 +24,5 @@ define [
             .when "/styles",
                 templateUrl: "modules/styles/style"
                 controller: "StyleCtrl as stylCtrl"
-            .otherwise redirectTo: "/"
+            .otherwise redirectTo: "/dashboard"
         $locationProvider.html5Mode false
