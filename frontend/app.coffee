@@ -9,9 +9,14 @@ define [
             .when "/dashboard",
                 templateUrl: "modules/dashboard/dashboard"
                 controller: "DashboardCtrl as dashCtrl"
+
+            # Programs
             .when "/programs",
                 templateUrl: "modules/programs/program"
                 controller: "ProgramCtrl as prgCtrl"
+            .when "/programs/create",
+                templateUrl: "modules/programs/create"
+
             .when "/campaigns",
                 templateUrl: "modules/campaigns/campaign"
                 controller: "CampaignCtrl as cmpCtrl"

@@ -1,0 +1,38 @@
+.panel.panel-info
+    .panel-heading
+        h4 Create a Program
+    .panel-body
+        form.form-horizontal(role='form')
+            .form-group
+                label.col-md-4.control-label Program Name
+                .col-md-6
+                    input.form-control(type='text', placeholder='Enter a name for the Program')
+            .form-group
+                label.col-md-4.control-label Style
+                .col-md-6
+                    select.form-control
+                        option(value="") Apples
+                        option(value="") Bananas
+                        option(value="") Wave Integration
+            .form-group
+                label.col-md-4.control-label Gauge
+                .col-md-6
+                    select.form-control
+                        option(value="") Clicks
+                        option(value="") Impressions
+                        option(value="") Days
+            .form-group
+                label.col-md-4.control-label Delivery
+                .col-md-6
+                    select.form-control
+                        option(value="") Round Robin
+                        option(value="") Weighted Selection
+                        option(value="") Lowest Credits First
+                        option(value="") Highest Credits First
+                        option(value="") First In First Out
+                        option(value="") Random
+            .form-group
+                .col-md-6.col-md-offset-4
+                    button.btn.btn-primary(type="button") Save
+                    &nbsp;
+                    button.btn.btn-default(type="button") Cancel
