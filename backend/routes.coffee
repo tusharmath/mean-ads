@@ -7,5 +7,8 @@ middleware = require './middleware'
 module.exports = (app) ->
     app.route '/modules/*'
         .get index.partials
-    app.route '/*'
+    app.route '/'
         .get middleware.setUserCookie, index.index
+    app.route '*'
+        .all (req, res, next) ->
+            res.render '404', 404

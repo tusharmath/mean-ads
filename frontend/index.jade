@@ -1,22 +1,12 @@
 //- TODO: Remove from git
-doctype html
-html
-    head
-        title mean-ads
+extends ./layout.jade
 
-        link(rel='stylesheet' href='lib/font-awesome.css')
-        link(rel='stylesheet' href='lib/bootstrap.css')
-        link(rel='stylesheet' href='styles/main.css')
-        script(data-main="require-config.js" src="lib/require.js")
-
-    body.metro
-        nav.navbar.navbar-default
-            .container
-                .navbar-header
-                    a.navbar-brand(href="#") mean-ads                
-        .container
-            .row
-                .col-md-10
-                    div(ng-view)
-                .col-md-2
-                    div(ng-include='\'modules/nav/navbar\'')
+block head-scripts
+    script(data-main="require-config.js" src="lib/require.js")
+block content
+    .container
+        .row
+            .col-md-10
+                div(ng-view)
+            .col-md-2
+                div(ng-include='\'modules/nav/navbar\'')
