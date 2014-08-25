@@ -17,16 +17,21 @@ define [
             .when "/programs/create",
                 templateUrl: "modules/programs/create"
 
+            #Campaigns
             .when "/campaigns",
                 templateUrl: "modules/campaigns/campaign"
                 controller: "CampaignCtrl as cmpCtrl"
             .when "/campaigns/create",
                 templateUrl: "modules/campaigns/create"
 
-
+            #Subscriptions
             .when "/subscriptions",
                 templateUrl: "modules/subscriptions/subscription"
                 controller: "SubscriptionCtrl as subCtrl"
+            .when "/subscriptions/create",
+                templateUrl: "modules/subscriptions/create"
+
+            #Keywords
             .when "/keywords",
                 templateUrl: "modules/keywords/keyword"
                 controller: "KeywordCtrl as kwCtrl"
