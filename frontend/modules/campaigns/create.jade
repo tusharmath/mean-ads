@@ -1,0 +1,28 @@
+.panel.panel-info
+    .panel-heading
+        h4 Create a Campaign
+    .panel-body
+        form.form-horizontal(role='form')
+            .form-group
+                label.col-md-4.control-label Campaign Name
+                .col-md-6
+                    input.form-control(type='text', placeholder='Enter a name for the Campaign')
+            .form-group
+                label.col-md-4.control-label Program
+                .col-md-6
+                    select.form-control
+                        option(value="") Engineer's Den
+                        option(value="") Slim looking
+            .form-group
+                label.col-md-4.control-label Duration (Days)
+                .col-md-6
+                    input.form-control(type="text" placeholder="Enter duration in days")
+            .form-group
+                label.col-md-4.control-label Commitment (Clicks)
+                .col-md-6
+                    input.form-control(type="text" placeholder="Enter expected traffic commitment")
+            .form-group
+                .col-md-6.col-md-offset-4
+                    button.btn.btn-primary(type="button") Save
+                    | &nbsp;
+                    a.btn.btn-default(ng-href="#/campaigns") Cancel

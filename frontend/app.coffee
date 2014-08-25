@@ -20,6 +20,10 @@ define [
             .when "/campaigns",
                 templateUrl: "modules/campaigns/campaign"
                 controller: "CampaignCtrl as cmpCtrl"
+            .when "/campaigns/create",
+                templateUrl: "modules/campaigns/create"
+
+
             .when "/subscriptions",
                 templateUrl: "modules/subscriptions/subscription"
                 controller: "SubscriptionCtrl as subCtrl"
