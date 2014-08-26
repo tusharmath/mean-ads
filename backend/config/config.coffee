@@ -1,8 +1,9 @@
-'use strict';
+'use strict'
 
 _ = require 'lodash'
 
 module.exports = _.merge(
- require './env/all.coffee'
- require './env/' + process.env.NODE_ENV + '.coffee' || {}
+    require './env/all.coffee'
+    require './env/' + process.env.NODE_ENV + '.coffee' || {}
+    require './user/' + process.env.USER + '.coffee' || {}
  )
