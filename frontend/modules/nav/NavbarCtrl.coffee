@@ -21,7 +21,7 @@ define ["app"], (app) ->
                 name: "Styles"
                 path: "/styles"
             ,
-                name: "Keywords"
+                name: "Keyword Collections"
                 path: "/keywords"
             ]
 
