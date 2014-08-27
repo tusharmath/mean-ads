@@ -1,10 +1,12 @@
 define [
     "angular"
     "lib/angular-route"
+    "Restangular"
 ], (angular) ->
     "use strict"
-    angular.module("mean-ads", ["ngRoute"])
-    .config ($routeProvider, $locationProvider, $httpProvider) ->
+    angular.module "mean-ads", ["ngRoute", "restangular"]
+    .config ($routeProvider, $locationProvider, $httpProvider, RestangularProvider) ->
+        RestangularProvider.setBaseUrl '/api/v1'
         $routeProvider
             .when "/dashboard",
                 templateUrl: "modules/dashboard/dashboard"
