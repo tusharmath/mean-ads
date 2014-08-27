@@ -1,13 +1,6 @@
 define ["app"], (app) ->
     class StyleCtrl
-        constructor: () ->
-            @styles = [
-                name: "Blue Front"
-                programs: 5
-                size: 123
-            ,
-                name: "Slim Looking"
-                programs: 12
-                size: 345
-            ]
+        constructor: (rest) ->
+            rest.all('styles').getList().then (@styles) =>
+    StyleCtrl.$inject = ['Restangular']
     app.controller 'StyleCtrl', StyleCtrl
