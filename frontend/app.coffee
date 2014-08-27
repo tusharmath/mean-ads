@@ -12,6 +12,7 @@ define [
         'RestangularProvider'
         ($routeProvider, $locationProvider, $httpProvider, RestProvider) ->
             RestProvider.setBaseUrl '/api/v1'
+            RestProvider.setDefaultHttpFields cache: true
             $routeProvider
                 .when "/dashboard",
                     templateUrl: "modules/dashboard/dashboard"
