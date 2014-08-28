@@ -7,6 +7,7 @@ gutil = require 'gulp-util'
 inject = require 'gulp-inject'
 livereload = require 'gulp-livereload'
 bowerFiles = require 'main-bower-files'
+bowerInstall = require 'gulp-bower'
 coffee = require 'gulp-coffee'
 stylus = require 'gulp-stylus'
 nib = require 'nib'
@@ -65,10 +66,11 @@ gulp.task 'watch', ['livereload-start'], ->
         livereload.changed file.path
 
 # TODO: remove bower-copy
-gulp.task 'bower-copy', ->
+gulp.task 'bower-copy', ['bower-install'], ->
     gulp.src bowerFiles()
     .pipe gulp.dest 'frontend/lib'
 
+gulp.task 'bower-install', -> bowerInstall()
 
 gulp.task 'inject-scripts', ['bower-copy', 'coffee', 'stylus'], ->
     gulp.src ['frontend/lib/**/*', './.tmp/**/*'], read: false
@@ -84,10 +86,3 @@ gulp.task 'inject-scripts', ['bower-copy', 'coffee', 'stylus'], ->
                 when 'js'
                     "script(src='#{filepath}')"
     .pipe gulp.dest 'frontend'
-
-# TODO: Remove bower-copy from serve
-gulp.task 'serve', [
-    'rimraf', 'bower-copy'
-    'inject-scripts', 'spawn'
-    'watch', 'watch-server'
-    ], ->
