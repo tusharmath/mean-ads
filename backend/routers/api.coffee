@@ -2,7 +2,7 @@ express = require 'express'
 v1 = express.Router()
 # Keywords
 
-v1.use '/keywords', (req, res) ->
+v1.get '/keywords', (req, res) ->
     res.send [
         name: "Kormangala - sub localities"
         campaignCount: 213
@@ -14,7 +14,7 @@ v1.use '/keywords', (req, res) ->
     ]
 
 # Styles
-v1.use '/styles', (req, res) ->
+v1.get '/styles', (req, res) ->
     res.send [
         name: "Blue Front"
         programs: 5
@@ -26,7 +26,7 @@ v1.use '/styles', (req, res) ->
     ]
 
 # Subscriptions
-v1.use '/subscriptions', (req, res) ->
+v1.get '/subscriptions', (req, res) ->
     res.send [
         client: "Fortis Multispeciality Hospital"
         campaign: "Indiranagar Dentistry"
@@ -47,7 +47,7 @@ v1.use '/subscriptions', (req, res) ->
 
 
 # Campaigns
-v1.use '/campaigns', (req, res) ->
+v1.get '/campaigns', (req, res) ->
     res.send [
         name: "Indiranagar Dentistry"
         duration: "6 months"
@@ -69,7 +69,7 @@ v1.use '/campaigns', (req, res) ->
     ]
 
 #Programs
-v1.use '/programs', (req, res) ->
+v1.get '/programs', (req, res) ->
     res.send [
         name: "doctors paradise"
         style: "Blue front"
