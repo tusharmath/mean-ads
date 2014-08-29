@@ -1,5 +1,14 @@
 express = require 'express'
+mongoose = require 'mongoose'
+config = require '../config/config'
+ProgramController = require '../controllers/ProgramController'
+
 v1 = express.Router()
+
+#DI initialization
+di = require 'di'
+injector = new di.Injector
+
 # Keywords
 
 v1.get '/keywords', (req, res) ->
@@ -45,7 +54,6 @@ v1.get '/subscriptions', (req, res) ->
         gauge: "impressions"
     ]
 
-
 # Campaigns
 v1.get '/campaigns', (req, res) ->
     res.send [
@@ -69,6 +77,12 @@ v1.get '/campaigns', (req, res) ->
     ]
 
 #Programs
+programController = injector.get ProgramController
+v1.post '/programs', (req, res) ->
+    mongoose.connect config.mongo.uri
+    mongoose.connection.once 'open', ->
+        programController.create req, res
+
 v1.get '/programs', (req, res) ->
     res.send [
         name: "doctors paradise"
