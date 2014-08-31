@@ -14,7 +14,7 @@ class V1
         @router.get '/programs', (req, res) ->
             controllers.ProgramController.list req, res
 
-        @router.delete '/programs', (req, res) ->
+        @router.delete '/programs/:id', (req, res) ->
             controllers.ProgramController.remove req, res
 
         # Keywords

@@ -22,6 +22,6 @@ class ProgramController
     # [DELETE] /programs
     remove: (req, res) ->
         @ProgramModel
-        .findByIdAndRemove req.body._id, -> res.send 'DELETED'
+        .findByIdAndRemove req.params.id, -> res.send 'DELETED'
 di.annotate ProgramController, new di.Inject ModelManager
 module.exports = ProgramController
