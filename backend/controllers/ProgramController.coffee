@@ -9,6 +9,7 @@ class ProgramController
     create: (req, res) ->
         program = new @ProgramModel req.body
         program.save (err) ->
+            return res.send err, 400 if err
             res.send program
         # res.send program
 
