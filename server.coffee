@@ -1,20 +1,24 @@
-'use strict';
-
+'use strict'
 express = require 'express'
 path = require 'path'
-fs = require 'fs'
-
+di = require 'di'
+global.injector = new di.Injector
 # Set default node environment to development
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 config = require './backend/config/config'
+DbConnection = require './backend/db/DbConnection'
+db = injector.get DbConnection
 app = express()
-require('./backend/config/express') app
-require('./backend/routes') app
+app.locals.injector = injector
+db.connect (mongoose) ->
+    console.log 'DB Connected!'
+    require('./backend/config/express') app
+    require('./backend/routes') app
 
-# Start server
-app.listen config.port, config.ip, ->
-  console.log 'Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get 'env'
+    # Start server
+    app.listen config.port, config.ip, ->
+      console.log 'Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get 'env'
 
 # Expose app
 exports = module.exports = app;
