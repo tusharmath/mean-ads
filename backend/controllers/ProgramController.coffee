@@ -18,7 +18,10 @@ class ProgramController
         @ProgramModel
         .find {}
         .limit 10
-        .exec (err, data) -> res.send data
+        .populate 'style'
+        .exec (err, data) ->
+            return res.send err, 400 if err
+            res.send data
 
     # [DELETE] /programs
     remove: (req, res) ->
