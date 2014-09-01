@@ -18,7 +18,7 @@ class ProgramController
         @ProgramModel
         .find {}
         .limit 10
-        .populate 'style'
+        .populate path: 'style', select: 'name'
         .exec (err, data) ->
             return res.send err, 400 if err
             res.send data

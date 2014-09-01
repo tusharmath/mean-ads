@@ -22,7 +22,9 @@ div.panel.panel-default
                     td
                         .text-capitalize {{program.name}}
                     td
-                        a.text-capitalize(href="#") {{program.style}}
+                        a.text-capitalize(href="#" ng-show="program.style")
+                            {{program.style.name}}
+                        span.text-warning(ng-hide="program.style") Not Set
                     td.text-right
                         a(href="#") {{program.campaignCount}}
                     td
