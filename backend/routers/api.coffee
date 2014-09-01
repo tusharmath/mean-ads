@@ -23,6 +23,8 @@ class V1
         # Programs
         @router.post '/programs', (req, res) ->
             controllers.ProgramController.create req, res
+        @router.put '/programs/:id', (req, res) ->
+            controllers.ProgramController.update req, res
         @router.get '/programs', (req, res) ->
             controllers.ProgramController.list req, res
         @router.delete '/programs/:id', (req, res) ->

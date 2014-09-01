@@ -13,6 +13,15 @@ class ProgramController
             res.send program
         # res.send program
 
+    # [PUT] /programs
+    update: (req, res) ->
+        program = @ProgramModel
+        .findByIdAndUpdate req.params.id, req.body, (err) ->
+            return res.send err, 400 if err
+            res.send program
+        # res.send program
+
+
     # [GET] /programs
     list: (req, res) ->
         @ProgramModel
