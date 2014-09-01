@@ -8,12 +8,23 @@ class V1
     constructor: (ctrlManager) ->
         @router = express.Router()
         controllers = ctrlManager.controllers
+
+        # Styles
+        @router.post '/styles', (req, res) ->
+            controllers.StyleController.create req, res
+
+        @router.get '/styles', (req, res) ->
+            controllers.StyleController.list req, res
+
+        @router.delete '/styles/:id', (req, res) ->
+            controllers.StyleController.remove req, res
+
+
+        # Programs
         @router.post '/programs', (req, res) ->
             controllers.ProgramController.create req, res
-
         @router.get '/programs', (req, res) ->
             controllers.ProgramController.list req, res
-
         @router.delete '/programs/:id', (req, res) ->
             controllers.ProgramController.remove req, res
 
@@ -28,20 +39,6 @@ class V1
                 name: "Indira Nagar - south localities"
                 campaignCount: 132
                 wordCount: 123
-            ]
-
-        # Styles
-        @router.get '/styles', (req, res) ->
-            res.send [
-                name: "Blue Front"
-                renderingEngine : "dotJS"
-                programs: 5
-                size: 123
-            ,
-                name: "Slim Looking"
-                renderingEngine : "underscoreJS"
-                programs: 12
-                size: 345
             ]
 
         # Subscriptions
