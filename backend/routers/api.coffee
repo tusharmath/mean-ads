@@ -1,37 +1,44 @@
 express = require 'express'
 config = require '../config/config'
-
+_ = require 'lodash'
 Controllers = require '../controllers'
 di = require 'di'
 
+routeMap = [
+    'programs'
+    'styles'
+    'keywords'
+    'subscriptions '
+    'campaigns'
+]
 class V1
+    extractControllerName: (str) ->
+        str
+        .replace /^./, str[0].toUpperCase()
+        .replace /s$/, 'Controller'
+
+    bindActionToMethod: (ctrl, action, method, route) ->
+        @router[method] route, _.bind ctrl[action], ctrl if ctrl[action]
     constructor: (ctrlManager) ->
         @router = express.Router()
         controllers = ctrlManager.controllers
-
-        # Styles
-        @router.post '/styles', (req, res) ->
-            controllers.StyleController.create req, res
-
-        @router.get '/styles', (req, res) ->
-            controllers.StyleController.list req, res
-
-        @router.delete '/styles/:id', (req, res) ->
-            controllers.StyleController.remove req, res
-
-
-        # Programs
-        @router.post '/programs', (req, res) ->
-            controllers.ProgramController.create req, res
-        @router.put '/programs/:id', (req, res) ->
-            controllers.ProgramController.update req, res
-        @router.get '/programs', (req, res) ->
-            controllers.ProgramController.list req, res
-        @router.delete '/programs/:id', (req, res) ->
-            controllers.ProgramController.remove req, res
+        _.each routeMap, (route) =>
+            ctrlName = @extractControllerName route
+            @extractControllerName route
+            ctrl = controllers[ctrlName]
+            return if not ctrl
+            _bindCtrlActionToMethod = _
+                .chain @bindActionToMethod
+                .curry ctrl
+                .bind @
+                .value()
+            _bindCtrlActionToMethod 'create', 'post', "/#{route}"
+            _bindCtrlActionToMethod 'list', 'get', "/#{route}"
+            _bindCtrlActionToMethod 'first', 'get', "/#{route}/:id"
+            _bindCtrlActionToMethod 'update', 'put', "/#{route}/:id"
+            _bindCtrlActionToMethod 'remove', 'delete', "/#{route}/:id"
 
         # Keywords
-
         @router.get '/keywords', (req, res) ->
             res.send [
                 name: "Kormangala - sub localities"
@@ -90,3 +97,4 @@ class V1
 
 di.annotate V1, new di.Inject Controllers
 module.exports = V1
+@extraextractControllerName
