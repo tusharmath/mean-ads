@@ -8,7 +8,7 @@ routeMap = [
     'programs'
     'styles'
     'keywords'
-    'subscriptions '
+    'subscriptions'
     'campaigns'
 ]
 class V1
@@ -19,19 +19,20 @@ class V1
 
     bindActionToMethod: (ctrl, action, method, route) ->
         @router[method] route, _.bind ctrl[action], ctrl if ctrl[action]
+
     constructor: (ctrlManager) ->
         @router = express.Router()
         controllers = ctrlManager.controllers
         _.each routeMap, (route) =>
             ctrlName = @extractControllerName route
-            @extractControllerName route
             ctrl = controllers[ctrlName]
             return if not ctrl
+
             _bindCtrlActionToMethod = _
                 .chain @bindActionToMethod
-                .curry ctrl
-                .bind @
+                .bind @, ctrl
                 .value()
+
             _bindCtrlActionToMethod 'create', 'post', "/#{route}"
             _bindCtrlActionToMethod 'list', 'get', "/#{route}"
             _bindCtrlActionToMethod 'first', 'get', "/#{route}/:id"
