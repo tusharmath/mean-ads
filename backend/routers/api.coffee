@@ -18,7 +18,7 @@ class V1
 
 
         # Bad Requests
-        @router.use '*', (req, res) -> res.send error: 'Bad Request', 404
+        @router.use '*', (req, res) -> res.send error: 'Service not found', 404
     extractControllerName: (str) ->
         str
         .replace /^./, str[0].toUpperCase()
