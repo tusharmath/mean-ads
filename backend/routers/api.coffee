@@ -8,15 +8,13 @@ class V1
     constructor: (ctrlManager) ->
         @router = express.Router()
         controllers = ctrlManager.controllers
-        _.each resources, (route) =>
-            ctrlName = @extractControllerName route
+        _.each resources, (resource) =>
+            ctrlName = @extractControllerName resource
             ctrl = controllers[ctrlName]
-
-            return if not ctrl
-
-            _.each actionMap, (map) =>
-                [action, method, _route] = map
-                @router[method] _route(route), _.bind(ctrl[action], ctrl)
+            if ctrl
+                _.each actionMap, (map) =>
+                    [action, method, _route] = map
+                    @router[method] _route(resource), _.bind(ctrl[action], ctrl)
 
 
         # Bad Requests
