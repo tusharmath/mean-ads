@@ -6,27 +6,23 @@ class BaseController
 
     # [POST] /resource
     create: (req, res) ->
-        program = new @model req.body
-        program.save (err) ->
+        resource = new @model req.body
+        resource.save (err) ->
             return res.send err, 400 if err
-            res.send program
-        # res.send program
+            res.send resource
 
     # [PUT] /resource
     update: (req, res) ->
-        program = @model
+        resource = @model
         .findByIdAndUpdate req.params.id, req.body, (err) ->
             return res.send err, 400 if err
-            res.send program
-        # res.send program
-
+            res.send resource
 
     # [GET] /resource
     list: (req, res) ->
         @model
         .find {}
         .limit 10
-        .populate path: 'style', select: 'name'
         .exec (err, data) ->
             return res.send err, 400 if err
             res.send data
@@ -38,7 +34,7 @@ class BaseController
 
     # [GET] /resource/:id
     first: (req, res) ->
-        @model.findById req.params.id, (err, data)->
+        @model.findById req.params.id, (err, data) ->
             return res.send err, 400 if err
             res.send data
 

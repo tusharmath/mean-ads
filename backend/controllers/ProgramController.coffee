@@ -3,8 +3,8 @@ BaseController = require './BaseController'
 class ProgramController
     constructor: () ->
         @model = @modelManager.models.ProgramModel
+    ProgramController:: = injector.get BaseController
 
-    # [GET] /programs
     list: (req, res) ->
         @model
         .find {}
@@ -13,5 +13,6 @@ class ProgramController
         .exec (err, data) ->
             return res.send err, 400 if err
             res.send data
-ProgramController:: = injector.get BaseController
+
+
 module.exports = ProgramController
