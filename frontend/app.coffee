@@ -24,6 +24,7 @@ define [
                     controller: "ProgramCtrl as prgCtrl"
                 .when "/programs/create",
                     templateUrl: "modules/programs/create"
+                    controller: "ProgramCreateCtrl as ctrl"
 
                 #Campaigns
                 .when "/campaigns",
