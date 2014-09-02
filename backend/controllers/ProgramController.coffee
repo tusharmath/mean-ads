@@ -1,40 +1,17 @@
-ModelManager = require '../models'
-di = require 'di'
+BaseController = require './BaseController'
 
 class ProgramController
-    constructor: (modelManager) ->
-        @ProgramModel = modelManager.models.ProgramModel
-
-    # [POST] /programs
-    create: (req, res) ->
-        program = new @ProgramModel req.body
-        program.save (err) ->
-            return res.send err, 400 if err
-            res.send program
-        # res.send program
-
-    # [PUT] /programs
-    update: (req, res) ->
-        program = @ProgramModel
-        .findByIdAndUpdate req.params.id, req.body, (err) ->
-            return res.send err, 400 if err
-            res.send program
-        # res.send program
-
+    constructor: () ->
+        @model = @modelManager.models.ProgramModel
 
     # [GET] /programs
     list: (req, res) ->
-        @ProgramModel
+        @model
         .find {}
         .limit 10
         .populate path: 'style', select: 'name'
         .exec (err, data) ->
             return res.send err, 400 if err
             res.send data
-
-    # [DELETE] /programs
-    remove: (req, res) ->
-        @ProgramModel
-        .findByIdAndRemove req.params.id, -> res.send 'DELETED'
-di.annotate ProgramController, new di.Inject ModelManager
+ProgramController:: = injector.get BaseController
 module.exports = ProgramController
