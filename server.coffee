@@ -10,7 +10,7 @@ config = require './backend/config/config'
 DbConnection = require './backend/db/DbConnection'
 db = injector.get DbConnection
 app = express()
-app.locals.injector = injector
+
 db.connect (mongoose) ->
     console.log 'DB Connected!'
     require('./backend/config/express') app
