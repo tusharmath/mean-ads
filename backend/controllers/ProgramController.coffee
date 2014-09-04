@@ -1,4 +1,4 @@
-BaseController = require './BaseControllerFactory'
+BaseController = require './BaseController'
 
 class ProgramController
     constructor: () ->
@@ -14,5 +14,5 @@ class ProgramController
             return res.send err, 400 if err
             res.send data
 
-
+ProgramController:: = injector.get(BaseController).$resolve()
 module.exports = ProgramController

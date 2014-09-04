@@ -1,10 +1,11 @@
 ModelManager = require '../models'
+Instantiable = require '../modules/Instantiable'
 di = require 'di'
 _ = require 'lodash'
 
 class BaseController
-    constructor: (@modelManager) ->
-
+    constructor: (@modelManager, instantiable) ->
+        instantiable.setup @
     # [POST] /resource
     create: (req, res) ->
         resource = new @model req.body
@@ -39,13 +40,6 @@ class BaseController
             return res.send err, 400 if err
             res.send data
 
-class BaseControllerFactory
-    constructor: (baseCtrl) ->
-        _baseCtrl = {}
-        _.forIn baseCtrl, (v,k)->  _baseCtrl[k] = v
-        return _baseCtrl
+di.annotate BaseController, new di.Inject ModelManager, Instantiable
 
-di.annotate BaseController, new di.Inject ModelManager
-di.annotate BaseControllerFactory, new di.Inject BaseController
-
-module.exports = BaseControllerFactory
+module.exports = BaseController

@@ -1,4 +1,4 @@
-BaseController = require './BaseControllerFactory'
+BaseController = require './BaseController'
 class CampaignController
     constructor: () ->
         @model = @modelManager.models.CampaignModel
@@ -7,8 +7,11 @@ class CampaignController
     list: (req, res) ->
         @model
         .find {}
+        .populate path: 'program', select: 'name'
         .limit 10
-        .populate 'program', () ->console.log arguments
+        .exec (err, data) ->
+            return res.send err, 400 if err
+            res.send data
 
-CampaignController:: = injector.get BaseController
+CampaignController:: = injector.get(BaseController).$resolve()
 module.exports = CampaignController
