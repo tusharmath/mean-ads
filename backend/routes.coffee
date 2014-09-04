@@ -8,4 +8,7 @@ module.exports = (app) ->
     app.route('/').get middleware.setUserCookie, index.index
     app.use '/api', bodyParser.json()
     app.use '/api/v1', (injector.get api).router
-    app.route('*').all (req, res, next) -> res.render '404', 404
+    app.route('*').all (req, res) ->
+        res
+        .status 404
+        .render '404'
