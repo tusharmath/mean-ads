@@ -29,14 +29,12 @@ module.exports = (app) ->
 
     app
     .use '/static', express.static path.join(config.root, 'frontend')
-
     .use '/static', coffeeMiddleware
         compress: config.coffeeCompress
         src: path.join config.root, 'frontend'
-
     .use '/static', stylus.middleware
-        src: path.join config.root, 'frontend'
-
+        src: path.join config.root, 'frontend/stylus'
+        dest: path.join config.root, 'frontend/css'
     .set 'views', "#{config.root}/frontend"
     .set 'view engine', 'jade'
     .use cookieParser()
