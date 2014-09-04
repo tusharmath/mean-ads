@@ -1,4 +1,5 @@
 require.config
+    baseUrl: 'static/'
     paths:
         angular: "lib/angular"
         Restangular: "lib/restangular"
