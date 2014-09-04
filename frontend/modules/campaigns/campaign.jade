@@ -26,9 +26,9 @@ div.panel.panel-default
                         .text-capitalize {{campaign.name}}
                     td
                         a.text-capitalize(href="#") {{campaign.program.name}}
-                    td.text-right.text-capitalize {{campaign.duration}}
+                    td.text-right.text-capitalize {{campaign.days}} Days
                     td
-                        strong.text-capitalize.text-muted {{campaign.commitment}} {{campaign.gauge}}
+                        strong.text-capitalize.text-muted {{campaign.commitment || "0"}} {{campaign.program.gauge}}
                     td.text-right
                         a(href="#") {{campaign.adCount}}
                     td

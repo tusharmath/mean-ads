@@ -7,7 +7,7 @@ class CampaignController
     list: (req, res) ->
         @model
         .find {}
-        .populate path: 'program', select: 'name'
+        .populate path: 'program', select: 'name gauge'
         .limit 10
         .exec (err, data) ->
             return res.send err, 400 if err
