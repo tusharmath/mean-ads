@@ -1,5 +1,6 @@
 ModelManager = require '../models'
 di = require 'di'
+_ = require 'lodash'
 
 class BaseController
     constructor: (@modelManager) ->
@@ -38,5 +39,13 @@ class BaseController
             return res.send err, 400 if err
             res.send data
 
+class BaseControllerFactory
+    constructor: (baseCtrl) ->
+        _baseCtrl = {}
+        _.forIn baseCtrl, (v,k)->  _baseCtrl[k] = v
+        return _baseCtrl
+
 di.annotate BaseController, new di.Inject ModelManager
-module.exports = BaseController
+di.annotate BaseControllerFactory, new di.Inject BaseController
+
+module.exports = BaseControllerFactory

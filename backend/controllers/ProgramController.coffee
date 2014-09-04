@@ -1,4 +1,4 @@
-BaseController = require './BaseController'
+BaseController = require './BaseControllerFactory'
 
 class ProgramController
     constructor: () ->

@@ -1,5 +1,4 @@
-BaseController = require './BaseController'
-
+BaseController = require './BaseControllerFactory'
 class CampaignController
     constructor: () ->
         @model = @modelManager.models.CampaignModel
@@ -11,5 +10,5 @@ class CampaignController
         .limit 10
         .populate 'program', () ->console.log arguments
 
-
+CampaignController:: = injector.get BaseController
 module.exports = CampaignController
