@@ -15,7 +15,7 @@ class ModelManager
         glob '*Model.coffee', globOptions , (er, files) =>
             # TODO: Move it out
             _.each files, @load, @
-            console.log 'Models Loaded', Object.keys @models
+            # console.log 'Models Loaded', Object.keys @models
     load: (file) ->
         file = file.replace '\.coffee', ''
         @models[file] = require("./#{file}") (@connection.mongoose)

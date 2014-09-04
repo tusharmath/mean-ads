@@ -13,5 +13,5 @@ class ControllerManager
             _.each files, (file) =>
                 file = file.replace '\.coffee', ''
                 @controllers[file] = injector.get require "./#{file}"
-            console.log 'Controllers Loaded', Object.keys @controllers
+            # console.log 'Controllers Loaded', Object.keys @controllers
 module.exports = ControllerManager
