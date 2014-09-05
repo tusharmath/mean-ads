@@ -17,4 +17,13 @@ class SubscriptionController
             return res.send err, 400 if err
             res.send resource
 
+    list: (req, res) ->
+        @model
+        .find {}
+        .populate path: 'campaign'
+        .limit 10
+        .exec (err, data) ->
+            return res.send err, 400 if err
+            res.send data
+
 module.exports = SubscriptionController

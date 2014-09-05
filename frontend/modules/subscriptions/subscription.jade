@@ -15,7 +15,6 @@ div.panel.panel-default
                     th.text-right Subscription
                     th Credits
                     th Campaign
-                    th Gauge
                     th Status
             tbody
                 tr(ng-repeat="subs in subCtrl.subscriptions")
@@ -28,9 +27,7 @@ div.panel.panel-default
                             span &nbsp;/&nbsp;
                             span {{subs.totalCredits}}
                     td
-                        a(href="#") {{subs.campaign}}
-                    td
-                        strong.text-capitalize.text-muted {{subs.gauge}}
+                        a(href="#/campaigns") {{subs.campaign.name}}
                     td
                         strong.text-capitalize
                             span.label.label-danger.text-muted In Active
