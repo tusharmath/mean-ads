@@ -33,6 +33,7 @@ define [
                     controller: "CampaignCtrl as cmpCtrl"
                 .when "/campaigns/create",
                     templateUrl: "modules/campaigns/create"
+                    controller: "CampaignCreateCtrl as ctrl"
 
                 #Subscriptions
                 .when "/subscriptions",

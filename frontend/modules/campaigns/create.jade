@@ -1,32 +1,30 @@
 .panel.panel-info
-    .panel-heading
-        h4 Create a Campaign
-    .panel-body
-        form.form-horizontal(role='form')
-            .form-group
-                label.col-md-4.control-label Campaign Name
-                .col-md-6
-                    input.form-control(type='text', placeholder='Enter a name for the Campaign')
-            .form-group
-                label.col-md-4.control-label Program
-                .col-md-6
-                    select.form-control
-                        option(value="") Engineer's Den
-                        option(value="") Slim looking
-            .form-group
-                label.col-md-4.control-label Duration (days)
-                .col-md-6
-                    input.form-control(type="text" placeholder="Enter duration in days")
-            .form-group
-                label.col-md-4.control-label Commitment (clicks)
-                .col-md-6
-                    input.form-control(type="text" placeholder="Enter expected traffic commitment")
-            .form-group
-                label.col-md-4.control-label Keywords (csv)
-                .col-md-6
-                    input.form-control(type="text" placeholder="Enter comma separated values for keywords")
-            .form-group
-                .col-md-6.col-md-offset-4
-                    button.btn.btn-primary(type="button") Save
-                    | &nbsp;
-                    a.btn.btn-default(ng-href="#/campaigns") Cancel
+  .panel-heading
+    h4 Create a Campaign
+  .panel-body
+    form.form-horizontal(role='form')
+      .form-group
+        label.col-md-4.control-label Campaign Name
+        .col-md-6
+          input.form-control(type='text', placeholder='Enter a name for the Campaign', ng-model="ctrl.campaign.name")
+      .form-group
+        label.col-md-4.control-label Program
+        .col-md-6
+          select.form-control(ng-model="ctrl.campaign.program", ng-options="program._id as program.name for program in ctrl.programs")
+      .form-group
+        label.col-md-4.control-label Duration (days)
+        .col-md-6
+          input.form-control(type="text" placeholder="Enter duration in days", ng-model="ctrl.campaign.days")
+      .form-group
+        label.col-md-4.control-label Commitment (clicks)
+        .col-md-6
+          input.form-control(type="text" placeholder="Enter expected traffic commitment", ng-model="ctrl.campaign.commitment")
+      .form-group
+        label.col-md-4.control-label Keywords (csv)
+        .col-md-6
+          input.form-control(type="text" placeholder="Enter comma separated values for keywords", ng-model="ctrl.campaign.keywords")
+      .form-group
+        .col-md-6.col-md-offset-4
+          button.btn.btn-primary(type="button" ng-click="ctrl.save()") Save
+          | &nbsp;
+          a.btn.btn-default(ng-href="#/campaigns") Cancel
