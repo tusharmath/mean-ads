@@ -11,5 +11,6 @@ exports.resources = [
     'styles'
     'keywords'
     'subscriptions'
-    'campaigns'
+    'campaigns',
+    'ads'
 ]

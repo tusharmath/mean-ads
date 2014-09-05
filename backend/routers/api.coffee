@@ -14,7 +14,8 @@ class V1
             if ctrl
                 _.each actionMap, (map) =>
                     [action, method, _route] = map
-                    @router[method] _route(resource), _.bind(ctrl[action], ctrl)
+
+                    @router[method] _route(resource), _.bind(ctrl[action], ctrl) if ctrl[action]
 
 
         # Bad Requests

@@ -17,3 +17,5 @@ module.exports = (mongoose) ->
         created:
             type: Date
             default: Date.now
+        placeHolderValue:
+            type: mongoose.Schema.Types.Mixed
