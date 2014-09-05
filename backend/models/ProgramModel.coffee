@@ -10,7 +10,7 @@ module.exports = (mongoose) ->
             required: true
         delivery:
             type: String
-            default: 'round-robin'
+            default: 'random-set'
         style:
             type : mongoose.Schema.ObjectId
             ref : 'Style'
