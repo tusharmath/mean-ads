@@ -14,5 +14,14 @@ class ProgramController
             return res.send err, 400 if err
             res.send data
 
+    # [GET] /resource/:id
+    first: (req, res) ->
+        @model
+            .findById req.params.id
+            .populate path: "style", select: 'name created placeholders'
+            .exec (err, data) ->
+                return res.send err, 400 if err
+                res.send data
+
 ProgramController:: = injector.get(BaseController).$resolve()
 module.exports = ProgramController

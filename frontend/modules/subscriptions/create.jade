@@ -16,7 +16,9 @@
                 label.col-md-4.control-label Campaign
                 .col-md-6
                     select.form-control(ng-model="subCtrl.subscription.campaign",
-                        , ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns")
+                        , ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns"
+                        , ng-change="subCtrl.onCampaignSelect()")
+
             .form-group
                 label.col-md-4.control-label Initial Credits (Clicks)
                 .col-md-6
