@@ -14,10 +14,9 @@ div.panel.panel-default
 					th #
 					th Campaign
 					th Program
-					th.text-right Duration
+					th Duration
 					th Commitment
-					th.text-right Subscriptions
-					th.text-right Keywords
+					th.text-right Keys
 					th Status
 					th Performance
 			tbody
@@ -27,12 +26,12 @@ div.panel.panel-default
 						.text-capitalize {{campaign.name}}
 					td
 						a.text-capitalize(href="#") {{campaign.program.name}}
-					td.text-right.text-capitalize {{campaign.days}} Days
+					td
+						strong.text-muted {{campaign.days}}
+						small.text-muted &nbsp;days
 					td
 						strong.text-capitalize.text-muted {{campaign.commitment || "0"}}
 						small.text-muted &nbsp;{{campaign.program.gauge}}
-					td.text-right
-						a(href="#") {{campaign.subscriptions.length}}
 					td.text-right
 						a(href="#") {{campaign.keywords.length}}
 					td
