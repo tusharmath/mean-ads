@@ -41,6 +41,7 @@ define [
                     controller: "SubscriptionCtrl as subCtrl"
                 .when "/subscriptions/create",
                     templateUrl: "modules/subscriptions/create"
+                    controller: "SubscriptionCreateCtrl as subCtrl"
 
                 #Keywords
                 .when "/keywords",

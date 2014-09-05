@@ -6,23 +6,24 @@
             .form-group
                 label.col-md-4.control-label Subscriptions Name
                 .col-md-6
-                    input.form-control(type='text', placeholder='Enter a name for the Subscription')
+                    input.form-control(type='text', placeholder='Enter a name for the Subscription',
+                        ng-model="subCtrl.subscription.client")
             .form-group
                 label.col-md-4.control-label Start Date
                 .col-md-6
-                    input.form-control(type='text', placeholder='Enter a starting date in DD-MM-YYYY format')
+                    input.form-control(type='text', placeholder='Enter a starting date in DD-MM-YYYY format', ng-model="subCtrl.subscription.startDate")
             .form-group
                 label.col-md-4.control-label Campaign
                 .col-md-6
-                    select.form-control
-                        option(value="") Indiranagar Dentistry
-                        option(value="") Kormangala Orthopedics
+                    select.form-control(ng-model="subCtrl.subscription.campaign",
+                        , ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns")
             .form-group
                 label.col-md-4.control-label Initial Credits (Clicks)
                 .col-md-6
-                    input.form-control(type="text" placeholder="Enter initial credits in Clicks")
+                    input.form-control(type="text" placeholder="Enter initial credits in Clicks",
+                        ng-model="subCtrl.subscription.totalCredits")
             .form-group
                 .col-md-6.col-md-offset-4
-                    button.btn.btn-primary(type="button") Save
+                    button.btn.btn-primary(type="button", ng-click="subCtrl.save()") Save
                     | &nbsp;
                     a.btn.btn-default(ng-href="#/subscriptions") Cancel

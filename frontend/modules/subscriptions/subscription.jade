@@ -21,7 +21,7 @@ div.panel.panel-default
                 tr(ng-repeat="subs in subCtrl.subscriptions")
                     td {{$index + 1024}}
                     td {{subs.client}}
-                    td.text-right {{subs.startDate|date}} - {{subs.endDate|date}}
+                    td.text-right {{subs.startDate|date}}
                     td
                         strong.text-capitalize.text-primary
                             span {{subs.creditsRemaining}}

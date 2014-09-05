@@ -8,10 +8,11 @@ require [
   "modules/programs/ProgramCreateCtrl"
   "modules/programs/ProgramCtrl"
 
+  
   "modules/campaigns/CampaignCtrl"
   "modules/campaigns/CampaignCreateCtrl"
-
   "modules/subscriptions/SubscriptionCtrl"
+  "modules/subscriptions/SubscriptionCreateCtrl"
   "modules/styles/StyleCtrl"
   "modules/keywords/KeywordCtrl"
 ], (angular) ->
