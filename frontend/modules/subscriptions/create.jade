@@ -19,6 +19,11 @@
                         , ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns"
                         , ng-change="subCtrl.onCampaignSelect()")
 
+            .form-group(ng-repeat="holder in subCtrl.program.style.placeholders")
+                label.col-md-4.control-label {{holder}}
+                .col-md-6
+                    input.form-control(type='text',ng-model="subCtrl.subscription.data[holder]")
+
             .form-group
                 label.col-md-4.control-label Initial Credits (Clicks)
                 .col-md-6

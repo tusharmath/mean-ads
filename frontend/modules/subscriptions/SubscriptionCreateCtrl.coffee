@@ -1,7 +1,7 @@
 define ["app"], (app) ->
     class SubscriptionCreateCtrl
         constructor: (@rest, @loc) ->
-            @subscription = {}
+            @subscription = data:{}
             rest.all('campaigns').getList().then (@campaigns) =>
         save: () ->
             @rest
@@ -9,13 +9,15 @@ define ["app"], (app) ->
             .post @subscription
             .then () =>
                 @loc.path '/subscriptions'
-        onCampaignSelect: () ->
+        onCampaignSelect: () =>
             @rest
             .one 'campaigns', @subscription.campaign
+            .get()
             .then (@campaign) =>
                 @rest
-                .one 'program', @campaign.program.id
-                .then(@program) =>
+                .one 'programs', @campaign.program
+                .get()
+                .then (@program) =>
 
 
 

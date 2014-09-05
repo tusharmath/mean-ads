@@ -14,6 +14,7 @@ define [
 		($routeProvider, $locationProvider, $httpProvider, RestProvider) ->
 			RestProvider.setBaseUrl '/api/v1'
 			RestProvider.setDefaultHttpFields cache: false
+			RestProvider.setRestangularFields id: '_id'
 			# TODO: Too verbose
 			$routeProvider
 				.when "/dashboard",
