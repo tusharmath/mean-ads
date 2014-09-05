@@ -8,13 +8,19 @@ class AdController
         @model = @modelManager.models.SubscriptionModel
 
     list: (req, res) ->
-        @model
-        .findOne {}
-        .sort {created:'descending'}
-        .limit 1
-        .exec (err, data) ->
+
+       @model
+        .find {}
+        .limit 10
+        .exec (err, data) =>
+            min = 0
+            max = data.length
+            randomIndex = Math.floor(Math.random() * (max - min) + min)
             return res.send err, 400 if err
-            res.send data
+            res.send "exec(#{JSON.stringify data[randomIndex]})"
+            @model
+            .findByIdAndUpdate data[randomIndex]._id, creditsRemaining: data[randomIndex].creditsRemaining-1
+            .exec (err, data) =>
 
 
 di.annotate AdController, new di.Inject ModelManager

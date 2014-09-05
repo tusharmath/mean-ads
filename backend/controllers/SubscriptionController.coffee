@@ -12,7 +12,7 @@ class SubscriptionController
 
         req.body.creditsRemaining = req.body.totalCredits
         resource = new @model req.body
-        console.log resource
+
         resource.save (err) ->
             return res.send err, 400 if err
             res.send resource
