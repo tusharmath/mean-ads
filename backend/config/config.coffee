@@ -13,5 +13,7 @@ if process.env.USER
         config
         require userconfig
     )
+  else
+    console.log 'User config not found, defaulting to development.coffee'
 
 module.exports = config
