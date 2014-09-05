@@ -1,5 +1,7 @@
 require [
     "angular"
+
+    # TODO: Controllers can't be loaded here
     "modules/dashboard/DashboardCtrl"
     "modules/nav/NavbarCtrl"
 

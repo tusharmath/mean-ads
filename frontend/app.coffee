@@ -13,6 +13,7 @@ define [
         ($routeProvider, $locationProvider, $httpProvider, RestProvider) ->
             RestProvider.setBaseUrl '/api/v1'
             RestProvider.setDefaultHttpFields cache: true
+            # TODO: Too verbose
             $routeProvider
                 .when "/dashboard",
                     templateUrl: "modules/dashboard/dashboard"
