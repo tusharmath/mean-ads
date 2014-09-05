@@ -1,0 +1,33 @@
+.panel.panel-info
+	.panel-heading
+		h4 Create a Style
+	.panel-body
+		form.form-horizontal(role='form')
+			.form-group
+				label.col-md-4.control-label Style Name
+				.col-md-6
+					input.form-control(type='text', placeholder='Enter a name for the Program' ng-model="ctrl.style.name")
+			.form-group
+				label.col-md-4.control-label Placeholders (csv)
+				.col-md-6
+					input.form-control(type='text', placeholder='Enter placeholder names for your template' ng-model="ctrl.style.placeholders")
+			.form-group
+					.col-md-4
+						div.text-center
+							label.text-muted.control-label Preview
+						.well.preview-well {{ctrl.interpolation}}
+
+					.col-md-6
+						div
+							label.text-muted.control-label HTML (Angular)
+						div(ui-ace="{mode:'handlebars', theme: 'github', onChange: ctrl.onContentChange}" ng-model="ctrl.style.html")
+						div
+							label.text-muted.control-label Stylesheet (CSS)
+						div(ui-ace="{mode:'handlebars', theme: 'xcode', onChange: ctrl.onContentChange}" ng-model="ctrl.style.css")
+
+
+			.form-group
+				.col-md-6.col-md-offset-4
+					button.btn.btn-primary(type="button" ng-click="ctrl.save()") Save
+					| &nbsp;
+					a.btn.btn-default(ng-href="#/programs") Cancel

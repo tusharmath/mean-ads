@@ -1,13 +1,15 @@
 module.exports = (mongoose) ->
-    mongoose.model 'Style', new mongoose.Schema
-        name:
-            type: String
-            required: true
-        template:
-            type: String
-            required: true
-        lessCSS:
-            type: String
-        created:
-            type: Date
-            default: Date.now
+	mongoose.model 'Style', new mongoose.Schema
+		name:
+			type: String
+			required: true
+		html:
+			type: String
+			required: true
+		css:
+			type: String
+		created:
+			type: Date
+			default: Date.now
+		placeholders:
+			type: [String]
