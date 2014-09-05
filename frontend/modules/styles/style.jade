@@ -11,12 +11,11 @@ div.panel.panel-default
                 tr.text-capitalize
                     th #
                     th Style
-                    th.text-right Programs
                     th Size
             tbody
                 tr(ng-repeat="style in stylCtrl.styles")
                     td {{$index + 1024}}
                     td {{style.name}}
-                    td.text-right
-                        a(href="#") {{style.programs}}
-                    td {{style.size}} bytes
+                    td.text-muted
+                      strong {{style.html.length + style.css.length}}
+                      small &nbsp;chars
