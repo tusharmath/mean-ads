@@ -19,5 +19,7 @@ require [
   "modules/styles/StyleCreateCtrl"
 
   "modules/keywords/KeywordCtrl"
+
+  "modules/directives/ShadowDom"
 ], (angular) ->
     angular.bootstrap document, ['mean-ads']
