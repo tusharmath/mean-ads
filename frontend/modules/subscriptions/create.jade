@@ -1,36 +1,36 @@
 .panel.panel-info
-    .panel-heading
-        h4 Create a Subscriptions
-    .panel-body
-        form.form-horizontal(role='form')
-            .form-group
-                label.col-md-4.control-label Subscriptions Name
-                .col-md-6
-                    input.form-control(type='text', placeholder='Enter a name for the Subscription',
-                        ng-model="subCtrl.subscription.client")
-            .form-group
-                label.col-md-4.control-label Start Date
-                .col-md-6
-                    input.form-control(type='text', placeholder='Enter a starting date in YYYY-MM-DD format', ng-model="subCtrl.subscription.startDate")
-            .form-group
-                label.col-md-4.control-label Campaign
-                .col-md-6
-                    select.form-control(ng-model="subCtrl.subscription.campaign",
-                        , ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns"
-                        , ng-change="subCtrl.onCampaignSelect()")
+	.panel-heading
+		h4 Create a Subscriptions
+	.panel-body
+		form.form-horizontal(role='form')
+			.form-group
+				label.col-md-4.control-label Subscriptions Name
+				.col-md-6
+					input.form-control(type='text', placeholder='Enter a name for the Subscription',
+						ng-model="subCtrl.subscription.client")
+			.form-group
+				label.col-md-4.control-label Start Date
+				.col-md-6
+					input.form-control(type='text', placeholder='Enter a starting date in YYYY-MM-DD format', ng-model="subCtrl.subscription.startDate")
+			.form-group
+				label.col-md-4.control-label Campaign
+				.col-md-6
+					select.form-control(
+						ng-model="subCtrl.subscription.campaign" ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns" ng-change="subCtrl.onCampaignSelect()")
+			.form-group(ng-repeat="holder in subCtrl.program.style.placeholders")
+				label.col-md-4.control-label
+					strong.text-muted.text-uppercase ~{{holder}}
+				.col-md-4
+						input.form-control(type='text',ng-model="subCtrl.subscription.data[holder]")
 
-            .form-group(ng-repeat="holder in subCtrl.program.style.placeholders")
-                label.col-md-4.control-label {{holder}}
-                .col-md-6
-                    input.form-control(type='text',ng-model="subCtrl.subscription.data[holder]")
-
-            .form-group
-                label.col-md-4.control-label Initial Credits (Clicks)
-                .col-md-6
-                    input.form-control(type="text" placeholder="Enter initial credits in Clicks",
-                        ng-model="subCtrl.subscription.totalCredits")
-            .form-group
-                .col-md-6.col-md-offset-4
-                    button.btn.btn-primary(type="button", ng-click="subCtrl.save()") Save
-                    | &nbsp;
-                    a.btn.btn-default(ng-href="#/subscriptions") Cancel
+			.form-group(ng-show="subCtrl.program")
+				label.col-md-4.control-label Initial Credits
+					small.text-muted.text-capitalize &nbsp;({{subCtrl.program.gauge}})
+				.col-md-4
+					input.form-control(type="text" placeholder="Enter initial credits in {{subCtrl.program.gauge}}",
+						ng-model="subCtrl.subscription.totalCredits")
+			.form-group
+				.col-md-6.col-md-offset-4
+					button.btn.btn-primary(type="button", ng-click="subCtrl.save()") Save
+					| &nbsp;
+					a.btn.btn-default(ng-href="#/subscriptions") Cancel

@@ -12,15 +12,18 @@
         .col-md-6
           select.form-control(ng-model="ctrl.campaign.program", ng-options="program._id as program.name for program in ctrl.programs")
       .form-group
-        label.col-md-4.control-label Duration (days)
+        label.col-md-4.control-label Duration
+          small.text-muted.text-capitalize &nbsp;days
         .col-md-6
           input.form-control(type="text" placeholder="Enter duration in days", ng-model="ctrl.campaign.days")
       .form-group
-        label.col-md-4.control-label Commitment (clicks)
+        label.col-md-4.control-label Commitment
+          small.text-muted.text-capitalize &nbsp;impressions
         .col-md-6
           input.form-control(type="text" placeholder="Enter expected traffic commitment", ng-model="ctrl.campaign.commitment")
       .form-group
-        label.col-md-4.control-label Keywords (csv)
+        label.col-md-4.control-label Keywords
+          small.text-muted.text-capitalize &nbsp;csv
         .col-md-6
           input.form-control(type="text" placeholder="Enter comma separated values for keywords", ng-model="ctrl.campaign.keywords")
       .form-group

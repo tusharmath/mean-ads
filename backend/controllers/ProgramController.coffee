@@ -8,7 +8,6 @@ class ProgramController
     list: (req, res) ->
         @model
         .find {}
-        .limit 10
         .populate path: 'style', select: 'name'
         .exec (err, data) ->
             return res.send err, 400 if err
