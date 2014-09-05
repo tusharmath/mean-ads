@@ -1,5 +1,6 @@
 'use strict'
 fs = require 'fs'
+path = require 'path'
 _ = require 'lodash'
 config = _.merge(
     require './env/all.coffee'
@@ -7,7 +8,7 @@ config = _.merge(
  )
 if process.env.USER
   userconfig = './user/' + process.env.USER + '.coffee'
-  if fs.existsSync userconfig
+  if fs.existsSync path.join path.join __dirname , userconfig
     config = _.merge(
         config
         require userconfig
