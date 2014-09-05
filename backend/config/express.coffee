@@ -33,8 +33,11 @@ module.exports = (app) ->
         compress: config.coffeeCompress
         src: path.join config.root, 'frontend'
     .use '/static', stylus.middleware
+        serve: false
+        force: true
         src: path.join config.root, 'frontend/stylus'
         dest: path.join config.root, 'frontend/css'
+
     .set 'views', "#{config.root}/frontend"
     .set 'view engine', 'jade'
     .use cookieParser()
