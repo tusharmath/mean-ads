@@ -1,37 +1,41 @@
 div.panel.panel-default
-    .panel-heading
-        .btn-group
-            a.btn.btn-default(ng-href="#/campaigns/create") Create
-            button.btn.btn-default.disabled Edit
-            button.btn.btn-default.disabled Stop
-            button.btn.btn-default.disabled Start
-            button.btn.btn-default Archive
-        .clearfix
-    .panel-body
-        table.table
-            thead
-                tr.text-capitalize
-                    th #
-                    th Campaign
-                    th Program
-                    th.text-right Duration
-                    th Commitment
-                    th.text-right Subscriptions
-                    th Status
-                    th Health
-            tbody
-                tr(ng-repeat="campaign in cmpCtrl.campaigns")
-                    td {{$index+1002}}
-                    td
-                        .text-capitalize {{campaign.name}}
-                    td
-                        a.text-capitalize(href="#") {{campaign.program.name}}
-                    td.text-right.text-capitalize {{campaign.days}} Days
-                    td
-                        strong.text-capitalize.text-muted {{campaign.commitment || "0"}} {{campaign.program.gauge}}
-                    td.text-right
-                        a(href="#") {{campaign.adCount}}
-                    td
-                        strong.text-capitalize.text-muted {{campaign.status}}
-                    td
-                        span.text-capitalize.label(class="label-{{campaign.health}}")  {{campaign.health}}
+	.panel-heading
+		.btn-group
+			a.btn.btn-default(ng-href="#/campaigns/create") Create
+			button.btn.btn-default.disabled Edit
+			button.btn.btn-default.disabled Stop
+			button.btn.btn-default.disabled Start
+			button.btn.btn-default Archive
+		.clearfix
+	.panel-body
+		table.table
+			thead
+				tr.text-capitalize
+					th #
+					th Campaign
+					th Program
+					th.text-right Duration
+					th Commitment
+					th.text-right Subscriptions
+					th.text-right Keywords
+					th Status
+					th Performance
+			tbody
+				tr(ng-repeat="campaign in cmpCtrl.campaigns")
+					td {{$index+1002}}
+					td
+						.text-capitalize {{campaign.name}}
+					td
+						a.text-capitalize(href="#") {{campaign.program.name}}
+					td.text-right.text-capitalize {{campaign.days}} Days
+					td
+						strong.text-capitalize.text-muted {{campaign.commitment || "0"}}
+						small.text-muted &nbsp;{{campaign.program.gauge}}
+					td.text-right
+						a(href="#") {{campaign.subscriptions.length}}
+					td.text-right
+						a(href="#") {{campaign.keywords.length}}
+					td
+						span.label.label-success Active
+					td
+						span.text-capitalize.label(class="label-{{campaign.performance}}")	{{campaign.performance}}
