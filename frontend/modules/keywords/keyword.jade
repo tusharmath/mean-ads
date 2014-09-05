@@ -1,23 +1,23 @@
 div.panel.panel-default
-    .panel-heading
-        .btn-group
-            button.btn.btn-default Create
-            button.btn.btn-default.disabled Edit
-            button.btn.btn-default.disabled Details
-        .clearfix
-    .panel-body
-        table.table
-            thead
-                tr.text-capitalize
-                    th #
-                    th Keyword
-                    th.text-right Campaigns
-                    th.text-right Words
-            tbody
-                tr(ng-repeat="word in kwCtrl.keywords")
-                    td {{$index + 1024}}
-                    td.text-capitalize {{word.name}}
-                    td.text-right
-                        a(href="#") {{word.campaignCount}}
-                    td.text-right
-                        a(href="#") {{word.wordCount}}
+	.panel-heading
+		.btn-group
+			button.btn.btn-default Create
+			button.btn.btn-default.disabled Edit
+			button.btn.btn-default.disabled Details
+		.clearfix
+	.panel-body
+		table.table
+			thead
+				tr.text-capitalize
+					th #
+					th Keyword
+					th.text-right Campaigns
+					th.text-right Words
+			tbody
+				tr(ng-repeat="word in kwCtrl.keywords")
+					td {{$index + 1024}}
+					td.text-capitalize {{word.name}}
+					td.text-right
+						a(href="#") {{word.campaignCount}}
+					td.text-right
+						a(href="#") {{word.wordCount}}
