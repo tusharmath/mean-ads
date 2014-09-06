@@ -20,9 +20,6 @@ define ["app"], (app) ->
             ,
                 name: "Styles"
                 path: "/styles"
-            ,
-                name: "Keyword Collections"
-                path: "/keywords"
             ]
 
         isActive: (route) ->
