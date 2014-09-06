@@ -14,4 +14,4 @@ module.exports =
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL +
             process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/meanjsAdwords'
+            'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
