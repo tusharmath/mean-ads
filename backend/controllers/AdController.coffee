@@ -7,15 +7,16 @@ class AdController
 	constructor: (@modelManager) ->
 		@model = @modelManager.models.SubscriptionModel
 
-	list: (req, res) ->
+	first: (req, res) ->
 		@campaignModel = @modelManager.models.CampaignModel
 		@programModel = @modelManager.models.ProgramModel
 		@styleModel = @modelManager.models.StyleModel
-
-		@keywordCampaignModel = @modelManager.models.CampaignModel
-		@keywordCampaignModel
-		.findOne {}
-		.where("keywords").in(req.query.keywords)
+		@campaignModel
+		.findOne
+			$and: [
+				'program': req.params.id
+				keywords: $in : req.query.keywords
+			]
 		.exec (err, keywordCampaignData) =>
 			return res.jsonp [] if not keywordCampaignData
 			@model
