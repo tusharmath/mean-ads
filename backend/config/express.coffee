@@ -11,7 +11,7 @@ stylus = require 'stylus'
 coffeeMiddleware = require 'coffee-middleware'
 
 module.exports = (app) ->
-    app.set 'jsonp callback name', 'meanCb'
+    app.set 'jsonp callback name', 'mean'
     env = app.get 'env'
     if env is 'development'
         liveReload app, watchDir: path.join config.root, 'frontend'
