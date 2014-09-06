@@ -2,7 +2,8 @@
 keywordQuery = delimiter + mean.keywords.join delimiter
 engine = mean.engine
 mean.cb = (jsonp) ->
-  console.log jsonp
+  el = document.getElementById mean.el
+  el.innerHTML = mean.engine(jsonp.html) (jsonp.data)
 
 
 script = document.createElement 'script'
