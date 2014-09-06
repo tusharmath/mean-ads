@@ -57,6 +57,9 @@ define [
 				.when "/styles/create",
 						templateUrl: "modules/styles/create"
 						controller: "StyleCreateCtrl as ctrl"
+				.when "/styles/:id",
+						templateUrl: "modules/styles/create"
+						controller: "StyleCreateCtrl as ctrl"
 
 				.otherwise redirectTo: "/dashboard"
 			$locationProvider.html5Mode false

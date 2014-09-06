@@ -1,7 +1,11 @@
 define ["app", "lodash"], (app, _) ->
 	class StyleCreateCtrl
-		constructor: (@rest, @loc, @interpolate) ->
+		constructor: (@rest, @loc, @interpolate, @route) ->
 			@style = {}
+			if @route.id
+				@rest.one 'styles', @route.id
+				.get()
+				.then (@style) =>
 
 		getPlaceholders: ->
 			if @style.placeholders
@@ -24,5 +28,5 @@ define ["app", "lodash"], (app, _) ->
 			.then () =>
 				@loc.path '/styles'
 
-	StyleCreateCtrl.$inject = ["Restangular", "$location", "$interpolate"]
+	StyleCreateCtrl.$inject = ["Restangular", "$location", "$interpolate", "$routeParams"]
 	app.controller 'StyleCreateCtrl', StyleCreateCtrl

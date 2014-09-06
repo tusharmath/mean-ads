@@ -13,6 +13,7 @@ div.panel.panel-default
 					th Style
 					th Placeholders
 					th Size
+					th Actions
 			tbody
 				tr(ng-repeat="style in stylCtrl.styles")
 					td {{$index + 1024}}
@@ -22,3 +23,5 @@ div.panel.panel-default
 					td.text-muted
 						strong {{style.html.length + style.css.length}}
 						small &nbsp;chars
+					td
+						a(ng-href="#/styles/{{style._id}}") Edit
