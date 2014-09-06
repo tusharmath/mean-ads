@@ -13,22 +13,19 @@ class AdController
 		@styleModel = @modelManager.models.StyleModel
 
 		@keywordCampaignModel = @modelManager.models.CampaignModel
-
 		@keywordCampaignModel
-		.findOne()
-		.where("keywords").equals(req.query.keywords)
-		.limit 1
+		.findOne {}
+		.where("keywords").in(req.query.keywords)
 		.exec (err, keywordCampaignData) =>
+			return res.jsonp [] if not keywordCampaignData
 			@model
-			.where('campaign').equals(keywordCampaignData._id)
+			.where 'campaign'
+			.equals keywordCampaignData._id
 			.exec (err, data) =>
-
 				min = 0
 				max = data.length
-				if data.length == 0
-					return res.send []
+				return res.send [] if data.length == 0
 				randomIndex = Math.floor(Math.random() * (max - min) + min)
-				obj = {}
 				@campaignModel
 				.findById data[randomIndex].campaign
 				.exec (err, campaignData) =>
@@ -38,12 +35,10 @@ class AdController
 						@styleModel
 						.findById programData.style
 						.exec (err, styleData) =>
-							obj.style = styleData
-							obj.subscription = data[randomIndex]
+							{html, css} = styleData
+							{data, _id} = data[randomIndex]
 							return res.send err, 400 if err
-							res.send obj
-
-
+							res.jsonp {html, css, data, _id}
 				@model
 				.findByIdAndUpdate data[randomIndex]._id, creditsRemaining: data[randomIndex].creditsRemaining - 1
 				.exec (err, data) =>
