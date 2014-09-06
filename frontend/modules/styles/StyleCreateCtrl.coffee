@@ -9,7 +9,10 @@ define ["app", "lodash"], (app, _) ->
 
 		getPlaceholders: ->
 			if @style.placeholders
-				_.compact @style.placeholders.split /[\s,.|]/
+				if typeof @style.placeholders is 'string'
+					_.compact @style.placeholders.split /[\s,.|]/
+				else
+					@style.placeholders
 			else
 				[]
 		getStyleTags: -> "<style>#{@style.css}</style>"
