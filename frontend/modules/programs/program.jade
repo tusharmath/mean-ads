@@ -9,25 +9,23 @@ div.panel.panel-default
         table.table
             thead
                 tr.text-capitalize
-                    th #
                     th Program
                     th Style
-                    th.text-right Campaigns
                     th Gauge
                     th Delivery
+                    th.text-right #keys
             tbody
 
                 tr(ng-repeat="program in prgCtrl.programs")
-                    td {{$index+101}}
                     td
                         .text-capitalize {{program.name}}
                     td
                         a.text-capitalize(href="#" ng-show="program.style")
                             | {{program.style.name}}
                         strong.text-warning(ng-hide="program.style") Not Set
-                    td.text-right
-                        a(href="#") {{program.campaignCount}}
                     td
                         strong.text-capitalize.text-muted {{program.gauge}}
                     td
                         strong.text-capitalize.text-muted {{program.delivery}}
+                    td.text-right
+                      small.text-muted {{program._id}}
