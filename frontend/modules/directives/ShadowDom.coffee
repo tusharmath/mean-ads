@@ -4,6 +4,7 @@ define ["app"], (app) ->
 			html: '=meanShadowDom'
 		}
 		link: (scope, element, attrs) ->
-			shadowElement = element[0].createShadowRoot()
+			createShadowRoot = element[0].createShadowRoot || element[0].webkitCreateShadowRoot
+			shadowElement = createShadowRoot.call element[0]
 			scope.$watch 'html', ->
 				shadowElement.innerHTML = scope.html if scope.html
