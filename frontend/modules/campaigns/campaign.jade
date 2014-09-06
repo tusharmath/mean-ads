@@ -18,7 +18,7 @@ div.panel.panel-default
 					th Commitment
 					th.text-right Keys
 					th Status
-					th Performance
+					th.text-right Performance
 			tbody
 				tr(ng-repeat="campaign in cmpCtrl.campaigns")
 					td {{$index+1002}}
@@ -36,5 +36,6 @@ div.panel.panel-default
 						a(href="#") {{campaign.keywords.length}}
 					td
 						span.label.label-success Active
-					td
-						span.text-capitalize.label(class="label-{{campaign.performance}}")	{{campaign.performance}}
+					td.text-right
+						strong.text-capitalize.text-muted {{campaign.performance}}
+							small %

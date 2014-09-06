@@ -14,3 +14,5 @@ module.exports = (mongoose) ->
 			type: [String]
 		commitment:
 			type: Number
+		performance:
+			type: Number
