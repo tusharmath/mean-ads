@@ -35,7 +35,11 @@ div.panel.panel-default
 					td.text-right
 						a(href="#") {{campaign.keywords.length}}
 					td
-						span.label.label-success Active
+						a.label(href="javascript: void 0;"
+							ng-click="cmpCtrl.toggleStatus(campaign)"
+							ng-class="{'label-success': campaign.isEnabled, 'label-warning': !campaign.isEnabled}")
+							span(ng-show="campaign.isEnabled") Running
+							span(ng-hide="campaign.isEnabled") Stopped
 					td.text-right
 						strong.text-capitalize.text-muted {{campaign.performance}}
 							small %

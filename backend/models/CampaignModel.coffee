@@ -16,3 +16,6 @@ module.exports = (mongoose) ->
 			type: Number
 		performance:
 			type: Number
+		isEnabled:
+			type: Boolean
+			default: true
