@@ -3,3 +3,4 @@ node_modules/
 frontend/lib/
 bower_components/
 frontend/css/
+db/
