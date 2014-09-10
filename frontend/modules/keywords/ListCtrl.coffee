@@ -3,4 +3,4 @@ define ["app"], (app) ->
         constructor: (rest) ->
             rest.all('keywords').getList().then (@keywords) =>
     KeywordCtrl.$inject = ['Restangular']
-    app.controller 'KeywordCtrl', KeywordCtrl
+    app.controller 'KeywordListCtrl', KeywordCtrl

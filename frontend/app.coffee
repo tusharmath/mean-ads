@@ -1,23 +1,9 @@
-define [
-	'angular'
-	'lib/angular-route'
-	'lib/ui-ace'
-	'Restangular'
-], (angular) ->
+define ['angular','lib/angular-route','lib/ui-ace','Restangular'], (angular) ->
 	'use strict'
-
-	angular.module 'mean-ads', [
-		'ngRoute'
-		'restangular'
-		'ui.ace'
-		'route.resolver'
-	]
+	angular.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver']
 	.config [
-		'$routeProvider'
-		'$locationProvider'
-		'$httpProvider'
-		'RestangularProvider'
-		'RouteResolverProvider'
+		'$routeProvider',	'$locationProvider', '$httpProvider'
+		'RestangularProvider', 'RouteResolverProvider'
 		(args...) ->
 			[
 				$routeProvider
@@ -32,51 +18,24 @@ define [
 			restProvider.setRestangularFields id: '_id'
 
 			# TODO: Too verbose
-			console.log routeResolver.resolve 'Campaign'
 			$routeProvider
-				.when '/dashboard',
-					templateUrl: 'modules/dashboard/dashboard'
-					controller: 'DashboardCtrl as dashCtrl'
-
-				# Programs
-				.when '/programs',
-					templateUrl: 'modules/programs/program'
-					controller: 'ProgramCtrl as prgCtrl'
-				.when '/programs/create',
-					templateUrl: 'modules/programs/create'
-					controller: 'ProgramCreateCtrl as ctrl'
+				.when '/dashboard', routeResolver.resolve 'Dashboard'
+				.when '/programs', routeResolver.resolve 'Program'
+				.when '/programs/create', routeResolver.resolve 'Program', 'Create'
 
 				#Campaigns
-				.when '/campaigns',
-					templateUrl: 'modules/campaigns/campaign'
-					controller: 'CampaignCtrl as cmpCtrl'
-				.when '/campaigns/create',
-					templateUrl: 'modules/campaigns/create'
-					controller: 'CampaignCreateCtrl as ctrl'
+				.when '/campaigns', routeResolver.resolve 'Campaign'
+				.when '/campaigns/create', routeResolver.resolve 'Campaign', 'Create'
 
 				#Subscriptions
-				.when '/subscriptions',
-					templateUrl: 'modules/subscriptions/subscription'
-					controller: 'SubscriptionCtrl as subCtrl'
-				.when '/subscriptions/create',
-					templateUrl: 'modules/subscriptions/create'
-					controller: 'SubscriptionCreateCtrl as subCtrl'
+				.when '/subscriptions', routeResolver.resolve 'Subscription'
+				.when '/subscriptions/create', routeResolver.resolve 'Subscription', 'Create'
 
-				#Keywords
-				.when '/keywords',
-					templateUrl: 'modules/keywords/keyword'
-					controller: 'KeywordCtrl as kwCtrl'
 
 				#Styles
-				.when '/styles',
-					templateUrl: 'modules/styles/style'
-					controller: 'StyleCtrl as stylCtrl'
-				.when '/styles/create',
-						templateUrl: 'modules/styles/create'
-						controller: 'StyleCreateCtrl as ctrl'
-				.when '/styles/:id',
-						templateUrl: 'modules/styles/create'
-						controller: 'StyleCreateCtrl as ctrl'
+				.when '/styles', routeResolver.resolve 'Style'
+				.when '/styles/create', routeResolver.resolve 'Style', 'Create'
+				.when '/styles/:id', routeResolver.resolve 'Style', 'Update'
 
 				.otherwise redirectTo: '/dashboard'
 			$locationProvider.html5Mode false

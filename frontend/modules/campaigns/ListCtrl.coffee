@@ -10,4 +10,4 @@ define ["app"], (app) ->
             @rest.all('campaigns' ).getList().then (@campaigns) =>
 
     CampaignCtrl.$inject = ['Restangular']
-    app.controller 'CampaignCtrl', CampaignCtrl
+    app.controller 'CampaignListCtrl', CampaignCtrl

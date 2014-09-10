@@ -4,4 +4,4 @@ define ["app"], (app) ->
             rest.all('programs').getList().then (@programs) =>
 
     ProgramCtrl.$inject = ["Restangular"]
-    app.controller 'ProgramCtrl', ProgramCtrl
+    app.controller 'ProgramListCtrl', ProgramCtrl

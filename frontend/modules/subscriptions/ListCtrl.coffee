@@ -3,4 +3,4 @@ define ["app"], (app) ->
         constructor: (rest) ->
             rest.all('subscriptions').getList().then (@subscriptions) =>
     SubscriptionCtrl.$inject = ['Restangular']
-    app.controller 'SubscriptionCtrl', SubscriptionCtrl
+    app.controller 'SubscriptionListCtrl', SubscriptionCtrl

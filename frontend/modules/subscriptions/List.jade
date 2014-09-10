@@ -17,7 +17,7 @@ div.panel.panel-default
                     th Campaign
                     th Status
             tbody
-                tr(ng-repeat="subs in subCtrl.subscriptions")
+                tr(ng-repeat="subs in ctrl.subscriptions")
                     td {{$index + 1024}}
                     td {{subs.client}}
                     td.text-right {{subs.startDate|date}}

@@ -7,30 +7,30 @@
 				label.col-md-4.control-label Subscriptions Name
 				.col-md-6
 					input.form-control(type='text', placeholder='Enter a name for the Subscription',
-						ng-model="subCtrl.subscription.client")
+						ng-model="ctrl.subscription.client")
 			.form-group
 				label.col-md-4.control-label Start Date
 				.col-md-6
-					input.form-control(type='text', placeholder='Enter a starting date in YYYY-MM-DD format', ng-model="subCtrl.subscription.startDate")
+					input.form-control(type='text', placeholder='Enter a starting date in YYYY-MM-DD format', ng-model="ctrl.subscription.startDate")
 			.form-group
 				label.col-md-4.control-label Campaign
 				.col-md-6
 					select.form-control(
-						ng-model="subCtrl.subscription.campaign" ng-options="campaign._id as campaign.name for campaign in subCtrl.campaigns" ng-change="subCtrl.onCampaignSelect()")
-			.form-group(ng-repeat="holder in subCtrl.program.style.placeholders")
+						ng-model="ctrl.subscription.campaign" ng-options="campaign._id as campaign.name for campaign in ctrl.campaigns" ng-change="ctrl.onCampaignSelect()")
+			.form-group(ng-repeat="holder in ctrl.program.style.placeholders")
 				label.col-md-4.control-label
 					strong.text-muted.text-uppercase ~{{holder}}
 				.col-md-4
-						input.form-control(type='text',ng-model="subCtrl.subscription.data[holder]")
+						input.form-control(type='text',ng-model="ctrl.subscription.data[holder]")
 
-			.form-group(ng-show="subCtrl.program")
+			.form-group(ng-show="ctrl.program")
 				label.col-md-4.control-label Initial Credits
-					small.text-muted.text-capitalize &nbsp;({{subCtrl.program.gauge}})
+					small.text-muted.text-capitalize &nbsp;({{ctrl.program.gauge}})
 				.col-md-4
-					input.form-control(type="text" placeholder="Enter initial credits in {{subCtrl.program.gauge}}",
-						ng-model="subCtrl.subscription.totalCredits")
+					input.form-control(type="text" placeholder="Enter initial credits in {{ctrl.program.gauge}}",
+						ng-model="ctrl.subscription.totalCredits")
 			.form-group
 				.col-md-6.col-md-offset-4
-					button.btn.btn-primary(type="button", ng-click="subCtrl.save()") Save
+					button.btn.btn-primary(type="button", ng-click="ctrl.save()") Save
 					| &nbsp;
 					a.btn.btn-default(ng-href="#/subscriptions") Cancel

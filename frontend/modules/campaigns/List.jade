@@ -20,7 +20,7 @@ div.panel.panel-default
 					th Status
 					th.text-right Performance
 			tbody
-				tr(ng-repeat="campaign in cmpCtrl.campaigns")
+				tr(ng-repeat="campaign in ctrl.campaigns")
 					td {{$index+1002}}
 					td
 						.text-capitalize {{campaign.name}}
@@ -36,7 +36,7 @@ div.panel.panel-default
 						a(href="#") {{campaign.keywords.length}}
 					td
 						a.label(href="javascript: void 0;"
-							ng-click="cmpCtrl.toggleStatus(campaign)"
+							ng-click="ctrl.toggleStatus(campaign)"
 							ng-class="{'label-success': campaign.isEnabled, 'label-warning': !campaign.isEnabled}")
 							span(ng-show="campaign.isEnabled") Running
 							span(ng-hide="campaign.isEnabled") Stopped

@@ -27,4 +27,4 @@ define ["app"], (app) ->
 
     NavbarCtrl.$inject = ['$location']
 
-    app.controller 'NavbarCtrl', NavbarCtrl
+    app.controller 'NavListCtrl', NavbarCtrl
