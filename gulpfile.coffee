@@ -27,6 +27,6 @@ gulp.task 'inject-modules',->
 			.replace /^.+?\//, '' #removes frontend/, .tmp/
 			.replace /\.coffee/, '' #remove the .coffee extension
 			"'#{filepath}'"
-	.pipe gulp.dest 'frontend/modules/'
+	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'setup-vendor-assets', ['bower-copy', 'non-bower-copy']
