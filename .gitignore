@@ -4,3 +4,4 @@ frontend/lib/
 bower_components/
 frontend/css/
 db/
+frontend/modules/module-loader.coffee
