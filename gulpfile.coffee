@@ -29,4 +29,4 @@ gulp.task 'inject-modules',->
 			"'#{filepath}'"
 	.pipe gulp.dest 'frontend/lib/'
 
-gulp.task 'setup-vendor-assets', ['bower-copy', 'non-bower-copy']
+gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules']

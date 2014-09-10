@@ -38,6 +38,6 @@
 		"nib": "^1.0.3"
 	},
 	"scripts": {
-		"postinstall": "gulp setup-vendor-assets"
+		"postinstall": "gulp setup-assets"
 	}
 }
