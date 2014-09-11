@@ -22,5 +22,5 @@ class ProgramController
                 return res.send err, 400 if err
                 res.send data
 
-ProgramController:: = injector.get(BaseController).$resolve()
+ProgramController:: = injector.get BaseController
 module.exports = ProgramController

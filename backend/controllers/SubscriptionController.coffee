@@ -3,7 +3,7 @@ BaseController = require './BaseController'
 class SubscriptionController
     constructor: () ->
         @model = @modelManager.models.SubscriptionModel
-    SubscriptionController:: = base =  injector.get(BaseController).$resolve()
+    SubscriptionController:: = base =  injector.get BaseController
 
     create: (req, res) ->
         #TODO:

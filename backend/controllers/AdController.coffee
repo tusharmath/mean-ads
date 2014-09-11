@@ -1,5 +1,4 @@
 ModelManager = require '../models'
-Instantiable = require '../modules/Instantiable'
 di = require 'di'
 _ = require 'lodash'
 

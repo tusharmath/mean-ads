@@ -1,6 +1,5 @@
 BaseController = require './BaseController'
 ModelManager = require '../models'
-Instantiable = require '../modules/Instantiable'
 di = require 'di'
 
 class CampaignController
@@ -20,24 +19,11 @@ class CampaignController
             for campaign in data
                 campaign.performance = Math.floor(Math.random() * 100)
 
-                # @subscriptionModel
-                # .where "campaign"
-                # .equals campaign._id
-                # .exec (err, subscriptionData) =>
-                #     impression = 0
-                #     for subscription in subscriptionData
-                #         impression += (subscription.totalCredits - subscription.creditsRemaining)
-                #     campaign.performance = impression
-
-                #     return res.send err, 400 if err
-                #     i++
-
-                #     if i is data.length
             res.send data
 
 
 
-CampaignController:: = injector.get(BaseController).$resolve()
+CampaignController:: = injector.get BaseController
 di.annotate CampaignController, new di.Inject ModelManager
 
 module.exports = CampaignController
