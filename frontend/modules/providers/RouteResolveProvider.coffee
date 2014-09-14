@@ -1,5 +1,6 @@
 define ["angular"], (angular) ->
 	class RouteResolveProvider
+
 		$get: -> {@resolve}
 
 		getTemplateUrl: (resource, action) ->
@@ -8,10 +9,19 @@ define ["angular"], (angular) ->
 
 		getController: (resource, action) -> "#{resource}#{action}Ctrl as ctrl"
 
-		resolve: (resource, action = 'List') ->
-			templateUrl = @getTemplateUrl resource, action
-			controller = @getController resource, action
-			{templateUrl, controller}
+		getRoute: (resource, action) ->
+			resourcePath = resource.toLowerCase() + "s"
+			switch action
+				when 'List' then "/#{resourcePath}"
+				when 'Create' then "/#{resourcePath}/create"
+				when 'Update' then "/#{resourcePath}/:id"
+
+		resolve: (routeProvider, resource, actions = ['List']) =>
+			_.each actions, (action) =>
+				templateUrl = @getTemplateUrl resource, action
+				controller = @getController resource, action
+				route = @getRoute resource, action
+				routeProvider.when route, {templateUrl, controller}
 
 	angular.module 'route.resolver', []
 	.provider 'RouteResolver', RouteResolveProvider

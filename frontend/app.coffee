@@ -1,4 +1,4 @@
-define ['angular','lib/angular-route','lib/ui-ace','Restangular'], (angular) ->
+define ['angular', 'lodash','lib/angular-route','lib/ui-ace','Restangular'], (angular, _) ->
 	'use strict'
 	angular.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver']
 	.config [
@@ -17,28 +17,15 @@ define ['angular','lib/angular-route','lib/ui-ace','Restangular'], (angular) ->
 			restProvider.setDefaultHttpFields cache: false
 			restProvider.setRestangularFields id: '_id'
 
-			# TODO: Too verbose
-			$routeProvider
-				.when '/dashboard', routeResolver.resolve 'Dashboard'
+			_routeResolver = _.curry(routeResolver.resolve, 2) $routeProvider
 
-				.when '/programs', routeResolver.resolve 'Program'
-				.when '/programs/:id', routeResolver.resolve 'Program', 'Update'
-				.when '/programs/create', routeResolver.resolve 'Program', 'Create'
+			_routeResolver 'Dashboard'
+			_routeResolver 'Program', ['Create', 'Update', 'List']
+			_routeResolver 'Campaign', ['Create', 'Update', 'List']
+			_routeResolver 'Subscription', ['Create', 'Update', 'List']
+			_routeResolver 'Style', ['Create', 'Update', 'List']
 
-				#Campaigns
-				.when '/campaigns', routeResolver.resolve 'Campaign'
-				.when '/campaigns/create', routeResolver.resolve 'Campaign', 'Create'
+			$routeProvider.otherwise redirectTo: '/dashboard'
 
-				#Subscriptions
-				.when '/subscriptions', routeResolver.resolve 'Subscription'
-				.when '/subscriptions/create', routeResolver.resolve 'Subscription', 'Create'
-
-
-				#Styles
-				.when '/styles', routeResolver.resolve 'Style'
-				.when '/styles/create', routeResolver.resolve 'Style', 'Create'
-				.when '/styles/:id', routeResolver.resolve 'Style', 'Update'
-
-				.otherwise redirectTo: '/dashboard'
 			$locationProvider.html5Mode false
 	]
