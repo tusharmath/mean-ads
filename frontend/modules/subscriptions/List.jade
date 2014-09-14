@@ -1,33 +1,33 @@
 div.panel.panel-default
-    .panel-heading
-        .btn-group
-            a.btn.btn-default(href="#/subscriptions/create") Create
-            button.btn.btn-default.disabled Edit
-            button.btn.btn-default.disabled Details
-            button.btn.btn-default Archive
-        .clearfix
-    .panel-body
-        table.table
-            thead
-                tr.text-capitalize
-                    th #
-                    th Subscription
-                    th.text-right Subscription
-                    th Credits
-                    th Campaign
-                    th Status
-            tbody
-                tr(ng-repeat="subs in ctrl.subscriptions")
-                    td {{$index + 1024}}
-                    td {{subs.client}}
-                    td.text-right {{subs.startDate|date}}
-                    td
-                        strong.text-capitalize.text-primary
-                            span {{subs.creditsRemaining}}
-                            span &nbsp;/&nbsp;
-                            span {{subs.totalCredits}}
-                    td
-                        a(href="#/campaigns") {{subs.campaign.name}}
-                    td
-                        strong.text-capitalize
-                            span.label.label-danger.text-muted In Active
+	.panel-heading
+		.btn-group
+			a.btn.btn-default(href="#/subscriptions/create") Create
+			button.btn.btn-default.disabled Edit
+			button.btn.btn-default.disabled Details
+			button.btn.btn-default Archive
+		.clearfix
+	.panel-body
+		table.table
+			thead
+				tr.text-capitalize
+					th #
+					th Subscription
+					th.text-right Subscription
+					th Credits
+					th Campaign
+					th Status
+			tbody
+				tr(ng-repeat="subs in ctrl.subscriptions")
+					td {{$index + 1024}}
+					td {{subs.client}}
+					td.text-right {{subs.startDate|date}}
+					td
+						strong.text-capitalize.text-primary
+							span {{subs.usedCredits}}
+							span &nbsp;/&nbsp;
+							span {{subs.totalCredits}}
+					td
+						a(href="#/campaigns") {{subs.campaign.name}}
+					td
+						strong.text-capitalize
+							span.label.label-danger.text-muted In Active

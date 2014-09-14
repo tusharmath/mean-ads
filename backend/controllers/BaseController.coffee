@@ -7,7 +7,9 @@ class BaseController
 
 	# [POST] /resource
 	create: (req, res) ->
+		@createReqMutator? req.body
 		resource = new @model req.body
+
 		resource.save (err) ->
 			return res.send err, 400 if err
 			res.send resource

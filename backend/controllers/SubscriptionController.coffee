@@ -5,17 +5,8 @@ class SubscriptionController
 		@model = @modelManager.models.SubscriptionModel
 		@_populate = path: 'campaign', select: 'name'
 	SubscriptionController:: = base = injector.get BaseController
-
-	create: (req, res) ->
-		#TODO:
-		#1. Use base class function
-		#2. Move the default value assignment credit remanining in model
-
-		req.body.creditsRemaining = req.body.totalCredits
-		resource = new @model req.body
-
-		resource.save (err) ->
-			return res.send err, 400 if err
-			res.send resource
+	# Perfect place to mutate request
+	createReqMutator: (reqBody) ->
+		reqBody.usedCredits = 0
 
 module.exports = SubscriptionController

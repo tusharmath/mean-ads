@@ -1,5 +1,5 @@
 module.exports = (mongoose) ->
-	mongoose.model 'Subscription', new mongoose.Schema
+	SubscriptionSchema = new mongoose.Schema
 		client:
 			type: String
 			required: true
@@ -8,14 +8,18 @@ module.exports = (mongoose) ->
 			required: true
 		campaign:
 			type : mongoose.Schema.ObjectId
+			required: true
 			ref : 'Campaign'
 		totalCredits:
 			type : Number
 			required: true
-		creditsRemaining:
+		usedCredits:
 			type : Number
+			required: true
+			default: 0
 		created:
 			type: Date
 			default: Date.now
 		data:
 			type: mongoose.Schema.Types.Mixed
+	model = mongoose.model 'Subscription', SubscriptionSchema
