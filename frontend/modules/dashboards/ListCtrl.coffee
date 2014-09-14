@@ -1,2 +1,2 @@
 define ["app"], (app) ->
-    app.controller 'DashboardListCtrl', ($scope) ->
+		app.controller 'DashboardListCtrl', ($scope) ->
