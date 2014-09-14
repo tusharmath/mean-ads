@@ -13,7 +13,7 @@ div.panel.panel-default
 					th Duration
 					th Commitment
 					th.text-right Keys
-					th Status
+					th.text-right Actions
 			tbody
 				tr(ng-repeat="campaign in ctrl.campaigns")
 					td {{$index+1002}}
@@ -28,10 +28,12 @@ div.panel.panel-default
 						strong.text-capitalize.text-muted {{campaign.commitment || "0"}}
 						small.text-muted &nbsp;{{campaign.program.gauge}}
 					td.text-right
-						a(href="#") {{campaign.keywords.length}}
-					td
-						a.label(href="javascript: void 0;"
+						strong.text-muted {{campaign.keywords.length}}
+					td.text-right
+						button.btn.btn-xs(type="button"
 							ng-click="ctrl.toggleStatus(campaign)"
-							ng-class="{'label-success': campaign.isEnabled, 'label-warning': !campaign.isEnabled}")
-							span(ng-show="campaign.isEnabled") Running
-							span(ng-hide="campaign.isEnabled") Stopped
+							ng-class="{'btn-warning': campaign.isEnabled, 'btn-primary': !campaign.isEnabled}")
+							span(ng-show="campaign.isEnabled") Stop
+							span(ng-hide="campaign.isEnabled") Start
+						&nbsp;
+						a.btn.btn-default.btn-xs(ng-href="#/campaigns/{{campaign._id}}") Details

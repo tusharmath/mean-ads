@@ -11,7 +11,8 @@ div.panel.panel-default
 					th Style
 					th Gauge
 					th Delivery
-					th.text-right #keys
+					th #key
+					th.text-right Actions
 			tbody
 
 				tr(ng-repeat="program in ctrl.programs")
@@ -25,5 +26,7 @@ div.panel.panel-default
 						strong.text-capitalize.text-muted {{program.gauge}}
 					td
 						strong.text-capitalize.text-muted {{program.delivery}}
-					td.text-right
+					td
 						small.text-muted {{program._id}}
+					td.text-right
+						a.btn.btn-default.btn-xs(ng-href="#/programs/{{program._id}}") Details

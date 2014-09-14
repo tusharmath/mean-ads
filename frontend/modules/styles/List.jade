@@ -11,7 +11,7 @@ div.panel.panel-default
 					th Style
 					th Placeholders
 					th Size
-					th Actions
+					th.text-right Actions
 			tbody
 				tr(ng-repeat="style in ctrl.styles")
 					td {{$index + 1024}}
@@ -21,5 +21,5 @@ div.panel.panel-default
 					td.text-muted
 						strong {{style.html.length + style.css.length}}
 						small &nbsp;chars
-					td
-						a(ng-href="#/styles/{{style._id}}") Edit
+					td.text-right
+						a.btn.btn-default.btn-xs(ng-href="#/styles/{{style._id}}") Details

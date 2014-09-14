@@ -12,19 +12,18 @@ div.panel.panel-default
 					th.text-right Subscription
 					th Credits
 					th Campaign
-					th Status
+					th.text-right Actions
 			tbody
 				tr(ng-repeat="subs in ctrl.subscriptions")
 					td {{$index + 1024}}
 					td {{subs.client}}
 					td.text-right {{subs.startDate|date}}
 					td
-						strong.text-capitalize.text-primary
+						strong.text-capitalize.text-muted
 							span {{subs.usedCredits}}
 							span &nbsp;/&nbsp;
 							span {{subs.totalCredits}}
 					td
 						a(ng-href="#/campaigns/{{subs.campaign._id}}") {{subs.campaign.name}}
-					td
-						strong.text-capitalize
-							span.label.label-danger.text-muted In Active
+					td.text-right
+						a.btn.btn-default.btn-xs(ng-href="#/subscriptions/{{subs._id}}") Details

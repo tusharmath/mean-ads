@@ -14,13 +14,15 @@ define ['angular','lib/angular-route','lib/ui-ace','Restangular'], (angular) ->
 			] = args
 
 			restProvider.setBaseUrl '/api/v1'
-			restProvider.setDefaultHttpFields cache: true
+			restProvider.setDefaultHttpFields cache: false
 			restProvider.setRestangularFields id: '_id'
 
 			# TODO: Too verbose
 			$routeProvider
 				.when '/dashboard', routeResolver.resolve 'Dashboard'
+
 				.when '/programs', routeResolver.resolve 'Program'
+				.when '/programs/:id', routeResolver.resolve 'Program', 'Update'
 				.when '/programs/create', routeResolver.resolve 'Program', 'Create'
 
 				#Campaigns
