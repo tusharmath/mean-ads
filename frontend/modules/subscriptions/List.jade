@@ -7,7 +7,7 @@ div.panel.panel-default
 			button.btn.btn-default Archive
 		.clearfix
 	.panel-body
-		table.table
+		table.table.table-hover
 			thead
 				tr.text-capitalize
 					th #
@@ -27,7 +27,7 @@ div.panel.panel-default
 							span &nbsp;/&nbsp;
 							span {{subs.totalCredits}}
 					td
-						a(href="#/campaigns") {{subs.campaign.name}}
+						a(ng-href="#/campaigns/{{subs.campaign._id}}") {{subs.campaign.name}}
 					td
 						strong.text-capitalize
 							span.label.label-danger.text-muted In Active

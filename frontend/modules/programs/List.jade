@@ -1,31 +1,31 @@
 div.panel.panel-default
-    .panel-heading
-        .btn-group
-            a.btn.btn-default(ng-href="#/programs/create") Create
-            a.btn.btn-default.disabled Edit
-            a.btn.btn-default.disabled Archive
-        .clearfix
-    .panel-body
-        table.table
-            thead
-                tr.text-capitalize
-                    th Program
-                    th Style
-                    th Gauge
-                    th Delivery
-                    th.text-right #keys
-            tbody
+	.panel-heading
+		.btn-group
+			a.btn.btn-default(ng-href="#/programs/create") Create
+			a.btn.btn-default.disabled Edit
+			a.btn.btn-default.disabled Archive
+		.clearfix
+	.panel-body
+		table.table
+			thead
+				tr.text-capitalize
+					th Program
+					th Style
+					th Gauge
+					th Delivery
+					th.text-right #keys
+			tbody
 
-                tr(ng-repeat="program in ctrl.programs")
-                    td
-                        .text-capitalize {{program.name}}
-                    td
-                        a.text-capitalize(href="#" ng-show="program.style")
-                            | {{program.style.name}}
-                        strong.text-warning(ng-hide="program.style") Not Set
-                    td
-                        strong.text-capitalize.text-muted {{program.gauge}}
-                    td
-                        strong.text-capitalize.text-muted {{program.delivery}}
-                    td.text-right
-                      small.text-muted {{program._id}}
+				tr(ng-repeat="program in ctrl.programs")
+					td
+						.text-capitalize {{program.name}}
+					td
+						a.text-capitalize(ng-href="#/styles/{{program.style._id}}" ng-show="program.style")
+							| {{program.style.name}}
+						strong.text-warning(ng-hide="program.style") Not Set
+					td
+						strong.text-capitalize.text-muted {{program.gauge}}
+					td
+						strong.text-capitalize.text-muted {{program.delivery}}
+					td.text-right
+						small.text-muted {{program._id}}
