@@ -7,7 +7,6 @@ div.panel.panel-default
 		table.table
 			thead
 				tr.text-capitalize
-					th #
 					th Campaign
 					th Program
 					th Duration
@@ -16,7 +15,6 @@ div.panel.panel-default
 					th.text-right Actions
 			tbody
 				tr(ng-repeat="campaign in ctrl.campaigns")
-					td {{$index+1002}}
 					td
 						.text-capitalize {{campaign.name}}
 					td

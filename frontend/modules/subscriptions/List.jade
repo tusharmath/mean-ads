@@ -7,7 +7,6 @@ div.panel.panel-default
 		table.table
 			thead
 				tr.text-capitalize
-					th #
 					th Subscription
 					th.text-right Subscription
 					th Credits
@@ -15,7 +14,6 @@ div.panel.panel-default
 					th.text-right Actions
 			tbody
 				tr(ng-repeat="subs in ctrl.subscriptions")
-					td {{$index + 1024}}
 					td {{subs.client}}
 					td.text-right {{subs.startDate|date}}
 					td
