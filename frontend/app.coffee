@@ -19,13 +19,14 @@ define ['angular', 'lodash','lib/angular-route','lib/ui-ace','Restangular'], (an
 
 			_routeResolver = _.curry(routeResolver.resolve, 2) $routeProvider
 
+			#TODO: Should be dynamic based on the controller
 			_routeResolver 'Dashboard'
 			_routeResolver 'Program', ['Create', 'Update', 'List']
 			_routeResolver 'Campaign', ['Create', 'Update', 'List']
 			_routeResolver 'Subscription', ['Create', 'Update', 'List']
 			_routeResolver 'Style', ['Create', 'Update', 'List']
 
-			$routeProvider.otherwise redirectTo: '/dashboard'
+			$routeProvider.otherwise redirectTo: '/dashboards'
 
 			$locationProvider.html5Mode false
 	]
