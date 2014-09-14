@@ -1,29 +1,21 @@
 BaseController = require './BaseController'
 
 class SubscriptionController
-    constructor: () ->
-        @model = @modelManager.models.SubscriptionModel
-    SubscriptionController:: = base =  injector.get BaseController
+	constructor: () ->
+		@model = @modelManager.models.SubscriptionModel
+		@_populate = path: 'campaign', select: 'name'
+	SubscriptionController:: = base = injector.get BaseController
 
-    create: (req, res) ->
-        #TODO:
-        #1. Use base class function
-        #2. Move the default value assignment credit remanining in model
+	create: (req, res) ->
+		#TODO:
+		#1. Use base class function
+		#2. Move the default value assignment credit remanining in model
 
-        req.body.creditsRemaining = req.body.totalCredits
-        resource = new @model req.body
+		req.body.creditsRemaining = req.body.totalCredits
+		resource = new @model req.body
 
-        resource.save (err) ->
-            return res.send err, 400 if err
-            res.send resource
-
-    list: (req, res) ->
-        @model
-        .find {}
-        .populate path: 'campaign'
-        .limit 10
-        .exec (err, data) ->
-            return res.send err, 400 if err
-            res.send data
+		resource.save (err) ->
+			return res.send err, 400 if err
+			res.send resource
 
 module.exports = SubscriptionController

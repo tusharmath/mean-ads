@@ -18,7 +18,6 @@ div.panel.panel-default
 					th Commitment
 					th.text-right Keys
 					th Status
-					th.text-right Performance
 			tbody
 				tr(ng-repeat="campaign in ctrl.campaigns")
 					td {{$index+1002}}
@@ -40,6 +39,3 @@ div.panel.panel-default
 							ng-class="{'label-success': campaign.isEnabled, 'label-warning': !campaign.isEnabled}")
 							span(ng-show="campaign.isEnabled") Running
 							span(ng-hide="campaign.isEnabled") Stopped
-					td.text-right
-						strong.text-capitalize.text-muted {{campaign.performance}}
-							small %

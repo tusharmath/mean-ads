@@ -23,6 +23,7 @@ class BaseController
 	list: (req, res) ->
 		@model
 		.find {}
+		.populate @_populate || {}
 		.limit 10
 		.exec (err, data) ->
 			return res.send err, 400 if err

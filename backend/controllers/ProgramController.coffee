@@ -3,15 +3,8 @@ BaseController = require './BaseController'
 class ProgramController
 	constructor: () ->
 		@model = @modelManager.models.ProgramModel
+		@_populate = path: 'style', select: 'name'
 	ProgramController:: = injector.get BaseController
-
-	list: (req, res) ->
-		@model
-		.find {}
-		.populate path: 'style', select: 'name'
-		.exec (err, data) ->
-			return res.send err, 400 if err
-			res.send data
 
 	# [GET] /resource/:id
 	first: (req, res) ->
