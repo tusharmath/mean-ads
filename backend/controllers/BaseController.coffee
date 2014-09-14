@@ -41,7 +41,7 @@ class BaseController
 			res.send data
 
 BaseController.annotations = [
-  new di.TransientScope()
-  new di.Inject ModelManager
+	new di.TransientScope()
+	new di.Inject ModelManager
 ]
 module.exports = BaseController
