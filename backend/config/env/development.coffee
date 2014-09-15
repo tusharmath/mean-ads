@@ -1,6 +1,7 @@
 'use strict'
 
 module.exports =
+	stylus: forceCompile: true
 	bragi:
 		options:
 			groupsEnabled: true

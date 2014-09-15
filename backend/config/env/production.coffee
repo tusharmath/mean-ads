@@ -2,6 +2,7 @@
 
 module.exports =
 		env: 'production'
+		stylus: forceCompile: false
 		bragi:
 			options:
 				groupsEnabled: false

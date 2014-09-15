@@ -38,15 +38,18 @@ module.exports = (app) ->
 		collection: 'sessions'
 
 	app
-	.use '/static', express.static path.join(config.root, 'frontend')
+
 	.use '/static', coffeeMiddleware
 		compress: config.coffeeCompress
 		src: path.join config.root, 'frontend'
+
 	.use '/static', stylus.middleware
-		serve: false
-		force: true
+		force: config.stylus.forceCompile
 		src: path.join config.root, 'frontend/stylus'
 		dest: path.join config.root, 'frontend/css'
+
+	.use '/static', express.static path.join(config.root, 'frontend')
+
 
 	.set 'views', "#{config.root}/frontend"
 	.set 'view engine', 'jade'
