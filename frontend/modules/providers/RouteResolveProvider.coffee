@@ -4,7 +4,7 @@ define ["angular"], (angular) ->
 		$get: -> {@resolve}
 
 		getTemplateUrl: (resource, action) ->
-			"modules/#{resource}s/#{action}"
+			"modules/#{resource}s/#{action}-tmpl"
 			.toLowerCase()
 
 		getController: (resource, action) -> "#{resource}#{action}Ctrl as ctrl"

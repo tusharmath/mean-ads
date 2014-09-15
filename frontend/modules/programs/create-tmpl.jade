@@ -1,0 +1,32 @@
+.panel.panel-info
+    .panel-heading
+        h4 Create a Program
+    .panel-body
+        form.form-horizontal(role='form')
+            .form-group
+                label.col-md-4.control-label Program Name
+                .col-md-6
+                    input.form-control(type='text', placeholder='Enter a name for the Program' ng-model="ctrl.program.name")
+            .form-group
+                label.col-md-4.control-label Style
+                //- {{ctrl.styles}}
+                .col-md-6
+
+                    select.form-control(ng-model="ctrl.program.style", ng-options="style._id as style.name for style in ctrl.styles")
+
+            .form-group
+                label.col-md-4.control-label Gauge
+                .col-md-6
+                    select.form-control(ng-model="ctrl.program.gauge")
+                        option(value="clicks") Clicks
+                        option(value="impressions") Impressions
+                        option(value="days") Days
+            .form-group
+                label.col-md-4.control-label Delivery
+                .col-md-6
+                    strong.form-control.text-muted Random Set
+            .form-group
+                .col-md-6.col-md-offset-4
+                    button.btn.btn-primary(type="button" ng-click="ctrl.save()") Save
+                    | &nbsp;
+                    a.btn.btn-default(ng-href="#/programs") Cancel

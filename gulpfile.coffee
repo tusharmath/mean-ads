@@ -31,9 +31,11 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
-	gulp.src 'frontend/modules/**/*.jade'
+	gulp.src 'frontend/modules/**/*Ctrl.coffee'
 	.pipe rename (path) ->
-		path.basename = "#{path.basename.toLowerCase()}-tmpl"
+		basename = path.basename.replace /Ctrl/, ''
+
+		path.basename = "#{basename.toLowerCase()}-ctrl"
 		return undefined
 	.pipe gulp.dest 'frontend/modules'
 
