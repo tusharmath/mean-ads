@@ -2,6 +2,9 @@
 
 module.exports =
 		env: 'production'
+		bragi:
+			options:
+				groupsEnabled: false
 		coffeeCompress: true
 		ip: process.env.OPENSHIFT_NODEJS_IP ||
 				process.env.IP ||

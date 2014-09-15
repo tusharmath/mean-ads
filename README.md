@@ -8,3 +8,6 @@ Mongo: `mongod --dbpath ./db`
 
 Start the node server
 nodejs: `nodemon server.coffee --watch backend`
+
+
+TODO: Use commong templates for updated and edit
