@@ -31,6 +31,7 @@
     "gulp-filter": "^0.4.1",
     "gulp-inject": "^0.4.1",
     "gulp-livereload": "^2.1.0",
+    "gulp-rename": "^1.2.0",
     "gulp-rimraf": "^0.1.0",
     "gulp-stylus": "^1.0.2",
     "gulp-uglify": "^0.3.0",
