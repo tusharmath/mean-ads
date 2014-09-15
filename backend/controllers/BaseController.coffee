@@ -14,7 +14,8 @@ class BaseController
 			return res.send err, 400 if err
 			res.send resource
 
-	# [PUT] /resource
+	# TODO: Use a patch mutator to ignore/add keys
+	# [PATCH] /resource
 	update: (req, res) ->
 		resource = @model
 		.findByIdAndUpdate req.params.id, req.body, (err) ->
