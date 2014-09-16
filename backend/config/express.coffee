@@ -33,7 +33,7 @@ module.exports = (app) ->
 
 	app
 
-	.use '/static', (req, res, next) ->
+	.use /\/static|\/templates/, (req, res, next) ->
 		logger.log 'http:static:caching', req.url
 		res.header 'Cache-Control', "public, max-age=#{config.cache.maxAge}"
 		next()
