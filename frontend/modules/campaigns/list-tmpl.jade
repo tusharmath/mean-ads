@@ -33,5 +33,5 @@ div.panel.panel-default
 							ng-class="{'btn-warning': campaign.isEnabled, 'btn-primary': !campaign.isEnabled}")
 							span(ng-show="campaign.isEnabled") Stop
 							span(ng-hide="campaign.isEnabled") Start
-						&nbsp;
+						= ' '
 						a.btn.btn-default.btn-xs(ng-href="#/campaigns/{{campaign._id}}") Details

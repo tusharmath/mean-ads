@@ -27,17 +27,16 @@ module.exports = (app) ->
 			logger.log 'http:static', logger.util.print(req.method, 'green'), req.url
 			next()
 
-		.use (req, res, next) ->
-			res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
-			res.header 'Pragma', 'no-cache'
-			res.header 'Expires', 0
-			next()
-
 	sessionStore = new mongoStore
 		url: config.mongo.uri
 		collection: 'sessions'
 
 	app
+
+	.use '/static', (req, res, next) ->
+		logger.log 'http:static:caching', req.url
+		res.header 'Cache-Control', "public, max-age=#{config.cache.maxAge}"
+		next()
 
 	.use '/static', coffeeMiddleware
 		compress: config.coffeeCompress
@@ -49,7 +48,6 @@ module.exports = (app) ->
 		dest: path.join config.root, 'frontend/css'
 
 	.use '/static', express.static path.join(config.root, 'frontend')
-
 
 	.set 'views', "#{config.root}/frontend"
 	.set 'view engine', 'jade'
