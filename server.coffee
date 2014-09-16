@@ -1,6 +1,5 @@
 'use strict'
 express = require 'express'
-
 logger = require 'bragi'
 
 
@@ -8,21 +7,24 @@ path = require 'path'
 di = require 'di'
 global.injector = new di.Injector
 # Set default node environment to development
-process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2]|| 'development'
+process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || 'development'
 config = require './backend/config/config'
 logger.options = config.bragi.options
-DbConnection = require './backend/connections/DbConnection'
-db = injector.get DbConnection
 app = express()
+require('./backend/config/express') app
+require('./backend/routes') app
 
-db.connect (mongoose) ->
-	console.log 'DB Connected!'
-	require('./backend/config/express') app
-	require('./backend/routes') app
-
-	# Start server
-	app.listen config.port, config.ip, ->
-		console.log 'Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get 'env'
+# Start server
+app.listen config.port, config.ip, ->
+	logger.log(
+		'application'
+		logger.util.symbols.success
+		'Server Started'
+		logger.util.print("#{config.ip}:#{config.port}", 'yellow')
+		'in'
+		logger.util.print("#{app.get 'env'}", 'yellow')
+		'mode'
+	)
 
 # Expose app
 exports = module.exports = app;
