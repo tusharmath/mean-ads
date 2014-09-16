@@ -11,6 +11,7 @@ stylus = require 'stylus'
 coffeeMiddleware = require 'coffee-middleware'
 logger = require 'bragi'
 logger.options = config.bragi.options
+compression = require 'compression'
 
 module.exports = (app) ->
 	app.set 'jsonp callback name', 'mean'
@@ -33,7 +34,9 @@ module.exports = (app) ->
 
 	app
 
-	.use /\/static|\/templates/, (req, res, next) ->
+	# Caching all HTTP responses
+	.use compression()
+	.use (req, res, next) ->
 		logger.log 'http:static:caching', req.url
 		res.header 'Cache-Control', "public, max-age=#{config.cache.maxAge}"
 		next()
