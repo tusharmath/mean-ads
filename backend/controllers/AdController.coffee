@@ -13,7 +13,7 @@ class AdController
 		@campaignModel
 		.findOne
 			$and: [
-				'program': req.params.id
+				program: req.params.id
 				keywords: $in : req.query.keywords
 			]
 		.exec (err, keywordCampaignData) =>
