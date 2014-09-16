@@ -4,7 +4,7 @@ module.exports =
 	stylus: forceCompile: true
 	bragi:
 		options:
-			groupsEnabled: true
+			groupsEnabled: ['http:api', 'application']
 	env: 'development'
 	ip: '0.0.0.0'
 	coffeeCompress: false
