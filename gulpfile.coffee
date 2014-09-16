@@ -31,12 +31,12 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
-	gulp.src 'frontend/modules/**/*Ctrl.coffee'
+	gulp.src 'frontend/**/*.jade'
 	.pipe rename (path) ->
-		basename = path.basename.replace /Ctrl/, ''
-
-		path.basename = "#{basename.toLowerCase()}-ctrl"
+		dirname = path.dirname.replace 'modules', 'templates'
+		# console.log dirname
+		path.dirname = dirname
 		return undefined
-	.pipe gulp.dest 'frontend/modules'
+	.pipe gulp.dest 'frontend'
 
 gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules']

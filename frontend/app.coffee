@@ -18,7 +18,6 @@ define ['angular', 'lodash','lib/angular-route','lib/ui-ace','Restangular'], (an
 			restProvider.setRestangularFields id: '_id'
 
 			_routeResolver = _.curry(routeResolver.resolve, 2) $routeProvider
-
 			#TODO: Should be dynamic based on the controller
 			_routeResolver 'Dashboard'
 			_routeResolver 'Program', ['Create', 'Update', 'List']
