@@ -11,8 +11,7 @@ module.exports =
 				process.env.IP ||
 				'0.0.0.0'
 		port: process.env.OPENSHIFT_NODEJS_PORT ||
-				process.env.PORT ||
-				8080
+				process.env.PORT
 		mongo:
 				uri: process.env.MONGOLAB_URI ||
 						process.env.MONGOHQ_URL ||

@@ -1,7 +1,6 @@
 errorHandler = require 'errorhandler'
 config = require './config'
 logger = require 'bragi'
-logger.options = config.bragi.options
 
 module.exports = (app) ->
 	app.use errorHandler()

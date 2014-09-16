@@ -1,3 +1,4 @@
+logger = require 'bragi'
 config = require './config'
 compression = require 'compression'
 
