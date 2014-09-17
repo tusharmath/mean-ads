@@ -1,8 +1,10 @@
 errorHandler = require 'errorhandler'
+livereload = require 'express-livereload'
 config = require './config'
 logger = require 'bragi'
 
 module.exports = (app) ->
+	livereload app, watchDir: "#{config.root}/frontend"
 	app.use errorHandler()
 
 	#TODO: only for certain paths?
