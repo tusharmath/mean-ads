@@ -10,7 +10,10 @@
 			.form-group
 				label.col-md-4.control-label Program
 				.col-md-6
-					select.form-control(ng-model="ctrl.campaign.program", ng-options="program._id as program.name for program in ctrl.programs")
+					select.form-control(
+						ng-model="ctrl.campaign.program"
+						ng-options="program._id as program.name for program in ctrl.programs"
+						ng-change="ctrl.gauge = program.gauge")
 			.form-group
 				label.col-md-4.control-label Duration
 					small.text-muted &nbsp;days
@@ -18,7 +21,6 @@
 					input.form-control(type="text" placeholder="Enter duration in days", ng-model="ctrl.campaign.days")
 			.form-group
 				label.col-md-4.control-label Commitment
-					small.text-muted &nbsp;impressions
 				.col-md-6
 					input.form-control(type="text" placeholder="Enter expected traffic commitment", ng-model="ctrl.campaign.commitment")
 			.form-group
