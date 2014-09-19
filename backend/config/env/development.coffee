@@ -1,6 +1,9 @@
 'use strict'
 
 module.exports =
+	jwt:
+		secret: "G3AEzjlLJ6Fzk2IiOdwgtrOcfa4jgmUYLiB22PnFtg_D6f3ACv541EqRs5heYDhK"
+		clientId: "6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7"
 	stylus: forceCompile: true
 	bragi:
 		options:

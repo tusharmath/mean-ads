@@ -9,9 +9,14 @@ stylus = require 'stylus'
 coffeeMiddleware = require 'coffee-middleware'
 dev = require './express-dev'
 prod = require './express-prod'
+jwt = require 'express-jwt'
 
 module.exports = (app) ->
 	app.set 'jsonp callback name', 'mean'
+	jwtCheck = jwt(
+		secret: new Buffer config.jwt.secret, 'base64'
+		audience: config.jwt.clientId
+	)
 	env = app.get 'env'
 
 	dev app if env is 'development'
@@ -22,6 +27,7 @@ module.exports = (app) ->
 		collection: 'sessions'
 
 	app
+	.use '/api', jwtCheck
 	.use '/static', coffeeMiddleware
 		compress: config.coffeeCompress
 		src: path.join config.root, 'frontend'
