@@ -2,9 +2,7 @@ path = require 'path'
 express = require 'express'
 favicon = require 'static-favicon'
 cookieParser = require 'cookie-parser'
-session = require 'express-session'
 config = require './config'
-mongoStore = require('connect-mongo') session
 stylus = require 'stylus'
 coffeeMiddleware = require 'coffee-middleware'
 dev = require './express-dev'
@@ -17,9 +15,6 @@ module.exports = (app) ->
 	dev app if env is 'development'
 	prod app if env is 'production'
 
-	sessionStore = new mongoStore
-		url: config.mongo.uri
-		collection: 'sessions'
 
 	app
 	.use '/static', coffeeMiddleware
@@ -36,6 +31,3 @@ module.exports = (app) ->
 	.set 'views', "#{config.root}/frontend"
 	.set 'view engine', 'jade'
 	.use cookieParser()
-	.use session
-		secret: 'my-little-secret'
-		store: sessionStore
