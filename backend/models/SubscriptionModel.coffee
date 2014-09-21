@@ -32,4 +32,4 @@ module.exports = (mongoose) ->
 			type: [String]
 			index: true
 
-	model = conn.model 'Subscription', SubscriptionSchema
+	model = mongoose.model 'Subscription', SubscriptionSchema
