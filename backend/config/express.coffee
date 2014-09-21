@@ -15,7 +15,6 @@ module.exports = (app) ->
 	dev app if env is 'development'
 	prod app if env is 'production'
 
-
 	app
 	.use '/static', coffeeMiddleware
 		compress: config.coffeeCompress
