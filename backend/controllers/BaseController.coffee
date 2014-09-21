@@ -1,18 +1,24 @@
 ModelManager = require '../models'
+Q = require 'q'
 di = require 'di'
 _ = require 'lodash'
 
 class BaseController
 	constructor: (@modelManager) ->
 
+	createReqMutator: (reqBody) -> Q.fcall ->reqBody
 	# [POST] /resource
 	create: (req, res) ->
-		@createReqMutator? req.body
-		resource = new @model req.body
+		@createReqMutator req.body
+		.then (reqBody) =>
+			resource = new @model req.body
+			resource.save (err) ->
+				if err
+					return res
+					.status 400
+					.send err
 
-		resource.save (err) ->
-			return res.send err, 400 if err
-			res.send resource
+				res.send resource
 
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
