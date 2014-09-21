@@ -18,7 +18,7 @@ class AdController
 		.exec (err, subscriptions) =>
 			randomIndex = _.random 0, subscriptions.length - 1
 			subscription = subscriptions[randomIndex]
-			res.send subscription
+			res.send data: subscription.data || {}
 			@_updateCredits subscription
 
 di.annotate AdController, new di.Inject ModelManager
