@@ -4,7 +4,7 @@ mongoose = require 'mongoose'
 class DbConnection
 	constructor: ->
 		mongoose.connect config.mongo.uri
-		mongoose.connection.once 'open', ->
+		mongoose.connection.on 'open', ->
 			logger.log(
 				'application'
 				logger.util.symbols.success

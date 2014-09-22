@@ -1,18 +1,10 @@
 BaseController = require './BaseController'
 
 class ProgramController
+	ProgramController:: = injector.get BaseController
 	constructor: () ->
 		@model = @modelManager.models.ProgramModel
-		@_populate = path: 'style', select: 'name'
-	ProgramController:: = injector.get BaseController
+		@_populate = path: 'style', select: 'name created placeholders'
 
-	# [GET] /resource/:id
-	first: (req, res) ->
-		@model
-			.findById req.params.id
-			.populate path: "style", select: 'name created placeholders'
-			.exec (err, data) ->
-				return res.send err, 400 if err
-				res.send data
 
 module.exports = ProgramController

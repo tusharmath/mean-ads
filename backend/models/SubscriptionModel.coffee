@@ -22,4 +22,15 @@ module.exports = (mongoose) ->
 			default: Date.now
 		data:
 			type: mongoose.Schema.Types.Mixed
+			require: true
+		# Faster Querying
+		campaignProgramId:
+			type: mongoose.Schema.ObjectId
+			required: true
+			ref: 'Program'
+			index: true
+		campaignKeywords:
+			type: [String]
+			index: true
+
 	model = mongoose.model 'Subscription', SubscriptionSchema
