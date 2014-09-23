@@ -7,6 +7,10 @@ module.exports =
 
 	#Set a cookie for angular so it knows we have an http session
 	cors: (req, res, next) ->
-		res.header "Access-Control-Allow-Origin", "https://#{config.jwt.domain}"
+		cors = [
+			"https://#{config.jwt.domain}"
+			"http://#{config.jwt.domain}"
+		]
+		res.header "Access-Control-Allow-Origin", cors.join()
 		res.header "Access-Control-Allow-Headers", "X-Requested-With"
 		next()
