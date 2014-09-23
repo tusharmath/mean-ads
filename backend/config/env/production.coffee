@@ -1,20 +1,24 @@
 'use strict'
 
 module.exports =
-		env: 'production'
-		stylus: forceCompile: false
-		bragi:
-			options:
-				groupsEnabled: false
-		coffeeCompress: true
-		ip: process.env.OPENSHIFT_NODEJS_IP ||
-				process.env.IP ||
-				'0.0.0.0'
-		port: process.env.OPENSHIFT_NODEJS_PORT ||
-				process.env.PORT
-		mongo:
-				uri: process.env.MONGOLAB_URI ||
-						process.env.MONGOHQ_URL ||
-						process.env.OPENSHIFT_MONGODB_DB_URL +
-						process.env.OPENSHIFT_APP_NAME ||
-						'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
+	env: 'production'
+	jwt:
+		secret: 'G3AEzjlLJ6Fzk2IiOdwgtrOcfa4jgmUYLiB22PnFtg_D6f3ACv541EqRs5heYDhK'
+		clientId: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
+		domain: 'mean-ads.auth0.com'
+	stylus: forceCompile: false
+	bragi:
+		options:
+			groupsEnabled: ['application']
+	coffeeCompress: true
+	ip: process.env.OPENSHIFT_NODEJS_IP ||
+		process.env.IP ||
+		'0.0.0.0'
+	port: process.env.OPENSHIFT_NODEJS_PORT ||
+		process.env.PORT
+	mongo:
+		uri: process.env.MONGOLAB_URI ||
+			process.env.MONGOHQ_URL ||
+			process.env.OPENSHIFT_MONGODB_DB_URL +
+			process.env.OPENSHIFT_APP_NAME ||
+			'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
