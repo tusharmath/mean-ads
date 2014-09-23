@@ -38,12 +38,13 @@ define [
 			_routeResolver = _.curry(routeResolver.resolve, 2) $routeProvider
 			#TODO: Should be dynamic based on the controller
 			_routeResolver 'Dashboard'
+			_routeResolver 'Login'
 			_routeResolver 'Program', ['Create', 'Update', 'List']
 			_routeResolver 'Campaign', ['Create', 'Update', 'List']
 			_routeResolver 'Subscription', ['Create', 'Update', 'List']
 			_routeResolver 'Style', ['Create', 'Update', 'List']
-			_routeResolver 'Login'
 
-			$routeProvider.otherwise redirectTo: '/dashboards'
+
+			$routeProvider.otherwise redirectTo: '/dashboard'
 			$locationProvider.html5Mode false
 	]
