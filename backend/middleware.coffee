@@ -1,3 +1,4 @@
+config = require './config/config'
 module.exports =
 	#Protect routes on your api from unauthenticated access
 	auth: (req, res, next) ->
@@ -5,7 +6,7 @@ module.exports =
 		res.send 401
 
 	#Set a cookie for angular so it knows we have an http session
-	setUserCookie: (req, res, next) ->
-		if req.user
-			res.cookie 'user', JSON.stringify req.user.userInfo
+	cors: (req, res, next) ->
+		res.header "Access-Control-Allow-Origin", config.jwt.domain
+		res.header "Access-Control-Allow-Headers", "X-Requested-With"
 		next()
