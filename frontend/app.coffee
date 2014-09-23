@@ -1,9 +1,20 @@
-define ['angular', 'lodash','lib/angular-route','lib/ui-ace','Restangular'], (angular, _) ->
+define [
+	'angular'
+	'lodash'
+	'auth0-widget'
+	'lib/angular-route'
+	'lib/ui-ace'
+	'Restangular'
+], (angular, _, Auth0Widget) ->
 	'use strict'
-	angular.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver']
+	angular.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver', 'auth0']
 	.config [
-		'$routeProvider',	'$locationProvider', '$httpProvider'
-		'RestangularProvider', 'RouteResolverProvider'
+		'$routeProvider'
+		'$locationProvider'
+		'$httpProvider'
+		'RestangularProvider'
+		'RouteResolverProvider'
+		'authProvider'
 		(args...) ->
 			[
 				$routeProvider
@@ -11,7 +22,14 @@ define ['angular', 'lodash','lib/angular-route','lib/ui-ace','Restangular'], (an
 				$httpProvider
 				restProvider
 				routeResolver
+				authProvider
 			] = args
+			authProvider.init
+				domain: 'mean-ads.auth0.com'
+				clientID: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
+				loginUrl: '/login'
+				Auth0Widget
+			$httpProvider.interceptors.push 'authInterceptor'
 
 			restProvider.setBaseUrl '/api/v1'
 			restProvider.setDefaultHttpFields cache: false
@@ -24,8 +42,8 @@ define ['angular', 'lodash','lib/angular-route','lib/ui-ace','Restangular'], (an
 			_routeResolver 'Campaign', ['Create', 'Update', 'List']
 			_routeResolver 'Subscription', ['Create', 'Update', 'List']
 			_routeResolver 'Style', ['Create', 'Update', 'List']
+			_routeResolver 'Login'
 
 			$routeProvider.otherwise redirectTo: '/dashboards'
-
 			$locationProvider.html5Mode false
 	]

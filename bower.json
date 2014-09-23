@@ -13,6 +13,7 @@
     "restangular": "~1.4.0",
     "lodash": "~2.4.1",
     "angular-ui-ace": "bower",
-    "ace-builds": "~1.1.6"
+    "ace-builds": "~1.1.6",
+    "auth0-angular": "~2.2.8"
   }
 }
