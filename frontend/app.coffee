@@ -7,7 +7,9 @@ define [
 	'Restangular'
 ], (angular, _, Auth0Widget) ->
 	'use strict'
-	angular.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver', 'auth0']
+	angular
+	.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver', 'auth0']
+	.run ['auth', (auth) -> auth.hookEvents() ]
 	.config [
 		'$routeProvider'
 		'$locationProvider'
