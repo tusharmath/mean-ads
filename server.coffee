@@ -10,9 +10,9 @@ global.injector = new di.Injector
 process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || 'development'
 config = require './backend/config/config'
 logger.options = config.bragi.options
+
 app = express()
-require('./backend/config/express') app
-require('./backend/routes') app
+require('./backend/express') app
 
 # Start server
 app.listen config.port, config.ip, ->
