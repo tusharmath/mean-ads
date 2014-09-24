@@ -4,7 +4,8 @@ di = require 'di'
 
 globOptions =
 	cwd: './backend/controllers'
-	sync: false
+	# TODO: Need to convert ot async for better performance
+	sync: true
 
 class ControllerManager
 	constructor: ->
