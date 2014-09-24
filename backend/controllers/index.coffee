@@ -4,7 +4,7 @@ di = require 'di'
 
 globOptions =
 	cwd: './backend/controllers'
-	sync: true
+	sync: false
 
 class ControllerManager
 	constructor: ->
