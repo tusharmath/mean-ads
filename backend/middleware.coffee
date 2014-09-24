@@ -1,15 +1,17 @@
 config = require './config/config'
+jwt = require 'express-jwt'
+
+jwtCheck = jwt(
+	secret: new Buffer config.jwt.secret, 'base64'
+	audience: config.jwt.clientId
+)
+
 module.exports =
 	#Protect routes on your api from unauthenticated access
 	auth: (req, res, next) ->
-		return next() if req.isAuthenticated()
-		res.send 401
-
-	#Set a cookie for angular so it knows we have an http session
-	cors: (req, res, next) ->
-		cors = [
-			"https://#{config.jwt.domain}/usernamepassword/login"
-		]
-		res.header "Access-Control-Allow-Origin", cors.join()
-		res.header "Access-Control-Allow-Headers", "X-Requested-With"
-		next()
+		_next = (err) ->
+			return do next if req.user
+			res
+			.status 401
+			.send err
+		jwtCheck req, res, _next
