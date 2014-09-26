@@ -42,7 +42,7 @@ define [
 			_routeResolver 'Dashboard'
 			_routeResolver 'Login'
 			_routeResolver 'Program', ['Create', 'Update', 'List']
-			_routeResolver 'Campaign', ['Create', 'Update', 'List']
+			_routeResolver 'Campaign', ['Create', 'Update', 'List', 'Metrics']
 			_routeResolver 'Subscription', ['Create', 'Update', 'List']
 			_routeResolver 'Style', ['Create', 'Update', 'List']
 
