@@ -18,7 +18,7 @@ div.panel.panel-default
 					td
 						.text-capitalize {{program.name}}
 					td
-						a.text-capitalize(ng-href="#/styles/{{program.style._id}}" ng-show="program.style")
+						a.text-capitalize(ng-href="#/styles/{{program.style._id}}/update" ng-show="program.style")
 							| {{program.style.name}}
 						strong.text-warning(ng-hide="program.style") Not Set
 					td

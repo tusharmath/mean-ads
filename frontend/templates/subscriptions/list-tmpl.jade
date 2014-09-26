@@ -8,7 +8,7 @@ div.panel.panel-default
 			thead
 				tr.text-capitalize
 					th Subscription
-					th.text-right Subscription
+					th.text-right Start Date
 					th Credits
 					th Campaign
 					th.text-right Actions
@@ -22,6 +22,8 @@ div.panel.panel-default
 							span &nbsp;/&nbsp;
 							span {{subs.totalCredits}}
 					td
-						a(ng-href="#/campaigns/{{subs.campaign._id}}") {{subs.campaign.name}}
+						a(ng-href="#/campaigns/{{subs.campaign._id}}/update") {{subs.campaign.name}}
 					td.text-right
-						a.btn.btn-default.btn-xs(ng-href="#/subscriptions/{{subs._id}}") Details
+						a.btn.btn-default.btn-xs(ng-href="#/subscriptions/{{subs._id}}/update") Update
+						&nbsp;
+						a.btn.btn-default.btn-xs(ng-href="#/subscriptions/{{subs._id}}/metrics") Metrics

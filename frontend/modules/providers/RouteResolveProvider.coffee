@@ -20,7 +20,7 @@ define ["angular"], (angular) ->
 				when 'Index' then "/#{resourcePath}"
 				when 'List' then "/#{resourcePath}s"
 				when 'Create' then "/#{resourcePath}s/create"
-				when 'Update' then "/#{resourcePath}s/:id"
+				when 'Update' then "/#{resourcePath}s/:id/update"
 
 		resolve: (routeProvider, resource, actions = ['Index']) =>
 
