@@ -4,7 +4,8 @@ define ["app", "lodash"], (app, _) ->
 			rest.one('campaigns', @route.id).get().then (@campaign) =>
 			rest.all('programs').getList().then (@programs) =>
 		save: () ->
-			@campaign.keywords = _.compact @campaign.keywords.split /[\s,.|]/
+			if @campaign.keywords instanceof Array is no
+				@campaign.keywords = _.compact @campaign.keywords.split /[\s,.|]/
 			@rest
 			.one 'campaigns', @campaign._id
 			.patch @campaign
