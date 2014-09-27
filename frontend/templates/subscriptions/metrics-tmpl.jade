@@ -14,11 +14,11 @@
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Initial status of the subscription") Inception]
-			.col-md-3 #[big Impressions]
+			.col-md-3 #[big.text-capitalize {{ctrl.program.gauge}}]
 
-			.col-md-2 #[big 234]
-			.col-md-3 #[big 20-Jan-2014]
-			.col-md-2 #[big 234] Days
+			.col-md-2 #[big {{ctrl.subscription.totalCredits}}]
+			.col-md-3 #[big {{ctrl.subscription.startDate|date}}]
+			.col-md-2 #[big {{ctrl.campaign.days}}] Days
 
 		hr
 		.row.text-muted.text-uppercase
@@ -29,9 +29,10 @@
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Subscription performance till date") Accomplishment]
-			.col-md-3 #[big 234]
-			.col-md-2 #[big 123]
-			.col-md-2 #[big 345] Days
+
+			.col-md-3 #[big {{ctrl.campaign.commitment}}]
+			.col-md-2 #[big {{ctrl.subscription.usedCredits}}]
+			.col-md-2 #[big {{ctrl.elapsedTime_days}}] Days
 
 		hr
 		.row.text-muted.text-uppercase
@@ -42,8 +43,9 @@
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Expected performance of the subscription") Potential]
-			.col-md-3 #[big 500]
-			.col-md-2 #[big 370]
+			.col-md-3 #[big {{ctrl.creditAnticipation}}]
+			.col-md-2 #[big {{ctrl.creditPotentialUsage}}]
 			.col-md-2
 				big
-					abbr(title="Ratio of actual vs anticipated consumption of credits") 170%
+					abbr(title="Ratio of actual vs anticipated consumption of credits")
+						| {{ctrl.fulfillment}}%
