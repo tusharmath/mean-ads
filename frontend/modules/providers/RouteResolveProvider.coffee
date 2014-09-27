@@ -4,11 +4,13 @@ define ["angular"], (angular) ->
 		$get: -> {@resolve}
 
 		getTemplateUrl: (resource, action) ->
-			return "templates/#{resource}-tmpl"
-			.toLowerCase() if action is 'Index'
-
-			"templates/#{resource}s/#{action}-tmpl"
-			.toLowerCase()
+			resource_lc = resource.toLowerCase()
+			action_lc = action.toLowerCase()
+			switch action_lc
+				when 'index' then "templates/#{resource_lc}-tmpl"
+				when 'update' then "templates/#{resource_lc}s/alter-tmpl"
+				when 'create' then "templates/#{resource_lc}s/alter-tmpl"
+				else "templates/#{resource_lc}s/#{action_lc}-tmpl"
 
 		getController: (resource, action) ->
 			return "#{resource}Ctrl as ctrl" if action is 'Index'

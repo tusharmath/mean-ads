@@ -15,6 +15,7 @@ define ["app"], (app) ->
 				@loc.path '/subscriptions'
 
 		onCampaignSelect: () =>
+			# TODO: Callback hell
 			@rest
 			.one 'campaigns', @subscription.campaign
 			.get()
