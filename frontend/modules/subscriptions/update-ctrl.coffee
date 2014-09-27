@@ -23,6 +23,9 @@ define ["app"], (app) ->
 				.one 'programs', @campaign.program
 				.get()
 				.then (@program) =>
+					@rest.one 'styles', @program.style
+					.get()
+					.then (@style) =>
 
 	SubscriptionUpdateCtrl.$inject = ["Restangular", "$location", '$routeParams']
 	app.controller 'SubscriptionUpdateCtrl', SubscriptionUpdateCtrl
