@@ -45,8 +45,11 @@ class BaseController
 
 	# [GET] /resource/:id
 	first: (req, res) ->
-		@model.findById req.params.id, (err, data) ->
-			return res.send err, 400 if err
+		@model
+		.findById req.params.id
+		.populate @_populate || ''
+		.exec (err, data) ->
+			return res.status(400).send err if err
 			res.send data
 
 BaseController.annotations = [
