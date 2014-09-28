@@ -2,7 +2,6 @@ define ["app", "lodash"], (app, _) ->
 	class StyleAlterCtrl
 		constructor: (@rest, @interpolate, @first, @alter) ->
 			@style = @first.load 'styles'
-			console.log @style
 
 		# TODO: Move to a service
 		getPlaceholders: ->

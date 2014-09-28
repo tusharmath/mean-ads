@@ -1,8 +1,7 @@
 define ["app", "lodash"], (app, _) ->
 	class CampaignAlterCtrl
 		constructor: (@rest, @route, @alter) ->
-			if @route.id
-				rest.one('campaigns', @route.id).get().then (@campaign) =>
+			@campaign = @first.load 'campaigns'
 			rest.all('programs').getList().then (@programs) =>
 
 		save: () ->

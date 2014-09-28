@@ -2,9 +2,7 @@ define ["app"], (app) ->
 	class SubscriptionAlterCtrl
 
 		constructor: (@rest, @alter, @route) ->
-			@rest.one 'subscriptions', @route.id
-			.get()
-			.then (@subscription) =>
+			@subscription = @first.load 'subscriptions'
 			@rest.all('campaigns').getList().then (@campaigns) =>
 				do @onCampaignSelect
 
@@ -24,5 +22,7 @@ define ["app"], (app) ->
 					.get()
 					.then (@style) =>
 
-	SubscriptionAlterCtrl.$inject = ["Restangular", "AlterPersistenceService", '$routeParams']
+	SubscriptionAlterCtrl.$inject = [
+		"Restangular", "AlterPersistenceService", '$routeParams'
+	]
 	app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl
