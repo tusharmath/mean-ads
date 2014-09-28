@@ -1,11 +1,8 @@
 define ["app", "lodash"], (app, _) ->
 	class StyleAlterCtrl
-		constructor: (@rest, @interpolate, @route, @alter) ->
-			if @route.id
-				@rest
-				.one 'styles', @route.id
-				.get()
-				.then (@style) =>
+		constructor: (@rest, @interpolate, @first, @alter) ->
+			@style = @first.load 'styles'
+			console.log @style
 
 		# TODO: Move to a service
 		getPlaceholders: ->
@@ -32,7 +29,7 @@ define ["app", "lodash"], (app, _) ->
 	StyleAlterCtrl.$inject = [
 		'Restangular'
 		'$interpolate'
-		'$routeParams'
+		'FirstDocumentLoaderService'
 		'AlterPersistenceService'
 		]
 	app.controller 'StyleAlterCtrl', StyleAlterCtrl
