@@ -1,8 +1,8 @@
 define ["app"], (app) ->
 	class ProgramAlterCtrl
 		constructor: (@rest, @route, @alter) ->
-			rest.one('programs', @route.id).get().then (@program) =>
-				@program.style = @program.style._id
+			if @route.id
+				rest.one('programs', @route.id).get().then (@program) =>
 			rest.all('styles').getList().then (@styles) =>
 		save: () ->
 			@alter.persist 'programs', @program
