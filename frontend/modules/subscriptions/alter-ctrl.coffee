@@ -1,28 +1,34 @@
 define ["app"], (app) ->
 	class SubscriptionAlterCtrl
 
-		constructor: (@rest, @alter) ->
+		constructor: (@rest, @alter, @q) ->
 
 			@alter.bootstrap @, 'subscription'
 
 			@rest.all('campaigns').getList().then (@campaigns) =>
 				do @onCampaignSelect
 
-		onCampaignSelect: () =>
-			# TODO: Callback hell
+		_loadCampaign: =>
 			@rest
 			.one 'campaigns', @subscription.campaign
 			.get()
-			.then (@campaign) =>
-				@rest
-				.one 'programs', @campaign.program
-				.get()
-				.then (@program) =>
-					@rest.one 'styles', @program.style
-					.get()
-					.then (@style) =>
+
+		_loadProgram: (@campaign) =>
+			@rest
+			.one 'programs', @campaign.program
+			.get()
+
+		_loadStyle: (@program) =>
+			@rest.one 'styles', @program.style
+			.get()
+			.then (@style) =>
+
+		onCampaignSelect: () =>
+			@_loadCampaign()
+			.then @_loadProgram
+			.then @_loadStyle
 
 	SubscriptionAlterCtrl.$inject = [
-		"Restangular", "AlterControllerExtensionService"
+		"Restangular", "AlterControllerExtensionService", '$q'
 	]
 	app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl
