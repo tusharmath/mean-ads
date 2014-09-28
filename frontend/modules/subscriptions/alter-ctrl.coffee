@@ -1,18 +1,14 @@
 define ["app"], (app) ->
 	class SubscriptionAlterCtrl
 
-		constructor: (@rest, @loc, @route) ->
+		constructor: (@rest, @alter, @route) ->
 			@rest.one 'subscriptions', @route.id
 			.get()
 			.then (@subscription) =>
 			@rest.all('campaigns').getList().then (@campaigns) =>
 				do @onCampaignSelect
-		save: () ->
-			@rest
-			.one 'subscriptions', @subscription._id
-			.patch @subscription
-			.then () =>
-				@loc.path '/subscriptions'
+
+		save: () -> @alter.persist 'styles', @style
 
 		onCampaignSelect: () =>
 			# TODO: Callback hell
@@ -28,5 +24,5 @@ define ["app"], (app) ->
 					.get()
 					.then (@style) =>
 
-	SubscriptionAlterCtrl.$inject = ["Restangular", "$location", '$routeParams']
+	SubscriptionAlterCtrl.$inject = ["Restangular", "AlterPersistenceService", '$routeParams']
 	app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl

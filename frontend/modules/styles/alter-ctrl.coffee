@@ -1,6 +1,6 @@
 define ["app", "lodash"], (app, _) ->
 	class StyleAlterCtrl
-		constructor: (@rest, @loc, @interpolate, @route) ->
+		constructor: (@rest, @interpolate, @route, @alter) ->
 			@rest.one 'styles', @route.id
 			.get()
 			.then (@style) =>
@@ -25,12 +25,13 @@ define ["app", "lodash"], (app, _) ->
 			@interpolation = @getStyleTags() + template context
 
 		save: () ->
-			@style.placeholders = @getPlaceholders()
-			@rest
-			.one 'styles', @style._id
-			.patch @style
-			.then () =>
-				@loc.path '/styles'
+			@alter.persist 'styles', @style
 
-	StyleAlterCtrl.$inject = ["Restangular", "$location", "$interpolate", "$routeParams"]
+	StyleAlterCtrl.$inject = [
+		'Restangular'
+		'$location'
+		'$interpolate'
+		'$routeParams'
+		'AlterPersistenceService'
+		]
 	app.controller 'StyleAlterCtrl', StyleAlterCtrl
