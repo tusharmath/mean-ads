@@ -1,5 +1,5 @@
 define ["app"], (app) ->
-	class SubscriptionUpdateCtrl
+	class SubscriptionAlterCtrl
 
 		constructor: (@rest, @loc, @route) ->
 			@rest.one 'subscriptions', @route.id
@@ -28,5 +28,5 @@ define ["app"], (app) ->
 					.get()
 					.then (@style) =>
 
-	SubscriptionUpdateCtrl.$inject = ["Restangular", "$location", '$routeParams']
-	app.controller 'SubscriptionUpdateCtrl', SubscriptionUpdateCtrl
+	SubscriptionAlterCtrl.$inject = ["Restangular", "$location", '$routeParams']
+	app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl

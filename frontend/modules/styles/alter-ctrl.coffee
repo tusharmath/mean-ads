@@ -1,5 +1,5 @@
 define ["app", "lodash"], (app, _) ->
-	class StyleUpdateCtrl
+	class StyleAlterCtrl
 		constructor: (@rest, @loc, @interpolate, @route) ->
 			@rest.one 'styles', @route.id
 			.get()
@@ -32,5 +32,5 @@ define ["app", "lodash"], (app, _) ->
 			.then () =>
 				@loc.path '/styles'
 
-	StyleUpdateCtrl.$inject = ["Restangular", "$location", "$interpolate", "$routeParams"]
-	app.controller 'StyleUpdateCtrl', StyleUpdateCtrl
+	StyleAlterCtrl.$inject = ["Restangular", "$location", "$interpolate", "$routeParams"]
+	app.controller 'StyleAlterCtrl', StyleAlterCtrl

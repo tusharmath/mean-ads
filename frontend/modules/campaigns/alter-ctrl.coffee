@@ -1,5 +1,5 @@
 define ["app", "lodash"], (app, _) ->
-	class CampaignUpdateCtrl
+	class CampaignAlterCtrl
 		constructor: (@rest, @loc, @route) ->
 			rest.one('campaigns', @route.id).get().then (@campaign) =>
 			rest.all('programs').getList().then (@programs) =>
@@ -11,5 +11,5 @@ define ["app", "lodash"], (app, _) ->
 			.patch @campaign
 			.then () => @loc.path '/campaigns'
 
-	CampaignUpdateCtrl.$inject = ["Restangular", "$location" , '$routeParams']
-	app.controller 'CampaignUpdateCtrl', CampaignUpdateCtrl
+	CampaignAlterCtrl.$inject = ["Restangular", "$location" , '$routeParams']
+	app.controller 'CampaignAlterCtrl', CampaignAlterCtrl
