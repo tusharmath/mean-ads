@@ -31,12 +31,12 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
-	gulp.src 'frontend/**/update-tmpl.jade'
+	gulp.src 'frontend/**/update-ctrl.coffee'
 	.pipe clean()
 	.pipe rename (path) ->
-		dirname = path.dirname.replace 'modules', 'templates'
+		# dirname = path.dirname.replace 'modules', 'templates'
 		console.log path
-		path.basename = 'alter-tmpl'
+		path.basename = 'alter-ctrl'
 		return undefined
 	.pipe gulp.dest 'frontend'
 
