@@ -3,7 +3,7 @@ inject = require 'gulp-inject'
 bowerFiles = require 'main-bower-files'
 bowerInstall = require 'gulp-bower'
 rename = require 'gulp-rename'
-
+clean = require 'gulp-clean'
 gulp.task 'bower-install', -> bowerInstall()
 
 # TODO: remove bower-copy
@@ -31,12 +31,14 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
-	gulp.src 'frontend/**/*.jade'
+	gulp.src 'frontend/**/update-tmpl.jade'
+	.pipe clean()
 	.pipe rename (path) ->
 		dirname = path.dirname.replace 'modules', 'templates'
-		# console.log dirname
-		path.dirname = dirname
+		console.log path
+		path.basename = 'alter-tmpl'
 		return undefined
 	.pipe gulp.dest 'frontend'
+
 
 gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules']
