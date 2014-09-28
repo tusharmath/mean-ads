@@ -1,12 +1,10 @@
 define ["app"], (app) ->
 	class ProgramAlterCtrl
-		constructor: (@rest, @route, @alter) ->
-			@program = @first.load 'programs'
+		constructor: (@rest, @alter) ->
+			@alter.bootstrap @, 'program'
 			rest.all('styles').getList().then (@styles) =>
-		save: () ->
-			@alter.persist 'programs', @program
 
 	ProgramAlterCtrl.$inject = [
-		"Restangular", "$routeParams", 'AlterPersistenceService'
+		"Restangular", 'AlterControllerExtensionService'
 	]
 	app.controller 'ProgramAlterCtrl', ProgramAlterCtrl

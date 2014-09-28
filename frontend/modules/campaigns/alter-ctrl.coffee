@@ -1,15 +1,16 @@
 define ["app", "lodash"], (app, _) ->
 	class CampaignAlterCtrl
-		constructor: (@rest, @route, @alter) ->
-			@campaign = @first.load 'campaigns'
+		constructor: (@rest, @alter) ->
+
+			@alter.bootstrap @, 'campaign'
+
 			rest.all('programs').getList().then (@programs) =>
 
-		save: () ->
+		beforeSave: () ->
 			if @campaign.keywords instanceof Array is false
 				@campaign.keywords = _.compact @campaign.keywords.split /[\s,.|]/
-			@alter.persist 'campaigns', @campaign
 
 	CampaignAlterCtrl.$inject = [
-		"Restangular" , '$routeParams', 'AlterPersistenceService'
+		"Restangular" , 'AlterControllerExtensionService'
 	]
 	app.controller 'CampaignAlterCtrl', CampaignAlterCtrl

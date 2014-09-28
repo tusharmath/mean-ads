@@ -1,7 +1,7 @@
 define ["app", "lodash"], (app, _) ->
 	class StyleAlterCtrl
-		constructor: (@rest, @interpolate, @first, @alter) ->
-			@style = @first.load 'styles'
+		constructor: (@rest, @interpolate, @alter) ->
+			@alter.bootstrap @, 'style'
 
 		# TODO: Move to a service
 		getPlaceholders: ->
@@ -22,13 +22,10 @@ define ["app", "lodash"], (app, _) ->
 			_.each data, (key) -> context[key] = key
 			@interpolation = @getStyleTags() + template context
 
-		save: () ->
-			@alter.persist 'styles', @style
 
 	StyleAlterCtrl.$inject = [
 		'Restangular'
 		'$interpolate'
-		'FirstDocumentLoaderService'
-		'AlterPersistenceService'
+		'AlterControllerExtensionService'
 		]
 	app.controller 'StyleAlterCtrl', StyleAlterCtrl

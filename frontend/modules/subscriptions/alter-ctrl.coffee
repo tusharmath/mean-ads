@@ -1,12 +1,12 @@
 define ["app"], (app) ->
 	class SubscriptionAlterCtrl
 
-		constructor: (@rest, @alter, @route) ->
-			@subscription = @first.load 'subscriptions'
+		constructor: (@rest, @alter) ->
+
+			@alter.bootstrap @, 'subscription'
+
 			@rest.all('campaigns').getList().then (@campaigns) =>
 				do @onCampaignSelect
-
-		save: () -> @alter.persist 'styles', @style
 
 		onCampaignSelect: () =>
 			# TODO: Callback hell
@@ -23,6 +23,6 @@ define ["app"], (app) ->
 					.then (@style) =>
 
 	SubscriptionAlterCtrl.$inject = [
-		"Restangular", "AlterPersistenceService", '$routeParams'
+		"Restangular", "AlterControllerExtensionService"
 	]
 	app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl
