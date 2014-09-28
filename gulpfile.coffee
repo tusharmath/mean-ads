@@ -40,5 +40,8 @@ gulp.task 'move-files', ->
 		return undefined
 	.pipe gulp.dest 'frontend'
 
+gulp.task 'watch', ->
+	gulp.watch 'frontend/modules/**/*.coffee', ['inject-modules']
+	gulp.watch 'bower.json', ['setup-assets']
 
 gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules']
