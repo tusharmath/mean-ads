@@ -3,7 +3,7 @@ inject = require 'gulp-inject'
 bowerFiles = require 'main-bower-files'
 bowerInstall = require 'gulp-bower'
 rename = require 'gulp-rename'
-clean = require 'gulp-clean'
+
 gulp.task 'bower-install', -> bowerInstall()
 
 # TODO: remove bower-copy
@@ -31,6 +31,7 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
+	clean = require 'gulp-clean'
 	gulp.src 'frontend/**/update-ctrl.coffee'
 	.pipe clean()
 	.pipe rename (path) ->
