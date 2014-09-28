@@ -8,13 +8,18 @@ define ["angular"], (angular) ->
 			action_lc = action.toLowerCase()
 			switch action_lc
 				when 'index' then "templates/#{resource_lc}-tmpl"
-				when 'update' then "templates/#{resource_lc}s/alter-tmpl"
 				when 'create' then "templates/#{resource_lc}s/alter-tmpl"
+				when 'update' then "templates/#{resource_lc}s/alter-tmpl"
 				else "templates/#{resource_lc}s/#{action_lc}-tmpl"
 
 		getController: (resource, action) ->
-			return "#{resource}Ctrl as ctrl" if action is 'Index'
-			"#{resource}#{action}Ctrl as ctrl"
+			resource_lc = resource.toLowerCase()
+			action_lc = action.toLowerCase()
+			switch action_lc
+				when 'index' then "#{resource}Ctrl as ctrl"
+				when 'create' then "#{resource}AlterCtrl as ctrl"
+				when 'update' then "#{resource}AlterCtrl as ctrl"
+				else "#{resource}#{action}Ctrl as ctrl"
 
 		getRoute: (resource, action) ->
 			resourcePath = resource.toLowerCase()
