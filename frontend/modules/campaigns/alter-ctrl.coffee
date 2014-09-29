@@ -1,6 +1,6 @@
 define ["app", "lodash"], (app, _) ->
 	class CampaignAlterCtrl
-		constructor: (@rest, @alter) ->
+		constructor: (@rest, @alter, @tok) ->
 
 			@alter.bootstrap @, 'campaign'
 
@@ -10,6 +10,6 @@ define ["app", "lodash"], (app, _) ->
 			@campaign.keywords = @tok.tokenize @campaign.keywords
 
 	CampaignAlterCtrl.$inject = [
-		"Restangular" , 'AlterControllerExtensionService'
+		"Restangular" , 'AlterControllerExtensionService', 'TokenizerService'
 	]
 	app.controller 'CampaignAlterCtrl', CampaignAlterCtrl
