@@ -7,8 +7,7 @@ define ["app", "lodash"], (app, _) ->
 			rest.all('programs').getList().then (@programs) =>
 
 		beforeSave: () ->
-			if @campaign.keywords instanceof Array is false
-				@campaign.keywords = _.compact @campaign.keywords.split /[\s,.|]/
+			@campaign.keywords = @tok.tokenize @campaign.keywords
 
 	CampaignAlterCtrl.$inject = [
 		"Restangular" , 'AlterControllerExtensionService'
