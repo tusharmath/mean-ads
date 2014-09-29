@@ -1,51 +1,51 @@
 .panel.panel-info
 	.panel-heading
-		h4 Dentists and Retards
+		h4
+			a(href="#/subscriptions/{{ctrl.subscription._id}}/update") {{ctrl.subscription.client}}
 			.pull-right
-				span.left-space.label.label-warning Expired
-				span.left-space.label.label-danger Inactive
+				span.left-space.label.label-warning(ng-show="ctrl.isExpired") Expired
+				span.left-space.label.label-danger(ng-show="ctrl.isInActive") Inactive
 	.panel-body
 		.row.text-muted.text-uppercase
 			.col-md-3.col-md-offset-2 Gauge
-			.col-md-2 Credits
+			.col-md-3 Total Credits
 			.col-md-3 Start Date
-			.col-md-2 Total Time
 
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Initial status of the subscription") Inception]
 			.col-md-3 #[big.text-capitalize {{ctrl.program.gauge}}]
-
-			.col-md-2 #[big {{ctrl.subscription.totalCredits}}]
+			.col-md-3 #[big {{ctrl.subscription.totalCredits}}]
 			.col-md-3 #[big {{ctrl.subscription.startDate|date}}]
-			.col-md-2 #[big {{ctrl.campaign.days}}] Days
 
 		hr
 		.row.text-muted.text-uppercase
-			.col-md-3.col-md-offset-2 Credit Anticipation
-			.col-md-2 Credit Usage
+			.col-md-3.col-md-offset-2 expected credit usage
+			.col-md-3 observed credit usage
 			.col-md-2 Elapsed Time
 
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Subscription performance till date") Accomplishment]
-
-			.col-md-3 #[big {{ctrl.campaign.commitment}}]
-			.col-md-2 #[big {{ctrl.subscription.usedCredits}}]
+			.col-md-3
+				big {{ctrl.creditAnticipation | number: 0 }}
+			.col-md-3
+				big {{ctrl.subscription.usedCredits}}
 			.col-md-2 #[big {{ctrl.elapsedTime_days}}] Days
 
 		hr
 		.row.text-muted.text-uppercase
-			.col-md-3.col-md-offset-2 Credit Anticipation
-			.col-md-2 Credit Usage
-			.col-md-4 Fulfillment
+
+			.col-md-3.col-md-offset-2 Credit Usage
+			.col-md-3 Fulfillment
+			.col-md-3 Total Time
 
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
-				small #[abbr(title="Expected performance of the subscription") Potential]
-			.col-md-3 #[big {{ctrl.creditAnticipation}}]
-			.col-md-2 #[big {{ctrl.creditPotentialUsage}}]
-			.col-md-2
+				small #[abbr(title="Expected performance of the subscription") Extrapolated]
+			.col-md-3 #[big {{ctrl.creditPotentialUsage| number: 0}}]
+			.col-md-3
 				big
 					abbr(title="Ratio of actual vs anticipated consumption of credits")
-						| {{ctrl.fulfillment}}%
+						| {{ctrl.fulfillment| number: 1}}%
+			.col-md-3 #[big {{ctrl.campaign.days}}] Days
