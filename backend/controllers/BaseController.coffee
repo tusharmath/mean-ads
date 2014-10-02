@@ -5,6 +5,7 @@ _ = require 'lodash'
 
 class BaseController
 	constructor: (@modelManager) ->
+		@_filterKeys = []
 
 	createReqMutator: (reqBody) -> Q.fcall ->reqBody
 	# [POST] /resource
@@ -17,7 +18,6 @@ class BaseController
 					return res
 					.status 400
 					.send err
-
 				res.send resource
 
 	# TODO: Use a patch mutator to ignore/add keys
@@ -27,6 +27,14 @@ class BaseController
 		.findByIdAndUpdate req.params.id, req.body, (err) ->
 			return res.send err, 400 if err
 			res.send resource
+
+	# [GET] /resource/$count
+	count: (req, res) ->
+		@model
+		.count _.pick req.query, @_filterKeys
+		.exec (err, count) ->
+			return res.send err, 400 if err
+			res.send {count}
 
 	# [GET] /resource
 	list: (req, res) ->
