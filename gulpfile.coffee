@@ -32,12 +32,16 @@ gulp.task 'inject-modules', ->
 
 gulp.task 'move-files', ->
 	clean = require 'gulp-clean'
-	gulp.src 'frontend/**/update-ctrl.coffee'
+
+	gulp.src 'frontend/**/*ctrl.coffee'
 	.pipe clean()
 	.pipe rename (path) ->
 		# dirname = path.dirname.replace 'modules', 'templates'
-		console.log path
-		path.basename = 'alter-ctrl'
+		# console.log path
+		basename = path.basename.replace /\-ctrl/, 'Ctrl'
+		basename = basename.replace /.?/, basename[0].toUpperCase()
+		# console.log basename
+		path.basename = basename
 		return undefined
 	.pipe gulp.dest 'frontend'
 
