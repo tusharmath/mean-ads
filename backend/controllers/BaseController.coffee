@@ -57,7 +57,7 @@ class BaseController
 		.findById req.params.id
 		.exec (err, data) ->
 			return res.status(400).send err if err
-			return res.send error: 'Document not found', 404
+			return res.send error: 'Document not found', 404 if not data
 			res.send data
 
 BaseController.annotations = [
