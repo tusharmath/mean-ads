@@ -24,7 +24,7 @@
 
 		hr
 		.row.text-muted.text-uppercase
-			.col-md-3.col-md-offset-2 Credit Distribution
+			.col-md-3.col-md-offset-2 Credits Allocated
 			.col-md-3 observed credit usage
 			.col-md-3 Fulfillment
 
@@ -35,4 +35,4 @@
 				big #[abbr(title="Average credit consumption per day") {{ctrl.creditDistribution}}]
 			.col-md-3
 				big {{ctrl.creditUsage}}
-			.col-md-3 #[big {{ctrl.fulfillment}}] %
+			.col-md-3 #[big {{ctrl.fulfillment  | number: 1}}] %
