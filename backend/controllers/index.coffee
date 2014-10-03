@@ -13,5 +13,6 @@ class ControllerManager
 		glob '*Controller.coffee', globOptions , (er, files) =>
 			_.each files, (file) =>
 				file = file.replace '\.coffee', ''
-				@controllers[file] = injector.get require "./#{file}"
+				if file isnt 'BaseController'
+					@controllers[file] = injector.get require "./#{file}"
 module.exports = ControllerManager
