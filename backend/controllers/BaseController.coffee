@@ -9,7 +9,7 @@ class BaseController
 
 	createReqMutator: (reqBody) -> Q.fcall ->reqBody
 	# [POST] /resource
-	create: (req, res) ->
+	$create: (req, res) ->
 		@createReqMutator req.body
 		.then (reqBody) =>
 			resource = new @model req.body
@@ -22,14 +22,14 @@ class BaseController
 
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
-	update: (req, res) ->
+	$update: (req, res) ->
 		resource = @model
 		.findByIdAndUpdate req.params.id, req.body, (err) ->
 			return res.send err, 400 if err
 			res.send resource
 
 	# [GET] /resource/$count
-	count: (req, res) ->
+	$count: (req, res) ->
 		@model
 		.count _.pick req.query, @_filterKeys
 		.exec (err, count) ->
@@ -37,7 +37,7 @@ class BaseController
 			res.send {count}
 
 	# [GET] /resource
-	list: (req, res) ->
+	$list: (req, res) ->
 		@model
 		.find {}
 		.populate @_populate || ''
@@ -47,12 +47,12 @@ class BaseController
 			res.send data
 
 	# [DELETE] /resource/:id
-	remove: (req, res) ->
+	$remove: (req, res) ->
 		@model
 		.findByIdAndRemove req.params.id, -> res.send 'DELETED'
 
 	# [GET] /resource/:id
-	first: (req, res) ->
+	$first: (req, res) ->
 		@model
 		.findById req.params.id
 		.exec (err, data) ->

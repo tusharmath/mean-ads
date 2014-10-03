@@ -3,27 +3,22 @@ config = require '../config/config'
 _ = require 'lodash'
 Controllers = require '../controllers'
 di = require 'di'
-{resources, actionMap} = require './conventions'
+{actionMap} = require './conventions'
 class V1
 	constructor: (ctrlManager) ->
 		@router = express.Router()
 		controllers = ctrlManager.controllers
-		_.each resources, (resource) =>
-			ctrlName = @extractControllerName resource
-			ctrl = controllers[ctrlName]
-			if ctrl
-				_.each actionMap, (map) =>
-					[action, method, _route] = map
-					if ctrl[action]
-						@router[method] _route(resource), _.bind(ctrl[action], ctrl)
-
+		_.each controllers, (ctrl, ctrlName) =>
+			_.forIn ctrl, (action, actionName) =>
+				if actionName[0] is '$'
+					[method, _route] = actionMap[actionName]
+					resourceName = @_getResourceName ctrlName
+					@router[method] _route("#{resourceName}s"), _.bind(action, ctrl)
 
 		# Bad Requests
 		@router.use '*', (req, res) -> res.send error: 'Service not found', 404
-	extractControllerName: (str) ->
-		str
-		.replace /^./, str[0].toUpperCase()
-		.replace /s$/, 'Controller'
+
+	_getResourceName: (ctrlName) -> ctrlName.toLowerCase().replace 'controller', ''
 
 
 di.annotate V1, new di.Inject Controllers

@@ -11,7 +11,7 @@ class AdController
 		.findByIdAndUpdate subscription._id, {usedCredits}
 		.exec -> console.log 'Credits updated', {usedCredits}
 
-	first: (req, res) ->
+	$first: (req, res) ->
 		@model
 		.find campaignProgramId : req.params.id
 		.where 	'campaignKeywords', req.query.keywords
