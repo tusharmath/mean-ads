@@ -1,0 +1,38 @@
+.panel.panel-info
+	.panel-heading
+		h4
+			a(href="#/campaigns/{{ctrl.campaign._id}}/update") {{ctrl.campaign.name}}
+			.pull-right
+				small
+					a(href="#/subscriptions?campaign={{ctrl.campaign._id}}") {{ctrl.subscriptionCount}} Subscription(s)
+	.panel-body
+		.row.text-muted.text-uppercase
+			.col-md-3.col-md-offset-2 Gauge
+			.col-md-3 Credits
+			.col-md-3 Duration
+
+		.row.text-default.lead
+			.col-md-2.text-info.text-right
+				small #[abbr(title="Initial status of the campaign") Inception]
+			.col-md-3 #[big.text-capitalize {{ctrl.program.gauge}}]
+			.col-md-3
+				big
+					span.right-space #[abbr(title="Average credit usage per day") {{ctrl.avgCommitment}}]
+				small {{ctrl.campaign.commitment}}
+
+			.col-md-3 #[big {{ctrl.campaign.days}} days]
+
+		hr
+		.row.text-muted.text-uppercase
+			.col-md-3.col-md-offset-2 Credit Distribution
+			.col-md-3 observed credit usage
+			.col-md-3 Fulfillment
+
+		.row.text-default.lead
+			.col-md-2.text-info.text-right
+				small #[abbr(title="Subscription performance till date") Accomplishment]
+			.col-md-3
+				big #[abbr(title="Average credit consumption per day") {{ctrl.creditDistribution}}]
+			.col-md-3
+				big {{ctrl.creditUsage}}
+			.col-md-3 #[big {{ctrl.fulfillment}}] %
