@@ -5,13 +5,3 @@ exports.actionMap =
 	'$first': ['get', (str) -> "/#{str}/:id"]
 	'$update': ['patch', (str) -> "/#{str}/:id"]
 	'$remove': ['delete', (str) -> "/#{str}/:id"]
-
-
-# exports.resources = [
-# 		'programs'
-# 		'styles'
-# 		'keywords'
-# 		'subscriptions'
-# 		'campaigns',
-# 		'ads'
-# ]
