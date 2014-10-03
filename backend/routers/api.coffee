@@ -14,8 +14,7 @@ class V1
 			_.forIn ctrl, (action, actionName) =>
 				if actionName[0] is '$'
 					[method, _route] = actionMap[actionName] or ctrl.actionMap[actionName]
-					route = _route("#{@_getResourceName ctrlName}s")
-
+					route = _route "#{@_getResourceName ctrlName}s"
 					@router[method] route, _.bind(action, ctrl)
 					@_logRoute method, route
 
