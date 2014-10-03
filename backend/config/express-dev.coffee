@@ -14,7 +14,6 @@ module.exports = (app) ->
 	.use '/static', (req, res, next) ->
 		logger.log 'http:static', logger.util.print(req.method, 'green'), req.url
 		next()
-	# Caching all HTTP responses
 
 	#disables caching of scripts in development module
 	.use (req, res, next) ->
