@@ -21,7 +21,7 @@ class V1
 		# Bad Requests
 		@router.use '*', (req, res) -> res.send error: 'Service not found', 404
 	_logRoute: (method, route) ->
-		logger.log 'application:route', logger.util.print("[#{method.toUpperCase()}]", 'green'), route
+		logger.log 'route', logger.util.print("[#{method.toUpperCase()}]", 'green'), route
 	_getResourceName: (ctrlName) -> ctrlName.toLowerCase().replace 'controller', ''
 
 
