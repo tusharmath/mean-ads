@@ -3,7 +3,7 @@ BaseController = require './BaseController'
 
 class CampaignController
 	constructor: () ->
-		@model = @modelManager.models.CampaignModel
+		@model = @modelManager.models.Campaign
 		@_populate = path: 'program', select: 'name gauge'
 	CampaignController:: = injector.get BaseController
 

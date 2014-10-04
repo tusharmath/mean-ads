@@ -4,7 +4,7 @@ _ = require 'lodash'
 
 class AdController
 	constructor: (@modelManager) ->
-		@model = @modelManager.models.SubscriptionModel
+		@model = @modelManager.models.Subscription
 	_updateCredits: (subscription) ->
 		usedCredits = subscription.usedCredits + 1
 		@model

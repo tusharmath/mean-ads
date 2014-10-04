@@ -3,15 +3,17 @@ logger = require 'bragi'
 mongoose = require 'mongoose'
 class DbConnection
 	constructor: ->
-		mongoose.connect config.mongo.uri
-		mongoose.connection.on 'open', ->
+
+		@mongoose = mongoose
+		@conn = mongoose.createConnection config.mongo.uri
+		@conn.on 'open', ->
 			logger.log(
 				'application'
 				logger.util.symbols.success
 				'Db Connection established successfully'
 			)
 
-		mongoose.connection.on 'error', ->
+		@conn.on 'error', ->
 			logger.log(
 				'application'
 				logger.util.symbols.error

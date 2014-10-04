@@ -1,22 +1,25 @@
 glob = require 'glob'
 _ = require 'lodash'
 di = require 'di'
-mongoose = require 'mongoose'
 DbConnection = require '../connections/DbConnection'
-
-globOptions =
-	cwd: './backend/models'
-	sync: true
 
 class ModelManager
 	models : {}
+	loadSchemaFiles: ->
+		globOptions =
+			cwd: './backend/schemas'
+			sync: true #TODO: Make it unsync
+		glob '*Schema.coffee', globOptions
+
 	constructor: (@db) ->
-		glob '*Model.coffee', globOptions , (er, files) =>
-			# TODO: Move it out
-			_.each files, @load, @
-	load: (file) ->
-		file = file.replace '\.coffee', ''
-		@models[file] = require("./#{file}") (mongoose)
+		_.each @loadSchemaFiles(), @createModels, @
+
+	createModels: (file) ->
+		modelName = file.replace 'Schema.coffee', ''
+		schemaCtor = require "../schemas/#{file}"
+		schema = schemaCtor @db.mongoose
+		console.log modelName
+		@models[modelName] = @db.conn.model modelName, schema
 
 di.annotate ModelManager, new di.Inject DbConnection
 module.exports = ModelManager
