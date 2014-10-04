@@ -1,4 +1,4 @@
-ModelManager = require '../models'
+ModelManager = require '../modules/ModelManager'
 di = require 'di'
 _ = require 'lodash'
 

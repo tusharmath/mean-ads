@@ -18,7 +18,6 @@ class ModelManager
 		modelName = file.replace 'Schema.coffee', ''
 		schemaCtor = require "../schemas/#{file}"
 		schema = schemaCtor @db.mongoose
-		console.log modelName
 		@models[modelName] = @db.conn.model modelName, schema
 
 di.annotate ModelManager, new di.Inject DbConnection
