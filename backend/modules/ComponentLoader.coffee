@@ -25,7 +25,6 @@ class ComponentLoader
 		componentFiles = @_loadFiles type
 
 		_.each componentFiles, (file) ->
-			console.log file
 			component = require "../#{type}s/#{file}"
 			compName = resourceName type, file
 			compColl[compName] = require "../#{type}s/#{file}"
