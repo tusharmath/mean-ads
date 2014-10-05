@@ -15,13 +15,15 @@ class V1
 				if actionName[0] is '$'
 					[method, _route] = actionMap[actionName] or ctrl.actionMap[actionName]
 					route = _route "#{@_getResourceName ctrlName}s"
-					@router[method] route, _.bind(action, ctrl)
 					@_logRoute method, route
+					@router[method] route, _.bind(action, ctrl)
 
 		# Bad Requests
 		@router.use '*', (req, res) -> res.send error: 'Service not found', 404
 	_logRoute: (method, route) ->
 		logger.log 'route', logger.util.print("[#{method.toUpperCase()}]", 'green'), route
+
+	# TODO: Is redundant
 	_getResourceName: (ctrlName) -> ctrlName.toLowerCase().replace 'controller', ''
 
 
