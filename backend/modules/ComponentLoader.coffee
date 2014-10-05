@@ -25,9 +25,10 @@ class ComponentLoader
 		componentFiles = @_loadFiles type
 
 		_.each componentFiles, (file) ->
-			component = require "../#{type}s/#{file}"
-			compName = resourceName type, file
-			compColl[compName] = require "../#{type}s/#{file}"
+			if ignored.indexOf file is - 1
+				component = require "../#{type}s/#{file}"
+				compName = resourceName type, file
+				compColl[compName] = require "../#{type}s/#{file}"
 		compColl
 
 module.exports = ComponentLoader
