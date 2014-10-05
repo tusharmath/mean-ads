@@ -1,16 +1,19 @@
 express = require 'express'
 config = require '../config/config'
 _ = require 'lodash'
-Controllers = require '../controllers'
+ComponentLoader = require '../modules/ComponentLoader'
 di = require 'di'
 logger = require 'bragi'
 {actionMap} = require './conventions'
 
 class V1
-	constructor: (ctrlManager) ->
+	constructor: (loader) ->
 		@router = express.Router()
-		controllers = ctrlManager.controllers
-		_.each controllers, (ctrl, ctrlName) =>
+		controllers = loader.load 'controller'
+		# controllers = ctrlManager.controllers
+		# console.log controllers
+		_.each controllers, (ctrlCtor, ctrlName) =>
+			ctrl = injector.get ctrlCtor
 			_.forIn ctrl, (action, actionName) =>
 				if actionName[0] is '$'
 					[method, _route] = actionMap[actionName] or ctrl.actionMap[actionName]
@@ -27,5 +30,5 @@ class V1
 	_getResourceName: (ctrlName) -> ctrlName.toLowerCase().replace 'controller', ''
 
 
-di.annotate V1, new di.Inject Controllers
+di.annotate V1, new di.Inject ComponentLoader
 module.exports = V1

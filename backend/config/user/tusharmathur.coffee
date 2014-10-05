@@ -4,4 +4,4 @@ module.exports =
 		uri: 'mongodb://localhost:27017/adwords'
 	bragi:
 		options:
-			groupsEnabled: ['http:api', 'application']
+			groupsEnabled: ['http:api', 'application', 'route']
