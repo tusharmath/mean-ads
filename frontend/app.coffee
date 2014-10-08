@@ -38,7 +38,7 @@ define [
 			restProvider.setRestangularFields id: '_id'
 
 			_routeResolver = _.curry(routeResolver.resolve, 2) $routeProvider
-			#TODO: Should be dynamic based on the controller
+			#TODO: Read all controllers and their actions and create this
 			_routeResolver 'Dashboard'
 			_routeResolver 'Login'
 			_routeResolver 'Program', ['Create', 'Update', 'List']
