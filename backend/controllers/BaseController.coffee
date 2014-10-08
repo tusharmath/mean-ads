@@ -7,7 +7,7 @@ _ = require 'lodash'
 class BaseController
 	constructor: (@crud) ->
 		@_filterKeys = []
-	createReqMutator: (reqBody) -> Q.fcall ->reqBody
+
 	# [POST] /resource
 	$create: (req, res) ->
 		@crud
@@ -43,7 +43,7 @@ class BaseController
 	$list: (req, res) ->
 		@crud
 		.with @resource
-		.read @_populate, req.query
+		.read @_populate, _.pick req.query, @_filterKeys
 		.then(
 			(data) -> res.send data
 			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
