@@ -1,6 +1,6 @@
 define ["app"], (app) ->
-		class SubscriptionCtrl
-				constructor: (rest) ->
-						rest.all('subscriptions').getList().then (@subscriptions) =>
-		SubscriptionCtrl.$inject = ['Restangular']
-		app.controller 'SubscriptionListCtrl', SubscriptionCtrl
+	class SubscriptionCtrl
+		constructor: (rest, route) ->
+			rest.all('subscriptions').getList(route).then (@subscriptions) =>
+	SubscriptionCtrl.$inject = ['Restangular', '$routeParams']
+	app.controller 'SubscriptionListCtrl', SubscriptionCtrl

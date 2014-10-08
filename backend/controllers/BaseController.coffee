@@ -43,7 +43,7 @@ class BaseController
 	$list: (req, res) ->
 		@crud
 		.with @resource
-		.read @_populate
+		.read @_populate, req.query
 		.then(
 			(data) -> res.send data
 			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place

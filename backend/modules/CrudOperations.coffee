@@ -2,9 +2,10 @@ di = require 'di'
 q = require 'q'
 class CrudOperations
 	setup: (@model) ->
-	read: (populate) ->
+	read: (populate, filter = {} ) ->
+		console.log filter
 		@model
-		.find {}
+		.find filter
 		.populate populate or ''
 		.limit 10
 		.exec()
