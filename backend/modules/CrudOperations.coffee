@@ -3,7 +3,6 @@ q = require 'q'
 class CrudOperations
 	setup: (@model) ->
 	read: (populate, filter = {} ) ->
-		console.log filter
 		@model
 		.find filter
 		.populate populate or ''
