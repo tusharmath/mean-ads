@@ -3,7 +3,7 @@ Q = require 'q'
 
 class SubscriptionController
 	constructor: () ->
-		@model = @modelManager.models.Subscription
+		@resource = 'Subscription'
 		@_populate = path: 'campaign', select: 'name'
 		@_filterKeys = ['campaign']
 	SubscriptionController:: = base = injector.get BaseController

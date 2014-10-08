@@ -3,7 +3,7 @@ BaseController = require './BaseController'
 class ProgramController
 	ProgramController:: = injector.get BaseController
 	constructor: () ->
-		@model = @modelManager.models.Program
+		@resource = 'Program'
 		@_populate = path: 'style', select: 'name created placeholders'
 
 

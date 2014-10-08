@@ -3,7 +3,7 @@ BaseController = require './BaseController'
 
 class CampaignController
 	constructor: () ->
-		@model = @modelManager.models.Campaign
+		@resource = 'Campaign'
 		@_populate = path: 'program', select: 'name gauge'
 	CampaignController:: = injector.get BaseController
 
@@ -12,10 +12,10 @@ class CampaignController
 		$credits: ['get', -> '/campaigns/:id/credits']
 
 	$credits: (req, res) ->
-		sub = @modelManager.models.SubscriptionModel
+		sub = @crud.with 'Subscription'
 		sub
 		.find campaign: req.params.id
-		.exec (err, data) ->
+		.then (data) ->
 			creditUsage = _.reduce(
 				data
 				(sum, subscription) -> sum += subscription.usedCredits

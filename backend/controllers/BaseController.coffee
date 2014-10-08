@@ -1,67 +1,78 @@
 ModelManager = require '../modules/ModelManager'
+CrudOperationResolver = require '../modules/CrudOperationResolver'
 Q = require 'q'
 di = require 'di'
 _ = require 'lodash'
 
 class BaseController
-	constructor: (@modelManager) ->
+	constructor: (@crud) ->
 		@_filterKeys = []
-
 	createReqMutator: (reqBody) -> Q.fcall ->reqBody
 	# [POST] /resource
 	$create: (req, res) ->
-		@createReqMutator req.body
-		.then (reqBody) =>
-			resource = new @model req.body
-			resource.save (err) ->
-				if err
-					return res
-					.status 400
-					.send err
-				res.send resource
+		@crud
+		.with @resource
+		.create req.body
+		.then(
+			(data) -> res.send data
+			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
+		)
 
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
 	$update: (req, res) ->
-		resource = @model
-		.findByIdAndUpdate req.params.id, req.body, (err) ->
-			return res.send err, 400 if err
-			res.send resource
+		@crud
+		.with @resource
+		.update req.body, req.params.id
+		.then(
+			(resource) -> res.send resource
+			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
+		)
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
-		@model
+		@crud
+		.with @resource
 		.count _.pick req.query, @_filterKeys
-		.exec (err, count) ->
-			return res.send err, 400 if err
-			res.send {count}
+		.then(
+			(count) -> res.send {count}
+			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
+		)
 
 	# [GET] /resource
 	$list: (req, res) ->
-		@model
-		.find {}
-		.populate @_populate || ''
-		.limit 10
-		.exec (err, data) ->
-			return res.send err, 400 if err
-			res.send data
+		@crud
+		.with @resource
+		.read @_populate
+		.then(
+			(data) -> res.send data
+			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
+		)
 
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
-		@model
-		.findByIdAndRemove req.params.id, -> res.send 'DELETED'
+		@crud
+		.with @resource
+		.delete req.params.id
+		.then(
+			-> res.send {deleted: req.params.id}
+			-> res.send error: 'Document not found', 404
+		)
 
 	# [GET] /resource/:id
 	$first: (req, res) ->
-		@model
-		.findById req.params.id
-		.exec (err, data) ->
-			return res.status(400).send err if err
-			return res.send error: 'Document not found', 404 if not data
-			res.send data
+		@crud
+		.with @resource
+		.one(req.params.id)
+		.then(
+			(data) ->
+				return res.send error: 'Document not found', 404 if not data
+				res.send data
+			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
+		)
 
 BaseController.annotations = [
 	new di.TransientScope()
-	new di.Inject ModelManager
+	new di.Inject CrudOperationResolver
 ]
 module.exports = BaseController

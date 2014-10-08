@@ -1,4 +1,5 @@
 di = require 'di'
+q = require 'q'
 class CrudOperations
 	setup: (@model) ->
 	read: (populate) ->
@@ -13,14 +14,25 @@ class CrudOperations
 		.findById id
 		.exec()
 
+	find: (filter) ->
+		@model
+		.find filter
+		.exec()
+
 	update: (obj, id = obj._id) ->
 		@model
 		.findByIdAndUpdate id, obj
-		exec()
+		.exec()
 
 	create: (obj) ->
+		defer = q. defer()
 		resource = new @model obj
-		resource.save()
+		resource
+		.save (err, res) ->
+			defer.reject err if err
+			defer.resolve res
+		defer.promise
+
 
 	delete: (id) ->
 		@model
