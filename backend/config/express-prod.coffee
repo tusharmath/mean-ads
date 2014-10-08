@@ -8,7 +8,7 @@ module.exports = (app) ->
 	.use compression()
 	.use minify()
 	# Caching all HTTP responses
-	.use (req, res, next) ->
+	.use '/static', (req, res, next) ->
 		logger.log 'http:static:caching', req.url
 		res.header 'Cache-Control', "public, max-age=#{config.cache.maxAge}"
 		next()
