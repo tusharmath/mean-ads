@@ -5,7 +5,7 @@ middleware = require './middleware'
 path = require 'path'
 prod = require './config/express-prod'
 bodyParser = require 'body-parser'
-api = injector.get require './routers/api'
+api = injector.get require './modules/RouteResolver'
 api.done (v1) ->
 	app = express()
 
