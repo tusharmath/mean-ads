@@ -5,11 +5,10 @@ middleware = require './middleware'
 path = require 'path'
 prod = require './config/express-prod'
 bodyParser = require 'body-parser'
-api = require './routers/api'
+api = injector.get require './routers/api'
+api.done (v1) ->
+	app = express()
 
-
-#Global and ENV specifc settings
-module.exports = (app) ->
 	app
 	.set 'jsonp callback name', 'mean'
 	.set 'views', "#{config.root}/frontend"
@@ -19,6 +18,7 @@ module.exports = (app) ->
 
 	dev app if env is 'development'
 	prod app if env is 'production'
+
 
 	app
 	#Middlewares
@@ -30,9 +30,22 @@ module.exports = (app) ->
 	.use '/api/v1', [
 		bodyParser.json()
 		middleware.auth
-		(injector.get api).router
+		v1
 	]
 	#Routes
 	.get '/templates/*', middleware.partials
 	.get '/', middleware.page 'index'
 	.all '/*', middleware.page '404'
+
+
+	# Start server
+	app.listen config.port, config.ip, ->
+		bragi.log(
+			'application'
+			bragi.util.symbols.success
+			'Server Started'
+			bragi.util.print("#{config.ip}:#{config.port}", 'yellow')
+			'in'
+			bragi.util.print("#{app.get 'env'}", 'yellow')
+			'mode'
+		)

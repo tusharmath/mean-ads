@@ -25,7 +25,8 @@ class ComponentLoader
 		@_loadFiles type, (err, componentFiles) ->
 			return defer.reject err if err
 			_.each componentFiles, (file) ->
-				if ignored.indexOf file is - 1
+
+				if (_.contains ignored, file) is false
 					component = require "../#{type}s/#{file}"
 					compName = resourceName type, file
 					compColl[compName] = require "../#{type}s/#{file}"
