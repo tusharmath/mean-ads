@@ -1,6 +1,6 @@
 'use strict'
 express = require 'express'
-logger = require 'bragi'
+bragi = require 'bragi'
 
 
 path = require 'path'
@@ -9,20 +9,23 @@ global.injector = new di.Injector
 # Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || 'development'
 config = require './backend/config/config'
-logger.options = config.bragi.options
+bragi.options = config.bragi.options
+
+# Overriding console.log
+global.bragi = bragi
 
 app = express()
 require('./backend/express') app
 
 # Start server
 app.listen config.port, config.ip, ->
-	logger.log(
+	bragi.log(
 		'application'
-		logger.util.symbols.success
+		bragi.util.symbols.success
 		'Server Started'
-		logger.util.print("#{config.ip}:#{config.port}", 'yellow')
+		bragi.util.print("#{config.ip}:#{config.port}", 'yellow')
 		'in'
-		logger.util.print("#{app.get 'env'}", 'yellow')
+		bragi.util.print("#{app.get 'env'}", 'yellow')
 		'mode'
 	)
 
