@@ -5,7 +5,7 @@ Q = require 'q'
 DbConnection = require '../connections/DbConnection'
 ComponentLoader = require './ComponentLoader'
 
-class ModelManager
+class ModelFactory
 	constructor: (db, loader) ->
 		models = {}
 		return loader
@@ -17,5 +17,5 @@ class ModelManager
 			return Q.fcall -> models
 
 
-di.annotate ModelManager, new di.Inject DbConnection, ComponentLoader
-module.exports = ModelManager
+di.annotate ModelFactory, new di.Inject DbConnection, ComponentLoader
+module.exports = ModelFactory

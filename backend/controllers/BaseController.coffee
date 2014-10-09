@@ -1,4 +1,3 @@
-ModelManager = require '../modules/ModelManager'
 CrudOperationResolver = require '../modules/CrudOperationResolver'
 Q = require 'q'
 di = require 'di'

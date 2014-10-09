@@ -1,11 +1,11 @@
 di = require 'di'
-ModelManager = require './ModelManager'
+ModelFactory = require './ModelFactory'
 CrudOperations = require './CrudOperations'
 _ = require 'lodash'
 
 class CrudOperationResolver
-	constructor: (modelManager) ->
-		modelManager.then (@models) =>
+	constructor: (modFac) ->
+		modFac.then (@models) =>
 
 	getOperations: (resource) ->
 		operations = injector.get CrudOperations
@@ -14,5 +14,5 @@ class CrudOperationResolver
 
 	with: (resource) ->@getOperations resource
 
-di.annotate CrudOperationResolver, new di.InjectPromise ModelManager
+di.annotate CrudOperationResolver, new di.InjectPromise ModelFactory
 module.exports = CrudOperationResolver
