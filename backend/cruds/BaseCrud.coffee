@@ -21,11 +21,12 @@ class BaseCrud
 		.find filter
 		.execQ()
 
-	preUpdate: -> q.fcall ->
+	postUpdate: -> q.fcall ->
 	update: (obj, id = obj._id) ->
 		@model
 		.findByIdAndUpdate id, obj
 		.execQ()
+		.then @postUpdate obj
 
 	preCreate: -> q.fcall ->
 	create: (obj) ->
