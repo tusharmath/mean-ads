@@ -8,8 +8,6 @@ resourceName = (type, file) ->
 	type = ctorCase type
 	file.replace "#{type}.coffee", ''
 
-
-
 class ComponentLoader
 
 	_loadFiles: (type, callback) ->
