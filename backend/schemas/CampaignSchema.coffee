@@ -1,4 +1,7 @@
+
 CampaignSchema = (mongoose) ->
+	SubscriptionSchema = require './SubscriptionSchema'
+
 	new mongoose.Schema
 		name:
 			type: String
@@ -19,5 +22,5 @@ CampaignSchema = (mongoose) ->
 		isEnabled:
 			type: Boolean
 			default: true
-
+		subscriptions: [ SubscriptionSchema mongoose ]
 module.exports = CampaignSchema

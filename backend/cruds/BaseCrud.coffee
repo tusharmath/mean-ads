@@ -1,7 +1,10 @@
 di = require 'di'
 q = require 'q'
-class CrudOperations
-	setup: (@model) ->
+ModelFactory = require '../modules/ModelFactory'
+class BaseCrud
+	constructor: (modelFac) ->
+		modelFac.then (@models) =>
+
 	read: (populate, filter = {} ) ->
 		@model
 		.find filter
@@ -33,7 +36,6 @@ class CrudOperations
 			defer.resolve res
 		defer.promise
 
-
 	delete: (id) ->
 		@model
 		.findByIdAndRemove req.params.id
@@ -43,5 +45,9 @@ class CrudOperations
 		@model
 		.count filter
 		.exec()
-di.annotate CrudOperations, new di.TransientScope()
-module.exports = CrudOperations
+di.annotate(
+	BaseCrud
+	new di.InjectPromise ModelFactory
+	new di.TransientScope()
+)
+module.exports = BaseCrud

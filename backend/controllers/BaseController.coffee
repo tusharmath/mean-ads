@@ -1,4 +1,4 @@
-CrudOperationResolver = require '../modules/CrudOperationResolver'
+CrudFactory = require '../modules/CrudFactory'
 Q = require 'q'
 di = require 'di'
 _ = require 'lodash'
@@ -72,6 +72,6 @@ class BaseController
 
 BaseController.annotations = [
 	new di.TransientScope()
-	new di.Inject CrudOperationResolver
+	new di.Inject CrudFactory
 ]
 module.exports = BaseController
