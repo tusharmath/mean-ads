@@ -1,6 +1,6 @@
 config = require '../config/config'
 logger = require 'bragi'
-mongoose = require 'mongoose'
+mongoose = require('mongoose-q') require('mongoose')
 class DbConnection
 	constructor: ->
 

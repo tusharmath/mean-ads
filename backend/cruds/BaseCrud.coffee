@@ -9,42 +9,39 @@ class BaseCrud
 		@model
 		.find filter
 		.populate populate or ''
-		.limit 10
-		.exec()
+		.execQ()
 
 	one: (id) ->
 		@model
 		.findById id
-		.exec()
+		.execQ()
 
 	find: (filter) ->
 		@model
 		.find filter
-		.exec()
+		.execQ()
 
+	preUpdate: -> q.fcall ->
 	update: (obj, id = obj._id) ->
 		@model
 		.findByIdAndUpdate id, obj
-		.exec()
+		.execQ()
 
+	preCreate: -> q.fcall ->
 	create: (obj) ->
-		defer = q. defer()
 		resource = new @model obj
-		resource
-		.save (err, res) ->
-			defer.reject err if err
-			defer.resolve res
-		defer.promise
+		@preCreate resource
+		.then -> resource.saveQ()
 
 	delete: (id) ->
 		@model
 		.findByIdAndRemove req.params.id
-		.exec()
+		.execQ()
 
 	count: (filter) ->
 		@model
 		.count filter
-		.exec()
+		.execQ()
 di.annotate(
 	BaseCrud
 	new di.InjectPromise ModelFactory

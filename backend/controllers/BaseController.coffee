@@ -2,20 +2,19 @@ CrudFactory = require '../modules/CrudFactory'
 Q = require 'q'
 di = require 'di'
 _ = require 'lodash'
-
 class BaseController
 	constructor: (@crud) ->
 		@_filterKeys = []
+	_onError: (err) -> throw new Error err
+
 
 	# [POST] /resource
 	$create: (req, res) ->
 		@crud
 		.with @resource
 		.create req.body
-		.then(
-			(data) -> res.send data
-			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
-		)
+		.done (resource) -> res.send resource
+
 
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
@@ -23,52 +22,41 @@ class BaseController
 		@crud
 		.with @resource
 		.update req.body, req.params.id
-		.then(
-			(resource) -> res.send resource
-			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
-		)
+		.done (resource) -> res.send resource
+
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
 		@crud
 		.with @resource
 		.count _.pick req.query, @_filterKeys
-		.then(
-			(count) -> res.send {count}
-			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
-		)
+		.done (count) -> res.send {count}
+
 
 	# [GET] /resource
 	$list: (req, res) ->
 		@crud
 		.with @resource
 		.read @_populate, _.pick req.query, @_filterKeys
-		.then(
-			(data) -> res.send data
-			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
-		)
+		.done (data) -> res.send data
+
 
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
 		@crud
 		.with @resource
 		.delete req.params.id
-		.then(
-			-> res.send {deleted: req.params.id}
-			-> res.send error: 'Document not found', 404
-		)
+		.done -> res.send {deleted: req.params.id}
+
 
 	# [GET] /resource/:id
 	$first: (req, res) ->
 		@crud
 		.with @resource
 		.one(req.params.id)
-		.then(
-			(data) ->
-				return res.send error: 'Document not found', 404 if not data
-				res.send data
-			(err) -> res.send err, 400 #TODO: Redundant needs to be put at one place
-		)
+		.done (data) ->
+			return res.send error: 'Document not found', 404 if not data
+			res.send data
 
 BaseController.annotations = [
 	new di.TransientScope()
