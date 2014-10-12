@@ -1,6 +1,6 @@
---require should
---require sinon
---require di
+--require ./test/mocha.setup.coffee
 --compilers coffee:coffee-script/register
 --reporter min
---ui tdd
+--ui bdd
+--watch
+test/test.*
