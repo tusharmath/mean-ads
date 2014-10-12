@@ -2,7 +2,6 @@ BaseCrud = require './BaseCrud'
 _ = require 'lodash'
 class CampaignCrud
 	constructor: () ->
-	CampaignCrud:: = injector.get BaseCrud
 	postUpdate: (camp) ->
 		@models
 		.Subscription

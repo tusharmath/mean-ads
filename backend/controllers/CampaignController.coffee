@@ -5,7 +5,6 @@ class CampaignController
 	constructor: () ->
 		@resource = 'Campaign'
 		@_populate = path: 'program', select: 'name gauge'
-	CampaignController:: = injector.get BaseController
 
 	# TODO: Can't think of a better way to handle custom routes
 	actionMap:

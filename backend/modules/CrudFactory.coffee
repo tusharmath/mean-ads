@@ -1,18 +1,21 @@
 di = require 'di'
 ComponentLoader = require './ComponentLoader'
-_ = require 'lodash'
+BaseCrud = require '../cruds/BaseCrud'
 
 class CrudFactory
-	constructor: (loader) ->
-		loader.load('crud', ['BaseCrud.coffee']).then (@crudCtors) =>
+	constructor: (loader, @injector) ->
+		loader.load('crud', ['BaseCrud.coffee'])
+		.done (@crudCtors) => @injector.get BaseCrud
 
-	with: (resource) ->
-		crudOperator = injector.get @crudCtors[resource]
+	with: (resource) =>
+		ctor = @crudCtors[resource]
+		ctor :: = @injector.get BaseCrud
+		crudOperator = @injector.get ctor
 		crudOperator.model = crudOperator.models[resource]
 		crudOperator
 
 di.annotate(
 	CrudFactory
-	new di.Inject ComponentLoader
+	new di.Inject ComponentLoader, di.Injector
 )
 module.exports = CrudFactory

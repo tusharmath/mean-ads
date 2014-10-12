@@ -16,8 +16,5 @@ bragi.log = logOverride bragi.log
 
 bragi.options = config.bragi.options
 
-#Global Injector
-global.injector = new di.Injector
-
 #Setup Express App
 require './backend/express'
