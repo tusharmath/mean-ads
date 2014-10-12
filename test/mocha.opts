@@ -1,0 +1,5 @@
+--require should
+--require sinon
+--compilers coffee:coffee-script/register
+--reporter min
+--ui tdd
