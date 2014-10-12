@@ -3,10 +3,7 @@ bragi = require 'bragi'
 di = require 'di'
 Q = require 'q'
 
-# Set default node environment to development
-process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || 'development'
 config = require './backend/config/config'
-
 
 Q.longStackSupport = true
 global.bragi = bragi

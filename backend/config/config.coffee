@@ -2,11 +2,15 @@
 fs = require 'fs'
 path = require 'path'
 _ = require 'lodash'
+
+env = process.env.NODE_ENV || 'development'
+
 config = _.merge(
 	require './env/all.coffee'
-	require './env/' + process.env.NODE_ENV + '.coffee' || {}
+	require './env/' + env + '.coffee' || {}
  )
-if process.env.USER and process.env.NODE_ENV isnt 'production'
+
+if process.env.USER and env isnt 'production'
 	userconfig = './user/' + process.env.USER + '.coffee'
 	if fs.existsSync path.join path.join __dirname , userconfig
 		config = _.merge(
