@@ -11,3 +11,4 @@ module.exports =
 				'model'
 				'controller'
 			]
+	env: 'development'
