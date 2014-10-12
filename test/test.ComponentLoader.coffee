@@ -1,6 +1,5 @@
 ComponentLoader = require '../backend/modules/ComponentLoader'
 di = require 'di'
-should = require 'should'
 
 describe 'ComponentLoader', ->
 	loader = {}
