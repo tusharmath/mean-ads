@@ -1,22 +1,22 @@
 config = require '../config/config'
-logger = require 'bragi'
 mongoose = require('mongoose-q') require('mongoose')
 class DbConnection
 	constructor: ->
 
 		@mongoose = mongoose
 		@conn = mongoose.createConnection config.mongo.uri
+		bragi.log 'application', 'Db Connection Initializing...'
 		@conn.on 'open', ->
-			logger.log(
+			bragi.log(
 				'application'
-				logger.util.symbols.success
+				bragi.util.symbols.success
 				'Db Connection established successfully'
 			)
 
 		@conn.on 'error', ->
-			logger.log(
+			bragi.log(
 				'application'
-				logger.util.symbols.error
+				bragi.util.symbols.error
 				'Db Connection could not be established'
 			)
 
