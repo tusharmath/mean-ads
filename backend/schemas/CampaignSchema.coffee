@@ -22,5 +22,8 @@ CampaignSchema = (mongoose) ->
 		isEnabled:
 			type: Boolean
 			default: true
-		subscriptions: [ SubscriptionSchema mongoose ]
+		owner:
+			type: String
+			required: true
+			index: true
 module.exports = CampaignSchema

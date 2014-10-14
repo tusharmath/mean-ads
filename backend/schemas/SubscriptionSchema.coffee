@@ -23,6 +23,10 @@ SubscriptionSchema = (mongoose) ->
 		data:
 			type: mongoose.Schema.Types.Mixed
 			require: true
+		owner:
+			type: String
+			required: true
+			index: true
 
 		# Faster Querying
 		campaignProgramId:

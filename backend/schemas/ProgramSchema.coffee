@@ -17,4 +17,9 @@ ProgramSchema = (mongoose) ->
 		created:
 			type: Date
 			default: Date.now
+		owner:
+			type: String
+			required: true
+			index: true
+
 module.exports = ProgramSchema

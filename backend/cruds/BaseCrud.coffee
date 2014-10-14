@@ -29,7 +29,8 @@ class BaseCrud
 		.then @postUpdate obj
 
 	preCreate: -> q.fcall ->
-	create: (obj) ->
+	create: (obj, user) ->
+		obj.owner = user
 		resource = new @model obj
 		@preCreate resource
 		.then -> resource.saveQ()
@@ -43,9 +44,9 @@ class BaseCrud
 		@model
 		.count filter
 		.execQ()
-di.annotate(
-	BaseCrud
-	new di.InjectPromise ModelFactory
-	new di.TransientScope()
-)
+
+BaseCrud.annotations = [
+	new di.Inject ModelFactory
+]
+
 module.exports = BaseCrud

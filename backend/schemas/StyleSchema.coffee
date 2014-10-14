@@ -13,4 +13,10 @@ StyleSchema = (mongoose) ->
 			default: Date.now
 		placeholders:
 			type: [String]
+		owner:
+			type: String
+			required: true
+			index: true
+
+
 module.exports = StyleSchema
