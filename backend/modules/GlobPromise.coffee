@@ -8,10 +8,8 @@ class GlobPromise
 		@globProvider.glob pattern, options, (err, files) ->
 			return defer.reject err if err
 			defer.resolve files
-
 		defer.promise
 
 GlobPromise.annotations = [new Inject GlobProvider]
-
 
 module.exports = GlobPromise

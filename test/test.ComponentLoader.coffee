@@ -1,19 +1,17 @@
 ComponentLoader = require '../backend/modules/ComponentLoader'
+GlobPromise = require '../backend/modules/GlobPromise'
+RequireProvider = require './mocks/RequireProviderMock'
 Mocks = require './mocks'
 {Injector} = require 'di'
-# describe 'ComponentLoader', ->
-# 	testable = injector = {}
-# 	beforeEach ->
-# 		injector = new Injector Mocks
-# 		testable = injector.get ComponentLoader
 
-# 	describe "constructor", ->
+describe 'ComponentLoader', ->
+	testable = 0
+	beforeEach ->
+		injector = new Injector Mocks
+		testable = injector.get ComponentLoader
 
-# 		it 'should use mock require',
-# 		->	testable.requireProvider.require('xyz').should.equal 'xyz-module'
+	it "depends on GlobPromise", -> testable.globPromise.should.be.an.instanceof GlobPromise
+	it "depends on requireProvider", -> testable.requireProvider.should.be.an.instanceof RequireProvider
+	describe "_glob()", ->
+		it "should exist", -> testable._glob.should.be.a.Function
 
-# 		it 'should use mock glob', (async)->
-# 			testable.globProvider.glob no, no,
-# 			(res)->
-# 				res.should.eql ['a', 'b', 'c']
-# 				do async

@@ -1,20 +1,18 @@
 _ = require 'lodash'
 q = require 'q'
 RequireProvider = require '../providers/RequireProvider'
-GlobProvider = require '../providers/GlobProvider'
+GlobPromise = require './GlobPromise'
 {Inject} = require 'di'
 
 # TODO: Can be used at other places
 ctorCase = (str) -> str.replace /.?/, str[0].toUpperCase()
-
-
-# TODO: Util function
 resourceName = (type, file) ->
 	type = ctorCase type
 	file.replace "#{type}.coffee", ''
 
 class ComponentLoader
-	constructor: (@globProvider, @requireProvider) ->
+	constructor: (@globPromise, @requireProvider) ->
+	_glob: ->
 	_loadFiles: (type, callback) ->
 		globOptions =
 			cwd: "./backend/#{type}s"
@@ -38,6 +36,6 @@ class ComponentLoader
 		defer.promise
 
 ComponentLoader.annotations = [
-	new Inject GlobProvider, RequireProvider
+	new Inject GlobPromise, RequireProvider
 ]
 module.exports = ComponentLoader
