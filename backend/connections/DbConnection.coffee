@@ -1,9 +1,9 @@
 config = require '../config/config'
-mongoose = require('mongoose-q') require('mongoose')
+MongooseProvider = require '../providers/MongooseProvider'
+{Inject} = require 'di'
 class DbConnection
-	constructor: ->
+	constructor: (@mongoose) ->
 
-		@mongoose = mongoose
 		@conn = mongoose.createConnection config.mongo.uri
 		bragi.log 'application', 'Db Connection Initializing...'
 		@conn.on 'open', ->
@@ -20,4 +20,7 @@ class DbConnection
 				'Db Connection could not be established'
 			)
 
+DbConnection.annotations = [
+	new Inject MongooseProvider
+]
 module.exports = DbConnection

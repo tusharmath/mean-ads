@@ -1,4 +1,4 @@
 glob = require 'glob'
 class GlobProvider
-	constructor: -> return glob
+	glob: glob
 module.exports = GlobProvider

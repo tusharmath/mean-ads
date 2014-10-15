@@ -59,7 +59,6 @@ class BaseController
 			res.send data
 
 BaseController.annotations = [
-	new di.TransientScope()
 	new di.Inject CrudFactory
 ]
 module.exports = BaseController
