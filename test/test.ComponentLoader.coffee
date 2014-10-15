@@ -7,7 +7,13 @@ describe 'ComponentLoader', ->
 		injector = new Injector Mocks
 		testable = injector.get ComponentLoader
 
-	it 'should use mock require', ->
-		testable.requireProvider.require('xyz').should.equal 'xyz-module'
+	describe "constructor", ->
 
-	it 'should use mock glob', -> testable.globProvider.glob.should.be.a.Function
+		it 'should use mock require',
+		->	testable.requireProvider.require('xyz').should.equal 'xyz-module'
+
+		it 'should use mock glob', (async)->
+			testable.globProvider.glob no, no,
+			(res)->
+				res.should.eql ['a', 'b', 'c']
+				do async

@@ -3,8 +3,11 @@ q = require 'q'
 RequireProvider = require '../providers/RequireProvider'
 GlobProvider = require '../providers/GlobProvider'
 {Inject} = require 'di'
+
 # TODO: Can be used at other places
 ctorCase = (str) -> str.replace /.?/, str[0].toUpperCase()
+
+
 # TODO: Util function
 resourceName = (type, file) ->
 	type = ctorCase type
