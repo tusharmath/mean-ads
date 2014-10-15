@@ -1,7 +1,7 @@
 {Provide} = require 'di'
 RequireProvider = require '../../backend/providers/RequireProvider'
 class RequireProviderMock
-	require: (pattern) ->return "#{pattern}-module"
+	require:  sinon.spy()
 
 RequireProviderMock.annotations = [
 	new Provide RequireProvider

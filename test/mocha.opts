@@ -2,4 +2,5 @@
 --compilers coffee:coffee-script/register
 --ui bdd
 --reporter min
+--timeout 100
 ./test/test.*
