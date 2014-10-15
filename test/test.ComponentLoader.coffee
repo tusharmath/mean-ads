@@ -1,10 +1,9 @@
-ComponentLoader = require '../backend/Modules/ComponentLoader'
+ComponentLoader = require '../backend/modules/ComponentLoader'
 Mocks = require './mocks'
 {Injector} = require 'di'
 describe 'ComponentLoader', ->
 	testable = injector = {}
 	beforeEach ->
-		console.log Mocks
 		injector = new Injector Mocks
 		testable = injector.get ComponentLoader
 
