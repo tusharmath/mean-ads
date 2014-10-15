@@ -15,7 +15,7 @@ resourceName = (type, file) ->
 
 class ComponentLoader
 	constructor: (@globProvider, @requireProvider) ->
-	_loadFiles: (type, callback) ->
+	_glob: (type, callback) ->
 		globOptions =
 			cwd: "./backend/#{type}s"
 		type = ctorCase type
@@ -26,7 +26,7 @@ class ComponentLoader
 		compColl = {}
 		_require = @requireProvider.require
 		defer = q.defer()
-		@_loadFiles type, (err, componentFiles) ->
+		@_glob type, (err, componentFiles) ->
 			return defer.reject err if err
 			_.each componentFiles, (file) ->
 

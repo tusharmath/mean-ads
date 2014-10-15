@@ -1,19 +1,33 @@
 ComponentLoader = require '../backend/modules/ComponentLoader'
-Mocks = require './mocks'
+GlobProvider = require '../backend/providers/GlobProvider'
+RequireProvider = require '../backend/providers/RequireProvider'
 {Injector} = require 'di'
-describe 'ComponentLoader', ->
-	testable = injector = {}
+
+
+describe 'ComponentLoader:', ->
+	globProvider= requireProvider = testable = injector = {}
 	beforeEach ->
-		injector = new Injector Mocks
+		injector = new Injector()
+
+		globProvider = injector.get GlobProvider
+		requireProvider = injector.get RequireProvider
+
 		testable = injector.get ComponentLoader
 
-	describe "constructor", ->
 
-		it 'should use mock require',
-		->	testable.requireProvider.require('xyz').should.equal 'xyz-module'
 
-		it 'should use mock glob', (async)->
-			testable.globProvider.glob no, no,
-			(res)->
-				res.should.eql ['a', 'b', 'c']
-				do async
+	describe "_glob()", ->
+
+		it "should exist", ->
+			testable._glob.should.be.a.Function
+
+		it "should call glob", ->
+			callback = sinon.spy()
+			globMock = sinon.mock globProvider
+			globExpectation = globMock.expects 'glob'
+			globExpectation
+			.once 1
+			.withArgs '*As.coffee', cwd: './backend/ass', callback
+
+			testable._glob 'as', callback
+			do globMock.verify
