@@ -1,5 +1,6 @@
 GlobPromise = require '../backend/modules/GlobPromise'
 GlobProviderMock = require './mocks/GlobProviderMock'
+should = require 'should'
 Mock = require './mocks'
 {Injector} = require 'di'
 
@@ -32,6 +33,13 @@ describe 'GlobPromise:', ->
 				async()
 			mod.globProvider._resolve error
 
+		it "should resolve on non error types", (async) ->
+			error = 'YO'
+			mod.glob 'aaa', {}
+			.done (res)->
+				should.not.exist res
+				async()
+			mod.globProvider._resolve error
 
 		it "should resolve on success", (async) ->
 			res = {}

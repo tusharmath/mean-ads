@@ -6,7 +6,7 @@ class GlobPromise
 	glob: (pattern, options) ->
 		defer = Q.defer()
 		@globProvider.glob pattern, options, (err, files) ->
-			return defer.reject err if err
+			return defer.reject err if err instanceof Error
 			defer.resolve files
 		defer.promise
 

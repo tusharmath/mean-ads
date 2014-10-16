@@ -27,19 +27,26 @@ describe 'ComponentLoader', ->
 		beforeEach ->
 			sinon.spy mod, '_glob'
 			sinon.spy mod, '_onLoad'
+
 		it "calls _glob", ->
-			mod.load 'aaa'
-			mod._glob.calledWith 'aaa'
+			mod.load 'type-param'
+			mod._glob.calledWith 'type-param'
 			.should.be.ok
-		it "returns promise", -> mod.load('111').then.should.be.a.Function
-		it "passes onLoad", (async) ->
-			ignored = ['2']
-			mod.load '111', ignored
+		it "returns promise", -> mod.load('type-param').then.should.be.a.Function
+		it "resolves to onLoad", (async) ->
+			ignored = ['ignored-param-file-1']
+			mod.load 'type-param', ignored
 			.done ->
-				mod._onLoad.calledWith ignored, 'yo'
+				mod._onLoad.calledWith 'type-param', ignored, ['response-file-1']
 				.should.be.ok
 				do async
-			mod.globPromise.globProvider._resolve null, 'yo'
+			mod.globPromise.globProvider._resolve null, ['response-file-1']
 
 
 	describe "_onLoad()", ->
+		it 'resolve files', ->
+			ignored = ['cc', 'bb']
+			mod._onLoad 'type-param', ignored, ['aa', 'bb', 'cc', 'Dd']
+			.should.eql
+				aa: '../type-params/aa-required'
+				Dd: '../type-params/Dd-required'
