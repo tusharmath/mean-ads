@@ -17,36 +17,43 @@ describe 'GlobPromise:', ->
 	describe "glob()", ->
 
 		it "be a function", -> mod.glob.should.be.a.Function
-		it "returns a promise", -> mod.glob('aaa', {}).then.should.be.a.Function
+		it "returns promise", ->
+			[p, o] = ['aaa', {}]
+			mod.globProvider.$expect p
+			mod.glob(p, o).then.should.be.a.Function
 		it "calls globProvider", ->
-			globOpts = a:1
-			mod.glob 'aaa', globOpts
-			mod.globProvider.glob.calledWith 'aaa', globOpts
+			[p, o] = ['aaa', a:1]
+			mod.globProvider.$expect p
+			mod.glob p, o
+			mod.globProvider.glob.calledWith p, o
 			.should.be.ok
 
 
-		it "should reject on error", (async) ->
-			error = new Error 'YO'
-			mod.glob 'aaa', {}
+		it "rejects on error", (async) ->
+			[p, o , error] = ['aaa', {}, new Error 'YO']
+			mod.globProvider.$expect p, [error]
+			mod.glob p, o
 			.done (->) , (_err)->
 				_err.should.equal error
 				async()
-			mod.globProvider._resolve error
+			mod.globProvider.$flush()
 
 		it "should resolve on non error types", (async) ->
-			error = 'YO'
-			mod.glob 'aaa', {}
+			[p, o , error] = ['aaa', {}, 'YO']
+			mod.globProvider.$expect p, [error]
+			mod.glob p, o
 			.done (res)->
 				should.not.exist res
 				async()
-			mod.globProvider._resolve error
+			mod.globProvider.$flush()
 
 		it "should resolve on success", (async) ->
-			res = {}
-			mod.glob 'aaa', {}
+			[p, o, res] = ['aaa', {}, {}]
+			mod.globProvider.$expect p, [null ,res]
+			mod.glob p, o
 			.done (_res)->
 				_res.should.equal res
 				async()
-			mod.globProvider._resolve null, res
+			mod.globProvider.$flush()
 
 
