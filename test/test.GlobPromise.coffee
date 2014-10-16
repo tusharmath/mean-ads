@@ -20,7 +20,7 @@ describe 'GlobPromise:', ->
 		it "calls globProvider", ->
 			globOpts = a:1
 			mod.glob 'aaa', globOpts
-			mod.globProvider.glob.calledWith 'aaa',globOpts
+			mod.globProvider.glob.calledWith 'aaa', globOpts
 			.should.be.ok
 
 

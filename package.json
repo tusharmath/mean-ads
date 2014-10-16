@@ -34,6 +34,7 @@
     "gulp-rename": "^1.2.0",
     "main-bower-files": "^2.0.0",
     "mocha": "^1.21.5",
+    "should": "^4.0.4",
     "sinon": "^1.10.3"
   },
   "scripts": {

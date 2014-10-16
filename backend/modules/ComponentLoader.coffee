@@ -12,28 +12,26 @@ resourceName = (type, file) ->
 
 class ComponentLoader
 	constructor: (@globPromise, @requireProvider) ->
-	_glob: ->
-	_loadFiles: (type, callback) ->
-		globOptions =
-			cwd: "./backend/#{type}s"
-		type = ctorCase type
-		@globProvider.glob "*#{type}.coffee", globOptions, callback
-
+	_glob: (type) ->
+		options = cwd: "./backend/#{type}s"
+		pattern = "*#{ctorCase type}.coffee"
+		@globPromise.glob pattern, options
+	_onLoad: (files) ->
+		_require = @requireProvider.require
 
 	load: (type, ignored = []) ->
-		compColl = {}
-		_require = @requireProvider.require
-		defer = q.defer()
-		@_loadFiles type, (err, componentFiles) ->
-			return defer.reject err if err
-			_.each componentFiles, (file) ->
+		@_glob type
+		.then @_onload
+		# @_loadFiles type, (err, componentFiles) ->
+		# 	return defer.reject err if err
+		# 	_.each componentFiles, (file) ->
 
-				if (_.contains ignored, file) is false
-					component = _require "../#{type}s/#{file}"
-					compName = resourceName type, file
-					compColl[compName] = require "../#{type}s/#{file}"
-			defer.resolve compColl
-		defer.promise
+		# 		if (_.contains ignored, file) is false
+		# 			component = _require "../#{type}s/#{file}"
+		# 			compName = resourceName type, file
+		# 			compColl[compName] = require "../#{type}s/#{file}"
+		# 	defer.resolve compColl
+		# defer.promise
 
 ComponentLoader.annotations = [
 	new Inject GlobPromise, RequireProvider
