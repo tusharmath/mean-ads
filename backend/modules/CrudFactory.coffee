@@ -1,20 +1,18 @@
 di = require 'di'
+_ = require 'lodash'
 ComponentLoader = require './ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
 
 class CrudFactory
-	constructor: (@loader, @injector) ->
-		@_init()
-		# loader.load 'crud', ['BaseCrud.coffee']
-		# .done (@crudCtors) => @injector.get BaseCrud
+	constructor: (@loader, @injector) -> @_init()
 	_init : ->
 		@loader.load 'crud', ['BaseCrud.coffee']
-	# with: (resource) =>
-	# 	ctor = @crudCtors[resource]
-	# 	ctor :: = @injector.get BaseCrud
-	# 	crudOperator = @injector.get ctor
-	# 	crudOperator.model = crudOperator.models[resource]
-	# 	crudOperator
+		.then @_onLoad
+	_instantiate: (ref, ctor, ctorName) =>
+		ctor:: = @injector.get BaseCrud
+		ref[ctorName] = @injector.get ctor
+		ref
+	_onLoad: (crudCtors) -> _.reduce crudCtors, @_instantiate, {}
 
 di.annotate(
 	CrudFactory
