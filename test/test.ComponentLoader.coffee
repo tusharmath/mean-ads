@@ -23,7 +23,7 @@ describe 'ComponentLoader', ->
 			mod._glob('aaa')
 			mod.globPromise.glob.args[0].should.eql ['*Aaa.coffee', cwd: './backend/aaas']
 
-	describe "load", ->
+	describe "load()", ->
 		beforeEach ->
 			sinon.spy mod, '_glob'
 			sinon.spy mod, '_onLoad'
@@ -32,13 +32,14 @@ describe 'ComponentLoader', ->
 			mod._glob.calledWith 'aaa'
 			.should.be.ok
 		it "returns promise", -> mod.load('111').then.should.be.a.Function
-		it "passes onLoad", ->
-			mod.load('111')
+		it "passes onLoad", (async) ->
+			ignored = ['2']
+			mod.load '111', ignored
+			.done ->
+				mod._onLoad.calledWith ignored, 'yo'
+				.should.be.ok
+				do async
 			mod.globPromise.globProvider._resolve null, 'yo'
-			mod._onLoad.called.ok
-
-	describe "_onLoad", ->
-		it "should filter files", ->
-			mod._onLoad
 
 
+	describe "_onLoad()", ->

@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "chai": "^1.9.2",
+    "coffee-errors": "^0.8.6",
     "gulp": "^3.8.8",
     "gulp-bower": "0.0.6",
     "gulp-clean": "^0.3.1",
