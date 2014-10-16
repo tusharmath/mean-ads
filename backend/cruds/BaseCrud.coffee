@@ -1,4 +1,4 @@
-di = require 'di'
+{Inject} = require 'di'
 q = require 'q'
 ModelFactory = require '../modules/ModelFactory'
 class BaseCrud
@@ -46,7 +46,7 @@ class BaseCrud
 		.execQ()
 
 BaseCrud.annotations = [
-	new di.Inject ModelFactory
+	new Inject ModelFactory
 ]
 
 module.exports = BaseCrud

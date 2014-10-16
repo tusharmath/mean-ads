@@ -10,7 +10,8 @@ class CrudFactory
 		.then @_onLoad
 	_instantiate: (ref, ctor, ctorName) =>
 		ctor:: = @injector.get BaseCrud
-		ref[ctorName] = @injector.get ctor
+		crud = @injector.get ctor
+		ref[ctorName] = crud
 		ref
 	_onLoad: (crudCtors) -> _.reduce crudCtors, @_instantiate, {}
 

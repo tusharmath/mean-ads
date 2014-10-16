@@ -57,15 +57,16 @@ describe 'CrudFactory:', ->
 			cruds.B.should.be.instanceof B
 			cruds.C.should.be.instanceof C
 
-	describe '_instantiate', ->
-		it 'exist', -> mod._instantiate.should.be.a.Function
-		it 'attach instance', ->
+	describe '_instantiate()', ->
+		[ref, A] = 0
+		beforeEach ->
 			class A
 			ref = {}
+		it 'exist', -> mod._instantiate.should.be.a.Function
+		it 'attach instance', ->
 			mod._instantiate ref, A, 'pqr'
 			ref.pqr.should.be.an.instanceof A
 		it 'inherit instance', ->
-			class A
-			ref = {}
 			mod._instantiate ref, A, 'pqr'
 			ref.pqr.should.be.an.instanceof BaseCrud
+		it 'set model'

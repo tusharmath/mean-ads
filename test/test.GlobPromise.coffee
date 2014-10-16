@@ -14,7 +14,7 @@ describe 'GlobPromise:', ->
 	it "exist", -> mod.should.exist
 	it "depends on globProvider", -> mod.globProvider.should.be.an.instanceof GlobProviderMock
 
-	describe "glob", ->
+	describe "glob()", ->
 
 		it "be a function", -> mod.glob.should.be.a.Function
 		it "returns a promise", -> mod.glob('aaa', {}).then.should.be.a.Function

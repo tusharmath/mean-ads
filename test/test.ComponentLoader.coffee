@@ -5,7 +5,7 @@ GlobProviderMock = require './mocks/GlobProviderMock'
 Mocks = require './mocks'
 {Injector} = require 'di'
 
-describe 'ComponentLoader', ->
+describe 'ComponentLoader:', ->
 	mod = 0
 	beforeEach ->
 		injector = new Injector Mocks
