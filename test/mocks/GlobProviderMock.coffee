@@ -6,15 +6,16 @@ class GlobProviderMock
 	constructor: ->
 		@_keyCollection = []
 	glob:  sinon.spy (pattern, options, callback) ->
-		expectation = _.find @_keyCollection, (val, key) -> val.p is pattern
+		expectation = _.find @_keyCollection, (val, key) ->
+			val.p is pattern and val.o is options
 		if not expectation
-			throw new Error "$expect should be set for pattern: #{pattern}"
+			throw new Error "$expect should be set for pattern: #{pattern} and options: #{JSON.stringify options}"
 		expectation.c = callback
 
-	$expect: (p, _args...) ->
-		if (_.any @_keyCollection, (v,k)-> v.p is p)
-			throw new Error "Pattern already set: #{p}"
-		@_keyCollection.push {p,_args}
+	$expect: (p, o, _args...) ->
+		if (_.any @_keyCollection, (v,k)-> v.p is p and v.o is o)
+			throw new Error "Expectaions already set for Pattern: #{p} and Options: #{JSON.stringify o}"
+		@_keyCollection.push {p,o,_args}
 
 	$flush: ->
 		_.each @_keyCollection, (val, key) ->
