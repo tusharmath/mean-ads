@@ -3,7 +3,7 @@ q = require 'q'
 ModelFactory = require '../modules/ModelFactory'
 class BaseCrud
 	constructor: (modelFac) ->
-		modelFac.then (@models) =>
+		return modelFac.then (@models) => @
 
 	read: (populate, filter = {} ) ->
 		@model

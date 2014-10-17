@@ -18,7 +18,10 @@ describe 'ComponentLoader:', ->
 			sinon.spy mod.globPromise, 'glob'
 
 		it "exist", -> mod._glob.should.be.a.Function
-		it "return promise", -> mod._glob('a').then.should.be.a.Function
+		it "return promise", ->
+			mod.globProvider.$when 'a'
+			mod._glob('a').then.should.be.a.Function
+
 		it "call glob", ->
 			mod._glob('aaa')
 			mod.globPromise.glob.args[0].should.eql ['*Aaa.coffee', cwd: './backend/aaas']

@@ -1,4 +1,5 @@
 di = require 'di'
+Q = require 'q'
 _ = require 'lodash'
 ComponentLoader = require './ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
@@ -6,14 +7,16 @@ BaseCrud = require '../cruds/BaseCrud'
 class CrudFactory
 	constructor: (@loader, @injector) -> @_init()
 	_init : ->
-		@loader.load 'crud', ['BaseCrud.coffee']
-		.then @_onLoad
+		Q.spread(
+			@loader.load 'crud', ['BaseCrud.coffee']
+			@injector.get BaseCrud
+		).then @_onLoad
 	_instantiate: (ref, ctor, ctorName) =>
-		ctor:: = @injector.get BaseCrud
+		ctor:: = @baseCrud
 		crud = @injector.get ctor
 		ref[ctorName] = crud
 		ref
-	_onLoad: (crudCtors) -> _.reduce crudCtors, @_instantiate, {}
+	_onLoad: (crudCtors, @baseCrud) -> _.reduce crudCtors, @_instantiate, {}
 
 di.annotate(
 	CrudFactory
