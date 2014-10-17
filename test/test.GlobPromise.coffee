@@ -1,15 +1,17 @@
 GlobPromise = require '../backend/modules/GlobPromise'
 GlobProviderMock = require './mocks/GlobProviderMock'
+GlobProvider = require '../backend/providers/GlobProvider'
 should = require 'should'
 Mock = require './mocks'
 {Injector} = require 'di'
 
 
 describe 'GlobPromise:', ->
-	mod = 0
+	[mod, glob] = 0
 	beforeEach ->
 		injector = new Injector Mock
 		mod = injector.get GlobPromise
+		glob = injector.get GlobProvider
 
 	it "exist", -> mod.should.exist
 	it "depends on globProvider", -> mod.globProvider.should.be.an.instanceof GlobProviderMock
@@ -27,11 +29,9 @@ describe 'GlobPromise:', ->
 			mod.glob p, o
 			mod.globProvider.glob.calledWith p, o
 			.should.be.ok
-
-
 		it "rejects on error", (async) ->
 			[p, o , error] = ['aaa', {}, new Error 'YO']
-			mod.globProvider.$expect p, [error]
+			mod.globProvider.$expect p, error
 			mod.glob p, o
 			.done (->) , (_err)->
 				_err.should.equal error
@@ -40,16 +40,16 @@ describe 'GlobPromise:', ->
 
 		it "should resolve on non error types", (async) ->
 			[p, o , error] = ['aaa', {}, 'YO']
-			mod.globProvider.$expect p, [error]
+			glob.$expect p, [error]
 			mod.glob p, o
 			.done (res)->
 				should.not.exist res
 				async()
-			mod.globProvider.$flush()
+			glob.$flush()
 
-		it "should resolve on success", (async) ->
+		it "resolves on success", (async) ->
 			[p, o, res] = ['aaa', {}, {}]
-			mod.globProvider.$expect p, [null ,res]
+			mod.globProvider.$expect p, null ,res
 			mod.glob p, o
 			.done (_res)->
 				_res.should.equal res
