@@ -2,7 +2,6 @@ ComponentLoader = require '../backend/modules/ComponentLoader'
 GlobProvider = require '../backend/providers/GlobProvider'
 Mocks = require './mocks'
 {Injector} = require 'di'
-should = require 'should'
 
 describe 'ComponentLoader:', ->
 	[mod, glob] = 0
