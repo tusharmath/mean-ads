@@ -5,11 +5,12 @@ logger = require 'bragi'
 Q = require 'q'
 _ = require 'lodash'
 class ControllerFactory
-	constructor: (loader, @injector) ->
-		controllers = {}
+	constructor: (@loader, @injector) ->
+
+	init: ->
 		@baseCtrl = @injector.get BaseCtrl
-		return Q.all [
-			loader.load 'controller', ['BaseController.coffee']
+		Q.all [
+			@loader.load 'controller', ['BaseController.coffee']
 			@baseCtrl.init()
 		]
 		.spread @_onLoad

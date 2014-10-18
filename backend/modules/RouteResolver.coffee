@@ -13,9 +13,10 @@ defaultActionMap =
 	'$remove': ['delete', (str) -> "/#{str}/:id"]
 
 class V1
-	constructor: (ctrlFac) ->
+	constructor: (@ctrlFac) ->
 		router = express.Router()
-		return ctrlFac
+	init: ->
+		@ctrlFac.init()
 		.then (controllers) ->
 			_.each controllers, (ctrl, ctrlName) ->
 				_.forIn ctrl, (action, actionName) ->

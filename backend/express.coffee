@@ -9,7 +9,9 @@ api = require './modules/RouteResolver'
 di = require 'di'
 class V1
 	constructor: (api) ->
-		api.done (v1) ->
+		api
+		.init()
+		.done (v1) ->
 			app = express()
 
 			app
