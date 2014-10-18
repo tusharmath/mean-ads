@@ -1,6 +1,6 @@
 CrudFactory = require '../modules/CrudFactory'
 Q = require 'q'
-di = require 'di'
+{TransientScope, Inject} = require 'di'
 _ = require 'lodash'
 class BaseController
 	constructor: (@crudFac) ->
@@ -55,6 +55,7 @@ class BaseController
 			res.send data
 
 BaseController.annotations = [
-	new di.Inject CrudFactory
+	new TransientScope()
+	new Inject CrudFactory
 ]
 module.exports = BaseController
