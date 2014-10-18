@@ -1,4 +1,4 @@
-define ["angular"], (angular) ->
+define ['modules/core/app'], (app)->
 	class RouteResolveProvider
 
 		$get: -> {@resolve}
@@ -38,5 +38,4 @@ define ["angular"], (angular) ->
 				# console.log route, {templateUrl, controller}
 				routeProvider.when route, {templateUrl, controller}
 
-	angular.module 'route.resolver', []
-	.provider 'RouteResolver', RouteResolveProvider
+	app.provider 'RouteResolver', RouteResolveProvider
