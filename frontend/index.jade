@@ -2,11 +2,11 @@
 extends ./layout.jade
 
 block head-scripts
-		script(data-main="/static/require-config.js" src="/static/lib/require.js")
+	script(data-main="/static/require-config.js" src="/static/lib/require.js")
 block content
-		.container
-				.row
-						.col-md-10
-								div(ng-view)
-						.col-md-2
-								div(ng-include='\'templates/nav/list-tmpl\'')
+	.container
+		.row
+			.col-md-10
+				div(ng-view)
+			.col-md-2
+				div(ng-include='\'templates/nav/list-tmpl\'')
