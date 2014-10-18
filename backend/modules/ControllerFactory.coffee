@@ -20,6 +20,7 @@ class ControllerFactory
 		_.each ctrls, (ctrlCtor, ctrlName) =>
 			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
 			controllers[ctrlName] = @injector.get ctrlCtor
+			controllers[ctrlName].resource = ctrlName
 			bragi.log 'controller', ctrlName
 			undefined
 		controllers

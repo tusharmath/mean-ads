@@ -33,3 +33,11 @@ describe 'ControllerFactory:', ->
 
 			@mod._onLoad {A}
 			.A.me.should.equal 'yoyo'
+
+
+		it 'sets resource', ->
+			class A
+				me: 'yoyo'
+
+			@mod._onLoad {A}
+			.A.resource.should.equal 'A'

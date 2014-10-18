@@ -3,7 +3,6 @@ BaseController = require './BaseController'
 
 class CampaignController
 	constructor: () ->
-		@resource = 'Campaign'
 		@_populate = path: 'program', select: 'name gauge'
 
 	# TODO: Can't think of a better way to handle custom routes
