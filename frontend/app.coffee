@@ -8,7 +8,7 @@ define [
 ], (angular, _, Auth0Widget) ->
 	'use strict'
 	angular
-	.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver', 'auth0']
+	.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'route.resolver', 'auth0', 'profile']
 	.run ['auth', (auth) -> auth.hookEvents() ]
 	.config [
 		'$routeProvider'
@@ -17,6 +17,7 @@ define [
 		'RestangularProvider'
 		'RouteResolverProvider'
 		'authProvider'
+		'ProfileProvider'
 		(args...) ->
 			[
 				$routeProvider
@@ -25,12 +26,14 @@ define [
 				restProvider
 				routeResolver
 				authProvider
+				profileProvider
 			] = args
 			authProvider.init
 				domain: 'mean-ads.auth0.com'
 				clientID: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
 				loginUrl: '/login'
 				Auth0Widget
+			authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 			$httpProvider.interceptors.push 'authInterceptor'
 
 			restProvider.setBaseUrl '/api/v1'
