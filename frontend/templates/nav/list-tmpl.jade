@@ -1,3 +1,3 @@
 ul.nav.nav-pills.nav-stacked(ng-controller='NavListCtrl as navCtrl')
-    li(ng-repeat="module in navCtrl.modules" ng-class="{active:navCtrl.isActive(module.path)}")
-        a(ng-href="#{{module.path}}") {{module.name}}
+	li(ng-repeat="module in navCtrl.modules" ng-class="{active:navCtrl.isActive(module.path)}")
+		a(ng-href="#{{module.path}}") {{module.name}}
