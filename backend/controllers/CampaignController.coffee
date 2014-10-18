@@ -10,8 +10,8 @@ class CampaignController
 	actionMap:
 		$credits: ['get', -> '/campaigns/:id/credits']
 
-	$credits: (req, res) ->
-		sub = @crud.with 'Subscription'
+	$credits: (req, res) =>
+		sub = @cruds['Subscription']
 		sub
 		.find campaign: req.params.id
 		.then (data) ->
