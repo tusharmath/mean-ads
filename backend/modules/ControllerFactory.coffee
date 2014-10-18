@@ -18,10 +18,11 @@ class ControllerFactory
 	_onLoad: (ctrls) =>
 		controllers = {}
 		_.each ctrls, (ctrlCtor, ctrlName) =>
-			ctrlCtor :: = @injector.get BaseCtrl
+			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
 			controllers[ctrlName] = @injector.get ctrlCtor
 			bragi.log 'controller', ctrlName
-		return Q.fcall -> controllers
+			undefined
+		controllers
 
 di.annotate ControllerFactory, new di.Inject ComponentLoader, di.Injector
 module.exports = ControllerFactory
