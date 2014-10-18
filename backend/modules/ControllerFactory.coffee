@@ -2,14 +2,17 @@ ComponentLoader = require '../modules/ComponentLoader'
 BaseCtrl = require '../controllers/BaseController'
 di = require 'di'
 logger = require 'bragi'
-q = require 'q'
+Q = require 'q'
 _ = require 'lodash'
 class ControllerFactory
 	constructor: (loader, @injector) ->
 		controllers = {}
-		return loader
-		.load 'controller', ['BaseController.coffee']
-		.then @_onLoad
+		@baseCtrl = @injector.get BaseCtrl
+		return Q.all [
+			loader.load 'controller', ['BaseController.coffee']
+			@baseCtrl.init()
+		]
+		.spread @_onLoad
 
 	_onLoad: (ctrls) =>
 		controllers = {}
@@ -17,7 +20,7 @@ class ControllerFactory
 			ctrlCtor :: = @injector.get BaseCtrl
 			controllers[ctrlName] = @injector.get ctrlCtor
 			bragi.log 'controller', ctrlName
-		return q.fcall -> controllers
+		return Q.fcall -> controllers
 
 di.annotate ControllerFactory, new di.Inject ComponentLoader, di.Injector
 module.exports = ControllerFactory

@@ -3,15 +3,16 @@ Q = require 'q'
 di = require 'di'
 _ = require 'lodash'
 class BaseController
-	constructor: (@crud) ->
+	constructor: (@crudFac) ->
 		@_filterKeys = []
+	init: -> @crudFac.init().then (@cruds) =>
+
 	_onError: (err) -> throw new Error err
 
 
 	# [POST] /resource
 	$create: (req, res) ->
-		@crud
-		.with @resource
+		@cruds[@resource]
 		.create req.body
 		.done (resource) -> res.send resource
 
@@ -19,32 +20,28 @@ class BaseController
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
 	$update: (req, res) ->
-		@crud
-		.with @resource
+		@cruds[@resource]
 		.update req.body, req.params.id
 		.done (resource) -> res.send resource
 
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
-		@crud
-		.with @resource
+		@cruds[@resource]
 		.count _.pick req.query, @_filterKeys
 		.done (count) -> res.send {count}
 
 
 	# [GET] /resource
 	$list: (req, res) ->
-		@crud
-		.with @resource
+		@cruds[@resource]
 		.read @_populate, _.pick req.query, @_filterKeys
 		.done (data) -> res.send data
 
 
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
-		@crud
-		.with @resource
+		@cruds[@resource]
 		.delete req.params.id
 		.done -> res.send {deleted: req.params.id}
 
