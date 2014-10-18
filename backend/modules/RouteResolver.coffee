@@ -14,8 +14,9 @@ defaultActionMap =
 
 class V1
 	constructor: (@ctrlFac) ->
-		router = express.Router()
+
 	init: ->
+		router = express.Router()
 		@ctrlFac.init()
 		.then (controllers) ->
 			_.each controllers, (ctrl, ctrlName) ->
