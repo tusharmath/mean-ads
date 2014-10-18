@@ -48,8 +48,7 @@ class BaseController
 
 	# [GET] /resource/:id
 	$first: (req, res) ->
-		@crud
-		.with @resource
+		@cruds[@resource]
 		.one(req.params.id)
 		.done (data) ->
 			return res.send error: 'Document not found', 404 if not data
