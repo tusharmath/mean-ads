@@ -5,27 +5,4 @@ class CampaignController
 	constructor: () ->
 		@_populate = path: 'program', select: 'name gauge'
 
-	# TODO: Can't think of a better way to handle custom routes
-	actionMap:
-		$credits: ['get', -> '/campaigns/:id/credits']
-
-	$credits: (req, res) =>
-		sub = @cruds['Subscription']
-		sub
-		.find campaign: req.params.id
-		.then (data) ->
-			creditUsage = _.reduce(
-				data
-				(sum, subscription) -> sum += subscription.usedCredits
-				0
-			)
-
-			creditDistribution = _.reduce(
-				data
-				(sum, subscription) -> sum += subscription.totalCredits
-				0
-			)
-			res.send {creditDistribution, creditUsage}
-
-
 module.exports = CampaignController
