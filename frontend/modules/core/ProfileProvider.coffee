@@ -6,7 +6,6 @@ define ['modules/core/app'], (app)->
 			@$get = ['auth', '$q', @get]
 
 		onLoginSuccess: =>
-			console.log 'Now logging'
 			@defer.resolve @auth.profilePromise
 		get: (@auth, Q) =>
 			if auth.isAuthenticated is yes
