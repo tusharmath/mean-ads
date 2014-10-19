@@ -17,7 +17,6 @@ define ["app"], (app) ->
 				@creditDistribution = Math.round @creditDistribution / @campaign.days
 				@creditUsage = Math.round @creditUsage / @campaign.days
 				@fulfillment = 100 * @creditDistribution / @avgCommitment
-				console.log @
 
 	CampaignMetricsCtrl.$inject = ['Restangular', '$routeParams', '$q']
 	app.controller 'CampaignMetricsCtrl', CampaignMetricsCtrl
