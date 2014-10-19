@@ -23,8 +23,7 @@ class CrudFactory
 		bragi.log 'crud', ctorName
 		ref
 
-	_onLoad: (crudCtors) =>
-		p = _.reduce(crudCtors, @_instantiate, {})
+	_onLoad: (crudCtors) =>_.reduce(crudCtors, @_instantiate, {})
 
 di.annotate(
 	CrudFactory

@@ -9,7 +9,7 @@ class BaseController
 
 	# [POST] /resource
 	$create: (req, res) ->
-		@cruds[@resource]
+		@crud
 		.create req.body
 		.done (resource) -> res.send resource
 
@@ -17,35 +17,35 @@ class BaseController
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
 	$update: (req, res) ->
-		@cruds[@resource]
+		@crud
 		.update req.body, req.params.id
 		.done (resource) -> res.send resource
 
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
-		@cruds[@resource]
+		@crud
 		.count _.pick req.query, @_filterKeys
 		.done (count) -> res.send {count}
 
 
 	# [GET] /resource
 	$list: (req, res) ->
-		@cruds[@resource]
+		@crud
 		.read @_populate, _.pick req.query, @_filterKeys
 		.done (data) -> res.send data
 
 
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
-		@cruds[@resource]
+		@crud
 		.delete req.params.id
 		.done -> res.send {deleted: req.params.id}
 
 
 	# [GET] /resource/:id
-	$first: (req, res) ->
-		@cruds[@resource]
+	$one: (req, res) ->
+		@crud
 		.one(req.params.id)
 		.done (data) ->
 			return res.send error: 'Document not found', 404 if not data
