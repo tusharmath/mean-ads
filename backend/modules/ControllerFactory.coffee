@@ -1,29 +1,33 @@
 ComponentLoader = require '../modules/ComponentLoader'
 BaseCtrl = require '../controllers/BaseController'
-di = require 'di'
+CrudFactory = require '../modules/CrudFactory'
+{Inject, Injector} = require 'di'
 logger = require 'bragi'
 Q = require 'q'
 _ = require 'lodash'
 class ControllerFactory
-	constructor: (@loader, @injector) ->
+	constructor: (@loader, @injector, @crudFac) ->
 
 	init: ->
-		@baseCtrl = @injector.get BaseCtrl
 		Q.all [
 			@loader.load 'controller', ['BaseController.coffee']
-			@baseCtrl.init()
+			@crudFac.init()
 		]
 		.spread @_onLoad
 
-	_onLoad: (ctrls) =>
+	_onLoad: (ctrls, cruds) =>
 		controllers = {}
 		_.each ctrls, (ctrlCtor, ctrlName) =>
 			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
 			controllers[ctrlName] = @injector.get ctrlCtor
-			controllers[ctrlName].resource = ctrlName
+			# controllers[ctrlName].resource = ctrlName
+			controllers[ctrlName].crud = cruds[ctrlName]
 			bragi.log 'controller', ctrlName
 			undefined
 		controllers
 
-di.annotate ControllerFactory, new di.Inject ComponentLoader, di.Injector
+ControllerFactory.annotations = [
+	new Inject ComponentLoader, Injector, CrudFactory
+]
+
 module.exports = ControllerFactory

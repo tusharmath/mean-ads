@@ -12,18 +12,21 @@ describe 'ControllerFactory:', ->
 		@mod = @injector.get ControllerFactory
 
 	describe '_onLoad()', ->
+		crudA = 0
+		beforeEach: ->
+			crudA = {}
 
 		it 'instantiates', ->
 			class A
 			class B
-			ctrls = @mod._onLoad {A, B}
+			ctrls = @mod._onLoad {A, B}, A: crudA
 			ctrls.A.should.be.instanceof A
 			ctrls.B.should.be.instanceof B
 
 		it 'extends BaseController', ->
 			class A
 			class B
-			ctrls = @mod._onLoad {A, B}
+			ctrls = @mod._onLoad {A, B}, A: crudA
 			ctrls.A.should.be.instanceof BaseController
 			ctrls.B.should.be.instanceof BaseController
 
@@ -31,13 +34,21 @@ describe 'ControllerFactory:', ->
 			class A
 				me: 'yoyo'
 
-			@mod._onLoad {A}
+			@mod._onLoad {A}, A: crudA
 			.A.me.should.equal 'yoyo'
 
 
-		it 'sets resource', ->
+		# it 'sets resource', ->
+		# 	class A
+		# 		me: 'yoyo'
+
+		# 	@mod._onLoad {A}, A: crudA
+		# 	.A.resource.should.equal 'A'
+
+		it 'sets cruds', ->
+			crudA = {}
 			class A
 				me: 'yoyo'
 
-			@mod._onLoad {A}
-			.A.resource.should.equal 'A'
+			@mod._onLoad {A}, A: crudA
+			.A.crud.should.equal crudA

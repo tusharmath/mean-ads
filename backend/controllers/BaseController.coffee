@@ -1,12 +1,9 @@
-CrudFactory = require '../modules/CrudFactory'
 Q = require 'q'
 {TransientScope, Inject} = require 'di'
 _ = require 'lodash'
 class BaseController
-	constructor: (@crudFac) ->
+	constructor: ->
 		@_filterKeys = []
-	init: -> @crudFac.init().then (@cruds) =>
-
 	_onError: (err) -> throw new Error err
 
 
@@ -56,6 +53,5 @@ class BaseController
 
 BaseController.annotations = [
 	new TransientScope()
-	new Inject CrudFactory
 ]
 module.exports = BaseController
