@@ -1,6 +1,6 @@
 .pull-right(ng-controller='ProfileListCtrl as profileCtrl')
 	img.profile-image(
-		src="{{profileCtrl.profile.picture}}"
+		ng-src="{{profileCtrl.profile.picture}}"
 		alt="Profile Picture"
 		title="{{profileCtrl.profile.email}}"
 		ng-if="profileCtrl.profile"
