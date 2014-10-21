@@ -1,32 +1,34 @@
-di = require 'di'
+{Injector, Inject} = require 'di'
 Q = require 'q'
 _ = require 'lodash'
 ComponentLoader = require './ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
+ModelFactory = require '../modules/ModelFactory'
 
 class CrudFactory
-	constructor: (@loader, @injector) ->
+	constructor: (@loader, @injector, @modelFac) ->
 
 	init: ->
-		@baseCrud = @injector.get BaseCrud
 		return Q.all [
 			@loader.load 'crud', ['BaseCrud.coffee']
-			@baseCrud.init()
+			@modelFac.init()
 		]
 		.spread @_onLoad
 
-	_instantiate: (ref, ctor, ctorName) =>
-		ctor:: = @baseCrud
+	_ctorReducer: (ref, ctor, ctorName) =>
+		ctor :: = _.assign @injector.get(BaseCrud), ctor::
 		crud = @injector.get ctor
-		crud.model = crud.models[ctorName]
+		crud.models = @models
+		# crud.model = crud.models[ctorName]
 		ref[ctorName] = crud
 		bragi.log 'crud', ctorName
 		ref
 
-	_onLoad: (crudCtors) =>_.reduce(crudCtors, @_instantiate, {})
+	_onLoad: (crudCtors, @models) =>
+		_.reduce crudCtors, @_ctorReducer, {}
 
-di.annotate(
+CrudFactory.annotations = [
 	CrudFactory
-	new di.Inject ComponentLoader, di.Injector
-)
+	new Inject ComponentLoader, Injector, ModelFactory
+]
 module.exports = CrudFactory
