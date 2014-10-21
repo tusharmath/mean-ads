@@ -2,7 +2,7 @@
 fs = require 'fs'
 path = require 'path'
 _ = require 'lodash'
-
+# process.env.NODE_ENV = 'production'
 env = process.env.NODE_ENV || 'development'
 
 config = _.merge(
