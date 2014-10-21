@@ -9,7 +9,7 @@ module.exports =
 	stylus: forceCompile: false
 	bragi:
 		options:
-			groupsEnabled: ['application']
+			groupsEnabled: true
 	coffeeCompress: true
 	ip: process.env.OPENSHIFT_NODEJS_IP ||
 		process.env.IP ||
