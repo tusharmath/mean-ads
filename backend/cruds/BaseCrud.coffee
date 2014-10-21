@@ -1,8 +1,16 @@
-{Inject} = require 'di'
+{Inject, TransientScope} = require 'di'
 q = require 'q'
 ModelFactory = require '../modules/ModelFactory'
 class BaseCrud
 	constructor: (@modelFac) ->
+
+	# with: (userId) ->
+	# 	_.reduce(
+	# 		['read', 'update', 'one', 'find', 'create', 'delete']
+	# 		(src, key) =>
+	# 			src[key] = _.bind @[key], @, [userId]
+	# 		{}
+	# 	)
 
 	init: =>
 		@modelFac.then (@models) =>
@@ -48,6 +56,7 @@ class BaseCrud
 		.execQ()
 
 BaseCrud.annotations = [
+	new TransientScope()
 	new Inject ModelFactory
 ]
 
