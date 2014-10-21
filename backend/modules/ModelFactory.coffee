@@ -1,21 +1,28 @@
 glob = require 'glob'
 _ = require 'lodash'
-di = require 'di'
+{Inject} = require 'di'
 Q = require 'q'
 DbConnection = require '../connections/DbConnection'
 ComponentLoader = require './ComponentLoader'
 
 class ModelFactory
-	constructor: (db, loader) ->
+	constructor: (@db, @loader) ->
+
+	init: ->
 		models = {}
-		return loader
-		.load 'schema'
-		.then (schemas) ->
+		loader = @loader
+		@loader.load 'schema'.then (schemas) ->
 			_.each schemas, (schema, modelName) ->
-				models[modelName] = db.conn.model modelName, schema db.mongoose
 				bragi.log 'model', modelName
-			return Q.fcall -> models
+				models[modelName] = db.conn.model(
+					modelName
+					schema db.mongoose
+				)
+			models
 
 
-di.annotate ModelFactory, new di.Inject DbConnection, ComponentLoader
+ModelFactory.annotations = [
+	new Inject DbConnection, ComponentLoader
+]
+
 module.exports = ModelFactory
