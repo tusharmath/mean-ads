@@ -6,7 +6,7 @@ class CampaignCrud
 		@models
 		.Subscription
 		.findQ campaign: camp._id
-		.done (subs) ->
+		.then (subs) ->
 			_.each subs, (sub) ->
 				subs.campaignKeywords = camp.campaignKeywords
 				subs.save()

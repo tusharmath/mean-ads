@@ -10,13 +10,13 @@ class ModelFactory
 
 	init: ->
 		models = {}
-		loader = @loader
-		@loader.load 'schema'.then (schemas) ->
-			_.each schemas, (schema, modelName) ->
+		@loader.load 'schema'
+		.then (schemas) =>
+			_.each schemas, (schema, modelName) =>
 				bragi.log 'model', modelName
-				models[modelName] = db.conn.model(
+				models[modelName] = @db.conn.model(
 					modelName
-					schema db.mongoose
+					schema @db.mongoose
 				)
 			models
 
