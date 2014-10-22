@@ -4,7 +4,10 @@ div.panel.panel-default
 			a.btn.btn-default(ng-href="#/programs/create") Create
 		.clearfix
 	.panel-body
-		table.table
+		div(ng-hide="ctrl.programs")
+			center
+				h3.text-info You don't have any programs.
+		table.table(ng-show="ctrl.programs")
 			thead
 				tr.text-capitalize
 					th Program

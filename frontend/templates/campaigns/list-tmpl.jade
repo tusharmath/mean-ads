@@ -4,7 +4,10 @@ div.panel.panel-default
 			a.btn.btn-default(ng-href="#/campaigns/create") Create
 		.clearfix
 	.panel-body
-		table.table
+		div(ng-hide="ctrl.campaigns")
+			center
+				h3.text-info You don't have any campaigns.
+		table.table(ng-show="ctrl.campaigns")
 			thead
 				tr.text-capitalize
 					th Campaign

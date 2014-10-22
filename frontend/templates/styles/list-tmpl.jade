@@ -4,7 +4,10 @@ div.panel.panel-default
 			a.btn.btn-default(href="#/styles/create") Create
 		.clearfix
 	.panel-body
-		table.table
+		div(ng-hide="ctrl.styles")
+			center
+				h3.text-info You don't have any styles.
+		table.table(ng-show="ctrl.styles")
 			thead
 				tr.text-capitalize
 					th Style
