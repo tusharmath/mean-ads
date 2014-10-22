@@ -10,6 +10,8 @@ describe 'CrudFactory:', ->
 		@mod = @injector.get CrudFactory
 
 	describe '_ctorReducer()', ->
+		beforeEach ->
+			@mod.models = {} #TODO: Move the tests to init
 
 		it 'function', -> @mod._ctorReducer.should.be.a.Function
 
@@ -53,10 +55,16 @@ describe 'CrudFactory:', ->
 
 			sinon.stub @mod.loader, 'load'
 			.returns Q.fcall -> {PP, QQ}
-
+			@models = PP:11, QQ:22
 			sinon.stub @mod.modelFac, 'init'
-			.returns Q.fcall -> A:11, B:22
-		it 'setup models', (done) ->
-			@mod.init().done =>
-				@mod.models.should.eql A:11, B:22
+			.returns Q.fcall => @models
+
+		it 'setup model(s)', (done) ->
+			@mod.init().done (crud) =>
+				crud.PP.models.should.equal @models
+				done()
+
+		it 'setup model', (done) ->
+			@mod.init().done (crud) =>
+				crud.PP.model.should.equal @models.PP
 				done()

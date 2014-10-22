@@ -19,7 +19,7 @@ class CrudFactory
 		ctor :: = _.assign @injector.get(BaseCrud), ctor::
 		crud = @injector.get ctor
 		crud.models = @models
-		# crud.model = crud.models[ctorName]
+		crud.model = @models[ctorName] if @models?[ctorName]
 		ref[ctorName] = crud
 		bragi.log 'crud', ctorName
 		ref
