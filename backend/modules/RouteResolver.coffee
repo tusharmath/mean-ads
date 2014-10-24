@@ -3,6 +3,7 @@ _ = require 'lodash'
 ControllerFactory = require '../modules/ControllerFactory'
 di = require 'di'
 Q = require 'q'
+errors = require '../config/error-codes'
 
 defaultActionMap =
 	'$create': ['post', (str) -> "/#{str}"]
@@ -28,7 +29,7 @@ class V1
 					route = _route "#{ctrlName.toLowerCase()}s"
 					bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]", 'green'), route
 					router[method] route, _.bind action, ctrl
-		router.use '*', (req, res) -> res.send error: 'Service not found', 404
+		router.use '*', (req, res) -> res.status(errors.NOTFOUND_RESOURCE.httpStatus).send NOTFOUND_RESOURCE.message
 		return Q.fcall -> router
 
 di.annotate V1, new di.Inject ControllerFactory
