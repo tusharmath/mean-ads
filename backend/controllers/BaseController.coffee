@@ -1,12 +1,17 @@
 Q = require 'q'
 {TransientScope, Inject} = require 'di'
 _ = require 'lodash'
+errors = require '../config/error-codes'
 class BaseController
 	constructor: ->
 		@_filterKeys = []
 	_onError: (err) -> throw new Error err
 	_defaultErrorHandler: (res) ->
-		(err)-> res.status(err.httpStatus).send err
+		(err)->
+			bragi.log 'error', err
+			if err.type isnt 'mean'
+				err = errors.INTERNAL_SERVER_ERROR
+			res.status(err.httpStatus).send err
 
 
 	# [POST] /resource
