@@ -10,7 +10,7 @@ class BaseController
 	# [POST] /resource
 	$create: (req, res) ->
 		@crud
-		.create req.body
+		.create req.body, req.user.sub
 		.done (resource) -> res.send resource
 
 
@@ -18,35 +18,35 @@ class BaseController
 	# [PATCH] /resource
 	$update: (req, res) ->
 		@crud
-		.update req.body, req.params.id
+		.update req.body, req.params.id, req.user.sub
 		.done (resource) -> res.send resource
 
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
 		@crud
-		.count _.pick req.query, @_filterKeys
+		.count _.pick(req.query, @_filterKeys), req.user.sub
 		.done (count) -> res.send {count}
 
 
 	# [GET] /resource
 	$list: (req, res) ->
 		@crud
-		.read @_populate, _.pick req.query, @_filterKeys
+		.read @_populate, _.pick(req.query, @_filterKeys), req.user.sub
 		.done (data) -> res.send data
 
 
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
 		@crud
-		.delete req.params.id
+		.delete req.params.id, req.user.sub
 		.done -> res.send {deleted: req.params.id}
 
 
 	# [GET] /resource/:id
 	$one: (req, res) ->
 		@crud
-		.one(req.params.id)
+		.one req.params.id, req.user.sub
 		.done (data) ->
 			return res.send error: 'Document not found', 404 if not data
 			res.send data
