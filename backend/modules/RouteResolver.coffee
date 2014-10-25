@@ -29,7 +29,10 @@ class V1
 			bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]", 'green'), route
 			router[method] route, _.bind action, ctrl
 		router.use '*', (req, res) ->
-			res.status(errors.NOTFOUND_RESOURCE.httpStatus).send NOTFOUND_RESOURCE.message
+			err404 = errors.NOTFOUND_RESOURCE
+			res
+			.status err404.httpStatus
+			.send err404.message
 		return Q.fcall -> router
 
 di.annotate V1, new di.Inject ControllerFactory
