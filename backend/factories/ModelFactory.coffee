@@ -16,7 +16,7 @@ class ModelFactory
 		.then (schemas) =>
 			_.each schemas, (schema, modelName) =>
 				bragi.log 'model', modelName
-				models[modelName] = @create modelName schema
+				models[modelName] = @create modelName, schema
 			@modelsProvider.models = models
 
 
