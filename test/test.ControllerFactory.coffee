@@ -45,10 +45,10 @@ describe 'ControllerFactory:', ->
 		# 	@mod._onLoad {A}, A: crudA
 		# 	.A.resource.should.equal 'A'
 
-		it 'sets cruds', ->
+		it 'sets resourceName', ->
 			crudA = {}
 			class A
 				me: 'yoyo'
 
 			@mod._onLoad {A}, A: crudA
-			.A.crud.should.equal crudA
+			.A.resourceName.should.equal 'A'

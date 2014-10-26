@@ -2,7 +2,6 @@ ComponentLoader = require '../modules/ComponentLoader'
 BaseCtrl = require '../controllers/BaseController'
 CrudFactory = require './CrudFactory'
 {Inject, Injector} = require 'di'
-logger = require 'bragi'
 Q = require 'q'
 _ = require 'lodash'
 class ControllerFactory
@@ -20,9 +19,7 @@ class ControllerFactory
 		_.each ctrls, (ctrlCtor, ctrlName) =>
 			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
 			controllers[ctrlName] = @injector.get ctrlCtor
-			# controllers[ctrlName].resource = ctrlName
-			#TODO: This should be added as a depenendency
-			controllers[ctrlName].crud = cruds[ctrlName]
+			controllers[ctrlName].resourceName = ctrlName
 			bragi.log 'controller', ctrlName
 			undefined
 		controllers
