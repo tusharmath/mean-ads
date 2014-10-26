@@ -1,4 +1,4 @@
-class ModelProvider
+class ModelsProvider
 	constructor: ->
 		models = null
 		get = ->
@@ -10,4 +10,4 @@ class ModelProvider
 			models = _models
 			bragi.log 'models', 'Models Initialized Successfully'
 		Object.defineProperty @, 'models', {get, set}
-module.exports = ModelProvider
+module.exports = ModelsProvider

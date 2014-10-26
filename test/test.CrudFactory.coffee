@@ -1,5 +1,5 @@
 CrudFactory = require '../backend/modules/CrudFactory'
-ModelProvider = require '../backend/providers/ModelProvider'
+ModelsProvider = require '../backend/providers/ModelsProvider'
 require 'mock-promises'
 Mock = require './mocks'
 Q = require 'q'

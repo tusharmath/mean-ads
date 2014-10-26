@@ -1,9 +1,9 @@
 {Inject, TransientScope} = require 'di'
-ModelProvider = require '../providers/ModelProvider'
+ModelsProvider = require '../providers/ModelsProvider'
 q = require 'q'
 class BaseCrud
-	constructor: (modelProvider) ->
-		@Models = modelProvider.models
+	constructor: (modelsProvider) ->
+		@Models = modelsProvider.models
 		@resourceName = null
 
 		get = =>
@@ -51,7 +51,7 @@ class BaseCrud
 
 BaseCrud.annotations = [
 	new TransientScope()
-	new Inject ModelProvider
+	new Inject ModelsProvider
 ]
 
 module.exports = BaseCrud

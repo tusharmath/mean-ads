@@ -4,7 +4,7 @@ _ = require 'lodash'
 ComponentLoader = require './ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
 ModelFactory = require '../modules/ModelFactory'
-ModelProvider = require '../providers/ModelProvider'
+ModelsProvider = require '../providers/ModelsProvider'
 
 class CrudFactory
 	constructor: (@loader, @injector, @modelFac, @modelPro) ->
@@ -30,6 +30,6 @@ class CrudFactory
 
 CrudFactory.annotations = [
 	CrudFactory
-	new Inject ComponentLoader, Injector, ModelFactory, ModelProvider
+	new Inject ComponentLoader, Injector, ModelFactory, ModelsProvider
 ]
 module.exports = CrudFactory

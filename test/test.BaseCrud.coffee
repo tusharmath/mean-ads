@@ -1,6 +1,6 @@
 BaseCrud = require '../backend/cruds/BaseCrud'
 _ = require 'lodash'
-ModelProvider = require '../backend/providers/ModelProvider'
+ModelsProvider = require '../backend/providers/ModelsProvider'
 
 Mock = require './mocks'
 {Injector} = require 'di'
