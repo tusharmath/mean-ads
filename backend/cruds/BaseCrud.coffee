@@ -13,7 +13,6 @@ class BaseCrud
 
 		Object.defineProperty @, 'model', {get}
 
-
 	read: (populate, filter = {}, owner ) ->
 		filter.owner = owner
 		@model
@@ -21,9 +20,9 @@ class BaseCrud
 		.populate populate or ''
 		.execQ()
 
-	one: (id) ->
+	one: (_id, owner) ->
 		@model
-		.findById id
+		.findOne {_id, owner}
 		.execQ()
 
 	postUpdate: -> q.fcall ->

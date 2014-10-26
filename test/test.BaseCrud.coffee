@@ -13,6 +13,7 @@ describe 'BaseCrud:', ->
 			find: -> @
 			populate: -> @
 			findById: -> @
+			findOne: -> @
 			execQ: -> @
 		@modelProvider = @injector.get ModelProvider
 		@modelProvider.models = FakeResource: @FakeModel
@@ -40,5 +41,11 @@ describe 'BaseCrud:', ->
 			@FakeModel.find.calledWith filterParam: 1, owner: userId
 			.should.be.ok
 
+	describe "one()", ->
+		it "is function", -> @mod.read.should.be.a.Function
+		it "filters on user", ->
+			@mod.one 1234, 2345
+			@FakeModel.findOne.calledWith owner: 2345, _id: 1234
+			.should.be.ok
 
 
