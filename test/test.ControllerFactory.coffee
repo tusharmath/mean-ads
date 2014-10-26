@@ -1,4 +1,4 @@
-ControllerFactory = require '../backend/modules/ControllerFactory'
+ControllerFactory = require '../backend/factories/ControllerFactory'
 BaseController = require '../backend/controllers/BaseController'
 ComponentLoader = require '../backend/modules/ComponentLoader'
 Mock = require './mocks'

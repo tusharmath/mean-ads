@@ -1,6 +1,6 @@
 express = require 'express'
 _ = require 'lodash'
-ControllerFactory = require '../modules/ControllerFactory'
+ControllerFactory = require '../factories/ControllerFactory'
 di = require 'di'
 Q = require 'q'
 errors = require '../config/error-codes'

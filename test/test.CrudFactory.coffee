@@ -1,4 +1,4 @@
-CrudFactory = require '../backend/modules/CrudFactory'
+CrudFactory = require '../backend/factories/CrudFactory'
 ModelsProvider = require '../backend/providers/ModelsProvider'
 require 'mock-promises'
 Mock = require './mocks'

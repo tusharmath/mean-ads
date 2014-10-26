@@ -3,7 +3,7 @@ Q = require 'q'
 _ = require 'lodash'
 ComponentLoader = require './ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
-ModelFactory = require '../modules/ModelFactory'
+ModelFactory = require '../factories/ModelFactory'
 ModelsProvider = require '../providers/ModelsProvider'
 
 class CrudFactory
