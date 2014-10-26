@@ -21,6 +21,7 @@ class ControllerFactory
 			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
 			controllers[ctrlName] = @injector.get ctrlCtor
 			# controllers[ctrlName].resource = ctrlName
+			#TODO: This should be added as a depenendency
 			controllers[ctrlName].crud = cruds[ctrlName]
 			bragi.log 'controller', ctrlName
 			undefined
