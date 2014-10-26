@@ -13,16 +13,15 @@ class BaseCrud
 
 		Object.defineProperty @, 'model', {get}
 
-	read: (populate, filter = {}, owner ) ->
-		filter.owner = owner
+	read: (populate, filter = {} ) ->
 		@model
 		.find filter
 		.populate populate or ''
 		.execQ()
 
-	one: (_id, owner) ->
+	one: (_id) ->
 		@model
-		.findOne {_id, owner}
+		.findOne {_id}
 		.execQ()
 
 	postUpdate: -> q.fcall ->
@@ -33,8 +32,7 @@ class BaseCrud
 		.then @postUpdate obj
 
 	preCreate: -> q.fcall ->
-	create: (obj, user) ->
-		obj.owner = user
+	create: (obj) ->
 		resource = new @model obj
 		@preCreate resource
 		.then -> resource.saveQ()
