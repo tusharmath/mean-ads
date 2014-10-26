@@ -1,3 +1,4 @@
 class MongooseProvider
-	mongoose: require('mongoose-q') require 'mongoose'
+	constructor: ->
+		@mongoose =  require('mongoose-q') require 'mongoose'
 module.exports = MongooseProvider

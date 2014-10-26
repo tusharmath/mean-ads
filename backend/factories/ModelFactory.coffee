@@ -7,16 +7,14 @@ ComponentLoader = require '../modules/ComponentLoader'
 
 class ModelFactory
 	constructor: (@db, @loader) ->
-
+	create: (name, schema) ->
+		@db.mongoose.model name, schema @db.mongoose
 	init: ->
 		models = {}
 		@loader.load 'schema'
 		.then (schemas) =>_.each schemas, (schema, modelName) =>
 			bragi.log 'model', modelName
-			models[modelName] = @db.conn.create(
-				modelName
-				schema @db.mongoose
-			)
+			models[modelName] = @create modelName schema
 			models
 
 
