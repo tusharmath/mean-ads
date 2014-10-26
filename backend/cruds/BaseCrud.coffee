@@ -14,7 +14,8 @@ class BaseCrud
 		Object.defineProperty @, 'model', {get}
 
 
-	read: (populate, filter = {} ) ->
+	read: (populate, filter = {}, owner ) ->
+		filter.owner = owner
 		@model
 		.find filter
 		.populate populate or ''
