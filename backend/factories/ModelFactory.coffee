@@ -4,7 +4,7 @@ _ = require 'lodash'
 Q = require 'q'
 DbConnection = require '../connections/DbConnection'
 MongoModelProvider = require  '../providers/MongoModelProvider'
-ComponentLoader = require './ComponentLoader'
+ComponentLoader = require '../modules/ComponentLoader'
 
 class ModelFactory
 	constructor: (@mongoModel, @loader) ->

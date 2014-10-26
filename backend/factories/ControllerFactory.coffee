@@ -1,6 +1,6 @@
 ComponentLoader = require '../modules/ComponentLoader'
 BaseCtrl = require '../controllers/BaseController'
-CrudFactory = require '../factories/CrudFactory'
+CrudFactory = require './CrudFactory'
 {Inject, Injector} = require 'di'
 logger = require 'bragi'
 Q = require 'q'

@@ -1,7 +1,7 @@
 {Injector, Inject} = require 'di'
 Q = require 'q'
 _ = require 'lodash'
-ComponentLoader = require './ComponentLoader'
+ComponentLoader = require '../modules/ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
 ModelFactory = require '../factories/ModelFactory'
 ModelsProvider = require '../providers/ModelsProvider'
