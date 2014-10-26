@@ -1,9 +1,9 @@
 _ = require 'lodash'
 ErrorMap =
 	# 403
-	FORBIDDEN_DOC:
+	FORBIDDEN_DOCUMENT:
 		code: 'FORBIDDEN'
-		message: 'Only the owner of the resource has access to this document'
+		message: 'Only the owner of the document has access'
 		httpStatus: 403
 
 	# 404
