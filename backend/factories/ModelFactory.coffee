@@ -3,20 +3,19 @@ _ = require 'lodash'
 {Inject} = require 'di'
 Q = require 'q'
 DbConnection = require '../connections/DbConnection'
-MongoModelProvider = require  '../providers/MongoModelProvider'
 ComponentLoader = require '../modules/ComponentLoader'
 
 class ModelFactory
-	constructor: (@mongoModel, @loader) ->
+	constructor: (@db, @loader) ->
 
 	init: ->
 		models = {}
 		@loader.load 'schema'
 		.then (schemas) =>_.each schemas, (schema, modelName) =>
 			bragi.log 'model', modelName
-			models[modelName] = @mongoModel.create(
+			models[modelName] = @db.conn.create(
 				modelName
-				schema
+				schema @db.mongoose
 			)
 			models
 
