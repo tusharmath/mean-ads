@@ -4,9 +4,10 @@ _ = require 'lodash'
 ComponentLoader = require './ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
 ModelFactory = require '../modules/ModelFactory'
+ModelProvider = require '../providers/ModelProvider'
 
 class CrudFactory
-	constructor: (@loader, @injector, @modelFac) ->
+	constructor: (@loader, @injector, @modelFac, @modelPro) ->
 
 	init: ->
 		return Q.all [
@@ -18,17 +19,17 @@ class CrudFactory
 	_ctorReducer: (ref, ctor, ctorName) =>
 		ctor :: = _.assign @injector.get(BaseCrud), ctor::
 		crud = @injector.get ctor
-		crud.models = @models
-		crud.model = @models[ctorName] if @models?[ctorName]
+		crud.resourceName = ctorName
 		ref[ctorName] = crud
 		bragi.log 'crud', ctorName
 		ref
 
-	_onLoad: (crudCtors, @models) =>
+	_onLoad: (crudCtors, models) =>
+		@modelPro.models = models
 		_.reduce crudCtors, @_ctorReducer, {}
 
 CrudFactory.annotations = [
 	CrudFactory
-	new Inject ComponentLoader, Injector, ModelFactory
+	new Inject ComponentLoader, Injector, ModelFactory, ModelProvider
 ]
 module.exports = CrudFactory
