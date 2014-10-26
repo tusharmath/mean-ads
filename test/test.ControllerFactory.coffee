@@ -2,12 +2,19 @@ ControllerFactory = require '../backend/factories/ControllerFactory'
 BaseController = require '../backend/controllers/BaseController'
 ComponentLoader = require '../backend/modules/ComponentLoader'
 Mock = require './mocks'
-{Injector, Provider} = require 'di'
+{Injector, Provide, TransientScope} = require 'di'
 Q = require 'q'
 
 describe 'ControllerFactory:', ->
+	BaseControllerMock = null
 	beforeEach ->
-		@injector = new Injector Mock
+		class BaseControllerMock
+		BaseControllerMock.annotations = [
+			new Provide BaseController
+			new TransientScope
+		]
+
+		@injector = new Injector [BaseControllerMock].concat Mock
 		@loader = @injector.get ComponentLoader
 		@mod = @injector.get ControllerFactory
 
@@ -27,8 +34,8 @@ describe 'ControllerFactory:', ->
 			class A
 			class B
 			ctrls = @mod._onLoad {A, B}, A: crudA
-			ctrls.A.should.be.instanceof BaseController
-			ctrls.B.should.be.instanceof BaseController
+			ctrls.A.should.be.instanceof BaseControllerMock
+			ctrls.B.should.be.instanceof BaseControllerMock
 
 		it 'maintains proto', ->
 			class A

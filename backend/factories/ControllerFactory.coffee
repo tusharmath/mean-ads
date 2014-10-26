@@ -14,7 +14,7 @@ class ControllerFactory
 		]
 		.spread @_onLoad
 
-	_onLoad: (ctrls, cruds) =>
+	_onLoad: (ctrls) =>
 		controllers = {}
 		_.each ctrls, (ctrlCtor, ctrlName) =>
 			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
