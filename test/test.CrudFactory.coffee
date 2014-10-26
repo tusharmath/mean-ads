@@ -45,7 +45,7 @@ describe 'CrudFactory:', ->
 			instances = @mod._onLoad {A}, mockModels
 			instances.A.models.should.equal mockModels
 
-	describe 'init', ->
+	describe 'init()', ->
 		beforeEach ->
 			class PP
 				alpha: ->
