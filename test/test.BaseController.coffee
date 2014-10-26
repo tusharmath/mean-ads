@@ -1,11 +1,16 @@
 BaseController = require '../backend/controllers/BaseController'
+CrudsProvider = require '../backend/providers/CrudsProvider'
 Mock = require './mocks'
-{Injector} = require 'di'
+{Injector, Provide} = require 'di'
 
 
 describe 'BaseController:', ->
 	beforeEach ->
-		@injector = new Injector Mock
+		class CrudsProviderMock
+		CrudsProviderMock.annotations = [
+			new Provide CrudsProvider
+		]
+		@injector = new Injector [CrudsProviderMock].concat Mock
 		@mod = @injector.get BaseController
 
 	it 'scope is transient', ->

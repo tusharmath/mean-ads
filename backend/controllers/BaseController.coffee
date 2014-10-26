@@ -1,10 +1,20 @@
 Q = require 'q'
 {TransientScope, Inject} = require 'di'
 _ = require 'lodash'
+CrudsProvider = require '../providers/CrudsProvider'
 errors = require '../config/error-codes'
 class BaseController
-	constructor: ->
+	constructor: (crudsP) ->
+		@Cruds = crudsP.cruds
 		@_filterKeys = []
+		@resourceName = null
+
+		get = =>
+			if not @resourceName
+				throw new Error 'resourceName has not been set!'
+			@Cruds[@resourceName]
+
+		Object.defineProperty @, 'crud', {get}
 	_onError: (err) -> throw new Error err
 	_defaultErrorHandler: (res) ->
 		(err)->
@@ -82,5 +92,6 @@ class BaseController
 
 BaseController.annotations = [
 	new TransientScope()
+	new Inject CrudsProvider
 ]
 module.exports = BaseController
