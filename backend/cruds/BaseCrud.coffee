@@ -1,6 +1,19 @@
 {Inject, TransientScope} = require 'di'
+ModelProvider = require '../providers/ModelProvider'
 q = require 'q'
 class BaseCrud
+	constructor: (modelProvider) ->
+		@Models = modelProvider.models
+		@resourceName = null
+
+		get = =>
+			if not @resourceName
+				throw new Error 'resourceName has not been set!'
+			@Models[@resourceName]
+
+		Object.defineProperty @, 'model', {get}
+
+
 	read: (populate, filter = {} ) ->
 		@model
 		.find filter
@@ -38,6 +51,7 @@ class BaseCrud
 
 BaseCrud.annotations = [
 	new TransientScope()
+	new Inject ModelProvider
 ]
 
 module.exports = BaseCrud
