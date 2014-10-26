@@ -4,14 +4,15 @@ _ = require 'lodash'
 ComponentLoader = require '../modules/ComponentLoader'
 BaseCrud = require '../cruds/BaseCrud'
 ModelFactory = require '../factories/ModelFactory'
+CrudsProvider = require '../providers/CrudsProvider'
 
 class CrudFactory
-	constructor: (@loader, @injector, @modelFac) ->
+	constructor: (@loader, @injector, @modelF, @crudsP) ->
 
 	init: ->
 		return Q.all [
 			@loader.load 'crud', ['BaseCrud.coffee']
-			@modelFac.init()
+			@modelF.init()
 		]
 		.spread @_onLoad
 
@@ -24,10 +25,10 @@ class CrudFactory
 		ref
 
 	_onLoad: (crudCtors) =>
-		_.reduce crudCtors, @_ctorReducer, {}
+		@crudsP.cruds = _.reduce crudCtors, @_ctorReducer, {}
 
 CrudFactory.annotations = [
 	CrudFactory
-	new Inject ComponentLoader, Injector, ModelFactory
+	new Inject ComponentLoader, Injector, ModelFactory, CrudsProvider
 ]
 module.exports = CrudFactory

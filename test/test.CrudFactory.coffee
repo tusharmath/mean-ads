@@ -27,7 +27,7 @@ describe 'CrudFactory:', ->
 			class QQ
 				bravo: ->
 
-			sinon.stub @mod.modelFac, 'init'
+			sinon.stub @mod.modelF, 'init'
 			sinon.stub @mod.loader, 'load'
 			.returns Q.fcall -> {PP, QQ}
 
@@ -47,3 +47,7 @@ describe 'CrudFactory:', ->
 
 		it 'setup resourceName', ->
 			@crud.PP.resourceName.should.equal 'PP'
+
+		it "sets up CrudsProvider", ->
+			should.exist @mod.crudsP.cruds
+
