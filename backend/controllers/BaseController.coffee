@@ -8,9 +8,13 @@ class BaseController
 	_onError: (err) -> throw new Error err
 	_defaultErrorHandler: (res) ->
 		(err)->
+			###
+				No point sending a custom error here.
+				It can directly be handled later
+			###
+			throw err if err.type isnt 'mean'
+
 			bragi.log 'error', err
-			if err.type isnt 'mean'
-				err = errors.INTERNAL_SERVER_ERROR
 			res.status(err.httpStatus).send err
 
 
