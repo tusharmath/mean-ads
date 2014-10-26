@@ -3,7 +3,7 @@ _ = require 'lodash'
 {Inject} = require 'di'
 Q = require 'q'
 DbConnection = require '../connections/DbConnection'
-MongoModelProvider require  '../providers/MongoModelProvider'
+MongoModelProvider = require  '../providers/MongoModelProvider'
 ComponentLoader = require './ComponentLoader'
 
 class ModelFactory
