@@ -1,13 +1,17 @@
 CrudFactory = require '../backend/factories/CrudFactory'
-ModelsProvider = require '../backend/providers/ModelsProvider'
-require 'mock-promises'
+BaseCrud = require '../backend/cruds/BaseCrud'
 Mock = require './mocks'
 Q = require 'q'
-{Injector} = require 'di'
+{TransientScope, Injector, Provide} = require 'di'
 
 describe 'CrudFactory:', ->
 	beforeEach ->
-		@injector = new Injector Mock
+		class BaseCrudMock
+		BaseCrudMock.annotations = [
+			new Provide BaseCrud
+			new TransientScope
+		]
+		@injector = new Injector [BaseCrudMock].concat Mock
 		@mod = @injector.get CrudFactory
 
 
@@ -23,13 +27,9 @@ describe 'CrudFactory:', ->
 			class QQ
 				bravo: ->
 
+			sinon.stub @mod.modelFac, 'init'
 			sinon.stub @mod.loader, 'load'
 			.returns Q.fcall -> {PP, QQ}
-
-			@models = PP:11, QQ:22
-
-			sinon.stub @mod.modelFac, 'init'
-			.returns Q.fcall => @models
 
 			@mod.init().done (@crud) => done()
 
