@@ -18,5 +18,4 @@ StyleSchema = (mongoose) ->
 			required: true
 			index: true
 
-
 module.exports = StyleSchema
