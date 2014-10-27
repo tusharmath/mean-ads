@@ -42,7 +42,12 @@ class BaseController
 	# [PATCH] /resource
 	$update: (req, res) ->
 		@crud
-		.update req.body, req.params.id, req.user.sub
+		.one req.params.id
+		.then (doc) =>
+			if doc.owner isnt req.user.sub
+				throw Error errors.FORBIDDEN_DOCUMENT
+			else
+				@crud.update req.body, req.params.id
 		.done(
 			(resource) -> res.send resource
 			@_defaultErrorHandler res
