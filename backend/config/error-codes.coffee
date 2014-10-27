@@ -11,6 +11,7 @@ ErrorMap =
 		code: 'NOTFOUND'
 		message: 'Resource not found'
 		httpStatus: 404
+
 	NOTFOUND_DOCUMENT:
 		code: 'NOTFOUND'
 		message: 'Document not found'
