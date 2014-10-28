@@ -17,9 +17,15 @@ class ControllerFactory
 	_onLoad: (ctrls) =>
 		controllers = {}
 		_.each ctrls, (ctrlCtor, ctrlName) =>
-			ctrlCtor :: = _.assign @injector.get(BaseCtrl), ctrlCtor::
+			# Settingup BaseController
+			baseCtrl = @injector.get BaseCtrl
+			baseCtrl.resourceName = ctrlName
+
+			# Swapping
+			[_proto, ctrlCtor::] = [ctrlCtor::, baseCtrl]
+			_.assign ctrlCtor::, _proto
+
 			controllers[ctrlName] = @injector.get ctrlCtor
-			controllers[ctrlName].resourceName = ctrlName
 			bragi.log 'controller', ctrlName
 			undefined
 		controllers

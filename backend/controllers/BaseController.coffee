@@ -12,9 +12,12 @@ class BaseController
 		get = =>
 			if not @resourceName
 				throw new Error 'resourceName has not been set!'
+			if not @Cruds[@resourceName]
+				throw new Error "#{@resourceName}Crud is not available!"
 			@Cruds[@resourceName]
 
 		Object.defineProperty @, 'crud', {get}
+
 	_onError: (err) -> throw new Error err
 	_defaultErrorHandler: (res) ->
 		(err)->

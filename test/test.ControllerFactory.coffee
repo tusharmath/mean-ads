@@ -1,21 +1,14 @@
 ControllerFactory = require '../backend/factories/ControllerFactory'
 BaseController = require '../backend/controllers/BaseController'
-ComponentLoader = require '../backend/modules/ComponentLoader'
+CrudsProvider = require '../backend/providers/CrudsProvider'
 Mock = require './mocks'
 {Injector, Provide, TransientScope} = require 'di'
 Q = require 'q'
 
 describe 'ControllerFactory:', ->
-	BaseControllerMock = null
 	beforeEach ->
-		class BaseControllerMock
-		BaseControllerMock.annotations = [
-			new Provide BaseController
-			new TransientScope
-		]
-
-		@injector = new Injector [BaseControllerMock].concat Mock
-		@loader = @injector.get ComponentLoader
+		@injector = new Injector Mock
+		@crudP = @injector.get CrudsProvider
 		@mod = @injector.get ControllerFactory
 
 	describe '_onLoad()', ->
@@ -34,8 +27,8 @@ describe 'ControllerFactory:', ->
 			class A
 			class B
 			ctrls = @mod._onLoad {A, B}, A: crudA
-			ctrls.A.should.be.instanceof BaseControllerMock
-			ctrls.B.should.be.instanceof BaseControllerMock
+			ctrls.A.should.be.instanceof BaseController
+			ctrls.B.should.be.instanceof BaseController
 
 		it 'maintains proto', ->
 			class A
@@ -53,9 +46,15 @@ describe 'ControllerFactory:', ->
 		# 	.A.resource.should.equal 'A'
 
 		it 'sets resourceName', ->
-			crudA = {}
 			class A
 				me: 'yoyo'
 
-			@mod._onLoad {A}, A: crudA
+			@mod._onLoad {A}
 			.A.resourceName.should.equal 'A'
+
+		it "crud must be available", ->
+			@crudP.__createCrud 'Apple', one: 1
+			class Apple
+				me: 'yoyo'
+			ctrls = @mod._onLoad {Apple}
+			ctrls.Apple.crud.should.equal @crudP.cruds.Apple
