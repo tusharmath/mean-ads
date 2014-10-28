@@ -9,6 +9,9 @@ class BaseCrud
 		get = =>
 			if not @resourceName
 				throw new Error 'resourceName has not been set!'
+			if not @Models[@resourceName]
+				throw new Error "Models.#{@resourceName} is not available!"
+
 			@Models[@resourceName]
 
 		Object.defineProperty @, 'model', {get}

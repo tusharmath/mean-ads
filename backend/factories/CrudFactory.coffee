@@ -17,9 +17,13 @@ class CrudFactory
 		.spread @_onLoad
 
 	_ctorReducer: (ref, ctor, ctorName) =>
-		ctor :: = _.assign @injector.get(BaseCrud), ctor::
+		baseCrud = @injector.get BaseCrud
+		baseCrud.resourceName = ctorName
+		[_proto, ctor::] = [ctor::, baseCrud]
+
+		_.assign ctor::, _proto
 		crud = @injector.get ctor
-		crud.resourceName = ctorName
+		# crud.resourceName = ctorName
 		ref[ctorName] = crud
 		bragi.log 'crud', ctorName
 		ref

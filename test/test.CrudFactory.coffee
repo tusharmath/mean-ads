@@ -1,18 +1,15 @@
 CrudFactory = require '../backend/factories/CrudFactory'
 BaseCrud = require '../backend/cruds/BaseCrud'
+ModelsProvider = require '../backend/providers/ModelsProvider'
 Mock = require './mocks'
 Q = require 'q'
 {TransientScope, Injector, Provide} = require 'di'
 
 describe 'CrudFactory:', ->
 	beforeEach ->
-		class BaseCrudMock
-		BaseCrudMock.annotations = [
-			new Provide BaseCrud
-			new TransientScope
-		]
-		@injector = new Injector [BaseCrudMock].concat Mock
+		@injector = new Injector Mock
 		@mod = @injector.get CrudFactory
+		@modelP = @injector.get ModelsProvider
 
 
 	it 'init() is function', -> @mod.init.should.be.a.Function
@@ -35,6 +32,7 @@ describe 'CrudFactory:', ->
 
 		it 'creates instances', ->
 			@crud.PP.should.be.an.instanceof PP
+			@crud.PP.should.be.an.instanceof BaseCrud
 
 
 		it 'implements inheritence', ->
@@ -50,4 +48,8 @@ describe 'CrudFactory:', ->
 
 		it "sets up CrudsProvider", ->
 			should.exist @mod.crudsP.cruds
+
+		it "sets up model", ->
+			@modelP.__createModel 'PP', {}
+			@mod.crudsP.cruds.PP.model.should.equal @modelP.models.PP
 
