@@ -8,6 +8,6 @@ class CrudsProvider
 
 		set = (_cruds) ->
 			cruds = _cruds
-			bragi.log 'cruds', 'cruds Initialized Successfully'
+			bragi.log 'crud', 'All Cruds Initialized Successfully'
 		Object.defineProperty @, 'cruds', {get, set}
 module.exports = CrudsProvider
