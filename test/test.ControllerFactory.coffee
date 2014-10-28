@@ -37,14 +37,6 @@ describe 'ControllerFactory:', ->
 			@mod._onLoad {A}, A: crudA
 			.A.me.should.equal 'yoyo'
 
-
-		# it 'sets resource', ->
-		# 	class A
-		# 		me: 'yoyo'
-
-		# 	@mod._onLoad {A}, A: crudA
-		# 	.A.resource.should.equal 'A'
-
 		it 'sets resourceName', ->
 			class A
 				me: 'yoyo'
