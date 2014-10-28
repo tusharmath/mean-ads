@@ -13,7 +13,7 @@ class BaseController
 			if not @resourceName
 				throw new Error 'resourceName has not been set!'
 			if not @Cruds[@resourceName]
-				throw new Error "#{@resourceName}Crud is not available!"
+				throw new Error "Cruds.#{@resourceName} is not available!"
 			@Cruds[@resourceName]
 
 		Object.defineProperty @, 'crud', {get}
