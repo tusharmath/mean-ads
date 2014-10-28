@@ -31,7 +31,7 @@ class BaseController
 	# [POST] /resource
 	$create: (req, res) ->
 		@crud
-		.create req.body, req.user.sub
+		.create req.body
 		.done(
 			(resource) -> res.send resource
 			@_defaultErrorHandler res
@@ -49,7 +49,7 @@ class BaseController
 			else
 				@crud.update req.body, req.params.id
 		.done(
-			(resource) -> res.send resource
+			(doc) ->res.send doc
 			@_defaultErrorHandler res
 		)
 
@@ -57,7 +57,7 @@ class BaseController
 	# [GET] /resource/$count
 	$count: (req, res) ->
 		@crud
-		.count _.pick(req.query, @_filterKeys), req.user.sub
+		.count _.pick(req.query, @_filterKeys)
 		.done(
 			(count) -> res.send {count}
 			@_defaultErrorHandler res
@@ -66,8 +66,9 @@ class BaseController
 
 	# [GET] /resource
 	$list: (req, res) ->
+		filter = _.pick req.query, @_filterKeys
 		@crud
-		.read @_populate, _.pick(req.query, @_filterKeys), req.user.sub
+		.read @_populate, filter
 		.done(
 			(data) -> res.send data
 			@_defaultErrorHandler res
@@ -77,7 +78,7 @@ class BaseController
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
 		@crud
-		.delete req.params.id, req.user.sub
+		.delete req.params.id
 		.done(
 			-> res.send {deleted: req.params.id}
 			@_defaultErrorHandler res
@@ -87,7 +88,7 @@ class BaseController
 	# [GET] /resource/:id
 	$one: (req, res) ->
 		@crud
-		.one req.params.id, req.user.sub
+		.one req.params.id
 		.done(
 			(data) ->
 				return res.send error: 'Document not found', 404 if not data
