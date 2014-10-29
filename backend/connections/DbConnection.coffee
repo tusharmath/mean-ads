@@ -3,8 +3,8 @@ MongooseProvider = require '../providers/MongooseProvider'
 {Inject} = require 'di'
 class DbConnection
 	constructor: (@mongooseProvider) ->
-		@mongoose = @mongooseProvider.mongoose
-		@conn = @mongoose.createConnection config.mongo.uri
+		mongoose = @mongooseProvider.mongoose
+		@conn = mongoose.createConnection config.mongo.uri
 		bragi.log 'application', 'Db Connection Initializing...'
 		@conn.on 'open', ->
 			bragi.log(

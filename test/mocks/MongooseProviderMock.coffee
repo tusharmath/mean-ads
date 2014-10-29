@@ -8,7 +8,7 @@ class MongooseProviderMock
 		@mongoose = mongooseQ mockgoose mongoose
 	reset: ->
 		# Resetting models
-		mongoose.models = {}
+		@mongoose.models = {}
 		mockgoose.reset()
 
 MongooseProviderMock.annotations = [ new Provide MongooseProvider]
