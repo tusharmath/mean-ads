@@ -57,3 +57,10 @@ describe 'BaseController:', ->
 			)
 			@res.send.calledWith(1000).should.be.ok
 
+	describe "create()", ->
+		beforeEach ->
+			@crudP.__createCrud 'FakeResource', create: 120
+		it "sets user.sub", ->
+			@req.user = sub: '123aaa321'
+			@mod.$create @req, @res
+			@req.body.owner.should.equal '123aaa321'

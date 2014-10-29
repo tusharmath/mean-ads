@@ -33,6 +33,7 @@ class BaseController
 
 	# [POST] /resource
 	$create: (req, res) ->
+		req.body.owner = req.user.sub
 		@crud
 		.create req.body
 		.done(
