@@ -36,7 +36,7 @@
     "gulp-rename": "^1.2.0",
     "main-bower-files": "^2.0.0",
     "mocha": "^1.21.5",
-    "mock-promises": "^0.1.0",
+    "mock-promises": "^0.1.2",
     "mockgoose": "^1.10.7",
     "sinon": "^1.10.3"
   },
