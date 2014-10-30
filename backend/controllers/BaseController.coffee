@@ -60,8 +60,10 @@ class BaseController
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
+		filter = _.pick(req.query, @_filterKeys)
+		filter.owner = req.user.sub
 		@crud
-		.count _.pick(req.query, @_filterKeys)
+		.count filter
 		.done(
 			(count) -> res.send {count}
 			@_defaultErrorHandler res

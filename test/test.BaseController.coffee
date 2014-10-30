@@ -10,7 +10,7 @@ describe 'BaseController:', ->
 	beforeEach ->
 		# Mocking Req/Res Objs
 		@res = send: sinon.spy(), status: sinon.spy()
-		@req = params: {}, user: {}, body: {}
+		@req = params: {}, user: {sub: '123321'}, body: {}, query: {a:1, b:2}
 
 	beforeEach ->
 
@@ -76,5 +76,13 @@ describe 'BaseController:', ->
 			mockPromises.iterateForPromise onePromise
 			@res.send.calledWith(ErrorCodes.FORBIDDEN_DOCUMENT).should.be.ok
 
+	describe "$count()", ->
+		it "adds owners to filters", ->
+			@crudP.__createCrud 'FakeResource', count: {}
+			# @req.query = a: 1, b: 2
+			@mod._filterKeys = ['a']
+			@mod.$count @req, @res
+			@crudP.cruds.FakeResource.count.calledWith a: 1, owner: '123321'
+			.should.be.ok
 
 
