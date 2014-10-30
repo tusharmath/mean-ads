@@ -87,6 +87,7 @@ class BaseController
 		.one req.params.id
 		.then (doc) ->
 			throw errors.NOTFOUND_DOCUMENT if not doc
+			throw errors.FORBIDDEN_DOCUMENT if doc.owner isnt req.user.sub
 
 		# .delete req.params.id
 		.done(

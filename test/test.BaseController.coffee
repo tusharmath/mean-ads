@@ -10,9 +10,7 @@ describe 'BaseController:', ->
 	beforeEach ->
 		# Mocking Req/Res Objs
 		@res = send: sinon.spy(), status: sinon.spy()
-		@req = params: {}, user: {sub: '123321'}, body: {}, query: {a:1, b:2}
-
-	beforeEach ->
+		@req = {}
 
 		# Injectors
 		@injector = new Injector Mock
@@ -21,7 +19,6 @@ describe 'BaseController:', ->
 		@mod = @injector.get BaseController
 		@crudP = @injector.get CrudsProvider
 
-	beforeEach ->
 		# Setup
 		@mod.resourceName = 'FakeResource'
 		mockPromises.install Q.makePromise
@@ -36,7 +33,7 @@ describe 'BaseController:', ->
 
 	describe "$one()", ->
 		beforeEach ->
-			@req.params.id = 1234
+			@req.params= id: 1234
 			@crudP.__createCrud 'FakeResource', one: 1000
 
 		it "queries on id", ->
@@ -50,7 +47,6 @@ describe 'BaseController:', ->
 
 		it "sends doc", ->
 			@req.params.id = 1234
-			@crudP.__createCrud 'FakeResource', one: 1000
 			@mod.$one @req, @res
 			mockPromises
 			.executeForPromise(
@@ -63,13 +59,15 @@ describe 'BaseController:', ->
 			@crudP.__createCrud 'FakeResource', create: 120
 		it "sets user.sub", ->
 			@req.user = sub: '123aaa321'
+			@req.body = {}
 			@mod.$create @req, @res
 			@req.body.owner.should.equal '123aaa321'
 
 	describe "$update()", ->
 		it "calls send WITH FORBIDDEN_DOCUMENT", ->
-			@crudP.__createCrud 'FakeResource', one: owner: '1232321'
+			@crudP.__createCrud 'FakeResource', one: owner: 1232321
 			@req.user = '123321'
+			@req.params = id: 123
 			@mod.$update @req, @res
 			onePromise = @crudP.__contracts.FakeResource.one
 			mockPromises.iterateForPromise onePromise
@@ -79,25 +77,30 @@ describe 'BaseController:', ->
 	describe "$count()", ->
 		it "adds owner to filters", ->
 			@crudP.__createCrud 'FakeResource', count: {}
+			@req.query = a:1, b:2
+			@req.user = sub: 123321
 			@mod._filterKeys = ['a']
 			@mod.$count @req, @res
-			@crudP.cruds.FakeResource.count.calledWith a: 1, owner: '123321'
-			.should.be.ok
-
-
-	describe "$list()", ->
-		it "adds owner to filters", ->
-			@crudP.__createCrud 'FakeResource', count: {}
-			@mod._filterKeys = ['a']
-			@mod.$count @req, @res
-			@crudP.cruds.FakeResource.count.calledWith a: 1, owner: '123321'
+			@crudP.cruds.FakeResource.count.calledWith a: 1, owner: 123321
 			.should.be.ok
 
 	describe "$remove()", ->
 		it "throw NOTFOUND_DOCUMENT", ->
-			@crudP.__createCrud 'FakeResource', {one: null, delete: 'doc-deleted' }
+			@req.params = id: 101010
+			@crudP.__createCrud 'FakeResource', one: null
 			onePromise = @crudP.__contracts.FakeResource.one
 			@mod.$remove @req, @res
 			mockPromises.iterateForPromise onePromise
 			mockPromises.iterateForPromise onePromise
-			@res.send.called.should.be.ok
+			@res.send.calledWith(ErrorCodes.NOTFOUND_DOCUMENT).should.be.ok
+
+		it "throw FORBIDDEN_DOCUMENT", ->
+			@req.params = id: 101010
+			@req.user = sub: 1234
+
+			@crudP.__createCrud 'FakeResource', one: owner: 123
+			onePromise = @crudP.__contracts.FakeResource.one
+			@mod.$remove @req, @res
+			mockPromises.iterateForPromise onePromise
+			mockPromises.iterateForPromise onePromise
+			@res.send.calledWith(ErrorCodes.FORBIDDEN_DOCUMENT).should.be.ok
