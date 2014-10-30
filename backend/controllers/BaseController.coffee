@@ -21,6 +21,7 @@ class BaseController
 	_onError: (err) -> throw new Error err
 	_defaultErrorHandler: (res) ->
 		(err)->
+
 			###
 				No point sending a internal server errors here.
 				It can directly be handled later
@@ -84,6 +85,12 @@ class BaseController
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
 		@crud
+		.one req.params.id
+		.then (doc) ->
+			if not doc
+				console.log doc
+				throw errors.NOTFOUND_DOCUMENT
+
 		.delete req.params.id
 		.done(
 			-> res.send {deleted: req.params.id}

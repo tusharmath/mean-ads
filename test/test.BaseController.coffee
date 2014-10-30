@@ -77,12 +77,27 @@ describe 'BaseController:', ->
 			@res.send.calledWith(ErrorCodes.FORBIDDEN_DOCUMENT).should.be.ok
 
 	describe "$count()", ->
-		it "adds owners to filters", ->
+		it "adds owner to filters", ->
 			@crudP.__createCrud 'FakeResource', count: {}
-			# @req.query = a: 1, b: 2
 			@mod._filterKeys = ['a']
 			@mod.$count @req, @res
 			@crudP.cruds.FakeResource.count.calledWith a: 1, owner: '123321'
 			.should.be.ok
 
 
+	describe "$list()", ->
+		it "adds owner to filters", ->
+			@crudP.__createCrud 'FakeResource', count: {}
+			@mod._filterKeys = ['a']
+			@mod.$count @req, @res
+			@crudP.cruds.FakeResource.count.calledWith a: 1, owner: '123321'
+			.should.be.ok
+
+	describe "$remove()", ->
+		it "throw NOTFOUND_DOCUMENT", ->
+			@crudP.__createCrud 'FakeResource', {one: null, delete: 'doc-deleted' }
+			onePromise = @crudP.__contracts.FakeResource.one
+			@mod.$remove @req, @res
+			mockPromises.iterateForPromise onePromise
+			mockPromises.iterateForPromise onePromise
+			@res.send.called.should.be.ok
