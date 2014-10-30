@@ -17,7 +17,7 @@ class CrudsProviderMock
 
 
 		_.each attrs, (val, key) =>
-			@__contracts[name][key] = Q val
+			contracts[name][key] = Q val
 			@cruds[name][key] = -> contracts[name][key]
 			sinon.spy @cruds[name], key
 		contracts

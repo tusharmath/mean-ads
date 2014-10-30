@@ -22,13 +22,13 @@ class BaseController
 	_defaultErrorHandler: (res) ->
 		(err)->
 			###
-				No point sending a custom error here.
+				No point sending a internal server errors here.
 				It can directly be handled later
 			###
 			throw err if err.type isnt 'mean'
 
-			bragi.log 'error', err
-			res.status(err.httpStatus).send err
+			res.status err.httpStatus
+			res.send err
 
 
 	# [POST] /resource
@@ -49,13 +49,13 @@ class BaseController
 		.one req.params.id
 		.then (doc) =>
 			if doc.owner isnt req.user.sub
-				throw Error errors.FORBIDDEN_DOCUMENT
+				throw errors.FORBIDDEN_DOCUMENT
 			else
 				@crud.update req.body, req.params.id
-		.done(
+		.then(
 			(doc) ->res.send doc
 			@_defaultErrorHandler res
-		)
+		).done()
 
 
 	# [GET] /resource/$count

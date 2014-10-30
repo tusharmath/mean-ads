@@ -1,5 +1,5 @@
 _ = require 'lodash'
-ErrorMap =
+ErrorSchema =
 	# 403
 	FORBIDDEN_DOCUMENT:
 		code: 'FORBIDDEN'
@@ -23,6 +23,15 @@ ErrorMap =
 		message: 'Something went wrong'
 		httpStatus: 500
 
-_.each ErrorMap, (val, key) -> val.type = 'mean'
 
-module.exports = ErrorMap
+ErrorPool = {}
+
+class MeanError extends Error
+	constructor: (@code, @message, @httpStatus) ->
+		@type = 'mean'
+
+
+_.each ErrorSchema, (val, key) ->
+	ErrorPool[key] = new MeanError val.code, val.message, val.httpStatus
+
+module.exports = ErrorPool
