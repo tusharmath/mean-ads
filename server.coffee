@@ -5,7 +5,6 @@ Q = require 'q'
 
 config = require './backend/config/config'
 
-Q.longStackSupport = true
 global.bragi = bragi
 # Overriding Logger return value
 logOverride = (_log) ->
