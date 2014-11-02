@@ -9,6 +9,7 @@ class BaseController
 		@_filterKeys = []
 		@resourceName = null
 
+		# TODO: Very Badly written, need a workaround
 		get = =>
 			if not @resourceName
 				throw new Error 'resourceName has not been set!'
@@ -18,56 +19,68 @@ class BaseController
 
 		Object.defineProperty @, 'crud', {get}
 
-	_onError: (err) -> throw new Error err
-	_defaultErrorHandler: (res) ->
-		(err)->
-			###
-				No point sending a internal server errors here.
-				It can directly be handled later
-			###
-			throw err if err.type isnt 'mean'
+	_defaultErrorHandler: (res, err) ->
+		###
+			No point sending a internal server errors here.
+			It can directly be handled later
+		###
+		throw err if err.type isnt 'mean'
+		res.status err.httpStatus
+		res.send err
 
-			res.status err.httpStatus
-			res.send err
+	_forbiddenDocument: (userId, doc) ->
+		throw errors.FORBIDDEN_DOCUMENT if doc.owner isnt userId
+		doc
 
+	_notFoundDocument: (doc) ->
+		throw errors.NOTFOUND_DOCUMENT if not doc
+		doc
+
+	_sendDocument: (res, doc) -> res.send doc
+
+	_create: (req, res) ->
+		req.body.owner = req.user.sub
+		@crud.create req.body._id, req.body
+
+	_update: (req, res) ->
+		@crud.one req.params.id
+		.then (doc) =>
+			@_notFoundDocument doc
+			@_forbiddenDocument req.user.sub, doc
+			@crud.update req.body, req.params.id
+
+	_count: (req, res) ->
+		filter = _.pick req.query, @_filterKeys
+		filter.owner = req.user.sub
+		@crud.count filter
+
+	_list: (req, res) ->
+		filter = _.pick req.query, @_filterKeys
+		filter.owner = req.user.sub
+		@crud.read @_populate, filter
 
 	# [POST] /resource
 	$create: (req, res) ->
-		req.body.owner = req.user.sub
-		@crud
-		.create req.body
-		.done(
-			(resource) -> res.send resource
-			@_defaultErrorHandler res
-		 )
+		@_create(req, res)
+		.then (doc) -> res.send doc
+		.catch _.curry(@_defaultErrorHandler) res
+		.done()
 
 
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
 	$update: (req, res) ->
-		@crud
-		.one req.params.id
-		.then (doc) =>
-			if doc.owner isnt req.user.sub
-				throw errors.FORBIDDEN_DOCUMENT
-			else
-				@crud.update req.body, req.params.id
-		.then(
-			(doc) ->res.send doc
-			@_defaultErrorHandler res
-		).done()
-
+		@_update req, res
+		.then (doc) -> res.send doc
+		.catch _.curry(@_defaultErrorHandler) res
+		.done()
 
 	# [GET] /resource/$count
 	$count: (req, res) ->
-		filter = _.pick(req.query, @_filterKeys)
-		filter.owner = req.user.sub
-		@crud
-		.count filter
-		.done(
-			(count) -> res.send {count}
-			@_defaultErrorHandler res
-		)
+		@_count req, res
+		.then (count) -> res.send {count}
+		.catch _.curry(@_defaultErrorHandler) res
+		.done()
 
 
 	# [GET] /resource
@@ -100,12 +113,9 @@ class BaseController
 	$one: (req, res) ->
 		@crud
 		.one req.params.id
-		.done(
-			(data) ->
-				return res.send error: 'Document not found', 404 if not data
-				res.send data
-			@_defaultErrorHandler res
-		)
+		.then _.curry(@_notFoundDocument)
+		.then _.curry(@_forbiddenDocument) req.user.sub
+		.done _.curry(@_sendDocument), _.curry(@_defaultErrorHandler) res
 
 BaseController.annotations = [
 	new TransientScope()
