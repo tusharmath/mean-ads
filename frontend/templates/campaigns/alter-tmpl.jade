@@ -1,8 +1,10 @@
 .panel.panel-info
 	.panel-heading
-		h4 Update Campaign
+		h4 Campaign
 	.panel-body
-		form.form-horizontal(role='form')
+		div(ng-hide="ctrl.programs")
+			h4.text-info Campaigns are a part of a Program, so create a that first.
+		form.form-horizontal(role='form' ng-show="ctrl.programs")
 			.form-group
 				label.col-md-4.control-label Campaign Name
 				.col-md-6
