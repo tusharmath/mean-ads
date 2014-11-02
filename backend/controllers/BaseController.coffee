@@ -59,13 +59,26 @@ class BaseController
 		filter.owner = req.user.sub
 		@crud.read @_populate, filter
 
+	_remove: (req, res) ->
+		@crud.one req.params.id
+		.then (doc) =>
+			@_notFoundDocument doc
+			@_forbiddenDocument req.user.sub, doc
+			@crud.delete req.params.id
+
+	_one: (req, res) ->
+		@crud.one req.params.id
+		.then (doc) =>
+			@_notFoundDocument doc
+			@_forbiddenDocument req.user.sub, doc
+			doc
+
 	# [POST] /resource
 	$create: (req, res) ->
 		@_create(req, res)
 		.then (doc) -> res.send doc
 		.catch _.curry(@_defaultErrorHandler) res
 		.done()
-
 
 	# TODO: Use a patch mutator to ignore/add keys
 	# [PATCH] /resource
@@ -82,7 +95,6 @@ class BaseController
 		.catch _.curry(@_defaultErrorHandler) res
 		.done()
 
-
 	# [GET] /resource
 	$list: (req, res) ->
 		filter = _.pick req.query, @_filterKeys
@@ -92,7 +104,6 @@ class BaseController
 			(data) -> res.send data
 			@_defaultErrorHandler res
 		)
-
 
 	# [DELETE] /resource/:id
 	$remove: (req, res) ->
@@ -107,7 +118,6 @@ class BaseController
 			-> res.send {deleted: req.params.id}
 			@_defaultErrorHandler res
 		)
-
 
 	# [GET] /resource/:id
 	$one: (req, res) ->

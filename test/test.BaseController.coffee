@@ -6,6 +6,7 @@ Q = require 'q'
 ErrorCodes = require '../backend/config/error-codes'
 sinonAsPromised = require('sinon-as-promised') Q.Promise
 
+# TODO: MockCrudsProvider isn't nececssary
 describe 'BaseController:', ->
 	beforeEach ->
 		# Mocking Req/Res Objs
@@ -94,11 +95,10 @@ describe 'BaseController:', ->
 		# 		@res.send.calledWith error
 		# 		.should.be.ok
 
-
 	describe "_update()", ->
 		beforeEach ->
 			@req.user = sub: 123
-			@req.body = a:1, b:2, c:3
+			@req.body = a: 1, b: 2, c: 3
 			@req.params = id: 101010
 			@crudP.__createCrud 'FakeResource'
 			@one = @crudP.cruds.FakeResource.one = sinon.stub()
@@ -134,11 +134,11 @@ describe 'BaseController:', ->
 			@count = @crudP.cruds.FakeResource.count = sinon.stub()
 		it "be a function", -> @mod._count.should.be.a.Function
 		it "calls count", ->
-			@req.query = a:1, b:2, c:3
+			@req.query = a: 1, b: 2, c: 3
 			@req.user = sub: 123
 			@mod._filterKeys = ['a', 'b']
 			@mod._count @req, @res
-			@count.calledWith a:1, b:2, owner: 123
+			@count.calledWith a: 1, b: 2, owner: 123
 			.should.be.ok
 
 	describe "_list()", ->
@@ -147,82 +147,66 @@ describe 'BaseController:', ->
 			@read = @crudP.cruds.FakeResource.read = sinon.stub()
 		it "be a function", -> @mod._list.should.be.a.Function
 		it "calls read", ->
-			@req.query = a:1, b:2, c:3
+			@req.query = a: 1, b: 2, c: 3
 			@req.user = sub: 123
 			@mod._filterKeys = ['a', 'b']
-			@mod._populate = p1:1, p2:2
+			@mod._populate = p1: 1, p2: 2
 			@mod._list @req, @res
-			@read.calledWith @mod._populate, {a:1, b:2, owner: 123}
+			@read.calledWith @mod._populate, {a: 1, b: 2, owner: 123}
 			.should.be.ok
 
+	describe "_remove()", ->
+		beforeEach ->
+			@req.user = sub: 123
+			@req.params = id: 101010
+			@crudP.__createCrud 'FakeResource'
+			@one = @crudP.cruds.FakeResource.one = sinon.stub() #TODO: set it using the string wala syntax
+			@delete = @crudP.cruds.FakeResource.delete = sinon.stub()
+		it "be a function", -> @mod._remove.should.be.a.Function
+		it "queries on param.id", ->
+			@one.resolves 'fake-doc'
+			@mod._remove @req, @res
+			@one.calledWith(@req.params.id).should.be.ok
+		it "sends 404", ->
+			@one.resolves null
+			@mod._remove(@req, @res)
+			.should.be.rejectedWith 'Document not found'
+		it "sends 403", ->
+			@one.resolves owner: 1234
+			@mod._remove(@req, @res)
+			.should.be.rejectedWith 'Only the owner of the document has access'
+		it "removes", ->
+			@one.resolves owner: 123
+			@delete.resolves 'removed-doc'
+			@mod._remove @req, @res
+			.should.eventually.equal 'removed-doc'
+		it "removes doc with id", ->
+			@one.resolves owner: 123
+			@delete.resolves 'updated-doc'
+			@mod._remove @req, @res
+			.then => @delete.calledWith(@req.params.id).should.be.ok
 
-	# describe "$one()", ->
-	# 	beforeEach ->
-	# 		@req.params = id: 1234
-	# 		@crudP.__createCrud 'FakeResource', one: 1000
-
-	# 	it "queries on id", ->
-	# 		@mod.$one @req, @res
-	# 		@crudP.cruds.FakeResource.one.calledWith(1234).should.be.ok
-
-
-
-	# 	it "sends doc", ->
-	# 		@req.params.id = 1234
-	# 		@mod.$one @req, @res
-	# 		mockPromises
-	# 		.executeForPromise(
-	# 			@crudP.__contracts.FakeResource.one
-	# 		)
-	# 		@res.send.calledWith(1000).should.be.ok
-
-	# describe "$create()", ->
-	# 	beforeEach ->
-	# 		@crudP.__createCrud 'FakeResource', create: 120
-	# 	it "sets user.sub", ->
-	# 		@req.user = sub: '123aaa321'
-	# 		@req.body = {}
-	# 		@mod.$create @req, @res
-	# 		@req.body.owner.should.equal '123aaa321'
-
-	# describe "$update()", ->
-	# 	it "calls send WITH FORBIDDEN_DOCUMENT", ->
-	# 		@crudP.__createCrud 'FakeResource', one: owner: 1232321
-	# 		@req.user = '123321'
-	# 		@req.params = id: 123
-	# 		@mod.$update @req, @res
-	# 		onePromise = @crudP.__contracts.FakeResource.one
-	# 		mockPromises.iterateForPromise onePromise
-	# 		mockPromises.iterateForPromise onePromise
-	# 		@res.send.calledWith(ErrorCodes.FORBIDDEN_DOCUMENT).should.be.ok
-
-	# describe "$count()", ->
-	# 	it "adds owner to filters", ->
-	# 		@crudP.__createCrud 'FakeResource', count: {}
-	# 		@req.query = a:1, b:2
-	# 		@req.user = sub: 123321
-	# 		@mod._filterKeys = ['a']
-	# 		@mod.$count @req, @res
-	# 		@crudP.cruds.FakeResource.count.calledWith a: 1, owner: 123321
-	# 		.should.be.ok
-
-	# describe "$remove()", ->
-	# 	it "throw NOTFOUND_DOCUMENT", ->
-	# 		@req.params = id: 101010
-	# 		@crudP.__createCrud 'FakeResource', one: null
-	# 		onePromise = @crudP.__contracts.FakeResource.one
-	# 		@mod.$remove @req, @res
-	# 		mockPromises.iterateForPromise onePromise
-	# 		mockPromises.iterateForPromise onePromise
-	# 		@res.send.calledWith(ErrorCodes.NOTFOUND_DOCUMENT).should.be.ok
-
-	# 	it "throw FORBIDDEN_DOCUMENT", ->
-	# 		@req.params = id: 101010
-	# 		@req.user = sub: 1234
-
-	# 		@crudP.__createCrud 'FakeResource', one: owner: 123
-	# 		onePromise = @crudP.__contracts.FakeResource.one
-	# 		@mod.$remove @req, @res
-	# 		mockPromises.iterateForPromise onePromise
-	# 		mockPromises.iterateForPromise onePromise
-	# 		@res.send.calledWith(ErrorCodes.FORBIDDEN_DOCUMENT).should.be.ok
+	describe "_one()", ->
+		beforeEach ->
+			@req.user = sub: 123
+			@req.params = id: 101010
+			@crudP.__createCrud 'FakeResource'
+			@one = @crudP.cruds.FakeResource.one = sinon.stub() #TODO: set it using the string wala syntax
+		it "be a function", -> @mod._one.should.be.a.Function
+		it "queries on param.id", ->
+			@one.resolves 'fake-doc'
+			@mod._one @req, @res
+			@one.calledWith(@req.params.id).should.be.ok
+		it "sends 404", ->
+			@one.resolves null
+			@mod._one(@req, @res)
+			.should.be.rejectedWith 'Document not found'
+		it "sends 403", ->
+			@one.resolves owner: 1234
+			@mod._one(@req, @res)
+			.should.be.rejectedWith 'Only the owner of the document has access'
+		it "sends doc", ->
+			doc =  owner: 123
+			@one.resolves doc
+			@mod._one @req, @res
+			.should.eventually.equal doc
