@@ -54,21 +54,12 @@ describe 'BaseController:', ->
 			@mod._notFoundDocument doc
 			.should.equal doc
 
-	describe "_sendDocument()", ->
-
-		it "is function", -> @mod._sendDocument.should.be.a.Function
-
-		it "sends doc", ->
-			doc = {}
-			@mod._sendDocument @res, doc
-			@res.send.calledWith doc
-
 	describe "_create()", ->
 		beforeEach ->
 			@req.user = sub: 123
 			@req.body = {}
 			@crudP.__createCrud 'FakeResource'
-			@crudP.cruds.FakeResource.create = sinon.stub().resolves 'updated-document'
+			@crudP.cruds.FakeResource.create = sinon.stub()
 
 		it "be a function", -> @mod._create.should.be.a.Function
 		it "attaches owner", ->
@@ -160,7 +151,8 @@ describe 'BaseController:', ->
 			@req.user = sub: 123
 			@req.params = id: 101010
 			@crudP.__createCrud 'FakeResource'
-			@one = @crudP.cruds.FakeResource.one = sinon.stub() #TODO: set it using the string wala syntax
+			 #TODO: set it using the string wala syntax
+			@one = @crudP.cruds.FakeResource.one = sinon.stub()
 			@delete = @crudP.cruds.FakeResource.delete = sinon.stub()
 		it "be a function", -> @mod._remove.should.be.a.Function
 		it "queries on param.id", ->
@@ -191,7 +183,8 @@ describe 'BaseController:', ->
 			@req.user = sub: 123
 			@req.params = id: 101010
 			@crudP.__createCrud 'FakeResource'
-			@one = @crudP.cruds.FakeResource.one = sinon.stub() #TODO: set it using the string wala syntax
+			#TODO: set it using the string wala syntax
+			@one = @crudP.cruds.FakeResource.one = sinon.stub()
 		it "be a function", -> @mod._one.should.be.a.Function
 		it "queries on param.id", ->
 			@one.resolves 'fake-doc'
@@ -210,3 +203,24 @@ describe 'BaseController:', ->
 			@one.resolves doc
 			@mod._one @req, @res
 			.should.eventually.equal doc
+	describe "_endPromise()", ->
+		it "be a function", -> @mod._endPromise.should.be.a.Function
+
+		it "resolve via res.send", ->
+			promise = Q 1000
+			@mod._endPromise @res, promise
+			promise.then => @res.send.calledWith(1000).should.be.ok
+		it "reject mean errors", ->
+			error = new  Error 'Some Error'
+			error.type = 'mean'
+			promise = Q.fcall ->
+				throw error
+			@mod._endPromise @res, promise
+			.then => @res.send.calledWith(error).should.be.ok
+		it "throw non mean errors", ->
+			error = new  Error 'Some Error'
+			promise = Q.fcall ->
+				throw error
+			@mod._endPromise @res, promise
+			.should.eventually.be.rejectedWith 'Some Error'
+

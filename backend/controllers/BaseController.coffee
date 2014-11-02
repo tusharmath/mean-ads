@@ -19,6 +19,18 @@ class BaseController
 
 		Object.defineProperty @, 'crud', {get}
 
+		# TODO: Need to write tests for this
+		_.each ['list', 'update', 'create', 'remove', 'one'], (name) =>
+			@["$#{name}"] = (req, res) => @_endPromise res, @["_#{name}"] req, res
+
+	_endPromise: (res, promise) ->
+		promise
+		.then (doc) -> res.send doc
+		.fail (err) => @_defaultErrorHandler res, err
+		# .done()
+
+
+
 	_defaultErrorHandler: (res, err) ->
 		###
 			No point sending a internal server errors here.
@@ -35,8 +47,6 @@ class BaseController
 	_notFoundDocument: (doc) ->
 		throw errors.NOTFOUND_DOCUMENT if not doc
 		doc
-
-	_sendDocument: (res, doc) -> res.send doc
 
 	_create: (req, res) ->
 		req.body.owner = req.user.sub
@@ -73,59 +83,6 @@ class BaseController
 			@_forbiddenDocument req.user.sub, doc
 			doc
 
-	# [POST] /resource
-	$create: (req, res) ->
-		@_create(req, res)
-		.then (doc) -> res.send doc
-		.catch _.curry(@_defaultErrorHandler) res
-		.done()
-
-	# TODO: Use a patch mutator to ignore/add keys
-	# [PATCH] /resource
-	$update: (req, res) ->
-		@_update req, res
-		.then (doc) -> res.send doc
-		.catch _.curry(@_defaultErrorHandler) res
-		.done()
-
-	# [GET] /resource/$count
-	$count: (req, res) ->
-		@_count req, res
-		.then (count) -> res.send {count}
-		.catch _.curry(@_defaultErrorHandler) res
-		.done()
-
-	# [GET] /resource
-	$list: (req, res) ->
-		filter = _.pick req.query, @_filterKeys
-		@crud
-		.read @_populate, filter
-		.done(
-			(data) -> res.send data
-			@_defaultErrorHandler res
-		)
-
-	# [DELETE] /resource/:id
-	$remove: (req, res) ->
-		@crud
-		.one req.params.id
-		.then (doc) ->
-			throw errors.NOTFOUND_DOCUMENT if not doc
-			throw errors.FORBIDDEN_DOCUMENT if doc.owner isnt req.user.sub
-
-		# .delete req.params.id
-		.done(
-			-> res.send {deleted: req.params.id}
-			@_defaultErrorHandler res
-		)
-
-	# [GET] /resource/:id
-	$one: (req, res) ->
-		@crud
-		.one req.params.id
-		.then _.curry(@_notFoundDocument)
-		.then _.curry(@_forbiddenDocument) req.user.sub
-		.done _.curry(@_sendDocument), _.curry(@_defaultErrorHandler) res
 
 BaseController.annotations = [
 	new TransientScope()
