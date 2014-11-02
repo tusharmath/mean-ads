@@ -21,7 +21,8 @@ class BaseController
 
 		# TODO: Need to write tests for this
 		_.each ['list', 'update', 'create', 'remove', 'one'], (name) =>
-			@["$#{name}"] = (req, res) => @_endPromise res, @["_#{name}"] req, res
+			@["$#{name}"] = (req, res) =>
+				@_endPromise res, @["_#{name}"] req, res
 
 	_endPromise: (res, promise) ->
 		promise
