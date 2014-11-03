@@ -3,7 +3,7 @@ _ = require 'lodash'
 class CampaignCrud
 	constructor: () ->
 	postUpdate: (camp) ->
-		@models
+		@Models
 		.Subscription
 		.findQ campaign: camp._id
 		.then (subs) ->

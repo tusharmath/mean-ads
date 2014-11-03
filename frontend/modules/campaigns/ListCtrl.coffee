@@ -1,7 +1,7 @@
 define ["app"], (app) ->
 	class CampaignCtrl
 		constructor: (@rest) ->
-			@rest.all('campaigns').getList().then (@campaigns) =>
+			@rest.all('campaigns').getList(populate: 'program').then (@campaigns) =>
 
 		toggleStatus: (campaign) ->
 			@rest
