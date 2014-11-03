@@ -23,6 +23,7 @@ class BaseController
 		_.each ['list', 'update', 'create', 'remove', 'one'], (name) =>
 			@["$#{name}"] = (req, res) =>
 				@_endPromise res, @["_#{name}"] req, res
+				.done()
 
 	_endPromise: (res, promise) ->
 		promise
@@ -51,7 +52,7 @@ class BaseController
 
 	_create: (req, res) ->
 		req.body.owner = req.user.sub
-		@crud.create req.body._id, req.body
+		@crud.create req.body
 
 	_update: (req, res) ->
 		@crud.one req.params.id

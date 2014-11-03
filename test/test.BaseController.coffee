@@ -59,7 +59,7 @@ describe 'BaseController:', ->
 			@req.user = sub: 123
 			@req.body = {}
 			@crudP.__createCrud 'FakeResource'
-			@crudP.cruds.FakeResource.create = sinon.stub()
+			@create = @crudP.cruds.FakeResource.create = sinon.stub()
 
 		it "be a function", -> @mod._create.should.be.a.Function
 		it "attaches owner", ->
@@ -71,6 +71,12 @@ describe 'BaseController:', ->
 			@req.body = {}
 			@mod.crud.create = sinon.stub().resolves 'updated-document'
 			@mod._create(@req, @res).should.eventually.equal 'updated-document'
+
+		it "calls crud.create()", ->
+			@req.user = sub: 123
+			@req.body = a:1, b:2
+			@mod._create(@req, @res)
+			@create.calledWith(@req.body).should.be.ok
 
 		# it "calls send with doc", ->
 		# 	@mod._create @req, @res
