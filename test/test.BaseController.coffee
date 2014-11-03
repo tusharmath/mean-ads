@@ -133,10 +133,17 @@ describe 'BaseController:', ->
 		it "calls count", ->
 			@req.query = a: 1, b: 2, c: 3
 			@req.user = sub: 123
+			@count.resolves 100
 			@mod._filterKeys = ['a', 'b']
 			@mod._count @req, @res
 			@count.calledWith a: 1, b: 2, owner: 123
 			.should.be.ok
+		it "resolves", ->
+			@count.resolves 123
+			@req.user = sub: 123
+			@mod._count @req, @res
+			.should.eventually.eql {count: 123}
+
 
 	describe "_list()", ->
 		beforeEach ->
