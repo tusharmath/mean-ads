@@ -1,3 +1,4 @@
+[ ![Codeship Status for tusharmathur1/mean-ads](https://www.codeship.io/projects/4057ba60-4566-0132-d73f-361a09117bba/status)](https://www.codeship.io/projects/44984)
 Application Setup
 
 1. Install NodeJS, HomeBrew
