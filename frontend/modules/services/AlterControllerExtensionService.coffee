@@ -5,7 +5,7 @@ define ["app", "lodash"], (app, _) ->
 		constructor: (@alter, @first) ->
 
 		bootstrap: (ctrl, docName) ->
-			resourceName = "#{docName}s"
+			resourceName = "#{docName}"
 
 			# Adding extension methods
 			ctrl.save = =>

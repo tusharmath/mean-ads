@@ -13,7 +13,7 @@ class SubscriptionController
 
 	$credits: (req, res) =>
 		@crud
-		.find campaign: req.query.campaign
+		.read '', req.query
 		.done (data) ->
 			creditUsage = _.reduce(
 				data

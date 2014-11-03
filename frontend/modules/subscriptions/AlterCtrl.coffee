@@ -10,16 +10,16 @@ define ["app"], (app) ->
 
 		_loadCampaign: =>
 			@rest
-			.one 'campaigns', @subscription.campaign
+			.one 'campaign', @subscription.campaign
 			.get()
 
 		_loadProgram: (@campaign) =>
 			@rest
-			.one 'programs', @campaign.program
+			.one 'program', @campaign.program
 			.get()
 
 		_loadStyle: (@program) =>
-			@rest.one 'styles', @program.style
+			@rest.one 'style', @program.style
 			.get()
 			.then (@style) =>
 

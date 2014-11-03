@@ -5,12 +5,12 @@ define ["app"], (app) ->
 			$q.all [
 				rSubscriptions.one('count').get(campaign: @route.id)
 				rSubscriptions.one('credits').get(campaign: @route.id)
-				@rest.one('campaigns', @route.id).get()
+				@rest.one('campaign', @route.id).get()
 			]
 			.then (args) =>
 				[count, @credits, @campaign] = args
-				@subscriptionCount = count.count
-			.then => @rest.one('programs', @campaign.program).get()
+				@subscriptionCount = count
+			.then => @rest.one('program', @campaign.program).get()
 			.then (@program) =>
 				{@creditDistribution, @creditUsage} = @credits
 				@avgCommitment = Math.round @campaign.commitment / @campaign.days

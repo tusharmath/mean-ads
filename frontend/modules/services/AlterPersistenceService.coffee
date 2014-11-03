@@ -13,7 +13,7 @@ define ["app", "lodash"], (app, _) ->
 		persist: (resourceName, resource) ->
 			mode = if resource._id then 'update' else 'create'
 			@["_#{mode}"] resourceName, resource
-			.then => @loc.path "/#{resourceName}"
+			.then => @loc.path "/#{resourceName}s"
 
 	AlterPersistenceService.$inject = ["Restangular", "$location"]
 	app.service 'AlterPersistenceService', AlterPersistenceService
