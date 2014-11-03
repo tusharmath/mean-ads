@@ -7,8 +7,8 @@ errors = require '../config/error-codes'
 
 defaultActionMap =
 	'$create': ['post', (str) -> "/#{str}"]
-	'$list': ['get', (str) -> "/#{str}"]
-	'$count': ['get', (str) -> "/#{str}/count"]
+	'$list': ['get', (str) -> "/#{str}s"]
+	'$count': ['get', (str) -> "/#{str}s/count"]
 	'$one': ['get', (str) -> "/#{str}/:id"]
 	'$update': ['patch', (str) -> "/#{str}/:id"]
 	'$remove': ['delete', (str) -> "/#{str}/:id"]
@@ -25,7 +25,7 @@ class V1
 		_.each controllers, (ctrl, ctrlName) -> _.forIn ctrl, (action, actionName) ->
 			return if actionName[0] isnt '$'
 			[method, _route] = defaultActionMap[actionName] or ctrl.actionMap[actionName]
-			route = _route "#{ctrlName.toLowerCase()}s"
+			route = _route ctrlName.toLowerCase()
 			bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]", 'green'), route
 			router[method] route, _.bind action, ctrl
 		router.use '*', (req, res) ->

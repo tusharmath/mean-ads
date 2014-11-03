@@ -20,7 +20,7 @@ class BaseController
 		Object.defineProperty @, 'crud', {get}
 
 		# TODO: Need to write tests for this
-		_.each ['list', 'update', 'create', 'remove', 'one'], (name) =>
+		_.each ['list', 'update', 'create', 'remove', 'one', 'count'], (name) =>
 			@["$#{name}"] = (req, res) =>
 				@_endPromise res, @["_#{name}"] req, res
 				.done()
