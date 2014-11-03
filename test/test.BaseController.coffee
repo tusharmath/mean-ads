@@ -146,10 +146,10 @@ describe 'BaseController:', ->
 		it "calls read", ->
 			@req.query = a: 1, b: 2, c: 3
 			@req.user = sub: 123
+			_populate = @req.query.populate = p1: 1, p2: 2
 			@mod._filterKeys = ['a', 'b']
-			@mod._populate = p1: 1, p2: 2
 			@mod._list @req, @res
-			@read.calledWith @mod._populate, {a: 1, b: 2, owner: 123}
+			@read.calledWith _populate, {a: 1, b: 2, owner: 123}
 			.should.be.ok
 
 	describe "_remove()", ->

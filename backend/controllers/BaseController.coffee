@@ -67,9 +67,10 @@ class BaseController
 		@crud.count filter
 
 	_list: (req, res) ->
+		_populate = req.query.populate
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
-		@crud.read @_populate, filter
+		@crud.read _populate, filter
 
 	_remove: (req, res) ->
 		@crud.one req.params.id
