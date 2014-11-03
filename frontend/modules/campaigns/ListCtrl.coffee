@@ -5,7 +5,7 @@ define ["app"], (app) ->
 
 		toggleStatus: (campaign) ->
 			@rest
-			.one 'campaigns', campaign._id
+			.one 'campaign', campaign._id
 			.patch isEnabled: !!!campaign.isEnabled
 			.then => @rest.all('campaigns').getList().then (@campaigns) =>
 
