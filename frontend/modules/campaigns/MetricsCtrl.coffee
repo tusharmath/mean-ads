@@ -9,7 +9,7 @@ define ["app"], (app) ->
 			]
 			.then (args) =>
 				[count, @credits, @campaign] = args
-				@subscriptionCount = count
+				@subscriptionCount = count.count
 			.then => @rest.one('program', @campaign.program).get()
 			.then (@program) =>
 				{@creditDistribution, @creditUsage} = @credits
