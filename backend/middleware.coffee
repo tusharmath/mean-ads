@@ -42,7 +42,7 @@ exports.partials = (req, res) ->
 	res.render requestedView, (err, html) ->
 		if err
 			console.log "Error rendering partial #{requestedView}\n", err
-			res.render '404'
+			res.status(404).render '404'
 		else
 			res.send html
 
