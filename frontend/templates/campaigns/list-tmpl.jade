@@ -33,9 +33,9 @@ div.panel.panel-default
 					td.text-right
 						button.btn.btn-xs(type="button"
 							ng-click="ctrl.toggleStatus(campaign)"
-							ng-class="{'btn-warning': campaign.isEnabled, 'btn-primary': !campaign.isEnabled}")
-							span(ng-show="campaign.isEnabled") Stop
-							span(ng-hide="campaign.isEnabled") Start
+							ng-class="{'btn-info': campaign.isEnabled, 'btn-warning': !campaign.isEnabled}")
+							span(ng-show="campaign.isEnabled") Started
+							span(ng-hide="campaign.isEnabled") Stopped
 						= ' '
 						a.btn.btn-link.btn-xs(ng-href="#/campaigns/{{campaign._id}}/update") Update
 						= ' '
