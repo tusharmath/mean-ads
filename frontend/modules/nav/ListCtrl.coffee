@@ -5,9 +5,9 @@ define ["app"], (app) ->
 		constructor: ($location) ->
 			injected = {$location}
 			@modules = [
-				name: "Dashboard"
-				path: "/dashboard"
-			,
+			# 	name: "Dashboard"
+			# 	path: "/dashboard"
+			# ,
 				 #---begin:modules---#
 				name: "Programs"
 				path: "/programs"
