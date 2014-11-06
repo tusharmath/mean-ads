@@ -9,14 +9,16 @@ define ["app"], (app) ->
 			# 	path: "/dashboard"
 			# ,
 				 #---begin:modules---#
-				name: "Programs"
-				path: "/programs"
+
+				name: "Subscriptions"
+				path: "/subscriptions"
 			,
 				name: "Campaigns"
 				path: "/campaigns"
 			,
-				name: "Subscriptions"
-				path: "/subscriptions"
+
+				name: "Programs"
+				path: "/programs"
 			,
 				name: "Styles"
 				path: "/styles"
