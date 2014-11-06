@@ -5,7 +5,7 @@ ProgramSchema = (mongoose) ->
 			required: true
 		gauge:
 			type: String
-			enum: ["clicks", "impressions", "days"]
+			enum: ["clicks", "impressions", "milliseconds"]
 			default: "impressions"
 			required: true
 		delivery:
