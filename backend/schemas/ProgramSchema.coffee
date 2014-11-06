@@ -3,8 +3,11 @@ ProgramSchema = (mongoose) ->
 		name:
 			type: String
 			required: true
+		allowedOrigins:
+			type: [String]
 		gauge:
 			type: String
+			# TODO: Can be isomorphic
 			enum: ["clicks", "impressions", "milliseconds"]
 			default: "impressions"
 			required: true

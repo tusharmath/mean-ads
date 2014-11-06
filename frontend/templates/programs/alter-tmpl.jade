@@ -23,6 +23,10 @@
 				.col-md-6
 					strong.form-control.text-muted Random Set
 			.form-group
+				label.col-md-4.control-label Allowed Origins (CORS)
+				.col-md-6
+					textarea.form-control(ng-model="ctrl.program.allowedOrigins")
+			.form-group
 				.col-md-6.col-md-offset-4
 					button.btn.btn-primary(type="button" ng-click="ctrl.save()") Save
 					| &nbsp;
