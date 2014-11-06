@@ -7,7 +7,6 @@
     "angular-sanitize": "~1.2.18",
     "angular-cookies": "~1.2.18",
     "jquery-ui": "~1.10.4",
-    "fontawesome": "~4.1.0",
     "bootstrap": "~3.2.0",
     "requirejs": "~2.1.14",
     "restangular": "~1.4.0",
