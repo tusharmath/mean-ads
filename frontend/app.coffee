@@ -51,6 +51,6 @@ define [
 			_routeResolver 'Style', ['Create', 'Update', 'List']
 
 
-			$routeProvider.otherwise redirectTo: '/dashboard'
+			$routeProvider.otherwise redirectTo: '/programs'
 			$locationProvider.html5Mode false
 	]
