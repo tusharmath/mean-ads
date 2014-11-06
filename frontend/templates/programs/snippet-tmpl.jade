@@ -1,0 +1,34 @@
+h3 Javascript SDK
+p
+	| Include the SDK on your page once, ideally right after the opening &nbsp;
+	code body
+	| &nbsp;tag.
+pre.
+	(function (w, s) {
+		var e = w.document.createElement('script'), ma = w.ma || {};
+		ma.s = s;
+		e.src = "//mean-ads.com/identity.js"
+		w.document.body.appendChild(e);
+	})(window, '.mean-ads');
+hr
+
+h3 AD Snippet
+	a.pull-right(ng-href="#/programs/{{ctrl.program._id}}/update")  {{ctrl.program.name}}
+p.
+	Place the code in your layout wherever you would like to show the ads.
+pre.
+	#{"<div class='mean-ads' data-program='{{ctrl.program._id}}'></div>"}
+
+h5 Required Settings
+ul
+	li
+		code class='mean-ads'
+		| &nbsp; CSS selector for the ad container.
+	li
+		code data-program='{{ctrl.program._id}}'
+		| &nbsp; Program-ID of the program from where the ads will be queried.
+h5 Optional Settings
+ul
+	li
+		code data-keys='timber, wood, logs, tree'
+		|  Filters out the campaigns which matches any one of these words.

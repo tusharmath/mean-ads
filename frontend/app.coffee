@@ -45,7 +45,7 @@ define [
 			#TODO: Read all controllers and their actions and create this
 			_routeResolver 'Dashboard'
 			_routeResolver 'Login'
-			_routeResolver 'Program', ['Create', 'Update', 'List']
+			_routeResolver 'Program', ['Create', 'Update', 'List', 'Snippet']
 			_routeResolver 'Campaign', ['Create', 'Update', 'List', 'Metrics']
 			_routeResolver 'Subscription', ['Create', 'Update', 'List', 'Metrics']
 			_routeResolver 'Style', ['Create', 'Update', 'List']
