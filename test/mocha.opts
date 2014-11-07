@@ -1,5 +1,5 @@
 --require ./test/mocha.setup.coffee
 --compilers coffee:coffee-script/register
 --ui bdd
---timeout 100
+--timeout 1000
 --reporter min
