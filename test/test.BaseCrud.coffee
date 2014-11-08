@@ -24,6 +24,9 @@ describe 'BaseCrud:', ->
 	it 'scope is transient', ->
 		@mod.should.not.equal @injector.get BaseCrud
 
+	describe "query()", ->
+		it "be a function", -> @mod.query.should.be.a.function
+		it "returns a model", -> @mod.query().should.equal @fakeModel
 
 	describe "read()", ->
 		beforeEach ->

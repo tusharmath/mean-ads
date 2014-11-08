@@ -49,6 +49,7 @@ class BaseCrud
 		@model
 		.count filter
 		.execQ()
+	query: -> @model
 
 BaseCrud.annotations = [
 	new TransientScope()
