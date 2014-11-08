@@ -59,6 +59,7 @@ class BaseCrud
 				ref[method] arg[method]
 			@model
 			)
+		.execQ()
 
 BaseCrud.annotations = [
 	new TransientScope()

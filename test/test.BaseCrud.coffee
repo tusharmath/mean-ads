@@ -26,7 +26,6 @@ describe 'BaseCrud:', ->
 
 	describe "query()", ->
 		it "be a function", -> @mod.query.should.be.a.function
-		it "returns a model", -> @mod.query().should.equal @fakeModel
 
 	describe "read()", ->
 		beforeEach ->
