@@ -9,6 +9,7 @@ describe 'ControllerFactory:', ->
 	beforeEach ->
 		@injector = new Injector Mock
 		@crudP = @injector.get CrudsProvider
+		@crudP.cruds = Apple: {}
 		@mod = @injector.get ControllerFactory
 
 	describe '_onLoad()', ->
@@ -45,7 +46,6 @@ describe 'ControllerFactory:', ->
 			.A.resourceName.should.equal 'A'
 
 		it "crud must be available", ->
-			@crudP.__createCrud 'Apple', one: 1
 			class Apple
 				me: 'yoyo'
 			ctrls = @mod._onLoad {Apple}

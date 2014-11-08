@@ -6,7 +6,6 @@ Q = require 'q'
 ErrorCodes = require '../backend/config/error-codes'
 sinonAsPromised = require('sinon-as-promised') Q.Promise
 
-# TODO: MockCrudsProvider isn't nececssary
 describe 'BaseController:', ->
 	beforeEach ->
 		# Mocking Req/Res Objs
@@ -17,11 +16,12 @@ describe 'BaseController:', ->
 		@injector = new Injector Mock
 
 		# injecteds to be tested
-		@mod = @injector.get BaseController
 		@crudP = @injector.get CrudsProvider
+		@crudP.cruds = FakeResource: {}
 
-		# Setup
+		@mod = @injector.get BaseController
 		@mod.resourceName = 'FakeResource'
+
 
 
 
@@ -58,7 +58,7 @@ describe 'BaseController:', ->
 		beforeEach ->
 			@req.user = sub: 123
 			@req.body = {}
-			@crudP.__createCrud 'FakeResource'
+
 			@create = @crudP.cruds.FakeResource.create = sinon.stub()
 
 		it "be a function", -> @mod._create.should.be.a.Function
@@ -97,7 +97,6 @@ describe 'BaseController:', ->
 			@req.user = sub: 123
 			@req.body = a: 1, b: 2, c: 3
 			@req.params = id: 101010
-			@crudP.__createCrud 'FakeResource'
 			@one = @crudP.cruds.FakeResource.one = sinon.stub()
 			@update = @crudP.cruds.FakeResource.update = sinon.stub()
 		it "be a function", -> @mod._update.should.be.a.Function
@@ -127,7 +126,6 @@ describe 'BaseController:', ->
 
 	describe "_count()", ->
 		beforeEach ->
-			@crudP.__createCrud 'FakeResource'
 			@count = @crudP.cruds.FakeResource.count = sinon.stub()
 		it "be a function", -> @mod._count.should.be.a.Function
 		it "calls count", ->
@@ -147,7 +145,6 @@ describe 'BaseController:', ->
 
 	describe "_list()", ->
 		beforeEach ->
-			@crudP.__createCrud 'FakeResource'
 			@read = @crudP.cruds.FakeResource.read = sinon.stub()
 		it "be a function", -> @mod._list.should.be.a.Function
 		it "calls read", ->
@@ -163,7 +160,6 @@ describe 'BaseController:', ->
 		beforeEach ->
 			@req.user = sub: 123
 			@req.params = id: 101010
-			@crudP.__createCrud 'FakeResource'
 			 #TODO: set it using the string wala syntax
 			@one = @crudP.cruds.FakeResource.one = sinon.stub()
 			@delete = @crudP.cruds.FakeResource.delete = sinon.stub()
@@ -195,7 +191,6 @@ describe 'BaseController:', ->
 		beforeEach ->
 			@req.user = sub: 123
 			@req.params = id: 101010
-			@crudP.__createCrud 'FakeResource'
 			#TODO: set it using the string wala syntax
 			@one = @crudP.cruds.FakeResource.one = sinon.stub()
 		it "be a function", -> @mod._one.should.be.a.Function
