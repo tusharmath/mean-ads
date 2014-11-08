@@ -1,3 +1,4 @@
+# Resolves routes to controllers and their actions
 express = require 'express'
 _ = require 'lodash'
 ControllerFactory = require '../factories/ControllerFactory'
@@ -6,12 +7,12 @@ Q = require 'q'
 errors = require '../config/error-codes'
 
 defaultActionMap =
-	'$create': ['post', (str) -> "/#{str}"]
-	'$list': ['get', (str) -> "/#{str}s"]
-	'$count': ['get', (str) -> "/#{str}s/count"]
-	'$one': ['get', (str) -> "/#{str}/:id"]
-	'$update': ['patch', (str) -> "/#{str}/:id"]
-	'$remove': ['delete', (str) -> "/#{str}/:id"]
+	'$create': ['post', (str) -> "/core/#{str}"]
+	'$list': ['get', (str) -> "/core/#{str}s"]
+	'$count': ['get', (str) -> "/core/#{str}s/count"]
+	'$one': ['get', (str) -> "/core/#{str}/:id"]
+	'$update': ['patch', (str) -> "/core/#{str}/:id"]
+	'$remove': ['delete', (str) -> "/core/#{str}/:id"]
 
 class V1
 	constructor: (@ctrlFac) ->
@@ -33,7 +34,7 @@ class V1
 			res
 			.status err404.httpStatus
 			.send err404.message
-		return Q.fcall -> router
+		return Q router
 
 di.annotate V1, new di.Inject ControllerFactory
 module.exports = V1

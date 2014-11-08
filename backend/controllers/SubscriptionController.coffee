@@ -9,7 +9,7 @@ class SubscriptionController
 
 	# TODO: Can't think of a better way to handle custom routes
 	actionMap:
-		$credits: ['get', -> '/subscriptions/credits']
+		$credits: ['get', -> '/core/subscriptions/credits']
 
 	$credits: (req, res) =>
 		@crud

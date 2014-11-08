@@ -32,9 +32,13 @@ class V1
 				middleware.stylus
 				express.static path.join(config.root, 'frontend')
 			]
+
+			# Only Core must be authenticated
+			.use '/api/v1/core', [
+				middleware.auth
+			]
 			.use '/api/v1', [
 				bodyParser.json()
-				middleware.auth
 				v1
 			]
 			#Routes

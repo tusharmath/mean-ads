@@ -37,7 +37,7 @@ define [
 			authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 			$httpProvider.interceptors.push 'authInterceptor'
 
-			restProvider.setBaseUrl '/api/v1'
+			restProvider.setBaseUrl '/api/v1/core'
 			restProvider.setDefaultHttpFields cache: false
 			restProvider.setRestangularFields id: '_id'
 
