@@ -45,15 +45,7 @@ class V1
 
 			# Start server
 			app.listen config.port, config.ip, ->
-				bragi.log(
-					'application'
-					bragi.util.symbols.success
-					'Server Started'
-					bragi.util.print("#{config.ip}:#{config.port}", 'yellow')
-					'in'
-					bragi.util.print("#{app.get 'env'}", 'yellow')
-					'mode'
-				)
+				bragi.log 'application', bragi.util.symbols.success, 'Server Started', bragi.util.print("#{config.ip}:#{config.port}", 'yellow'), 'in', bragi.util.print("#{app.get 'env'}", 'yellow'), 'mode'
 di.annotate V1, new di.Inject api
 
 injector = new di.Injector()

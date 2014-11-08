@@ -226,8 +226,7 @@ describe 'BaseController:', ->
 		it "reject mean errors", ->
 			error = new  Error 'Some Error'
 			error.type = 'mean'
-			promise = Q.fcall ->
-				throw error
+			promise = Q.fcall -> throw error
 			@mod._endPromise @res, promise
 			.then => @res.send.calledWith(error).should.be.ok
 		it "throw non mean errors", ->
