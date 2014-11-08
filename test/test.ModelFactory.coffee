@@ -10,7 +10,7 @@ describe 'ModelFactory:', ->
 		@mongooseP = @injector.get MongooseProvider
 
 	afterEach ->
-		@mongooseP.reset()
+		@mongooseP.__reset()
 
 	describe "create()", ->
 		MockSchema = null

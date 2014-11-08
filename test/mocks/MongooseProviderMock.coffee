@@ -6,10 +6,13 @@ MongooseProvider = require '../../backend/providers/MongooseProvider'
 class MongooseProviderMock
 	constructor: ->
 		@mongoose = mongooseQ mockgoose mongoose
-	reset: ->
+	__reset: ->
 		# Resetting models
 		@mongoose.models = {}
 		mockgoose.reset()
+	__fakeModel: (schema = {}) ->
+		FakeSchema = @mongoose.Schema schema
+		@mongoose.model 'FakeModel', FakeSchema
 
 MongooseProviderMock.annotations = [ new Provide MongooseProvider]
 
