@@ -16,10 +16,10 @@ class BaseCrud
 
 		Object.defineProperty @, 'model', {get}
 
-	read: (populate, filter = {} ) ->
+	read: (populate = '', filter = {} ) ->
 		@model
 		.find filter
-		.populate populate or ''
+		.populate populate
 		.execQ()
 
 	one: (_id) ->
