@@ -3,6 +3,6 @@ BaseController = require './BaseController'
 
 class CampaignController
 	constructor: () ->
-		@_populate = path: 'program', select: 'name gauge'
+		@_populate = path: 'program', select: 'name'
 
 module.exports = CampaignController

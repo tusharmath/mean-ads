@@ -12,16 +12,9 @@
 				.col-md-6
 					select.form-control(ng-model="ctrl.program.style", ng-options="style._id as style.name for style in ctrl.styles")
 			.form-group
-				label.col-md-4.control-label Gauge
-				.col-md-6
-					select.form-control(ng-model="ctrl.program.gauge")
-						option(value="clicks") Clicks
-						option(value="impressions") Impressions
-						option(value="milliseconds") Milliseconds
-			.form-group
 				label.col-md-4.control-label Delivery
 				.col-md-6
-					strong.form-control.text-muted Random Set
+					strong.form-control.text-muted Round Robin
 			.form-group
 				label.col-md-4.control-label Allowed Origins (CORS)
 				.col-md-6

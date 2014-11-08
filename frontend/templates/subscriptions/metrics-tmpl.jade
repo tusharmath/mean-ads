@@ -7,14 +7,12 @@
 				span.left-space.label.label-danger(ng-show="ctrl.isInActive") Inactive
 	.panel-body
 		.row.text-muted.text-uppercase
-			.col-md-3.col-md-offset-2 Gauge
-			.col-md-3 Total Credits
+			.col-md-3.col-md-offset-2 Total Credits
 			.col-md-3 Start Date
 
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Initial status of the subscription") Inception]
-			.col-md-3 #[big.text-capitalize {{ctrl.program.gauge}}]
 			.col-md-3 #[big {{ctrl.subscription.totalCredits}}]
 			.col-md-3 #[big {{ctrl.subscription.startDate|date}}]
 

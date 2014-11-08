@@ -38,11 +38,10 @@
 
 			.form-group(ng-show="ctrl.program")
 				label.col-md-4.control-label Initial Credits
-					small.text-muted.text-capitalize &nbsp;{{ctrl.program.gauge}}
 				.col-md-4
 					input.form-control(
 						type="text"
-						placeholder="Enter initial credits in {{ctrl.program.gauge}}"
+						placeholder="Enter initial credits"
 						ng-model="ctrl.subscription.totalCredits"
 					)
 			.form-group

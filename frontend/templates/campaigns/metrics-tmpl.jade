@@ -7,14 +7,12 @@
 					a(href="#/subscriptions?campaign={{ctrl.campaign._id}}") {{ctrl.subscriptionCount}} Subscription(s)
 	.panel-body
 		.row.text-muted.text-uppercase
-			.col-md-3.col-md-offset-2 Gauge
-			.col-md-3 Credits
+			.col-md-3.col-md-offset-2 Credits
 			.col-md-3 Duration
 
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
 				small #[abbr(title="Initial status of the campaign") Inception]
-			.col-md-3 #[big.text-capitalize {{ctrl.program.gauge}}]
 			.col-md-3
 				big
 					span.right-space #[abbr(title="Average credit usage per day") {{ctrl.avgCommitment}}]

@@ -14,8 +14,7 @@
 				.col-md-6
 					select.form-control(
 						ng-model="ctrl.campaign.program"
-						ng-options="program._id as program.name for program in ctrl.programs"
-						ng-change="ctrl.gauge = program.gauge")
+						ng-options="program._id as program.name for program in ctrl.programs")
 			.form-group
 				label.col-md-4.control-label Duration
 					small.text-muted &nbsp;days
