@@ -1,6 +1,7 @@
 {Inject, TransientScope} = require 'di'
 ModelsProvider = require '../providers/ModelsProvider'
 q = require 'q'
+_ = require 'lodash'
 class BaseCrud
 	constructor: (modelsProvider) ->
 		@Models = modelsProvider.models
@@ -49,7 +50,15 @@ class BaseCrud
 		@model
 		.count filter
 		.execQ()
-	query: -> @model
+
+	query: (args)->
+		_.reduce(
+			args
+			(ref, arg) ->
+				method = _.keys(ref)[0]
+				ref[method] arg[method]
+			@model
+			)
 
 BaseCrud.annotations = [
 	new TransientScope()
