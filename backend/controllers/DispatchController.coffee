@@ -1,13 +1,12 @@
 Q = require 'q'
 _ = require 'lodash'
+dot = require 'dot'
 
 class DispatchController
 
 	# TODO: Can't think of a better way to handle custom routes
 	actionMap:
 		$ad: [ 'get', -> '/dispatch/ad']
-		$css: [ 'get', -> '/dispatch/css/:styleId.css']
-		$html: [ 'get', -> '/dispatch/html/:styleId.js']
 
 	_querySubscription: (req) ->
 		@Cruds.Subscription.query()
@@ -16,33 +15,39 @@ class DispatchController
 		.findOne ''
 		.execQ()
 
-	_queryProgram: (req) -> @Cruds.Program.one req.query.p
+	_queryProgram: (req) ->
+		@Cruds.Program.one req.query.p, 'style'
+
 
 	_touchSubscription: (subscription) ->
+		delta =
+			usedCredits: subscription.usedCredits + 1
+			lastDeliveredOn: Date.now()
 		@Cruds.Subscription
-		.update lastDeliveredOn: Date.now(), subscription._id
+		.update delta, subscription._id
 		.done()
 
-	$css: (req, res) ->
-		res.set 'Content-Type', 'text/css'
-		@Cruds.Style.one req.params.styleId
-		.then (doc)-> doc.css
+	_interpolate: (html, data) ->
+		dot.template(html) data
 
-	$html: (req, res) ->
-		res.set 'Content-Type', 'application/javascript'
-		@Cruds.Style.one req.params.styleId
-		.then (doc) -> doc.html
+	_setCorsHeader: (program, req, res) ->
+		origin = req.headers.origin
+		if _.contains program.allowedOrigins, origin
+			res.set 'Access-Control-Allow-Origin', origin
 
+	_payload: (style, subscription) ->
+		c: style.css
+		t: @_interpolate style.html, subscription.data
 
 	$ad: (req, res) ->
 		Q.all [
 			@_queryProgram req
 			@_querySubscription req
 		]
-		.spread (program, subscription) ->
+		.spread (program, subscription) =>
 			@_touchSubscription subscription
-			d: subscription.data
-			s: program.style
+			@_setCorsHeader program, req, res
+			@_payload program.style, subscription
 
 
 	# Perfect place to mutate request
