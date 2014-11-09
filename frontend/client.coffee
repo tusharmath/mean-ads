@@ -1,14 +1,30 @@
-[api, delimiter, scriptId] = ["http://mean-ads.herokuapp.com/api/v1/ads/#{mean.program}?mean=mean.cb", '&keywords[]=', 'mean']
-keywordQuery = delimiter + mean.keywords.join delimiter
-engine = mean.engine
-mean.cb = (jsonp) ->
-	el = document.getElementById mean.el
-	createShadowRoot = el.createShadowRoot || el.webkitCreateShadowRoot
-	shadowElement = createShadowRoot.call el
-	shadowElement.innerHTML = "<style>#{jsonp.css}</style>" + mean.engine(jsonp.html) (jsonp.data)
+do (window) ->
+	settings =
+		host: "mean-ads.herokuapp.com"
+	# Command Pattern
+	commands =
+		set: (key, value) -> settings[key] = value
+		ad: (program, el, keywords) ->
+			get "//#{settings.host}/api/v1/dispatch/ad?p=#{program}", (response) ->
+				el.innerHTML = response
 
 
-script = document.createElement 'script'
-script.src = api + keywordQuery
-script.id = scriptId
-document.getElementsByTagName('head')[0].appendChild script
+	# Makes Http Get Requests
+	get = (url, callback) ->
+		oReq = new XMLHttpRequest()
+		oReq.addEventListener 'load', ->
+			if oReq.readyState is 4 and oReq.status is 200
+				callback oReq.responseText
+		oReq.open 'get', url, true
+		oReq.send()
+
+	# Overriding the ma object
+	ma = (cmd, args...) -> commands[cmd].apply null, args
+
+	# Iterate over all the commands and execute
+	if window.ma.q
+		for cmd in window.ma.q
+			ma.apply null, cmd
+
+	# Override the orignal ma object
+	window.ma = ma
