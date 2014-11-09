@@ -19,8 +19,8 @@ class DispatchController
 	_queryProgram: (req) -> @Cruds.Program.one req.query.p
 
 	_touchSubscription: (subscription) ->
-		subscription.lastDeliveredOn = Date.now()
-		@Cruds.Subscription.update subscription
+		@Cruds.Subscription
+		.update lastDeliveredOn: Date.now(), subscription._id
 		.done()
 
 	$css: (req, res) ->
