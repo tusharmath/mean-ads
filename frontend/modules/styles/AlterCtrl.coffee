@@ -9,14 +9,6 @@ define ["app", "lodash"], (app, _) ->
 		beforeSave: () ->
 			@style.placeholders = @tok.tokenize @style.placeholders
 
-		preview: ->
-			template = @interpolate @style.html
-			data = @tok.tokenize @style.placeholders
-			context = {}
-			_.each data, (key) -> context[key] = key
-			@interpolation = @_getStyleTags() + template context
-
-
 	StyleAlterCtrl.$inject = [
 		'Restangular'
 		'$interpolate'
