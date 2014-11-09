@@ -1,7 +1,6 @@
 Q = require 'q'
 _ = require 'lodash'
 dot = require 'dot'
-
 class DispatchController
 
 	# TODO: Can't think of a better way to handle custom routes
@@ -28,7 +27,7 @@ class DispatchController
 		.done()
 
 	_interpolate: (html, data) ->
-		dot.template(html) data
+		dot.template(html, strip: true) data
 
 	_setCorsHeader: (program, req, res) ->
 		origin = req.headers.origin
