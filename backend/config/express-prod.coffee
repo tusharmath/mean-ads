@@ -6,7 +6,7 @@ module.exports = (app) ->
 
 	app
 	.use compression()
-	.use minify()
+	.use minify cache: config.cache.dir
 	# Caching all HTTP responses
 	.use /(\/static)|(\/templates)|(\/$)/, (req, res, next) ->
 		logger.log 'http:caching', req.url
