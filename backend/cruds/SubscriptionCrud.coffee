@@ -3,7 +3,7 @@ BaseCrud = require './BaseCrud'
 class SubscriptionCrud
 	constructor: () ->
 	preCreate: (subscription) ->
-		@Models.Campaign
+		@model
 		.findByIdQ subscription.campaign
 		.then (camp) ->
 			subscription.campaignProgramId = camp.program

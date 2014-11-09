@@ -38,4 +38,9 @@ SubscriptionSchema = (mongoose) ->
 			type: [String]
 			index: true
 
+		# Delivery Management
+		lastDeliveredOn:
+			type: Date
+			default: Date.now
+
 module.exports = SubscriptionSchema

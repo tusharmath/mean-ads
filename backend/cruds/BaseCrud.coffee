@@ -51,15 +51,8 @@ class BaseCrud
 		.count filter
 		.execQ()
 
-	query: (args)->
-		_.reduce(
-			args
-			(ref, arg) ->
-				method = _.keys(ref)[0]
-				ref[method] arg[method]
-			@model
-			)
-		.execQ()
+	query: -> @model
+
 
 BaseCrud.annotations = [
 	new TransientScope()
