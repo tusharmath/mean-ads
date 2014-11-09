@@ -3,6 +3,7 @@ _ = require 'lodash'
 dot = require 'dot'
 CleanCss = require('clean-css')
 cssMin = new CleanCss
+dot.templateSettings.strip = true
 class DispatchController
 
 	# TODO: Can't think of a better way to handle custom routes
@@ -28,8 +29,7 @@ class DispatchController
 		.update delta, subscription._id
 		.done()
 
-	_interpolate: (html, data) ->
-		dot.template(html, strip: true) data
+	_interpolate: (html, data) -> dot.template(html) data
 
 	_setCorsHeader: (program, req, res) ->
 		origin = req.headers.origin
@@ -37,8 +37,10 @@ class DispatchController
 			res.set 'Access-Control-Allow-Origin', origin
 
 	_payload: (style, subscription) ->
-		c: cssMin.minify style.css
-		t: @_interpolate style.html, subscription.data
+		@_interpolate style.html, subscription.data
+		css = cssMin.minify style.css
+		tmpl = @_interpolate style.html, subscription.data
+		"<style>#{css}</style>#{tmpl}"
 
 	$ad: (req, res) ->
 		Q.all [
