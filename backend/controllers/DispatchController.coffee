@@ -31,7 +31,7 @@ class DispatchController
 	$html: (req, res) ->
 		res.set 'Content-Type', 'application/javascript'
 		@Cruds.Style.one req.params.styleId
-		.then (doc)-> doc.html
+		.then (doc) -> doc.html
 
 
 	$ad: (req, res) ->
@@ -40,10 +40,7 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) ->
-			{style} = program
-			subscription.lastDeliveredOn = Date.now()
-			subscription.save()
-
+			@_touchSubscription subscription
 			d: subscription.data
 			s: program.style
 
