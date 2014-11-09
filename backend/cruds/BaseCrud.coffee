@@ -23,9 +23,10 @@ class BaseCrud
 		.populate populate
 		.execQ()
 
-	one: (_id) ->
+	one: (_id, populate = '') ->
 		@model
 		.findOne {_id}
+		.populate populate
 		.execQ()
 
 	postUpdate: -> q.fcall ->
@@ -33,7 +34,7 @@ class BaseCrud
 		@model
 		.findByIdAndUpdate id, obj
 		.execQ()
-		.then @postUpdate obj
+		.then => @postUpdate obj
 
 	preCreate: -> q.fcall ->
 	create: (obj) ->
