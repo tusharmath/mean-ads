@@ -4,29 +4,41 @@ p
 	code body
 	| &nbsp;tag.
 pre.
-	(function (w, s) {
-		var e = w.document.createElement('script'), ma = w.ma || {};
-		ma.s = s;
-		e.src = "//mean-ads.com/identity.js"
-		w.document.body.appendChild(e);
-	})(window, '.mean-ads');
+	(function(i,s,o,g,r,a,m){i['MeanAdsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//mean-ads.herokuapp.com/ad.js','ma');
 
 h3 AD Snippet
 	a.pull-right(ng-href="#/programs/{{ctrl.program._id}}/update")  {{ctrl.program.name}}
-p.
-	Place the code in your layout wherever you would like to show the ads.
-pre #{"<div class='mean-ads' data-program='{{ctrl.program._id}}'></div>"}
+ol
+	li
+		p.
+			Place the markup in your layout wherever you would like to show the ads.
+		pre #{"<div id='ad-container'></div>"}
+	li
+		p
+			| Load the ads using the&nbsp;
+			code ad
+			| &nbsp;command
 
-h5 Required Settings
-ul
-	li
-		code class='mean-ads'
-		| &nbsp; CSS selector for the ad container.
-	li
-		code data-program='{{ctrl.program._id}}'
-		| &nbsp; Program-ID of the program from where the ads will be queried.
-h5 Optional Settings
-ul
-	li
-		code data-keys='timber, wood, logs, tree'
-		|  Filters out the campaigns which matches any one of these words.
+		pre.
+			var program = '{{ctrl.program._id}}';					//REQUIRED
+			var element = document.getElementById('ad-container');		//REQUIRED
+			var keywords = ['timber, wood, logs, tree']; 				//OPTIONAL
+
+			ma('ad', program, element, keywords);
+
+		h5 Required Settings
+		ul
+			li
+				strong Dom Element
+				| &nbsp;where the ad needs to be injected.
+			li
+				strong Program ID
+				| &nbsp;of the program from where the ads are going to be queried.
+		h5 Optional Settings
+		ul
+			li
+				strong Keywords
+				|  to filter in only those campaigns which matches any one of specified words.
