@@ -19,71 +19,41 @@ class BaseController
 
 		Object.defineProperty @, 'crud', {get}
 
-		# TODO: Need to write tests for this
-		_.each ['list', 'update', 'create', 'remove', 'one', 'count'], (name) =>
-			@["$#{name}"] = (req, res) =>
-				@_endPromise res, @["_#{name}"] req, res
-				.done()
-
-	_endPromise: (res, promise) ->
-		promise
-		.then (doc) -> res.send doc
-		.fail (err) => @_defaultErrorHandler res, err
-		# .done()
-
-
-
-	_defaultErrorHandler: (res, err) ->
-		###
-			No point sending a internal server errors here.
-			It can directly be handled later
-		###
-		throw err if err.type isnt 'mean'
-		res.status err.httpStatus
-		res.send err
-
 	_forbiddenDocument: (userId, doc) ->
 		throw errors.FORBIDDEN_DOCUMENT if doc.owner isnt userId
 		doc
 
-	_notFoundDocument: (doc) ->
-		throw errors.NOTFOUND_DOCUMENT if not doc
-		doc
-
-	_create: (req, res) ->
+	$create: (req, res) ->
 		req.body.owner = req.user.sub
 		@crud.create req.body
 
-	_update: (req, res) ->
+	$update: (req, res) ->
 		@crud.one req.params.id
 		.then (doc) =>
-			@_notFoundDocument doc
 			@_forbiddenDocument req.user.sub, doc
 			@crud.update req.body, req.params.id
 
-	_count: (req, res) ->
+	$count: (req, res) ->
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
 		@crud.count filter
 		.then (count)-> {count}
 
-	_list: (req, res) ->
+	$list: (req, res) ->
 		_populate = req.query.populate
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
 		@crud.read _populate, filter
 
-	_remove: (req, res) ->
+	$remove: (req, res) ->
 		@crud.one req.params.id
 		.then (doc) =>
-			@_notFoundDocument doc
 			@_forbiddenDocument req.user.sub, doc
 			@crud.delete req.params.id
 
-	_one: (req, res) ->
+	$one: (req, res) ->
 		@crud.one req.params.id
 		.then (doc) =>
-			@_notFoundDocument doc
 			@_forbiddenDocument req.user.sub, doc
 			doc
 

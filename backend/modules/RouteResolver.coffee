@@ -18,23 +18,49 @@ class V1
 	constructor: (@ctrlFac) ->
 
 	init: ->
-
 		@ctrlFac.init()
 		.then @_onLoad
-	_onLoad: (controllers) ->
-		router = express.Router()
-		_.each controllers, (ctrl, ctrlName) -> _.forIn ctrl, (action, actionName) ->
-			return if actionName[0] isnt '$'
-			[method, _route] = defaultActionMap[actionName] or ctrl.actionMap[actionName]
-			route = _route ctrlName.toLowerCase()
-			bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]", 'green'), route
-			router[method] route, _.bind action, ctrl
+
+	_getActionMap: (ctrl, actionName) ->
+		defaultActionMap[actionName] or ctrl.actionMap[actionName]
+
+	_actionMiddleware: (ctrl, action, req, res) ->
+		action.call ctrl, req, res
+		.then (doc) -> res.send doc
+		.fail (err) ->
+			switch err.type
+				when 'mean'
+					res.status(err.httpStatus).send err
+				when 'ObjectId'
+					err = errors.NOTFOUND_DOCUMENT
+					res.status(err.httpStatus).send err
+				else
+					throw err
+		.done()
+
+	_actionBinder: (router, ctrl, ctrlName, action, actionName) ->
+		return if actionName[0] isnt '$'
+		[method, routeFunc] = @_getActionMap ctrl, actionName
+		route = routeFunc ctrlName.toLowerCase()
+		bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]", 'green'), route
+		router[method] route, _.curry(@_actionMiddleware, 4) ctrl, action
+
+	_forEveryAction: (router, controllers) ->
+		_.each controllers, (ctrl, ctrlName) =>
+			_.forIn ctrl, (action, actionName) =>
+				@_actionBinder router, ctrl, ctrlName, action, actionName
+
+	_otherRoutes: (router) ->
 		router.use '*', (req, res) ->
 			err404 = errors.NOTFOUND_RESOURCE
-			res
-			.status err404.httpStatus
+			res.status err404.httpStatus
 			.send err404.message
-		return Q router
+
+	_onLoad: (controllers) =>
+		router = express.Router()
+		@_forEveryAction router, controllers
+		@_otherRoutes router
+		router
 
 di.annotate V1, new di.Inject ControllerFactory
 module.exports = V1
