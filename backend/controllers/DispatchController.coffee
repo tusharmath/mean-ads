@@ -1,6 +1,8 @@
 Q = require 'q'
 _ = require 'lodash'
 dot = require 'dot'
+CleanCss = require('clean-css')
+cssMin = new CleanCss
 class DispatchController
 
 	# TODO: Can't think of a better way to handle custom routes
@@ -35,7 +37,7 @@ class DispatchController
 			res.set 'Access-Control-Allow-Origin', origin
 
 	_payload: (style, subscription) ->
-		c: style.css
+		c: cssMin.minify style.css
 		t: @_interpolate style.html, subscription.data
 
 	$ad: (req, res) ->
