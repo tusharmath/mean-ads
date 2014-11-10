@@ -8,8 +8,8 @@ define ['modules/core/app'], (app)->
 		onLoginSuccess: =>
 			@defer.resolve @auth.profilePromise
 		get: (@auth, Q) =>
-			if auth.isAuthenticated is yes
-				return auth.profilePromise
+			if @auth.hasTokenExpired() is no and @auth.isAuthenticated is yes
+				return @auth.profilePromise
 			@defer = Q.defer()
 			@defer.promise
 
