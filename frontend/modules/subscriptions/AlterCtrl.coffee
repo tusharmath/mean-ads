@@ -24,9 +24,10 @@ define ["app"], (app) ->
 			.then (@style) =>
 
 		onCampaignSelect: () =>
-			@_loadCampaign()
-			.then @_loadProgram
-			.then @_loadStyle
+			if @subscription.campaign
+				@_loadCampaign()
+				.then @_loadProgram
+				.then @_loadStyle
 
 	SubscriptionAlterCtrl.$inject = [
 		"Restangular", "AlterControllerExtensionService", '$q'
