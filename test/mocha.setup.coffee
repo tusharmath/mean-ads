@@ -7,3 +7,5 @@ chai.use require "chai-as-promised" #Used to test Glob
 global.bragi = require 'bragi'
 global.bragi.options.groupsEnabled = false
 global.sinon = require 'sinon'
+Q = require 'q'
+sinonAsPromised = require('sinon-as-promised') Q.Promise

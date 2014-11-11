@@ -2,9 +2,7 @@ BaseController = require '../backend/controllers/BaseController'
 CrudsProvider = require '../backend/providers/CrudsProvider'
 Mock = require './mocks'
 {Injector, Provide} = require 'di'
-Q = require 'q'
 ErrorCodes = require '../backend/config/error-codes'
-sinonAsPromised = require('sinon-as-promised') Q.Promise
 
 describe 'BaseController:', ->
 	beforeEach ->

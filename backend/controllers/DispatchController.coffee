@@ -3,6 +3,7 @@ _ = require 'lodash'
 dot = require 'dot'
 CleanCss = require('clean-css')
 cssMin = new CleanCss
+errors = require '../config/error-codes'
 dot.templateSettings.strip = true
 class DispatchController
 
@@ -18,6 +19,8 @@ class DispatchController
 		.execQ()
 
 	_queryProgram: (req) ->
+
+		throw errors.INVALID_PARAMETERS if not req.query.p
 		@Cruds.Program.one req.query.p, 'style'
 
 
@@ -48,6 +51,8 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) =>
+			throw errors.INVALID_PARAMETERS if not program
+
 			@_touchSubscription subscription
 			@_setCorsHeader program, req, res
 			@_payload program.style, subscription

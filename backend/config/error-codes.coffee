@@ -1,5 +1,11 @@
 _ = require 'lodash'
 ErrorSchema =
+	# 400
+	INVALID_PARAMETERS:
+		code: 'BADREQUEST'
+		message: 'Request made with invalid parameters'
+		httpStatus: 400
+
 	# 403
 	FORBIDDEN_DOCUMENT:
 		code: 'FORBIDDEN'
