@@ -27,6 +27,14 @@
 						ng-options="campaign._id as campaign.name for campaign in ctrl.campaigns"
 						ng-change="ctrl.onCampaignSelect()"
 					)
+			.form-group
+				label.col-md-4.control-label Initial Credits
+				.col-md-4
+					input.form-control(
+						type="text"
+						placeholder="Enter initial credits"
+						ng-model="ctrl.subscription.totalCredits"
+					)
 			.form-group(ng-repeat="holder in ctrl.style.placeholders")
 				label.col-md-4.control-label
 					strong.text-muted.text-uppercase ~{{holder}}
@@ -36,14 +44,6 @@
 						ng-model="ctrl.subscription.data[holder]"
 					)
 
-			.form-group(ng-show="ctrl.program")
-				label.col-md-4.control-label Initial Credits
-				.col-md-4
-					input.form-control(
-						type="text"
-						placeholder="Enter initial credits"
-						ng-model="ctrl.subscription.totalCredits"
-					)
 			.form-group
 				.col-md-6.col-md-offset-4
 					button.btn.btn-primary(type="button", ng-click="ctrl.save()") Save
