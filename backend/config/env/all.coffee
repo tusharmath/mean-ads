@@ -12,3 +12,6 @@ module.exports =
 		options:
 			db:
 				safe: true
+	nodetime:
+		accountKey: ''
+		appName: 'mean-ads'
