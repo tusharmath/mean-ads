@@ -22,5 +22,5 @@ module.exports =
 			process.env.OPENSHIFT_MONGODB_DB_URL +
 			process.env.OPENSHIFT_APP_NAME ||
 			'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
-	nodetime:
-		accountKey: '64b30873b183433aeaf04251c7b13eb89e665c89'
+	newrelic:
+		license: 'e6d2a6347a283cffb5d7a5f3e35e672eae9d4d06'

@@ -2,6 +2,7 @@ path = require 'path'
 
 rootPath = path.normalize __dirname + '/../../..'
 module.exports =
+	appName: 'mean-ads'
 	Q: longStackSupport: true
 	root: rootPath
 	cache:
@@ -12,6 +13,3 @@ module.exports =
 		options:
 			db:
 				safe: true
-	nodetime:
-		accountKey: ''
-		appName: 'mean-ads'

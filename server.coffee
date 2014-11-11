@@ -3,10 +3,10 @@
 bragi = require 'bragi'
 di = require 'di'
 Q = require 'q'
-nodetime = require 'nodetime'
+require 'newrelic'
 config = require './backend/config/config'
 Q.longStackSupport = config.Q.longStackSupport
-nodetime.profile config.nodetime
+
 global.bragi = bragi
 # Overriding Logger return value
 # logOverride = (_log) ->
