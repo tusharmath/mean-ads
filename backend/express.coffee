@@ -7,12 +7,14 @@ prod = require './config/express-prod'
 bodyParser = require 'body-parser'
 api = require './modules/RouteResolver'
 di = require 'di'
+newrelic = require 'newrelic'
 class V1
 	constructor: (api) ->
 		api
 		.init()
 		.done (v1) ->
 			app = express()
+			app.locals.newrelic = newrelic
 
 			app
 			.set 'jsonp callback name', 'mean'

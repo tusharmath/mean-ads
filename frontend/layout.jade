@@ -2,6 +2,7 @@
 doctype html
 html
     head
+        != newrelic.getBrowserTimingHeader()
         title
             block title
                 | mean-ads
