@@ -6,3 +6,4 @@ module.exports =
 		options:
 			groupsEnabled: ['application', 'api']
 	env: 'development'
+	newrelic: enabled: false

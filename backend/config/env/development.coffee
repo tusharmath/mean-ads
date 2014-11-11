@@ -17,3 +17,4 @@ module.exports =
 		uri: 'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
 	newrelic:
 		license: 'no-license'
+		enabled: false
