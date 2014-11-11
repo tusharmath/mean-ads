@@ -1,6 +1,7 @@
 'use strict'
 
 module.exports =
+	appName: 'mean-ads.dev'
 	jwt:
 		secret: 'G3AEzjlLJ6Fzk2IiOdwgtrOcfa4jgmUYLiB22PnFtg_D6f3ACv541EqRs5heYDhK'
 		clientId: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
@@ -14,3 +15,5 @@ module.exports =
 	coffeeCompress: false
 	mongo:
 		uri: 'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
+	newrelic:
+		license: 'no-license'

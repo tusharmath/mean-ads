@@ -1,9 +1,9 @@
 'use strict'
-
+require 'newrelic'
 bragi = require 'bragi'
 di = require 'di'
 Q = require 'q'
-require 'newrelic'
+
 config = require './backend/config/config'
 Q.longStackSupport = config.Q.longStackSupport
 
