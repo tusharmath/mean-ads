@@ -51,8 +51,6 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) =>
-			throw errors.INVALID_PARAMETERS if not program
-
 			@_touchSubscription subscription
 			@_setCorsHeader program, req, res
 			@_payload program.style, subscription
