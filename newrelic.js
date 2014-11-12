@@ -3,7 +3,7 @@ exports.config = config.newRelic;
 exports.config = {
 	app_name: [config.appName],
 	license_key: config.newrelic.license,
-	relic_enabled: config.newrelic.enabled,
+	agent_enabled: config.newrelic.enabled,
 	logging: {
 		level: 'info'
 	}
