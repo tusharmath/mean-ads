@@ -49,3 +49,11 @@ describe 'BaseCrud:', ->
 			.done (docs) ->
 				docs[0].field_1.should.equal 1000
 				done()
+	describe "update()", ->
+		it "deletes _id", ->
+			obj = _id : 100, name: 3000
+			sinon.stub @mod.model, 'findByIdAndUpdate'
+			.returns execQ: sinon.stub().resolves null
+
+			@mod.update obj
+			should.not.exist obj._id

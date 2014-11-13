@@ -31,6 +31,7 @@ class BaseCrud
 
 	postUpdate: -> q.fcall ->
 	update: (obj, id = obj._id) ->
+		delete obj._id
 		@model
 		.findByIdAndUpdate id, obj
 		.execQ()
