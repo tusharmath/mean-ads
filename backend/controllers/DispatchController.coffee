@@ -20,7 +20,7 @@ class DispatchController
 
 	_queryProgram: (req) ->
 
-		throw errors.INVALID_PARAMETERS if not req.query.p
+		return null if not req.query.p
 		@Cruds.Program.one req.query.p, 'style'
 
 

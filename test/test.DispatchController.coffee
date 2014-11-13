@@ -10,18 +10,24 @@ describe 'DbConnection:', ->
 	describe "_queryProgram()", ->
 		it "be a function", ->
 			@mod._queryProgram.should.be.a.Function
-		it "rejects with 400", ->
+		it "sends empty strings", ->
 			req = query: {}
-			expect =>
-				@mod._queryProgram req
-			.to.throw errors.INVALID_PARAMETERS
+			expect @mod._queryProgram req
+			.to.equal null
 	describe "$ad()", ->
-		it "returns empty string if program is null", ->
+		it "returns empty string if program resolves null", ->
 			sinon.stub(@mod, '_queryProgram').resolves null
 			sinon.stub(@mod, '_querySubscription')
 			@mod.$ad {}, {}
 			.should.eventually.be.equal ''
-		it "returns empty string", ->
+
+		it "returns empty string if program returns null", ->
+			sinon.stub(@mod, '_queryProgram').returns null
+			sinon.stub(@mod, '_querySubscription')
+			@mod.$ad {}, {}
+			.should.eventually.be.equal ''
+
+		it "returns empty string if subscription resolves null", ->
 			sinon.stub(@mod, '_queryProgram')
 			sinon.stub(@mod, '_querySubscription').resolves null
 			@mod.$ad {}, {}
