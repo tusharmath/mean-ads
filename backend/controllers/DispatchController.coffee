@@ -51,6 +51,7 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) =>
+			return '' if program is null or subscription is null
 			@_touchSubscription subscription
 			@_setCorsHeader program, req, res
 			@_payload program.style, subscription

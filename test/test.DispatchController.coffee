@@ -15,3 +15,14 @@ describe 'DbConnection:', ->
 			expect =>
 				@mod._queryProgram req
 			.to.throw errors.INVALID_PARAMETERS
+	describe "$ad()", ->
+		it "returns empty string if program is null", ->
+			sinon.stub(@mod, '_queryProgram').resolves null
+			sinon.stub(@mod, '_querySubscription')
+			@mod.$ad {}, {}
+			.should.eventually.be.equal ''
+		it "returns empty string", ->
+			sinon.stub(@mod, '_queryProgram')
+			sinon.stub(@mod, '_querySubscription').resolves null
+			@mod.$ad {}, {}
+			.should.eventually.be.equal ''
