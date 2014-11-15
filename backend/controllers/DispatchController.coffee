@@ -12,11 +12,11 @@ class DispatchController
 		$ad: [ 'get', -> '/dispatch/ad']
 
 	_querySubscription: (req) ->
-		@Cruds.Subscription.query()
-		.where campaignProgramId: req.query.p
-		.sort lastDeliveredOn: 'asc'
-		.findOne ''
-		.execQ()
+		@Cruds.Subscription.query [
+			'where': campaignProgramId: req.query.p
+		,	'sort': lastDeliveredOn: 'asc'
+		,	'findOne'
+		]
 
 	_queryProgram: (req) ->
 

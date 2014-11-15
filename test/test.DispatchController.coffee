@@ -14,6 +14,22 @@ describe 'DbConnection:', ->
 			req = query: {}
 			expect @mod._queryProgram req
 			.to.equal null
+	describe "_querySubscription()", ->
+		it "be a function", -> @mod._querySubscription.should.be.a.Function
+		it "calls query", ->
+			@mod.Cruds = Subscription: query: sinon.stub().resolves()
+			req = query: p : 123321
+			@mod._querySubscription req
+			.then =>
+
+				@mod.Cruds.Subscription.query
+				.getCall 0
+				.args[0].should.eql [
+					{where: campaignProgramId: 123321}
+					{sort: lastDeliveredOn: 'asc'}
+					'findOne'
+				]
+
 	describe "$ad()", ->
 		it "returns empty string if program resolves null", ->
 			sinon.stub(@mod, '_queryProgram').resolves null
