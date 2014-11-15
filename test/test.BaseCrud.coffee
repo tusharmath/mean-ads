@@ -24,8 +24,6 @@ describe 'BaseCrud:', ->
 	it 'scope is transient', ->
 		@mod.should.not.equal @injector.get BaseCrud
 
-	describe "query()", ->
-		it "be a function", -> @mod.query.should.be.a.function
 
 	describe "read()", ->
 		beforeEach ->
@@ -57,3 +55,28 @@ describe 'BaseCrud:', ->
 
 			@mod.update obj
 			should.not.exist obj._id
+
+	describe "_reduceQuery()", ->
+
+		it "be a function", -> @mod._reduceQuery.should.be.a.function
+
+		it 'calls query methods', ->
+			query = where: sinon.spy()
+			@mod._reduceQuery query, where: a: 1000
+			query.where.calledWith a: 1000
+			.should.be.ok
+		it 'returns query methods response', ->
+			query = where: -> 120
+			@mod._reduceQuery query, where: a: 1000
+			.should.equal 120
+
+	describe 'query', ->
+		it 'be a function', ->
+			@mod.query.should.be.a.Function
+		it 'reduces queries', ->
+			sinon.stub @mod, '_reduceQuery', (acc, val) ->
+				acc.val += val
+				acc
+			@mod.Models.FakeResource = val: 0, execQ: -> Q @val
+			@mod.query [1, 2, 3, 4]
+			.should.eventually.equal 10
