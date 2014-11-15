@@ -65,6 +65,12 @@ describe 'BaseCrud:', ->
 			@mod._reduceQuery query, where: a: 1000
 			query.where.calledWith a: 1000
 			.should.be.ok
+
+		it 'calls query methods of no args', ->
+			query = where: -> 8000
+			@mod._reduceQuery query, 'where'
+			.should.equal 8000
+
 		it 'returns query methods response', ->
 			query = where: -> 120
 			@mod._reduceQuery query, where: a: 1000

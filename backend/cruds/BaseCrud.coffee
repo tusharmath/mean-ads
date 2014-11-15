@@ -54,6 +54,7 @@ class BaseCrud
 		.execQ()
 
 	_reduceQuery: (query, params) ->
+		return query[params]() if typeof params is 'string'
 		[qName] = _.keys params
 		qArg = params[qName]
 		query[qName] qArg
