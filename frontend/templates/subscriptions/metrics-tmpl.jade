@@ -1,6 +1,6 @@
-.panel.panel-info
+.panel.panel-default
 	.panel-heading
-		h4
+		.panel-title
 			a(href="#/subscriptions/{{ctrl.subscription._id}}/update") {{ctrl.subscription.client}}
 			.pull-right
 				span.left-space.label.label-warning(ng-show="ctrl.isExpired") Expired
