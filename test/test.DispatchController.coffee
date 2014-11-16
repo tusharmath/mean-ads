@@ -18,10 +18,45 @@ describe 'DbConnection:', ->
 		it "be a function", -> @mod._querySubscription.should.be.a.Function
 		it "calls query", ->
 			@mod.Cruds = Subscription: query: sinon.stub().resolves()
-			req = query: p : 123321
+			req = query:
+				p : 123321
+				k : ['a', 'b', 'c']
 			@mod._querySubscription req
 			.then =>
 
+				@mod.Cruds.Subscription.query
+				.getCall 0
+				.args[0].should.eql [
+					{where: campaignProgramId: 123321}
+					{where: 'campaignKeywords'}
+					{in: ['a', 'b', 'c']}
+					{sort: lastDeliveredOn: 'asc'}
+					'findOne'
+				]
+		it "calls query with single key", ->
+			@mod.Cruds = Subscription: query: sinon.stub().resolves()
+			req = query:
+				p : 123321
+				k : 'a'
+			@mod._querySubscription req
+			.then =>
+
+				@mod.Cruds.Subscription.query
+				.getCall 0
+				.args[0].should.eql [
+					{where: campaignProgramId: 123321}
+					{where: 'campaignKeywords'}
+					{in: ['a']}
+					{sort: lastDeliveredOn: 'asc'}
+					'findOne'
+				]
+
+		it "calls query with keys", ->
+			@mod.Cruds = Subscription: query: sinon.stub().resolves()
+			req = query:
+				p : 123321
+			@mod._querySubscription req
+			.then =>
 				@mod.Cruds.Subscription.query
 				.getCall 0
 				.args[0].should.eql [
