@@ -48,4 +48,4 @@ exports.partials = (req, res) ->
 
 #send our single page app
 exports.page = (page) ->
-	(req, res) -> res.render page
+	(req, res) -> res.status(page).render page
