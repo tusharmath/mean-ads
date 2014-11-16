@@ -12,11 +12,24 @@ class DispatchController
 		$ad: [ 'get', -> '/dispatch/ad']
 
 	_querySubscription: (req) ->
-		@Cruds.Subscription.query [
-			'where': campaignProgramId: req.query.p
-		,	'sort': lastDeliveredOn: 'asc'
-		,	'findOne'
+
+		queryParams = [
+			{'where': campaignProgramId: req.query.p}
 		]
+
+		if req.query.k
+			req.query.k = [req.query.k] if typeof req.query.k is 'string'
+			queryParams = queryParams.concat [
+				{'where': 'campaignKeywords'}
+				{'in': req.query.k}
+			]
+
+		queryParams = queryParams.concat [
+			{'sort': lastDeliveredOn: 'asc'}
+			'findOne'
+		]
+		console.log queryParams
+		@Cruds.Subscription.query queryParams
 
 	_queryProgram: (req) ->
 
@@ -51,6 +64,7 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) =>
+			console.log subscription
 			return '' if program is null or subscription is null
 			@_touchSubscription subscription
 			@_setCorsHeader program, req, res
