@@ -1,18 +1,14 @@
 {
-	"folders":
-	[
-		{
-			"file_exclude_patterns":
-			[
-				"mean-ads.sublime-workspace"
-			],
-			"folder_exclude_patterns":
-			[
-				"db",
-				"frontend/lib"
-			],
-			"follow_symlinks": true,
-			"path": "."
-		}
-	]
+	"folders": [{
+		"file_exclude_patterns": [
+			"mean-ads.sublime-workspace"
+		],
+		"folder_exclude_patterns": [
+			"db",
+			".cache",
+			"frontend/lib"
+		],
+		"follow_symlinks": true,
+		"path": "."
+	}]
 }
