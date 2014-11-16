@@ -28,7 +28,6 @@ class DispatchController
 			{'sort': lastDeliveredOn: 'asc'}
 			'findOne'
 		]
-		console.log queryParams
 		@Cruds.Subscription.query queryParams
 
 	_queryProgram: (req) ->
