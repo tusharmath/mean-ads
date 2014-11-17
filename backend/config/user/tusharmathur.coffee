@@ -4,6 +4,6 @@ module.exports =
 		uri: 'mongodb://localhost:27017/adwords'
 	bragi:
 		options:
-			groupsEnabled: ['application', 'api']
+			groupsEnabled: ['application']
 	env: 'development'
 	newrelic: enabled: false
