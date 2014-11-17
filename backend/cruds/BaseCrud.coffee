@@ -35,7 +35,7 @@ class BaseCrud
 		@model
 		.findByIdAndUpdate id, obj
 		.execQ()
-		.then => @postUpdate obj
+		.then (obj) => @postUpdate obj
 
 	preCreate: -> q.fcall ->
 	create: (obj) ->

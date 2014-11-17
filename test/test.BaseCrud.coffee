@@ -56,6 +56,18 @@ describe 'BaseCrud:', ->
 			@mod.update obj
 			should.not.exist obj._id
 
+		it "calls postupdate", ->
+			obj = a:1, b:2, c:3
+			sinon.spy @mod, 'postUpdate'
+			sinon.stub @mod.model, 'findByIdAndUpdate'
+			.returns execQ: sinon.stub().resolves obj
+
+			@mod.update {}
+			.then =>
+				@mod.postUpdate.calledWith obj
+				.should.be.ok
+
+
 	describe "_reduceQuery()", ->
 
 		it "be a function", -> @mod._reduceQuery.should.be.a.function
