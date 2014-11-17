@@ -37,17 +37,46 @@ describe "CampaignCrud", ->
 				.calledWith campaign: 1000
 				.should.be.ok
 
+		it "throws errors if _id is not present", ->
+			camp = {}
+			expect => @mod.postUpdate camp
+			.to.throw 'Campaign must have [_id] field'
+
+
+	describe "_keywordUpdateMapper()", ->
+		it "be a function", ->
+			@mod._keywordUpdateMapper.should.be.a.Function
+		it 'updates subs', ->
+			sub  = updateQ: sinon.spy()
+			camp = keywords: [1,2,3,4]
+			@mod._keywordUpdateMapper sub, camp
+			sub.updateQ.calledWith campaignKeywords: camp.keywords
+			.should.be.ok
+		it 'resolves', ->
+			sub  = updateQ: sinon.stub().resolves 123321
+			camp = keywords: [1,2,3,4]
+			@mod._keywordUpdateMapper sub, camp
+			.should.eventually.equal 123321
+
+
 	describe "_setCampaignKeywords()", ->
 		it "be a function",  ->
 			@mod._setCampaignKeywords.should.be.a.Function
+		it 'resolves a map', ->
+			subs = [1,2,3,4]
+			camp = 20
+			@mod._keywordUpdateMapper = (sub, camp) -> sub * camp
+			@mod._setCampaignKeywords subs, camp
+			.should.eventually.eql [20, 40, 60, 80]
 
-		it "sets campaignKeywords", ->
-			subs = [save:->]
-			camp = campaignKeywords: ['q', 'b', 'e']
-			@mod._setCampaignKeywords subs, camp
-			subs[0].campaignKeywords.should.equal camp.campaignKeywords
-		it "saves subscription", ->
-			subs = [save:sinon.spy()]
-			camp = campaignKeywords: ['q', 'b', 'e']
-			@mod._setCampaignKeywords subs, camp
-			subs[0].save.called.should.be.ok
+		# it "sets campaignKeywords", ->
+		# 	subs = [updateQ:->]
+		# 	camp = keywords: ['q', 'b', 'e']
+		# 	@mod._setCampaignKeywords subs, camp
+		# 	subs[0].campaignKeywords.should.equal camp.keywords
+
+		# it "saves subscription", ->
+		# 	subs = [updateQ:sinon.spy()]
+		# 	camp = campaignKeywords: ['q', 'b', 'e']
+		# 	@mod._setCampaignKeywords subs, camp
+		# 	subs[0].saveQ.called.should.be.ok
