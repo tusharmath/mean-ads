@@ -28,7 +28,7 @@ describe 'DbConnection:', ->
 				@mod.Cruds.Subscription.query
 				.getCall 0
 				.args[0].should.eql [
-					{where: campaignProgramId: 123321}
+					{where: program: 123321}
 					{where: 'campaignKeywords'}
 					{in: ['a', 'b', 'c']}
 					{sort: lastDeliveredOn: 'asc'}
@@ -45,7 +45,7 @@ describe 'DbConnection:', ->
 				@mod.Cruds.Subscription.query
 				.getCall 0
 				.args[0].should.eql [
-					{where: campaignProgramId: 123321}
+					{where: program: 123321}
 					{where: 'campaignKeywords'}
 					{in: ['a']}
 					{sort: lastDeliveredOn: 'asc'}
@@ -61,7 +61,7 @@ describe 'DbConnection:', ->
 				@mod.Cruds.Subscription.query
 				.getCall 0
 				.args[0].should.eql [
-					{where: campaignProgramId: 123321}
+					{where: program: 123321}
 					{sort: lastDeliveredOn: 'asc'}
 					'findOne'
 				]
@@ -91,5 +91,5 @@ describe 'DbConnection:', ->
 			@mod._queryCampaign.should.be.a.function
 
 		it 'calls cruds.campaign.one', ->
-			@mod._queryCampaign 12321
+			@mod._queryCampaign campaign: 12321
 			.should.eventually.equal '12321-data'

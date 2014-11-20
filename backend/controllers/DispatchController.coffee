@@ -11,10 +11,12 @@ class DispatchController
 	actionMap:
 		$ad: [ 'get', -> '/dispatch/ad']
 
+	# TODO: Pathetic piece of code. Break it
 	_querySubscription: (req) ->
 
 		queryParams = [
-			{'where': campaignProgramId: req.query.p}
+			'where':
+				program: req.query.p
 		]
 
 		if req.query.k
