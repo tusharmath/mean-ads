@@ -6,6 +6,9 @@ SubscriptionSchema = (mongoose) ->
 		startDate:
 			type: Date
 			required: true
+		endDate:
+			type: Date
+			require: true
 		campaign:
 			type : mongoose.Schema.ObjectId
 			required: true
@@ -29,12 +32,12 @@ SubscriptionSchema = (mongoose) ->
 			index: true
 
 		# Faster Querying
-		campaignProgramId:
+		program:
 			type: mongoose.Schema.ObjectId
 			required: true
 			ref: 'Program'
 			index: true
-		campaignKeywords:
+		keywords:
 			type: [String]
 			index: true
 
