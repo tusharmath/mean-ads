@@ -30,6 +30,9 @@ class DispatchController
 		]
 		@Cruds.Subscription.query queryParams
 
+	_queryCampaign: (campaignId) ->
+		@Cruds.Campaign.one campaignId
+
 	_queryProgram: (req) ->
 
 		return null if not req.query.p

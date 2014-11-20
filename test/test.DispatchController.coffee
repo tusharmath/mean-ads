@@ -1,5 +1,6 @@
 DispatchController = require '../backend/controllers/DispatchController'
 errors = require '../backend/config/error-codes'
+Q = require 'q'
 {Injector} = require 'di'
 
 describe 'DbConnection:', ->
@@ -83,3 +84,12 @@ describe 'DbConnection:', ->
 			sinon.stub(@mod, '_querySubscription').resolves null
 			@mod.$ad {}, {}
 			.should.eventually.be.equal ''
+	describe '_queryCampaign()', ->
+		beforeEach ->
+			@mod.Cruds = Campaign: one:  (id)-> Q "#{id}-data"
+		it 'be a function', ->
+			@mod._queryCampaign.should.be.a.function
+
+		it 'calls cruds.campaign.one', ->
+			@mod._queryCampaign 12321
+			.should.eventually.equal '12321-data'
