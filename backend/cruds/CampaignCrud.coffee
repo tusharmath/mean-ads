@@ -4,7 +4,10 @@ _ = require 'lodash'
 class CampaignCrud
 	constructor: () ->
 	_keywordUpdateMapper: (sub, camp) ->
-		sub.updateQ campaignKeywords: camp.keywords
+		patch =
+			keywords: camp.keywords
+			program: camp.program
+		sub.updateQ patch
 	_setCampaignKeywords: (subs, camp) ->
 		Q.all _.map subs, (sub) => @_keywordUpdateMapper sub, camp
 

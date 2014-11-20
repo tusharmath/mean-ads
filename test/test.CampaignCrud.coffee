@@ -46,11 +46,11 @@ describe "CampaignCrud", ->
 	describe "_keywordUpdateMapper()", ->
 		it "be a function", ->
 			@mod._keywordUpdateMapper.should.be.a.Function
-		it 'updates subs', ->
+		it 'updates sub', ->
 			sub  = updateQ: sinon.spy()
 			camp = keywords: [1,2,3,4]
 			@mod._keywordUpdateMapper sub, camp
-			sub.updateQ.calledWith campaignKeywords: camp.keywords
+			sub.updateQ.calledWith keywords: camp.keywords, program: camp.program
 			.should.be.ok
 		it 'resolves', ->
 			sub  = updateQ: sinon.stub().resolves 123321
