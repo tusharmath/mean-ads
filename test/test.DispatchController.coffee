@@ -29,7 +29,7 @@ describe 'DbConnection:', ->
 				.getCall 0
 				.args[0].should.eql [
 					{where: program: 123321}
-					{where: 'campaignKeywords'}
+					{where: 'keywords'}
 					{in: ['a', 'b', 'c']}
 					{sort: lastDeliveredOn: 'asc'}
 					'findOne'
@@ -46,7 +46,7 @@ describe 'DbConnection:', ->
 				.getCall 0
 				.args[0].should.eql [
 					{where: program: 123321}
-					{where: 'campaignKeywords'}
+					{where: 'keywords'}
 					{in: ['a']}
 					{sort: lastDeliveredOn: 'asc'}
 					'findOne'

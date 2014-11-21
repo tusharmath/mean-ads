@@ -15,14 +15,13 @@ class DispatchController
 	_querySubscription: (req) ->
 
 		queryParams = [
-			'where':
-				program: req.query.p
+			'where': program: req.query.p
 		]
 
 		if req.query.k
 			req.query.k = [req.query.k] if typeof req.query.k is 'string'
 			queryParams = queryParams.concat [
-				{'where': 'campaignKeywords'}
+				{'where': 'keywords'}
 				{'in': req.query.k}
 			]
 
@@ -30,7 +29,11 @@ class DispatchController
 			{'sort': lastDeliveredOn: 'asc'}
 			'findOne'
 		]
+		console.log queryParams
 		@Cruds.Subscription.query queryParams
+		.then (subs)->
+			console.log subs
+			subs
 
 	_queryCampaign: (campaignId) ->
 		@Cruds.Campaign.one campaignId
@@ -68,6 +71,7 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) =>
+			console.log subscription
 			return '' if program is null or subscription is null
 			@_touchSubscription subscription
 			@_setCorsHeader program, req, res
