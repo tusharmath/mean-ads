@@ -29,11 +29,7 @@ class DispatchController
 			{'sort': lastDeliveredOn: 'asc'}
 			'findOne'
 		]
-		console.log queryParams
 		@Cruds.Subscription.query queryParams
-		.then (subs)->
-			console.log subs
-			subs
 
 	_queryCampaign: (campaignId) ->
 		@Cruds.Campaign.one campaignId
@@ -71,7 +67,6 @@ class DispatchController
 			@_querySubscription req
 		]
 		.spread (program, subscription) =>
-			console.log subscription
 			return '' if program is null or subscription is null
 			@_touchSubscription subscription
 			@_setCorsHeader program, req, res
