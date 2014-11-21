@@ -68,15 +68,3 @@ describe "CampaignCrud", ->
 			@mod._keywordUpdateMapper = (sub, camp) -> sub * camp
 			@mod._setCampaignKeywords subs, camp
 			.should.eventually.eql [20, 40, 60, 80]
-
-		# it "sets campaignKeywords", ->
-		# 	subs = [updateQ:->]
-		# 	camp = keywords: ['q', 'b', 'e']
-		# 	@mod._setCampaignKeywords subs, camp
-		# 	subs[0].campaignKeywords.should.equal camp.keywords
-
-		# it "saves subscription", ->
-		# 	subs = [updateQ:sinon.spy()]
-		# 	camp = campaignKeywords: ['q', 'b', 'e']
-		# 	@mod._setCampaignKeywords subs, camp
-		# 	subs[0].saveQ.called.should.be.ok
