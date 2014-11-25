@@ -1,4 +1,3 @@
-
 CampaignSchema = (mongoose) ->
 	SubscriptionSchema = require './SubscriptionSchema'
 
