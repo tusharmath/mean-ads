@@ -6,11 +6,19 @@ Mock = require './mocks'
 describe 'ModelFactory:', ->
 	beforeEach ->
 		@injector = new Injector Mock
+		sinon.spy ModelFactory::, 'init'
 		@mod = @injector.get ModelFactory
 		@mongooseP = @injector.get MongooseProvider
 
 	afterEach ->
 		@mongooseP.__reset()
+		@mod.init.restore()
+
+	it "calls init", ->
+		@mod.init.called.should.be.ok
+
+	it "has Models",  ->
+		@mod.Models.should.exist
 
 	describe "create()", ->
 		MockSchema = null
@@ -27,6 +35,5 @@ describe 'ModelFactory:', ->
 		it "supports Q", ->
 			@mod.create 'woodo', MockSchema
 			.findById(1).execQ.should.be.a.Function
-
 
 
