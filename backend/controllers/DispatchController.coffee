@@ -3,7 +3,7 @@ _ = require 'lodash'
 dot = require 'dot'
 CleanCss = require('clean-css')
 cssMin = new CleanCss
-errors = require '../config/error-codes'
+{ErrorPool} = require '../config/error-codes'
 dot.templateSettings.strip = true
 class DispatchController
 

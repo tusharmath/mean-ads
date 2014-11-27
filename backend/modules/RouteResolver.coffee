@@ -4,7 +4,7 @@ _ = require 'lodash'
 ControllerFactory = require '../factories/ControllerFactory'
 di = require 'di'
 Q = require 'q'
-errors = require '../config/error-codes'
+{ErrorPool} = require '../config/error-codes'
 
 defaultActionMap =
 	'$create': ['post', (str) -> "/core/#{str}"]
@@ -32,7 +32,7 @@ class V1
 				when 'mean'
 					res.status(err.httpStatus).send err
 				when 'ObjectId'
-					err = errors.NOTFOUND_DOCUMENT
+					err = ErrorPool.NOTFOUND_DOCUMENT
 					res.status(err.httpStatus).send err
 				else
 					throw err
@@ -52,7 +52,7 @@ class V1
 
 	_otherRoutes: (router) ->
 		router.use '*', (req, res) ->
-			err404 = errors.NOTFOUND_RESOURCE
+			err404 = ErrorPool.NOTFOUND_RESOURCE
 			res.status err404.httpStatus
 			.send err404.message
 

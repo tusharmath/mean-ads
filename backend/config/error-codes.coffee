@@ -24,8 +24,8 @@ ErrorSchema =
 		httpStatus: 404
 
 	# 500
-	INTERNAL_SERVER_ERROR:
-		code: 'INTERNAL_SERVER_ERROR'
+	UNKNOWN_ERROR:
+		code: 'UNKNOWN_ERROR'
 		message: 'Something went wrong'
 		httpStatus: 500
 
@@ -33,11 +33,11 @@ ErrorSchema =
 ErrorPool = {}
 
 class MeanError extends Error
-	constructor: (@code, @message, @httpStatus) ->
+	constructor: (@message, @code = 'KNOWN_ERROR', @httpStatus = '500') ->
 		@type = 'mean'
 
 
 _.each ErrorSchema, (val, key) ->
-	ErrorPool[key] = new MeanError val.code, val.message, val.httpStatus
+	ErrorPool[key] = new MeanError val.message, val.code, val.httpStatus
 
-module.exports = ErrorPool
+module.exports = {ErrorPool, MeanError}
