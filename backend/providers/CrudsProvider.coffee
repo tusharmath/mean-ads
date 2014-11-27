@@ -1,13 +1,12 @@
-class CrudsProvider
-	constructor: ->
-		cruds = null
-		get = ->
-			if not cruds
-				throw new Error 'cruds have not been initialized!'
-			cruds
+BaseCrud = require '../Cruds/BaseCrud'
+{Injector, annotate, Inject} = require 'di'
 
-		set = (_cruds) ->
-			cruds = _cruds
-			bragi.log 'crud', 'All Cruds Initialized Successfully'
-		Object.defineProperty @, 'cruds', {get, set}
+class CrudsProvider
+	constructor: (@injector) ->
+	with: (resourceName) ->
+		crud = @injector.get BaseCrud
+		crud.resourceName = resourceName
+		crud
+
+annotate CrudsProvider, new Inject Injector
 module.exports = CrudsProvider
