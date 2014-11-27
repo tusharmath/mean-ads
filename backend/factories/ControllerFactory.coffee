@@ -8,21 +8,21 @@ class ControllerFactory
 	init: ->
 		@loader.load 'controller', ['BaseController.coffee']
 		.then @_onLoad
+	_extend: (base,child) ->
+		[_proto, child::] = [child::, base]
+		_.assign child::, _proto
 
 	_onLoad: (ctrls) =>
 		controllers = {}
 		_.each ctrls, (ctrlCtor, ctrlName) =>
+			bragi.log 'controller', ctrlName
 			# Settingup BaseController
 			baseCtrl = @injector.get BaseCtrl
 			baseCtrl.resourceName = ctrlName
 
-			# Swapping
-			[_proto, ctrlCtor::] = [ctrlCtor::, baseCtrl]
-			_.assign ctrlCtor::, _proto
+			@_extend baseCtrl, ctrlCtor
 
 			controllers[ctrlName] = @injector.get ctrlCtor
-			bragi.log 'controller', ctrlName
-			undefined
 		controllers
 
 annotate ControllerFactory, new Inject ComponentLoader, Injector
