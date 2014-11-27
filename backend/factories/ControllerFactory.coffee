@@ -1,18 +1,13 @@
 ComponentLoader = require '../modules/ComponentLoader'
 BaseCtrl = require '../controllers/BaseController'
-CrudFactory = require './CrudFactory'
-{Inject, Injector} = require 'di'
-Q = require 'q'
+{Inject, Injector, annotate} = require 'di'
 _ = require 'lodash'
 class ControllerFactory
-	constructor: (@loader, @injector, @crudFac) ->
+	constructor: (@loader, @injector) ->
 
 	init: ->
-		Q.all [
-			@loader.load 'controller', ['BaseController.coffee']
-			@crudFac.init()
-		]
-		.spread @_onLoad
+		@loader.load 'controller', ['BaseController.coffee']
+		.then @_onLoad
 
 	_onLoad: (ctrls) =>
 		controllers = {}
@@ -30,8 +25,6 @@ class ControllerFactory
 			undefined
 		controllers
 
-ControllerFactory.annotations = [
-	new Inject ComponentLoader, Injector, CrudFactory
-]
+annotate ControllerFactory, new Inject ComponentLoader, Injector
 
 module.exports = ControllerFactory
