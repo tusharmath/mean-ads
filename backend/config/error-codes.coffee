@@ -29,7 +29,6 @@ ErrorSchema =
 		message: 'Something went wrong'
 		httpStatus: 500
 
-
 ErrorPool = {}
 
 class MeanError extends Error

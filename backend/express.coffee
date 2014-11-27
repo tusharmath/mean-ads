@@ -8,6 +8,7 @@ bodyParser = require 'body-parser'
 api = require './modules/RouteResolver'
 di = require 'di'
 newrelic = require 'newrelic'
+ModelFactory = require './factories/ModelFactory'
 class V1
 	constructor: (api) ->
 		api
@@ -52,7 +53,7 @@ class V1
 			# Start server
 			app.listen config.port, config.ip, ->
 				bragi.log 'application', bragi.util.symbols.success, 'Server Started', bragi.util.print("#{config.ip}:#{config.port}", 'yellow'), 'in', bragi.util.print("#{app.get 'env'}", 'yellow'), 'mode'
-di.annotate V1, new di.Inject api
+di.annotate V1, new di.Inject api, ModelFactory
 
 injector = new di.Injector()
 injector.get V1
