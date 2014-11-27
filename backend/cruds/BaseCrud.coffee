@@ -1,19 +1,18 @@
 {Inject, TransientScope} = require 'di'
-ModelsProvider = require '../providers/ModelsProvider'
+ModelFactory = require '../factories/ModelFactory'
 q = require 'q'
 _ = require 'lodash'
 class BaseCrud
-	constructor: (modelsProvider) ->
-		@Models = modelsProvider.models
+	constructor: (modelFac) ->
 		@resourceName = null
 
 		get = =>
 			if not @resourceName
 				throw new Error 'resourceName has not been set!'
-			if not @Models[@resourceName]
+			if not modelFac.Models[@resourceName]
 				throw new Error "Models.#{@resourceName} is not available!"
 
-			@Models[@resourceName]
+			modelFac.Models[@resourceName]
 
 		Object.defineProperty @, 'model', {get}
 
@@ -65,7 +64,7 @@ class BaseCrud
 
 BaseCrud.annotations = [
 	new TransientScope()
-	new Inject ModelsProvider
+	new Inject ModelFactory
 ]
 
 module.exports = BaseCrud

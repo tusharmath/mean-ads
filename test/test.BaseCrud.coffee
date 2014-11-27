@@ -1,52 +1,64 @@
 BaseCrud = require '../backend/cruds/BaseCrud'
-ModelsProvider = require '../backend/providers/ModelsProvider'
-Mock = require './mocks'
+ModelFactory = require '../backend/factories/ModelFactory'
 Q = require 'q'
 {Provide, Injector} = require 'di'
+mockgoose = require 'mockgoose'
+mongooseQ = require 'mongoose-q'
+mongoose = require 'mongoose'
+
+
+class MockModelFactory
+	constructor: ->
+		@Models = {}
+		@mongoose = mongooseQ mockgoose mongoose
+	__createModel: (name, schemaDefinition) ->
+		schema = new mongoose.Schema schemaDefinition
+		@Models[name] = @mongoose.model name, schema
+	__reset: ->
+		mockgoose.reset()
+		@mongoose.models = {}
+
+MockModelFactory.annotations = [
+	new Provide ModelFactory
+]
 
 describe 'BaseCrud:', ->
 
 	beforeEach ->
 
-		@injector = new Injector Mock
-
-		# Mocking
-		@modelsProvider = @injector.get ModelsProvider
-		@fakeModel = @modelsProvider.__createModel 'FakeResource', field_1: type: Number
-
+		@injector = new Injector [MockModelFactory]
 		# Setting up code
 		@mod = @injector.get BaseCrud
+		@modelFac = @injector.get ModelFactory
+
+		# Test setup
 		@mod.resourceName = 'FakeResource'
+		@modelFac.__createModel 'FakeResource', field_1: Number
 
 	afterEach ->
-		@modelsProvider.__reset()
+		@modelFac.__reset()
 
 	it 'scope is transient', ->
 		@mod.should.not.equal @injector.get BaseCrud
 
+	it "sets model property", ->
 
 	describe "read()", ->
 		beforeEach ->
 			Q.all [
-				new @fakeModel(field_1: 100).saveQ()
-				new @fakeModel(field_1: 1000).saveQ()
-				new @fakeModel(field_1: 10).saveQ()
-				new @fakeModel(field_1: 1001).saveQ()
+				new @modelFac.Models.FakeResource(field_1: 100).saveQ()
+				new @modelFac.Models.FakeResource(field_1: 1000).saveQ()
+				new @modelFac.Models.FakeResource(field_1: 10).saveQ()
+				new @modelFac.Models.FakeResource(field_1: 1001).saveQ()
 			]
 
 
 		it "is function", -> @mod.read.should.be.a.Function
 		it "reads", -> @mod.read()
-		it "filters", (done) ->
-			@mod.read null, field_1: 1000, null
-			.done (docs) ->
-				docs[0].field_1.should.equal 1000
-				done()
-		it "filters for owners", (done) ->
-			@mod.read null, field_1: 1000, null
-			.done (docs) ->
-				docs[0].field_1.should.equal 1000
-				done()
+		it "filters", ->
+			@mod.read null, field_1: 10, null
+			.then (res)-> res[0].field_1.should.equal 10
+
 	describe "update()", ->
 		it "deletes _id", ->
 			obj = _id : 100, name: 3000
@@ -76,7 +88,7 @@ describe 'BaseCrud:', ->
 			query = where: sinon.spy()
 			@mod._reduceQuery query, where: a: 1000
 			query.where.calledWith a: 1000
-			.should.be.ok
+				.should.be.ok
 
 		it 'calls query methods of no args', ->
 			query = where: -> 8000
@@ -95,6 +107,6 @@ describe 'BaseCrud:', ->
 			sinon.stub @mod, '_reduceQuery', (acc, val) ->
 				acc.val += val
 				acc
-			@mod.Models.FakeResource = val: 0, execQ: -> Q @val
+			@modelFac.Models = FakeResource: val: 0, execQ: -> Q @val
 			@mod.query [1, 2, 3, 4]
 			.should.eventually.equal 10
