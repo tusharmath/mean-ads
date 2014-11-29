@@ -38,11 +38,6 @@ describe 'ControllerFactory:', ->
 			@mod._onLoad {A}
 			.A.resourceName.should.equal 'A'
 
-		# it "crud must be available", ->
-		# 	class Apple
-		# 		me: 'yoyo'
-		# 	ctrls = @mod._onLoad {Apple}
-		# 	ctrls.Apple.crud.should.equal @crudP.cruds.Apple
 	describe "_extend()", ->
 		beforeEach ->
 			@BaseInstance =
@@ -67,3 +62,8 @@ describe 'ControllerFactory:', ->
 			@mod._extend @BaseInstance, @ChildCtor
 			@injector.get @ChildCtor
 			.methodBB.should.equal @ChildCtor::methodBB
+		it "attaches base", ->
+			@mod._extend @BaseInstance, @ChildCtor
+			@injector.get @ChildCtor
+			._base.methodBB.should.equal @BaseInstance.methodBB
+

@@ -12,6 +12,9 @@ class ControllerFactory
 		[_proto, child::] = [child::, base]
 		_.assign child::, _proto
 
+		child::_base = {}
+		_.assign child::_base, base
+
 	_onLoad: (ctrls) =>
 		controllers = {}
 		_.each ctrls, (ctrlCtor, ctrlName) =>
