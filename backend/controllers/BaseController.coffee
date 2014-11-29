@@ -26,10 +26,15 @@ class BaseController
 		obj.saveQ()
 
 	$update: (req) ->
-		@getModel().one req.params.id
+		@getModel()
+		.findOne _id: req.params.id
+		.execQ()
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
-			@getModel().update req.body, req.params.id
+			delete req.body._id
+			@getModel()
+			.findByIdAndUpdate req.params.id, req.body
+			.execQ()
 
 	$count: (req) ->
 		filter = _.pick req.query, @_filterKeys

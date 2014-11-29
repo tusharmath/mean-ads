@@ -4,7 +4,7 @@ MongooseProvider = require '../backend/providers/MongooseProvider'
 ModelFactory = require '../backend/factories/ModelFactory'
 {annotate, Injector, Provide} = require 'di'
 Q = require 'q'
-ErrorCodes = require '../backend/config/error-codes'
+{ErrorPool} = require '../backend/config/error-codes'
 
 describe 'BaseController:', ->
 
@@ -28,7 +28,7 @@ describe 'BaseController:', ->
 
 		it "throws if not an owner", ->
 			expect => @mod._forbiddenDocument 1, owner: 2
-			.to.throw ErrorCodes.FORBIDDEN_DOCUMENT
+			.to.throw ErrorPool.FORBIDDEN_DOCUMENT
 
 		it "returns doc", ->
 			doc = owner: 2
@@ -48,7 +48,10 @@ describe 'BaseController:', ->
 			FakeSchema =  name: String, age: Number, owner: Number
 
 			#Request
-			@req = user: {sub: 123}, body: {name: 'Tushar', age: 10}
+			@req =
+				user: {sub: 123}
+				body: {name: 'Tushar', age: 10}
+				params: id: 123
 
 			#Stubbing getModel
 			sinon.stub @mod, 'getModel'
@@ -61,3 +64,33 @@ describe 'BaseController:', ->
 
 			it 'has owner', ->
 				@out.should.eventually.have.property 'owner'
+
+			it 'has _id', ->
+				@out.should.eventually.have.property '_id'
+
+		describe "$update()", ->
+			beforeEach ->
+
+				req =
+					user: {sub: 1234}
+					body: {name: 'Tushar', age: 10}
+				@mod.$create req
+				.then (obj) => @req.params.id = obj._id
+
+
+			it 'throws FORBIDDEN_DOCUMENT', ->
+				@mod.$update @req
+				.should.be.rejectedWith ErrorPool.FORBIDDEN_DOCUMENT
+			it "updates doc", ->
+				@req.user.sub = 1234
+				@req.body.name = 'Mathur'
+				@mod.$update @req
+				.should.eventually.have.property 'name'
+				.equal 'Mathur'
+
+			it "deletes the _id before updating", ->
+				@req.user.sub = 1234
+				@req.body._id = 122
+				spy = sinon.spy @mod.getModel(), 'findByIdAndUpdate'
+				@mod.$update @req
+				.should.eventually.have.property '_id'
