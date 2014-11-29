@@ -10,9 +10,9 @@ class MongooseProviderMock
 		# Resetting models
 		@mongoose.models = {}
 		mockgoose.reset()
-	__fakeModel: (schema = {}) ->
+	__fakeModel: (schema = {}, modelName = 'FakeModel') ->
 		FakeSchema = @mongoose.Schema schema
-		@mongoose.model 'FakeModel', FakeSchema
+		@mongoose.model modelName, FakeSchema
 
 MongooseProviderMock.annotations = [ new Provide MongooseProvider]
 
