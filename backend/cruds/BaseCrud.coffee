@@ -5,7 +5,6 @@ _ = require 'lodash'
 class BaseCrud
 	constructor: (modelFac) ->
 		@resourceName = null
-
 		get = =>
 			if not @resourceName
 				throw new Error 'resourceName has not been set!'
@@ -28,18 +27,14 @@ class BaseCrud
 		.populate populate
 		.execQ()
 
-	postUpdate: -> q.fcall ->
 	update: (obj, id = obj._id) ->
 		delete obj._id
 		@model
 		.findByIdAndUpdate id, obj
 		.execQ()
-		.then (obj) => @postUpdate obj
 
-	preCreate: -> q.fcall ->
 	create: (obj) ->
 		resource = new @model obj
-		@preCreate resource
 		.then -> resource.saveQ()
 
 	delete: (id) ->
