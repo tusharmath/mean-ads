@@ -1,6 +1,6 @@
 {Provide, Injector} = require 'di'
 CrudsProvider = require '../backend/providers/CrudsProvider'
-BaseCrud = require '../backend/Cruds/BaseCrud'
+BaseCrud = require '../backend/cruds/BaseCrud'
 
 describe "CrudsProvider:", ->
 	beforeEach ->

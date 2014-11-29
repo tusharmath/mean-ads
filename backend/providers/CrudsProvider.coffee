@@ -1,4 +1,4 @@
-BaseCrud = require '../Cruds/BaseCrud'
+BaseCrud = require '../cruds/BaseCrud'
 {Injector, annotate, Inject} = require 'di'
 {MeanError} = require '../config/error-codes'
 
