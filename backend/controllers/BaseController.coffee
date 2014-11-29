@@ -61,7 +61,8 @@ class BaseController
 			.execQ()
 
 	$one: (req) ->
-		@getModel().one req.params.id
+		@getModel().findOne _id: req.params.id
+		.execQ()
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
 			doc
