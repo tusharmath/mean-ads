@@ -44,6 +44,7 @@ describe 'BaseController:', ->
 			@mod.getModel().should.equal @mod.modelFac.Models.Subscription
 
 	describe "$controllers:", ->
+
 		beforeEach ->
 			FakeSchema =  name: String, age: Number, owner: Number
 
@@ -57,8 +58,16 @@ describe 'BaseController:', ->
 			sinon.stub @mod, 'getModel'
 			.returns @mongo.__fakeModel FakeSchema
 
-		describe "$create()", ->
+			#Adding Mock Data Returns a promise
+			Q.all [
+				@mod.$create user: {sub: 1000}, body: {name: 'TusharA', age: 20}
+				@mod.$create user: {sub: 1000}, body: {name: 'TusharB', age: 20}
+				@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
+				@mod.$create user: {sub: 1000}, body: {name: 'TusharD', age: 30}
+				@mod.$create user: {sub: 1001}, body: {name: 'TusharE', age: 20}
+			]
 
+		describe "$create()", ->
 			beforeEach ->
 				@out = @mod.$create @req, @res
 
@@ -97,13 +106,6 @@ describe 'BaseController:', ->
 		describe "$count()", ->
 			beforeEach ->
 				@mod._filterKeys = ['age']
-				Q.all [
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharA', age: 20}
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharB', age: 20}
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharD', age: 30}
-					@mod.$create user: {sub: 1001}, body: {name: 'TusharE', age: 20}
-				]
 
 			it "gets count", ->
 				@req.user.sub = 1000
@@ -117,16 +119,8 @@ describe 'BaseController:', ->
 				.should.eventually.eql count: 2
 
 		describe "$list()", ->
-
 			beforeEach ->
 				@mod._filterKeys = ['age']
-				Q.all [
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharA', age: 20}
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharB', age: 20}
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
-					@mod.$create user: {sub: 1000}, body: {name: 'TusharD', age: 30}
-					@mod.$create user: {sub: 1001}, body: {name: 'TusharE', age: 20}
-				]
 
 			it "gets list", ->
 				@req.user.sub = 1000
@@ -138,3 +132,6 @@ describe 'BaseController:', ->
 				@req.query = age: 20
 				@mod.$list @req
 				.should.eventually.be.of.length 2
+
+		describe "$remove()", ->
+			beforeEach ->
