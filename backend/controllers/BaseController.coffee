@@ -52,10 +52,13 @@ class BaseController
 		.execQ()
 
 	$remove: (req) ->
-		@getModel().one req.params.id
+		@getModel()
+		.findOne _id: req.params.id
+		.execQ()
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
-			@getModel().delete req.params.id
+			@getModel().findByIdAndRemove req.params.id
+			.execQ()
 
 	$one: (req) ->
 		@getModel().one req.params.id

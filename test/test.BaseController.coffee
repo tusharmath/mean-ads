@@ -135,3 +135,16 @@ describe 'BaseController:', ->
 
 		describe "$remove()", ->
 			beforeEach ->
+				@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
+				.then (doc) => @req.params.id = doc._id
+
+			it "throws FORBIDDEN_DOCUMENT", ->
+				@req.user.sub = 1001
+				@mod.$remove @req
+				.should.be.rejectedWith ErrorPool.FORBIDDEN_DOCUMENT
+
+			it "removes the element", ->
+				@req.user.sub = 1000
+				@mod.$remove @req
+				.then => @mod.getModel().find().execQ()
+				.should.eventually.have.length.of 5
