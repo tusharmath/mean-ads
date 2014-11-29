@@ -40,13 +40,16 @@ class BaseController
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
 		@getModel().count filter
+		.execQ()
 		.then (count)-> {count}
 
 	$list: (req) ->
-		_populate = req.query.populate
+		_populate = req.query?.populate or ''
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
-		@getModel().read _populate, filter
+		@getModel().find filter
+		.populate _populate
+		.execQ()
 
 	$remove: (req) ->
 		@getModel().one req.params.id

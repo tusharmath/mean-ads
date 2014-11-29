@@ -70,7 +70,6 @@ describe 'BaseController:', ->
 
 		describe "$update()", ->
 			beforeEach ->
-
 				req =
 					user: {sub: 1234}
 					body: {name: 'Tushar', age: 10}
@@ -94,3 +93,48 @@ describe 'BaseController:', ->
 				spy = sinon.spy @mod.getModel(), 'findByIdAndUpdate'
 				@mod.$update @req
 				.should.eventually.have.property '_id'
+
+		describe "$count()", ->
+			beforeEach ->
+				@mod._filterKeys = ['age']
+				Q.all [
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharA', age: 20}
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharB', age: 20}
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharD', age: 30}
+					@mod.$create user: {sub: 1001}, body: {name: 'TusharE', age: 20}
+				]
+
+			it "gets count", ->
+				@req.user.sub = 1000
+				@mod.$count @req
+				.should.eventually.eql count: 4
+
+			it "counts with query params", ->
+				@req.user.sub = 1000
+				@req.query = age: 20
+				@mod.$count @req
+				.should.eventually.eql count: 2
+
+		describe "$list()", ->
+
+			beforeEach ->
+				@mod._filterKeys = ['age']
+				Q.all [
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharA', age: 20}
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharB', age: 20}
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
+					@mod.$create user: {sub: 1000}, body: {name: 'TusharD', age: 30}
+					@mod.$create user: {sub: 1001}, body: {name: 'TusharE', age: 20}
+				]
+
+			it "gets list", ->
+				@req.user.sub = 1000
+				@mod.$list @req
+				.should.eventually.be.of.length 4
+
+			it "counts with query params", ->
+				@req.user.sub = 1000
+				@req.query = age: 20
+				@mod.$list @req
+				.should.eventually.be.of.length 2
