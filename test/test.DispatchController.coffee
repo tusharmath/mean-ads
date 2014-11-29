@@ -3,7 +3,7 @@ errors = require '../backend/config/error-codes'
 Q = require 'q'
 {Injector} = require 'di'
 
-describe 'DbConnection:', ->
+describe 'DispatchController:', ->
 	beforeEach ->
 		injector = new Injector
 		@mod = injector.get DispatchController
