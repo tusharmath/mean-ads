@@ -1,19 +1,22 @@
 Q = require 'q'
+ModelFactory = require '../factories/ModelFactory'
 {TransientScope, Inject} = require 'di'
 _ = require 'lodash'
 CrudsProvider = require '../providers/CrudsProvider'
-{ErrorPool} = require '../config/error-codes'
+{ErrorPool, MeanError} = require '../config/error-codes'
 class BaseController
-	constructor: (@crudsP) ->
-		@Cruds = @crudsP.cruds
+	constructor: (@modelFac) ->
 		@_filterKeys = []
 		@resourceName = null
 
 	crud: ->
-		@crudsP.with @resourceName
+		_crud = @modelFac.Models[@resourceName]
+		return _crud if _crud
+		throw new MeanError "#{@resourceName} was not found in #{_.keys @modelFac.Models}"
 
 	_forbiddenDocument: (userId, doc) ->
-		throw ErrorPool.FORBIDDEN_DOCUMENT if doc.owner isnt userId
+		if doc.owner isnt userId
+			throw ErrorPool.FORBIDDEN_DOCUMENT
 		doc
 
 	$create: (req, res) ->
@@ -53,6 +56,6 @@ class BaseController
 
 BaseController.annotations = [
 	new TransientScope()
-	new Inject CrudsProvider
+	new Inject ModelFactory
 ]
 module.exports = BaseController

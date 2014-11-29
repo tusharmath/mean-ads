@@ -1,6 +1,5 @@
 {Inject, TransientScope} = require 'di'
 ModelFactory = require '../factories/ModelFactory'
-q = require 'q'
 _ = require 'lodash'
 class BaseCrud
 	constructor: (modelFac) ->
