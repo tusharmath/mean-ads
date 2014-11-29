@@ -9,9 +9,9 @@ class BaseController
 		@_filterKeys = []
 		@resourceName = null
 
-	crud: ->
-		_crud = @modelFac.Models[@resourceName]
-		return _crud if _crud
+	getModel: ->
+		model = @modelFac.Models[@resourceName]
+		return model if model
 		throw new MeanError "#{@resourceName} was not found in #{_.keys @modelFac.Models}"
 
 	_forbiddenDocument: (userId, doc) ->
@@ -19,36 +19,38 @@ class BaseController
 			throw ErrorPool.FORBIDDEN_DOCUMENT
 		doc
 
-	$create: (req, res) ->
+	$create: (req) ->
 		req.body.owner = req.user.sub
-		@crud().create req.body
+		Model = @getModel()
+		obj = new Model req.body
+		obj.saveQ()
 
-	$update: (req, res) ->
-		@crud().one req.params.id
+	$update: (req) ->
+		@getModel().one req.params.id
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
-			@crud().update req.body, req.params.id
+			@getModel().update req.body, req.params.id
 
-	$count: (req, res) ->
+	$count: (req) ->
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
-		@crud().count filter
+		@getModel().count filter
 		.then (count)-> {count}
 
-	$list: (req, res) ->
+	$list: (req) ->
 		_populate = req.query.populate
 		filter = _.pick req.query, @_filterKeys
 		filter.owner = req.user.sub
-		@crud().read _populate, filter
+		@getModel().read _populate, filter
 
-	$remove: (req, res) ->
-		@crud().one req.params.id
+	$remove: (req) ->
+		@getModel().one req.params.id
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
-			@crud().delete req.params.id
+			@getModel().delete req.params.id
 
-	$one: (req, res) ->
-		@crud().one req.params.id
+	$one: (req) ->
+		@getModel().one req.params.id
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
 			doc
