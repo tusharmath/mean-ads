@@ -2,7 +2,6 @@ Q = require 'q'
 ModelFactory = require '../factories/ModelFactory'
 {TransientScope, Inject} = require 'di'
 _ = require 'lodash'
-CrudsProvider = require '../providers/CrudsProvider'
 {ErrorPool, MeanError} = require '../config/error-codes'
 class BaseController
 	constructor: (@modelFac) ->
