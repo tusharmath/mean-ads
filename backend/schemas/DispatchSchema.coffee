@@ -11,6 +11,11 @@ DispatchSchema = (mongoose) ->
 			ref: 'Subscription'
 
 		# Delivery Management
+		program:
+			type : mongoose.Schema.ObjectId
+			required: true
+			ref: 'Program'
+
 		lastDeliveredOn:
 			type: Date
 			default: Date.now

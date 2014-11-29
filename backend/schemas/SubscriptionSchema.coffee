@@ -31,19 +31,4 @@ SubscriptionSchema = (mongoose) ->
 			required: true
 			index: true
 
-		# Faster Querying
-		program:
-			type: mongoose.Schema.ObjectId
-			required: true
-			ref: 'Program'
-			index: true
-		keywords:
-			type: [String]
-			index: true
-
-		# Delivery Management
-		lastDeliveredOn:
-			type: Date
-			default: Date.now
-
 module.exports = SubscriptionSchema
