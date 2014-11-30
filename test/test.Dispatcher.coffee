@@ -100,6 +100,21 @@ describe 'Dispatcher:', ->
 			@mod._interpolateMarkup @subscriptionP
 			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
+	describe "_createDispatchable()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then => @mod._populateSubscription @subscription
+			.then (@subscriptionP) => #P: Populated
+		it "save dispatch", ->
+			@subscriptionP.campaign.keywords = ["apples", "bapples"]
+			@mod._createDispatchable @subscriptionP
+			.then (dispatch) =>
+				dispatch = _json dispatch
+				dispatch.markup.should.exist
+				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
+				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
+				dispatch.keywords.should.be.of.length 2
+
 	describe "next()", ->
 	describe "createSubscription()", ->
 

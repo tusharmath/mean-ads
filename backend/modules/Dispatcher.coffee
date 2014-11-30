@@ -32,6 +32,17 @@ class Dispatcher
 		_html = @dot.template(html) subscription.data
 		_html = "<style>#{@css.minify css}</style>#{_html}" if css
 		_html
+
+	_createDispatchable: (subscription) ->
+		Dispatch = @_getModel 'Dispatch'
+		new Dispatch(
+			markup: @_interpolateMarkup subscription
+			subscription: subscription._id
+			program: subscription.campaign.program._id
+			keywords: subscription.campaign.keywords
+			)
+		.saveQ()
+
 	subscriptionCreated: (subscription) ->
 	subscriptionUpdated: ->
 	campaignUpdated: ->
