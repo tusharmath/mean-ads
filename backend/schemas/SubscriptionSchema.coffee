@@ -6,9 +6,7 @@ SubscriptionSchema = (mongoose) ->
 		startDate:
 			type: Date
 			required: true
-		endDate:
-			type: Date
-			require: true
+			default: Date.now
 		campaign:
 			type : mongoose.Schema.ObjectId
 			required: true
