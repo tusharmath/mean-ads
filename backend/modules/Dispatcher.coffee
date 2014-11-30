@@ -47,10 +47,11 @@ class Dispatcher
 		.remove subscription: subscriptionId
 		.execQ()
 
-	subscriptionCreated: (subscription) ->
-	subscriptionUpdated: ->
-	campaignUpdated: ->
-	programUpdated: ->
+	subscriptionCreated: (subscriptionId) ->
+
+	subscriptionUpdated: (subscriptionId) ->
+	campaignUpdated: (campaignId) ->
+	programUpdated: (programId) ->
 
 annotate Dispatcher, new Inject ModelFactory, DotProvider, CleanCssProvider
 module.exports = Dispatcher

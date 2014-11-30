@@ -90,41 +90,41 @@ describe 'Dispatcher:', ->
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
+			.then (@subscriptionQ) => #P: Populated
 		it "creates html without css", ->
-			@mod._interpolateMarkup @subscriptionP
+			@mod._interpolateMarkup @subscriptionQ
 			.should.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
 		it "creates html with css", ->
-			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
-			@mod._interpolateMarkup @subscriptionP
+			@subscriptionQ.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
+			@mod._interpolateMarkup @subscriptionQ
 			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
 	describe "_createDispatchable()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
+			.then (@subscriptionQ) => #P: Populated
 		it "save dispatch", ->
-			@subscriptionP.campaign.keywords = ["apples", "bapples"]
-			@mod._createDispatchable @subscriptionP
+			@subscriptionQ.campaign.keywords = ["apples", "bapples"]
+			@mod._createDispatchable @subscriptionQ
 			.then (dispatch) =>
 				dispatch = _json dispatch
 				dispatch.markup.should.exist
-				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
-				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
+				dispatch.subscription.toString().should.eql @subscriptionQ._id.toString()
+				dispatch.program.toString().should.eql @subscriptionQ.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
+			.then (@subscriptionQ) => #P: Populated
 
 		it "expectation", ->
-			@mod._removeDispatchable @subscriptionP._id
+			@mod._removeDispatchable @subscriptionQ._id
 			.then =>
-				@Models.Dispatch.findOne subscription: @subscriptionP._id
+				@Models.Dispatch.findOne subscription: @subscriptionQ._id
 				.execQ()
 			.then (data) ->
 				expect(data).to.be.null
