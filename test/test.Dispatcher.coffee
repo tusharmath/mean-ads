@@ -9,6 +9,41 @@ Q = require 'q'
 _json = (obj) ->
 	JSON.parse JSON.stringify obj
 describe 'Dispatcher:', ->
+	mockDataSetup = ->
+		ownerId = 9000
+		campaign =
+			name: 'apple-campaign'
+			days: 10
+			owner: ownerId
+		subscription =
+			client: 'apples'
+			totalCredits: 1000
+			data: a:1, b:2, c:3
+			owner: ownerId
+		program =
+			name: 'apple-program'
+			owner: ownerId
+		style =
+			name: 'apple-style'
+			html: '<div>{{a}}</div><h2 href="{{c}}">{{b}}</h2>'
+			placeholders: ['a', 'b', 'c']
+			owner: ownerId
+
+		new @Models.Style style
+		.saveQ()
+		.then (@style) =>
+			program.style = @style._id
+			new @Models.Program program
+			.saveQ()
+		.then (@program) =>
+			campaign.program = @program._id
+			new @Models.Campaign campaign
+			.saveQ()
+		.then (@campaign) =>
+			subscription.campaign = @campaign._id
+			new @Models.Subscription subscription
+			.saveQ()
+		.then (@subscription) =>
 	beforeEach ->
 		@injector = new Injector [MongooseProviderMock]
 
@@ -23,6 +58,9 @@ describe 'Dispatcher:', ->
 		@modelFac = @injector.get ModelFactory
 		@Models = @modelFac.Models
 
+		#Mock Data
+		@mockDataSetup = mockDataSetup
+
 
 	afterEach ->
 		@mongo.__reset()
@@ -30,40 +68,7 @@ describe 'Dispatcher:', ->
 
 	describe "_populateSubscription()", ->
 		beforeEach ->
-			ownerId = 9000
-			campaign =
-				name: 'apple-campaign'
-				days: 10
-				owner: ownerId
-			subscription =
-				client: 'apples'
-				totalCredits: 1000
-				data: a:1, b:2, c:3
-				owner: ownerId
-			program =
-				name: 'apple-program'
-				owner: ownerId
-			style =
-				name: 'apple-style'
-				html: '<div>{{a}}</div><h2 href="{{c}}">{{b}}</h2>'
-				placeholders: ['a', 'b', 'c']
-				owner: ownerId
-
-			new @Models.Style style
-			.saveQ()
-			.then (@style) =>
-				program.style = @style._id
-				new @Models.Program program
-				.saveQ()
-			.then (@program) =>
-				campaign.program = @program._id
-				new @Models.Campaign campaign
-				.saveQ()
-			.then (@campaign) =>
-				subscription.campaign = @campaign._id
-				new @Models.Subscription subscription
-				.saveQ()
-			.then (@subscription) =>
+			@mockDataSetup()
 
 		it "populates subscription.campaign",  ->
 			@mod._populateSubscription @subscription._id
@@ -79,6 +84,8 @@ describe 'Dispatcher:', ->
 			@mod._populateSubscription @subscription._id
 			.then (sub) =>
 				sub.campaign.program.style._id.should.eql @style._id
+
+	describe "_interpolateMarkup()", ->
 
 	describe "next()", ->
 	describe "createSubscription()", ->
