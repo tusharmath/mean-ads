@@ -30,7 +30,7 @@ class Dispatcher
 	_interpolateMarkup: (subscription) ->
 		{html, css} = subscription.campaign.program.style
 		_html = @dot.template(html) subscription.data
-		_html = "<style>#{@css.minify css}</style>#{html}" if css
+		_html = "<style>#{@css.minify css}</style>#{_html}" if css
 		_html
 	subscriptionCreated: (subscription) ->
 	subscriptionUpdated: ->

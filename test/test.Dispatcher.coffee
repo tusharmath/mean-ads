@@ -18,7 +18,7 @@ describe 'Dispatcher:', ->
 		subscription =
 			client: 'apples'
 			totalCredits: 1000
-			data: a:1, b:2, c:3
+			data: a:'aaa', b: 'bbb', c: 'ccc'
 			owner: ownerId
 		program =
 			name: 'apple-program'
@@ -26,7 +26,7 @@ describe 'Dispatcher:', ->
 		style =
 			name: 'apple-style'
 			html: '<div>{{=it.a}}</div><h2 href="{{=it.c}}">{{=it.b}}</h2>'
-			placeholders: ['aaa', 'bbb', 'ccc']
+			placeholders: ['a', 'b', 'c']
 			owner: ownerId
 
 		new @Models.Style style
@@ -93,12 +93,12 @@ describe 'Dispatcher:', ->
 			.then (@subscriptionP) => #P: Populated
 		it "creates html without css", ->
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<div>1</div><h2 href=\"3\">2</h2>"
+			.should.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
 		it "creates html with css", ->
 			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>1</div><h2 href=\"3\">2</h2>"
+			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
 	describe "next()", ->
 	describe "createSubscription()", ->
