@@ -115,6 +115,20 @@ describe 'Dispatcher:', ->
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
 
+	describe "_removeDispatchable()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then => @mod._populateSubscription @subscription
+			.then (@subscriptionP) => #P: Populated
+
+		it "expectation", ->
+			@mod._removeDispatchable @subscriptionP._id
+			.then =>
+				@Models.Dispatch.findOne subscription: @subscriptionP._id
+				.execQ()
+			.then (data) ->
+				expect(data).to.be.null
+
 	describe "next()", ->
 	describe "createSubscription()", ->
 
