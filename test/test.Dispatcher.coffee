@@ -25,8 +25,8 @@ describe 'Dispatcher:', ->
 			owner: ownerId
 		style =
 			name: 'apple-style'
-			html: '<div>{{a}}</div><h2 href="{{c}}">{{b}}</h2>'
-			placeholders: ['a', 'b', 'c']
+			html: '<div>{{=it.a}}</div><h2 href="{{=it.c}}">{{=it.b}}</h2>'
+			placeholders: ['aaa', 'bbb', 'ccc']
 			owner: ownerId
 
 		new @Models.Style style
@@ -86,6 +86,19 @@ describe 'Dispatcher:', ->
 				sub.campaign.program.style._id.should.eql @style._id
 
 	describe "_interpolateMarkup()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then =>
+				@mod._populateSubscription @subscription
+			.then (@subscriptionP) => #P: Populated
+		it "creates html without css", ->
+			@mod._interpolateMarkup @subscriptionP
+			.should.equal "<div>1</div><h2 href=\"3\">2</h2>"
+
+		it "creates html with css", ->
+			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
+			@mod._interpolateMarkup @subscriptionP
+			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>1</div><h2 href=\"3\">2</h2>"
 
 	describe "next()", ->
 	describe "createSubscription()", ->
