@@ -49,7 +49,7 @@ class Dispatcher
 		.execQ()
 	_updateDeliveryDate: (dispatch) ->
 		dispatch.update lastDeliveredOn: Date.now()
-		.execQ().done()
+		.execQ()
 
 	next: (programId, keywords = []) ->
 		q = @_getModel 'Dispatch'

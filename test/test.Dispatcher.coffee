@@ -182,3 +182,16 @@ describe 'Dispatcher:', ->
 		it "calls _createDispatchable", ->
 			@mod.subscriptionCreated 123345
 			.should.eventually.equal 'disp-data'
+
+	describe "_updateDeliveryDate()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then => @mod._populateSubscription @subscription
+			.then (subscriptionP) => @mod._createDispatchable subscriptionP
+			.then (@dispatch) => @dispatch.update lastDeliveredOn: new Date 10, 10, 10
+
+		it "updates delivery date", ->
+			@mod._updateDeliveryDate @dispatch
+			.then => @dispatch.lastDeliveredOn.should.be.greaterThan new Date 10, 10, 10
+
+
