@@ -1,13 +1,12 @@
 ModelFactory = require '../factories/ModelFactory'
 CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
+_ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 # Round Robin Dispatcher
 class Dispatcher
 	constructor: (@modelFac, @dot, @css) ->
-
-
 
 	_getModel: (name) -> @modelFac.Models[name]
 	_increaseUsedCredits: (subscription) ->
@@ -48,6 +47,9 @@ class Dispatcher
 		@_getModel 'Dispatch'
 		.remove subscription: subscriptionId
 		.execQ()
+	_updateDeliveryDate: (dispatch) ->
+		dispatch.update lastDeliveredOn: Date.now()
+		.execQ().done()
 
 	next: (programId, keywords = []) ->
 		q = @_getModel 'Dispatch'
@@ -59,12 +61,29 @@ class Dispatcher
 			.in keywords
 		q.sort lastDeliveredOn: 'asc'
 		.findOne().execQ().then (dispatch) =>
+			@_updateDeliveryDate dispatch if dispatch
 			dispatch?.markup or ""
 
 	subscriptionCreated: (subscriptionId) ->
+		@_populateSubscription subscriptionId
+		.then (subscriptionP) =>
+			@_createDispatchable subscriptionP
+
 	subscriptionUpdated: (subscriptionId) ->
+		@_removeDispatchable subscriptionId
+		.then => @subscriptionUpdated subscriptionId
+
 	campaignUpdated: (campaignId) ->
+		@_getModel 'Subscription'
+		.where campaign: campaignId
+		.find().execQ().then (subscriptions) =>
+			Q.all _.map subscriptions, (s) => @subscriptionUpdated s
+
 	programUpdated: (programId) ->
+		@_getModel 'Campaign'
+		.where program: programId
+		.find().execQ().then (campaigns) =>
+			Q.all _.map campaigns, (c) => @campaignUpdated c
 
 annotate Dispatcher, new Inject ModelFactory, DotProvider, CleanCssProvider
 module.exports = Dispatcher

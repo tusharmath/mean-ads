@@ -167,4 +167,18 @@ describe 'Dispatcher:', ->
 
 	describe "createSubscription()", ->
 
+		beforeEach ->
+			sinon.stub @mod, '_populateSubscription'
+			.resolves 'sub-data'
+			sinon.stub @mod, '_createDispatchable'
+			.resolves 'disp-data'
 
+		it "calls _populateSubscription", ->
+			@mod.subscriptionCreated 123345
+			.then =>
+				@mod._populateSubscription.calledWith 123345
+				.should.be.ok
+
+		it "calls _createDispatchable", ->
+			@mod.subscriptionCreated 123345
+			.should.eventually.equal 'disp-data'
