@@ -7,7 +7,7 @@ DotProvider = require '../providers/DotProvider'
 class Dispatcher
 	constructor: (@modelFac, @dot, @css) ->
 
-	next: (programId, keywords = []) ->
+
 
 	_getModel: (name) -> @modelFac.Models[name]
 	_increaseUsedCredits: (subscription) ->
@@ -48,6 +48,18 @@ class Dispatcher
 		@_getModel 'Dispatch'
 		.remove subscription: subscriptionId
 		.execQ()
+
+	next: (programId, keywords = []) ->
+		q = @_getModel 'Dispatch'
+		.where program: programId
+
+		if keywords.length
+			q = q
+			.where 'keywords'
+			.in keywords
+		q.sort lastDeliveredOn: 'asc'
+		.findOne().execQ().then (dispatch) =>
+			dispatch?.markup or ""
 
 	subscriptionCreated: (subscriptionId) ->
 	subscriptionUpdated: (subscriptionId) ->

@@ -146,6 +146,25 @@ describe 'Dispatcher:', ->
 			.equal 101
 
 	describe "next()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then =>
+				@mod._populateSubscription @subscription
+			.then (@subscriptionP) =>
+				@subscriptionP.campaign.keywords = ['aa', 'bb']
+				@mod._createDispatchable @subscriptionP
+
+		it "queries by program id", ->
+			@mod.next @program._id
+			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+
+		it "queries null with keywords", ->
+			@mod.next @program._id, ['cc']
+			.should.eventually.be.equal ""
+		it "queries with keywords", ->
+			@mod.next @program._id, ['aa']
+			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+
 	describe "createSubscription()", ->
 
 
