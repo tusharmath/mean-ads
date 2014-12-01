@@ -10,6 +10,10 @@ class Dispatcher
 	next: (programId, keywords = []) ->
 
 	_getModel: (name) -> @modelFac.Models[name]
+	_increaseUsedCredits: (subscription) ->
+		@_getModel 'Subscription'
+		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
+		.execQ()
 	_populateSubscription: (subscriptionId) ->
 		_subscription = {}
 		@_getModel 'Subscription'
@@ -26,13 +30,11 @@ class Dispatcher
 			# console.log _subscription
 			_subscription.campaign.program = program
 			_subscription
-
 	_interpolateMarkup: (subscription) ->
 		{html, css} = subscription.campaign.program.style
 		_html = @dot.template(html) subscription.data
 		_html = "<style>#{@css.minify css}</style>#{_html}" if css
 		_html
-
 	_createDispatchable: (subscription) ->
 		Dispatch = @_getModel 'Dispatch'
 		new Dispatch(
@@ -48,7 +50,6 @@ class Dispatcher
 		.execQ()
 
 	subscriptionCreated: (subscriptionId) ->
-
 	subscriptionUpdated: (subscriptionId) ->
 	campaignUpdated: (campaignId) ->
 	programUpdated: (programId) ->

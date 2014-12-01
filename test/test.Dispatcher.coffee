@@ -90,44 +90,60 @@ describe 'Dispatcher:', ->
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
-			.then (@subscriptionQ) => #P: Populated
+			.then (@subscriptionP) => #P: Populated
 		it "creates html without css", ->
-			@mod._interpolateMarkup @subscriptionQ
+			@mod._interpolateMarkup @subscriptionP
 			.should.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
 		it "creates html with css", ->
-			@subscriptionQ.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
-			@mod._interpolateMarkup @subscriptionQ
+			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
+			@mod._interpolateMarkup @subscriptionP
 			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
 
 	describe "_createDispatchable()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionQ) => #P: Populated
+			.then (@subscriptionP) => #P: Populated
 		it "save dispatch", ->
-			@subscriptionQ.campaign.keywords = ["apples", "bapples"]
-			@mod._createDispatchable @subscriptionQ
+			@subscriptionP.campaign.keywords = ["apples", "bapples"]
+			@mod._createDispatchable @subscriptionP
 			.then (dispatch) =>
 				dispatch = _json dispatch
 				dispatch.markup.should.exist
-				dispatch.subscription.toString().should.eql @subscriptionQ._id.toString()
-				dispatch.program.toString().should.eql @subscriptionQ.campaign.program._id.toString()
+				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
+				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionQ) => #P: Populated
+			.then (@subscriptionP) => #P: Populated
 
 		it "expectation", ->
-			@mod._removeDispatchable @subscriptionQ._id
+			@mod._removeDispatchable @subscriptionP._id
 			.then =>
-				@Models.Dispatch.findOne subscription: @subscriptionQ._id
+				@Models.Dispatch.findOne subscription: @subscriptionP._id
 				.execQ()
 			.then (data) ->
 				expect(data).to.be.null
+
+	describe "_increaseUsedCredits()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then =>
+				@Models.Subscription
+				.findByIdAndUpdate @subscription._id, usedCredits: 100
+				.execQ()
+			.then =>
+				@mod._populateSubscription @subscription
+			.then (@subscriptionP) => #P: Populated
+
+		it "updates used credits", ->
+			@mod._increaseUsedCredits @subscriptionP
+			.should.eventually.have.property 'usedCredits'
+			.equal 101
 
 	describe "next()", ->
 	describe "createSubscription()", ->
