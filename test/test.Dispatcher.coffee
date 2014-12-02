@@ -136,12 +136,9 @@ describe 'Dispatcher:', ->
 				@Models.Subscription
 				.findByIdAndUpdate @subscription._id, usedCredits: 100
 				.execQ()
-			.then =>
-				@mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
 
 		it "updates used credits", ->
-			@mod._increaseUsedCredits @subscriptionP
+			@mod._increaseUsedCredits @subscription._id
 			.should.eventually.have.property 'usedCredits'
 			.equal 101
 
