@@ -201,4 +201,18 @@ describe 'Dispatcher:', ->
 			@mod._updateDeliveryDate @dispatch
 			.then => @dispatch.lastDeliveredOn.should.be.greaterThan new Date 10, 10, 10
 
+	describe "_postDispatch()", ->
+		beforeEach ->
+			sinon.stub @mod, '_increaseUsedCredits'
+			sinon.stub @mod, '_removeDispatchable'
+			sinon.stub @mod, '_updateDeliveryDate'
+			@mockDataSetup()
+			.then => @mod._populateSubscription @subscription
+			.then (subscriptionP) => @mod._createDispatchable subscriptionP
+			.then (@dispatch) =>
 
+		#TODO: Tired of writing tests
+		it "updates used credits of subscription"
+		it "updates last delivery date of dispatch"
+		it "removes expired subscriptions"
+		it "removes exausted subscriptions"

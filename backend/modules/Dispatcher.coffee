@@ -48,9 +48,18 @@ class Dispatcher
 		.findByIdAndRemove dispatchId
 		.execQ()
 	_updateDeliveryDate: (dispatch) ->
-		dispatch.update lastDeliveredOn: Date.now()
+		@_getModel 'Dispatch'
+		.findByIdAndUpdate dispatch._id, lastDeliveredOn: Date.now()
 		.execQ()
 	_postDispatch: (dispatch) ->
+		@_populateSubscription dispatch.subscription
+		.then (subscription) =>
+			@_increaseUsedCredits subscription
+		.then (subscription) =>
+			if subscription.usedCredits is subscription.totalCredits
+				@_removeDispatchable dispatch._id
+			else
+				@_updateDeliveryDate dispatch
 
 
 	next: (programId, keywords = []) ->
@@ -66,7 +75,6 @@ class Dispatcher
 			if dispatch
 				@_postDispatch dispatch
 				return dispatch.markup
-
 			""
 
 	subscriptionCreated: (subscriptionId) ->
