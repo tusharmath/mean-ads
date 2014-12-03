@@ -147,12 +147,14 @@ describe 'Dispatcher:', ->
 
 	describe "next()", ->
 		beforeEach ->
+			sinon.spy @mod, '_postDispatch'
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
 			.then (@subscriptionP) =>
 				@subscriptionP.campaign.keywords = ['aa', 'bb']
 				@mod._createDispatchable @subscriptionP
+			.then (@dispatch) =>
 
 		it "queries by program id", ->
 			@mod.next @program._id
@@ -164,6 +166,11 @@ describe 'Dispatcher:', ->
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']
 			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+
+		it "calls _postDispatch", ->
+			@mod.next @program._id
+			.then => @mod._postDispatch.calledWith @dispatch
+			.should.be.ok
 
 	describe "createSubscription()", ->
 

@@ -65,7 +65,9 @@ class Dispatcher
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
 				@_postDispatch dispatch
-			dispatch?.markup or ""
+				return dispatch.markup
+
+			""
 
 	subscriptionCreated: (subscriptionId) ->
 		@_populateSubscription subscriptionId
