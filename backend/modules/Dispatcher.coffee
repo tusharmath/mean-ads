@@ -9,12 +9,10 @@ class Dispatcher
 	constructor: (@modelFac, @dot, @css) ->
 
 	_getModel: (name) -> @modelFac.Models[name]
-	_increaseUsedCredits: (subscriptionId) ->
-		Subscription = @_getModel 'Subscription'
-		Subscription.findOne().execQ()
-		.then (subscription) ->
-			Subscription.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
-			.execQ()
+	_increaseUsedCredits: (subscription) ->
+		@_getModel 'Subscription'
+		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
+		.execQ()
 	_populateSubscription: (subscriptionId) ->
 		_subscription = {}
 		@_getModel 'Subscription'
@@ -52,6 +50,8 @@ class Dispatcher
 	_updateDeliveryDate: (dispatch) ->
 		dispatch.update lastDeliveredOn: Date.now()
 		.execQ()
+	_postDispatch: (dispatch) ->
+
 
 	next: (programId, keywords = []) ->
 		q = @_getModel 'Dispatch'
@@ -64,10 +64,7 @@ class Dispatcher
 		q.sort lastDeliveredOn: 'asc'
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
-				@_updateDeliveryDate dispatch
-				.done()
-				@_increaseUsedCredits dispatch.subscription
-				.done()
+				@_postDispatch dispatch
 			dispatch?.markup or ""
 
 	subscriptionCreated: (subscriptionId) ->
