@@ -119,15 +119,15 @@ describe 'Dispatcher:', ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
+			.then (@subscriptionP) =>
+				@mod._createDispatchable @subscriptionP
+			.then (@dispatch) =>
 
 		it "expectation", ->
-			@mod._removeDispatchable @subscriptionP._id
+			@mod._removeDispatchable @dispatch._id
 			.then =>
-				@Models.Dispatch.findOne subscription: @subscriptionP._id
-				.execQ()
-			.then (data) ->
-				expect(data).to.be.null
+				@Models.Dispatch.findByIdQ @dispatch._id
+			.then (data) -> expect(data).to.be.null
 
 	describe "_increaseUsedCredits()", ->
 		beforeEach ->

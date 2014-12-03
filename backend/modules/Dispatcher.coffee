@@ -43,9 +43,9 @@ class Dispatcher
 			keywords: subscription.campaign.keywords
 			)
 		.saveQ()
-	_removeDispatchable: (subscriptionId) ->
+	_removeDispatchable: (dispatchId) ->
 		@_getModel 'Dispatch'
-		.remove subscription: subscriptionId
+		.findByIdAndRemove dispatchId
 		.execQ()
 	_updateDeliveryDate: (dispatch) ->
 		dispatch.update lastDeliveredOn: Date.now()
