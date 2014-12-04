@@ -11,11 +11,10 @@ class SubscriptionController
 	actionMap:
 		$credits: ['get', -> '/core/subscriptions/credits']
 
-	$credits: (req, res) =>
-		filter = req.query
-		filter.owner = req.user.sub
-		@crud
-		.read '', req.query
+	$credits: (req) =>
+		@getModel()
+		.find owner: req.user.sub
+		.execQ()
 		.then (data) ->
 			creditUsage = _.reduce(
 				data
@@ -28,6 +27,7 @@ class SubscriptionController
 				(sum, subscription) -> sum += subscription.totalCredits
 				0
 			)
+
 			{creditDistribution, creditUsage}
 
 	# Perfect place to mutate request

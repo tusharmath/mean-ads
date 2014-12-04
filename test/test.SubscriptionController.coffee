@@ -1,30 +1,48 @@
-[
-	SubscriptionController
-	MongooseProvider
-	Mock
-] = [
-	require '../backend/controllers/SubscriptionController'
-	require '../backend/providers/MongooseProvider'
-	require './mocks'
-]
-
+ControllerFactory = require '../backend/factories/ControllerFactory'
+ModelFactory = require '../backend/factories/ModelFactory'
+MongooseProviderMock = require './mocks/MongooseProviderMock'
+MongooseProvider = require '../backend/providers/MongooseProvider'
+{mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
 
 describe 'SubscriptionController:', ->
+
 	beforeEach ->
 		#Initial Setup
-		@req = {}
+		@req = user : sub: 9000
 		@res = send: sinon.spy()
 
 		# Injector
-		@injector = new Injector Mock
+		@injector = new Injector [MongooseProviderMock]
 
-		# Injections
-		@mod = @injector.get SubscriptionController
-		@mongP = @injector.get MongooseProvider
-		# @mod.crud = @crudP.cruds.Subscription
+		#Mocks
+		@mockDataSetup = mockDataSetup
 
-		# @subM = @injector.get
+
+		#MongooseProvier
+		@mongo = @injector.get MongooseProvider
+
+		# Controller Factory
+		ctrlFac = @injector.get ControllerFactory
+		ctrlFac.init()
+		.then (ctrls) =>  @mod = ctrls.Subscription
+
+		#Models
+		@modelFac = @injector.get ModelFactory
+		@Models = @modelFac.Models
 
 	afterEach ->
-		@mongP.__reset()
+		@mongo.__reset()
+
+	describe "$credits()", ->
+		beforeEach ->
+			@mockDataSetup()
+		it "be a function", -> @mod.$credits.should.be.a.Function
+		it "returns creditDistribution",  ->
+			@mod.$credits @req
+			.should.eventually.have.property 'creditDistribution'
+			.equal 7000
+		it "returns credtUsage",  ->
+			@mod.$credits @req
+			.should.eventually.have.property 'creditUsage'
+			.equal 360
