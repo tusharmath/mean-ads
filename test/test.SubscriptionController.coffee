@@ -2,6 +2,7 @@ ControllerFactory = require '../backend/factories/ControllerFactory'
 ModelFactory = require '../backend/factories/ModelFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
+Dispatcher = require '../backend/modules/Dispatcher'
 {mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
 
@@ -31,6 +32,8 @@ describe 'SubscriptionController:', ->
 		@modelFac = @injector.get ModelFactory
 		@Models = @modelFac.Models
 
+		#Dispatcher
+		@dispatcher = @injector.get Dispatcher
 	afterEach ->
 		@mongo.__reset()
 
@@ -46,3 +49,15 @@ describe 'SubscriptionController:', ->
 			@mod.$credits @req
 			.should.eventually.have.property 'creditUsage'
 			.equal 360
+	describe "$create()", ->
+		beforeEach ->
+			@mockDataSetup()
+		it "calls base $create", ->
+			sinon.stub @mod._base, '$create'
+			.resolves _id: 'subscription-created'
+
+			sinon.stub @dispatcher, 'subscriptionCreated'
+			.resolves _id: 'subscription-created'
+
+			@mod.$create @req
+			.should.eventually.deep.equal _id: 'subscription-created'
