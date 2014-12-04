@@ -20,6 +20,14 @@ class SubscriptionController
 			@dispatch.subscriptionCreated subscription._id
 		.then -> _subscription
 
+	$update: (req) ->
+		_updatedResponse = {}
+		@_base.$update.call @, req
+		.then (updatedResponse) =>
+			_updatedResponse = updatedResponse
+			@dispatch.subscriptionUpdated req.params.id
+		.then -> _updatedResponse
+
 	$credits: (req) =>
 		@getModel()
 		.find owner: req.user.sub
