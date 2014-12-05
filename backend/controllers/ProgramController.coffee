@@ -5,7 +5,7 @@ class ProgramController
 		@actions.resourceName = 'Program'
 	$update: (req) ->
 		_updatedResponse = {}
-		@_base.$update.call @, req
+		@actions.$update.call @, req
 		.then (updatedResponse) =>
 			_updatedResponse = updatedResponse
 			@dispatch.programUpdated req.params.id
