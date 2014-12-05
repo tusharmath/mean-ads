@@ -4,7 +4,7 @@ BaseController = require './BaseController'
 
 class CampaignController
 	constructor: (@actions) ->
-
+		@actions.resourceName = 'Campaign'
 	$update: (req) ->
 		_updatedResponse = {}
 		@_base.$update.call @, req

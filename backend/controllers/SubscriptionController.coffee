@@ -8,6 +8,7 @@ class SubscriptionController
 	constructor: (@dispatch, @actions) ->
 		@_populate = path: 'campaign', select: 'name'
 		@_filterKeys = ['campaign']
+		@actions.resourceName = 'Subscription'
 
 	# TODO: Can't think of a better way to handle custom routes
 	actionMap:

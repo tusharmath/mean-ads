@@ -3,7 +3,6 @@ Dispatcher = require '../modules/Dispatcher'
 {annotate, Inject} = require 'di'
 
 class DispatchController
-
 	constructor: (@dispatch) ->
 	actionMap:
 		$ad: [ 'get', -> '/dispatch/ad']
