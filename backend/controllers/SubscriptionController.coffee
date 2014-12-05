@@ -9,13 +9,14 @@ class SubscriptionController
 		@_populate = path: 'campaign', select: 'name'
 		@_filterKeys = ['campaign']
 		@actions.resourceName = 'Subscription'
+		@actions.$credits = @$credits
 
 	# TODO: Can't think of a better way to handle custom routes
 	actionMap:
 		$credits: ['get', -> '/core/subscriptions/credits']
 	$create: (req) ->
 		_subscription = {}
-		@_base.$create.call @, req
+		@actions.$create.call @, req
 		.then (subscription) =>
 			_subscription = subscription
 			@dispatch.subscriptionCreated subscription._id
@@ -23,14 +24,14 @@ class SubscriptionController
 
 	$update: (req) ->
 		_updatedResponse = {}
-		@_base.$update.call @, req
+		@actions.$update.call @, req
 		.then (updatedResponse) =>
 			_updatedResponse = updatedResponse
 			@dispatch.subscriptionUpdated req.params.id
 		.then -> _updatedResponse
 
 	$credits: (req) =>
-		@getModel()
+		@actions.getModel()
 		.find owner: req.user.sub
 		.execQ()
 		.then (data) ->

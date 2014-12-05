@@ -1,5 +1,5 @@
-ControllerFactory = require '../backend/factories/ControllerFactory'
 BaseController = require '../backend/controllers/BaseController'
+SubscriptionController = require '../backend/controllers/SubscriptionController'
 ModelFactory = require '../backend/factories/ModelFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
@@ -20,7 +20,6 @@ describe 'SubscriptionController:', ->
 		#Mocks
 		@mockDataSetup = mockDataSetup
 
-
 		#MongooseProvier
 		@mongo = @injector.get MongooseProvider
 
@@ -31,10 +30,9 @@ describe 'SubscriptionController:', ->
 		#Dispatcher
 		@dispatcher = @injector.get Dispatcher
 
-		# Controller Factory - Q
-		ctrlFac = @injector.get ControllerFactory
-		ctrlFac.init()
-		.then (ctrls) =>  @mod = ctrls.Subscription
+		#Subscription Controller
+		@mod = @injector.get SubscriptionController
+
 	afterEach ->
 		@mongo.__reset()
 	it "actions should exist", ->
@@ -55,8 +53,8 @@ describe 'SubscriptionController:', ->
 	describe "$create()", ->
 		beforeEach ->
 			@mockDataSetup()
-		it "calls base $create", ->
-			sinon.stub @mod._base, '$create'
+		it "calls actions $create", ->
+			sinon.stub @mod.actions, '$create'
 			.resolves _id: 'subscription-created'
 
 			sinon.stub @dispatcher, 'subscriptionCreated'
@@ -68,7 +66,7 @@ describe 'SubscriptionController:', ->
 		beforeEach ->
 			@mockDataSetup()
 		it "calls base $update", ->
-			sinon.stub @mod._base, '$update'
+			sinon.stub @mod.actions, '$update'
 			.resolves _id: 'subscription-updated'
 
 			sinon.stub @dispatcher, 'subscriptionUpdated'
