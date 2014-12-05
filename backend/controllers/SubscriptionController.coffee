@@ -5,7 +5,7 @@ _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 class SubscriptionController
-	constructor: (@dispatch) ->
+	constructor: (@dispatch, @actions) ->
 		@_populate = path: 'campaign', select: 'name'
 		@_filterKeys = ['campaign']
 
@@ -48,5 +48,5 @@ class SubscriptionController
 			{creditDistribution, creditUsage}
 
 	# Perfect place to mutate request
-annotate SubscriptionController, new Inject Dispatcher
+annotate SubscriptionController, new Inject Dispatcher, BaseController
 module.exports = SubscriptionController

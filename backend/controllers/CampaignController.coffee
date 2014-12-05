@@ -1,9 +1,9 @@
 _ = require 'lodash'
+{Inject, annotate} = require 'di'
 BaseController = require './BaseController'
 
 class CampaignController
-	constructor: () ->
-		@_populate = path: 'program', select: 'name'
+	constructor: (@actions) ->
 
 	$update: (req) ->
 		_updatedResponse = {}
@@ -12,4 +12,6 @@ class CampaignController
 			_updatedResponse = updatedResponse
 			@dispatch.campaignUpdated req.params.id
 		.then -> _updatedResponse
+
+annotate CampaignController, new Inject BaseController
 module.exports = CampaignController

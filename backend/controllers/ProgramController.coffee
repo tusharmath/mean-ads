@@ -1,10 +1,7 @@
+{Inject, annotate} = require 'di'
 BaseController = require './BaseController'
-
 class ProgramController
-
-	constructor: () ->
-		@_populate = path: 'style', select: 'name created placeholders'
-
+	constructor: (@actions) ->
 	$update: (req) ->
 		_updatedResponse = {}
 		@_base.$update.call @, req
@@ -12,4 +9,5 @@ class ProgramController
 			_updatedResponse = updatedResponse
 			@dispatch.programUpdated req.params.id
 		.then -> _updatedResponse
+annotate ProgramController, new Inject BaseController
 module.exports = ProgramController

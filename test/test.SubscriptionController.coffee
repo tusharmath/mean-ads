@@ -1,4 +1,5 @@
 ControllerFactory = require '../backend/factories/ControllerFactory'
+BaseController = require '../backend/controllers/BaseController'
 ModelFactory = require '../backend/factories/ModelFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
@@ -36,6 +37,8 @@ describe 'SubscriptionController:', ->
 		.then (ctrls) =>  @mod = ctrls.Subscription
 	afterEach ->
 		@mongo.__reset()
+	it "actions should exist", ->
+		@mod.actions.should.be.an.instanceOf BaseController
 
 	describe "$credits()", ->
 		beforeEach ->
