@@ -17,16 +17,16 @@ class SubscriptionController
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
 
-	postCreateHook: (subscription) ->
+	postCreateHook: (subscription) =>
 		@dispatch.subscriptionCreated subscription._id
-		.then -> _subscription
+		.then -> subscription
 
-	postUpdateHook: (subscription) ->
+	postUpdateHook: (subscription) =>
 		@dispatch.subscriptionUpdated subscription._id
-		.then -> _subscription
+		.then -> subscription
 
-	$credits: (req) =>
-		@actions.getModel()
+	$credits: (req) ->
+		@getModel()
 		.find owner: req.user.sub
 		.execQ()
 		.then (data) ->
