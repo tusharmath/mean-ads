@@ -12,6 +12,12 @@ class BaseController
 		model = @modelFac.Models[@resourceName]
 		return model if model
 		throw new MeanError "#{@resourceName} was not found in #{_.keys @modelFac.Models}"
+	override: (key, client) ->
+		override = client[key]
+		_temp = @[key]
+		@[key] = (args...) =>
+			args.unshift _temp
+			override.apply @, args
 
 	_forbiddenDocument: (userId, doc) ->
 		if doc.owner isnt userId
