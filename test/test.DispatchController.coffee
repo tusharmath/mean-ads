@@ -21,5 +21,5 @@ describe 'DispatchController:', ->
 
 		it "calls dispatch.next", ->
 			@req = p:'123234', k: ['a', 'b']
-			@mod.$ad @req
+			@mod.actions.$ad @req
 			.should.eventually.equal 'sample-markup'

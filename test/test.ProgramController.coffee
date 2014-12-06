@@ -8,3 +8,5 @@ describe 'ProgramController:', ->
 		@mod = @injector.get ProgramController
 	it "must have actions", ->
 		@mod.actions.should.be.an.instanceOf BaseController
+	it 'sets the post update hook', ->
+		@mod.actions.postUpdateHook.should.equal @mod.postUpdateHook

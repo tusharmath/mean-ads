@@ -98,5 +98,11 @@ class Dispatcher
 		.find().execQ().then (campaigns) =>
 			Q.all _.map campaigns, (c) => @campaignUpdated c
 
+	styleUpdated: (styleId) ->
+		@_getModel 'Program'
+		.where style: styleId
+		.find().execQ().then (programs) =>
+			Q.all _.map programs, (p) => @programUpdated p
+
 annotate Dispatcher, new Inject ModelFactory, DotProvider, CleanCssProvider
 module.exports = Dispatcher

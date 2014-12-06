@@ -4,11 +4,11 @@ Dispatcher = require '../modules/Dispatcher'
 
 class DispatchController
 	constructor: (@dispatch) ->
+		@actions = {}
+		@actions.$ad = @$ad
 	actionMap:
 		$ad: [ 'get', -> '/dispatch/ad']
-
-	$ad: (req) ->
-		@dispatch.next req.p, req.k
+	$ad: (req) => @dispatch.next req.p, req.k
 
 annotate DispatchController, new Inject Dispatcher
 module.exports = DispatchController

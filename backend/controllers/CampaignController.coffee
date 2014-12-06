@@ -1,17 +1,15 @@
 _ = require 'lodash'
 {Inject, annotate} = require 'di'
 BaseController = require './BaseController'
+Dispatcher = require '../modules/Dispatcher'
 
 class CampaignController
-	constructor: (@actions) ->
+	constructor: (@actions, @dispatch) ->
 		@actions.resourceName = 'Campaign'
-	$update: (req) ->
-		_updatedResponse = {}
-		@actions.$update.call @, req
-		.then (updatedResponse) =>
-			_updatedResponse = updatedResponse
-			@dispatch.campaignUpdated req.params.id
-		.then -> _updatedResponse
+		@actions.postUpdateHook = @postUpdateHook
+	postUpdateHook: (campaign) =>
+		@dispatch.campaignUpdated campaign._id
+		.then -> campaign
 
-annotate CampaignController, new Inject BaseController
+annotate CampaignController, new Inject BaseController, Dispatcher
 module.exports = CampaignController
