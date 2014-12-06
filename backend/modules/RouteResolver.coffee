@@ -4,26 +4,21 @@ _ = require 'lodash'
 ControllerFactory = require '../factories/ControllerFactory'
 di = require 'di'
 Q = require 'q'
-{ErrorPool} = require '../config/error-codes'
-
-defaultActionMap =
-	'$create': ['post', (str) -> "/core/#{str}"]
-	'$list': ['get', (str) -> "/core/#{str}s"]
-	'$count': ['get', (str) -> "/core/#{str}s/count"]
-	'$one': ['get', (str) -> "/core/#{str}/:id"]
-	'$update': ['patch', (str) -> "/core/#{str}/:id"]
-	'$remove': ['delete', (str) -> "/core/#{str}/:id"]
+{ErrorPool, MeanError} = require '../config/error-codes'
 
 class V1
-	constructor: (@ctrlFac) ->
-
-	init: ->
-		@ctrlFac.init()
-		.then @_onLoad
-
-	_getActionMap: (ctrl, actionName) -> ctrl.actionMap[actionName]
-
+	constructor: (ctrlFac) ->
+		{@Controllers} = ctrlFac
+	_resolveRoute: (ctrl, ctrlName, actionName) ->
+		if not ctrl.actions
+			throw new MeanError "actions have not been set for controller: #{ctrlName}"
+		if not ctrl.actions.actionMap?[actionName]
+			throw new MeanError "actionMap has not been set for action: #{actionName}"
+		[method, routeFunc] = ctrl.actions.actionMap[actionName]
+		route = routeFunc ctrlName.toLowerCase()
+		{method, route}
 	_actionMiddleware: (ctrl, action, req, res) ->
+		action = action.override if action.override
 		action.call ctrl, req, res
 		.then (doc) -> res.send doc
 		.fail (err) ->
@@ -36,28 +31,23 @@ class V1
 				else
 					throw err
 		.done()
-
 	_actionBinder: (router, ctrl, ctrlName, action, actionName) ->
-		return if actionName[0] isnt '$'
-		[method, routeFunc] = @_getActionMap ctrl, actionName
-		route = routeFunc ctrlName.toLowerCase()
-		bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]", 'green'), route
+		{method, route} = @_resolveRoute ctrl, ctrlName, actionName
+		bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]"), route
 		router[method] route, _.curry(@_actionMiddleware, 4) ctrl, action
-
 	_forEveryAction: (router, controllers) ->
 		_.each controllers, (ctrl, ctrlName) =>
-			_.forIn ctrl, (action, actionName) =>
+			_.forIn ctrl.actions, (action, actionName) =>
+				return if actionName[0] isnt '$'
 				@_actionBinder router, ctrl, ctrlName, action, actionName
-
 	_otherRoutes: (router) ->
 		router.use '*', (req, res) ->
 			err404 = ErrorPool.NOTFOUND_RESOURCE
 			res.status err404.httpStatus
 			.send err404.message
-
-	_onLoad: (controllers) =>
-		router = express.Router()
-		@_forEveryAction router, controllers
+	router: () =>
+		router = new express.Router()
+		@_forEveryAction router, @Controllers
 		@_otherRoutes router
 		router
 
