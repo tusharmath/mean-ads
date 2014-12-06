@@ -182,3 +182,38 @@ describe 'Dispatcher:', ->
 		it "updates last delivery date of dispatch"
 		it "removes expired subscriptions"
 		it "removes exausted subscriptions"
+
+	describe "_resourceUpdated()", ->
+		beforeEach ->
+			sinon.stub @mod, 'campaignUpdated'
+			.resolves 100
+			@mockDataSetup()
+		it "resolves an array", ->
+			resource = 'Campaign'
+			match = 'program'
+			@mod._resourceUpdated resource, match, @program._id
+			.should.eventually.eql [100]
+
+	describe "subscriptionUpdated()", ->
+		beforeEach ->
+			sinon.stub @mod, '_removeDispatchable'
+			.resolves null
+			sinon.stub @mod, 'subscriptionCreated'
+			.resolves 'subscription-created'
+		it "calls _removeDispatchable", ->
+			@mod.subscriptionUpdated 123456
+			.then =>
+				@mod._removeDispatchable.calledWith 123456
+				.should.be.ok
+		it "calls subscriptionCreated", ->
+			@mod.subscriptionUpdated 123456
+			.should.eventually.equal 'subscription-created'
+
+
+
+	# describe "styleUpdated()", ->
+	# 	beforeEach ->
+	# 		@mockDataSetup()
+	# 	it "updates dispatches", ->
+	# 		@mod.styleUpdated @style._id
+	# 		.should.eventually.equal 'yankie'

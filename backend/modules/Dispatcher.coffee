@@ -1,4 +1,5 @@
 ModelFactory = require '../factories/ModelFactory'
+Q = require 'q'
 CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
 _ = require 'lodash'
@@ -84,25 +85,26 @@ class Dispatcher
 
 	subscriptionUpdated: (subscriptionId) ->
 		@_removeDispatchable subscriptionId
-		.then => @subscriptionUpdated subscriptionId
+		.then =>
+			@subscriptionCreated subscriptionId
 
-	campaignUpdated: (campaignId) ->
-		@_getModel 'Subscription'
-		.where campaign: campaignId
-		.find().execQ().then (subscriptions) =>
-			Q.all _.map subscriptions, (s) => @subscriptionUpdated s
+	_resourceUpdated: (resource, match, id) ->
+		match = match.toLowerCase()
+		filter = {}
+		filter[match] = id
+		@_getModel resource
+		.where filter
+		.find().execQ().then (items) =>
+			Q.all _.map items, (i) => @["#{resource.toLowerCase()}Updated"] i._id
 
-	programUpdated: (programId) ->
-		@_getModel 'Campaign'
-		.where program: programId
-		.find().execQ().then (campaigns) =>
-			Q.all _.map campaigns, (c) => @campaignUpdated c
+	campaignUpdated: (id) ->
+		@_resourceUpdated 'Subscription', 'Campaign', id
 
-	styleUpdated: (styleId) ->
-		@_getModel 'Program'
-		.where style: styleId
-		.find().execQ().then (programs) =>
-			Q.all _.map programs, (p) => @programUpdated p
+	programUpdated: (id) ->
+		@_resourceUpdated 'Campaign', 'Program', id
+
+	styleUpdated: (id) ->
+		@_resourceUpdated 'Program', 'Style', id
 
 annotate Dispatcher, new Inject ModelFactory, DotProvider, CleanCssProvider
 module.exports = Dispatcher
