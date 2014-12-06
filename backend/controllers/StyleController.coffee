@@ -6,7 +6,7 @@ class StyleController
 	constructor: (@actions, @dispatch) ->
 		@actions.resourceName = 'Style'
 		@actions.postUpdateHook = @postUpdateHook
-	postUpdateHook: (style) ->
+	postUpdateHook: (style) =>
 		@dispatch.styleUpdated style._id
 		.then -> style
 annotate StyleController, new Inject BaseController, Dispatcher
