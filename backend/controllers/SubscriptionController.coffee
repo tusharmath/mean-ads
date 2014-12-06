@@ -7,7 +7,8 @@ _ = require 'lodash'
 class SubscriptionController
 	constructor: (@dispatch, @actions) ->
 		@_populate = path: 'campaign', select: 'name'
-		@_filterKeys = ['campaign']
+		# Filter Keys
+		@actions._filterKeys = ['campaign']
 		@actions.resourceName = 'Subscription'
 
 		# Setting up custom routes
