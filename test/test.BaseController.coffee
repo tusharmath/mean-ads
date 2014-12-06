@@ -164,21 +164,3 @@ describe 'BaseController:', ->
 				@mod.$one @req
 				.should.eventually.have.property '_id'
 				.eql @req.params.id
-
-		describe "override()", ->
-			beforeEach ->
-				@stub1 = sinon.spy()
-				@stub2 = sinon.spy()
-				@mod.stub = @stub1
-
-			it "passes original", ->
-				@mod.override 'stub', stub: @stub2
-				@mod.stub 1234, 234, 456
-				@stub2.calledWith @stub1, 1234, 234, 456
-				.should.be.ok
-
-			it "maintains context", ->
-				@mod.override 'stub', stub: @stub2
-				@mod.stub 1234, 234, 456
-				@stub2.calledOn @mod
-				.should.be.ok
