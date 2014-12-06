@@ -23,12 +23,13 @@ class BaseController
 		if doc.owner isnt userId
 			throw ErrorPool.FORBIDDEN_DOCUMENT
 		doc
-
+	postCreateHook: (i) -> i
 	$create: (req) ->
 		req.body.owner = req.user.sub
 		Model = @getModel()
 		obj = new Model req.body
 		obj.saveQ()
+		.then (createResponse) => @postCreateHook createResponse
 	postUpdateHook: (i) ->i
 	$update: (req) ->
 		@getModel()

@@ -76,6 +76,13 @@ describe 'BaseController:', ->
 
 			it 'has _id', ->
 				@out.should.eventually.have.property '_id'
+			it "calls the post create hook", ->
+				@req.user.sub = 1234
+				@req.body = {}
+				sinon.stub @mod, 'postCreateHook'
+				.resolves 'post-created-responses'
+				@mod.$create @req
+				.should.eventually.equal 'post-created-responses'
 
 		describe "$update()", ->
 			beforeEach ->
