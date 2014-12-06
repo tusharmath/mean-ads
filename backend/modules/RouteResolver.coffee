@@ -21,8 +21,7 @@ class V1
 		@ctrlFac.init()
 		.then @_onLoad
 
-	_getActionMap: (ctrl, actionName) ->
-		defaultActionMap[actionName] or ctrl.actionMap[actionName]
+	_getActionMap: (ctrl, actionName) -> ctrl.actionMap[actionName]
 
 	_actionMiddleware: (ctrl, action, req, res) ->
 		action.call ctrl, req, res
