@@ -18,8 +18,8 @@ class V1
 		route = routeFunc ctrlName.toLowerCase()
 		{method, route}
 	_actionMiddleware: (ctrl, action, req, res) ->
-		action = action.override if action.override
-		action.call ctrl, req, res
+
+		action.call ctrl.actions, req, res
 		.then (doc) -> res.send doc
 		.fail (err) ->
 			switch err.type
