@@ -9,11 +9,11 @@ class SubscriptionController
 		@_populate = path: 'campaign', select: 'name'
 		@_filterKeys = ['campaign']
 		@actions.resourceName = 'Subscription'
+
+		# Setting up custom routes
+		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}/credits"]
 		@actions.$credits = @$credits
 
-	# TODO: Can't think of a better way to handle custom routes
-	actionMap:
-		$credits: ['get', -> '/core/subscriptions/credits']
 	$create: (req) ->
 		_subscription = {}
 		@actions.$create.call @, req
