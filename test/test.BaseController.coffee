@@ -103,15 +103,6 @@ describe 'BaseController:', ->
 				@mod.$update @req
 				.should.eventually.have.property '_id'
 
-			it "calls the post updated hook", ->
-				@req.user.sub = 1234
-				@req.body._id = 122
-				sinon.stub @mod, 'postUpdateHook'
-				.resolves 'post-updated-responses'
-				spy = sinon.spy @mod.getModel(), 'findByIdAndUpdate'
-				@mod.$update @req
-				.should.eventually.equal 'post-updated-responses'
-
 		describe "$count()", ->
 			beforeEach ->
 				@mod._filterKeys = ['age']

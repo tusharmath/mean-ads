@@ -29,19 +29,17 @@ class BaseController
 		Model = @getModel()
 		obj = new Model req.body
 		obj.saveQ()
-	postUpdateHook: (i) ->i
 	$update: (req) ->
 		@getModel()
 		.findOne _id: req.params.id
 		.execQ()
 		.then (doc) =>
 			@_forbiddenDocument req.user.sub, doc
+		.then =>
 			delete req.body._id
 			@getModel()
 			.findByIdAndUpdate req.params.id, req.body
 			.execQ()
-		.then (updatedData) =>
-			@postUpdateHook updatedData
 
 	$count: (req) ->
 		filter = _.pick req.query, @_filterKeys
