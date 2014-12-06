@@ -158,7 +158,7 @@ describe 'BaseController:', ->
 				.then => @mod.getModel().find().execQ()
 				.should.eventually.have.length.of 5
 
-		describe "$remove()", ->
+		describe "$one()", ->
 			beforeEach ->
 				@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
 				.then (doc) => @req.params.id = doc._id
