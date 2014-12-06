@@ -41,35 +41,30 @@ describe 'SubscriptionController:', ->
 	describe "$credits()", ->
 		beforeEach ->
 			@mockDataSetup()
-		it "be a function", -> @mod.$credits.should.be.a.Function
+		it "be a function", -> @mod.actions.$credits.should.be.a.Function
 		it "returns creditDistribution",  ->
-			@mod.$credits @req
+			@mod.actions.$credits @req
 			.should.eventually.have.property 'creditDistribution'
 			.equal 7000
 		it "returns credtUsage",  ->
-			@mod.$credits @req
+			@mod.actions.$credits @req
 			.should.eventually.have.property 'creditUsage'
 			.equal 360
-	describe "$create()", ->
+	describe "postCreateHooks()", ->
 		beforeEach ->
-			@mockDataSetup()
-		it "calls actions $create", ->
-			sinon.stub @mod.actions, '$create'
-			.resolves _id: 'subscription-created'
-
 			sinon.stub @dispatcher, 'subscriptionCreated'
-			.resolves _id: 'subscription-created'
-
-			@mod.$create @req
-			.should.eventually.deep.equal _id: 'subscription-created'
-	describe "$update()", ->
+			.resolves null
+		it "calls subscriptionCreated", ->
+			@mod.postCreateHook _id: 1000
+			.then =>
+				@dispatcher.subscriptionCreated.calledWith 1000
+				.should.be.ok
+	describe "postUpdateHooks()", ->
 		beforeEach ->
-			@mockDataSetup()
-		it "calls base $update", ->
-			sinon.stub @mod.actions, '$update'
-			.resolves _id: 'subscription-updated'
-
 			sinon.stub @dispatcher, 'subscriptionUpdated'
-			.resolves _id: 'subscription-updated'
-			@mod.$update @req
-			.should.eventually.deep.equal _id: 'subscription-updated'
+			.resolves null
+		it "calls subscriptionUpdated", ->
+			@mod.postUpdateHook _id: 1000
+			.then =>
+				@dispatcher.subscriptionUpdated.calledWith 1000
+				.should.be.ok
