@@ -11,24 +11,18 @@ class SubscriptionController
 		@actions.resourceName = 'Subscription'
 
 		# Setting up custom routes
-		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}/credits"]
+		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}s/credits"]
 		@actions.$credits = @$credits
+		@actions.postUpdateHook = @postUpdateHook
+		@actions.postCreateHook = @postCreateHook
 
-	$create: (req) ->
-		_subscription = {}
-		@actions.$create.call @, req
-		.then (subscription) =>
-			_subscription = subscription
-			@dispatch.subscriptionCreated subscription._id
+	postCreateHook: (subscription) ->
+		@dispatch.subscriptionCreated subscription._id
 		.then -> _subscription
 
-	$update: (req) ->
-		_updatedResponse = {}
-		@actions.$update.call @, req
-		.then (updatedResponse) =>
-			_updatedResponse = updatedResponse
-			@dispatch.subscriptionUpdated req.params.id
-		.then -> _updatedResponse
+	postUpdateHook: (subscription) ->
+		@dispatch.subscriptionUpdated subscription._id
+		.then -> _subscription
 
 	$credits: (req) =>
 		@actions.getModel()
