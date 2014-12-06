@@ -7,7 +7,13 @@ class BaseController
 	constructor: (@modelFac) ->
 		@_filterKeys = []
 		@resourceName = null
-
+	actionMap:
+		'$create': ['post', (str) -> "/core/#{str}"]
+		'$list': ['get', (str) -> "/core/#{str}s"]
+		'$count': ['get', (str) -> "/core/#{str}s/count"]
+		'$one': ['get', (str) -> "/core/#{str}/:id"]
+		'$update': ['patch', (str) -> "/core/#{str}/:id"]
+		'$remove': ['delete', (str) -> "/core/#{str}/:id"]
 	getModel: ->
 		model = @modelFac.Models[@resourceName]
 		return model if model
