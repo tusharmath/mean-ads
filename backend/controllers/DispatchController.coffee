@@ -8,7 +8,7 @@ class DispatchController
 			actionMap:
 				$ad: [ 'get', -> '/dispatch/ad']
 		@actions.$ad = @$ad
-	$ad: (req) => @dispatch.next req.p, req.k
+	$ad: (req) => @dispatch.next req.query.p, req.query.k
 
 annotate DispatchController, new Inject Dispatcher
 module.exports = DispatchController

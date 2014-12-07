@@ -6,7 +6,7 @@ Q = require 'q'
 
 describe 'DispatchController:', ->
 	beforeEach ->
-		@req = {}
+		@req = query: {}
 
 		injector = new Injector
 		@mod = injector.get DispatchController
@@ -19,7 +19,11 @@ describe 'DispatchController:', ->
 
 	describe "$ad()", ->
 
-		it "calls dispatch.next", ->
-			@req = p:'123234', k: ['a', 'b']
+		it "calls resolve with dispatcher.next", ->
 			@mod.actions.$ad @req
 			.should.eventually.equal 'sample-markup'
+		it "calls next", ->
+			@req.query = p:'123234', k: ['a', 'b']
+			@mod.actions.$ad @req
+			.then => @dispatcher.next.calledWith '123234', ['a', 'b']
+			.should.eventually.be.ok
