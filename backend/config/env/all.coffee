@@ -2,6 +2,13 @@ path = require 'path'
 
 rootPath = path.normalize __dirname + '/../../..'
 module.exports =
+	resources: [
+		'Campaign'
+		'Dispatch'
+		'Program'
+		'Style'
+		'Subscription'
+	]
 	appName: 'mean-ads'
 	Q: longStackSupport: true
 	root: rootPath

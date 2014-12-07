@@ -1,16 +1,10 @@
 {Inject, Injector, annotate} = require 'di'
+config = require '../config/config'
 _ = require 'lodash'
 class ControllerFactory
-	controllers: [
-		'Campaign'
-		'Dispatch'
-		'Program'
-		'Style'
-		'Subscription'
-	]
 	constructor: (injector) ->
 		@Controllers = {}
-	 _.map @controllers, (i) =>
+	 _.each config.resources, (i) =>
 	 	@Controllers[i] = injector.get require "../controllers/#{i}Controller"
 annotate ControllerFactory, new Inject Injector
 

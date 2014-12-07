@@ -1,30 +1,31 @@
+{resources} = require '../config/config'
+{MeanError} = require '../config/error-codes'
+DbConnection = require '../connections/DbConnection'
+MongooseProvider = require '../providers/MongooseProvider'
+RequireProvider = require '../providers/RequireProvider'
+{Inject} = require 'di'
 glob = require 'glob'
 _ = require 'lodash'
-{Inject} = require 'di'
 Q = require 'q'
-DbConnection = require '../connections/DbConnection'
-ComponentLoader = require '../modules/ComponentLoader'
-MongooseProvider = require '../providers/MongooseProvider'
 
 class ModelFactory
-	constructor: (@db, @loader, @mongooseP) ->
-		@init()
+	constructor: (@db, @mongooseP, @requireProvider) ->
+	create: (models, resourceName) =>
+		throw new MeanError 'resourceName is required' if not resourceName
+		schema = @requireProvider.require "../schemas/#{resourceName}Schema"
+		bragi.log 'resource', resourceName
+		models[resourceName] = @db.conn.model resourceName, schema @mongooseP.mongoose
+		models
 
-	create: (name, schema) ->
-		@db.conn.model name, schema @mongooseP.mongoose
-	init: ->
-		@loader.load 'schema'
-		.then (schemas) =>
-			_.each schemas, (schema, modelName) =>
-				bragi.log 'model', modelName
-				@Models[modelName] = @create modelName, schema
-	Models: {}
+	models: ->
+		return @Models if @Models
+		@Models = _.reduce resources, @create, {}
 
 ModelFactory.annotations = [
 	new Inject(
 		DbConnection,
-		ComponentLoader,
-		MongooseProvider
+		MongooseProvider,
+		RequireProvider
 	)
 ]
 

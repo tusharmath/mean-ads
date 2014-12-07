@@ -22,7 +22,7 @@ describe 'Dispatcher:', ->
 
 		#ModelFactory
 		@modelFac = @injector.get ModelFactory
-		@Models = @modelFac.Models
+		@Models = @modelFac.models()
 
 		#Mock Data
 		@mockDataSetup = mockDataSetup

@@ -25,7 +25,7 @@ describe 'SubscriptionController:', ->
 
 		#Models
 		@modelFac = @injector.get ModelFactory
-		@Models = @modelFac.Models
+		@Models = @modelFac.models()
 
 		#Dispatcher
 		@dispatcher = @injector.get Dispatcher

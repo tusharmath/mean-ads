@@ -15,7 +15,7 @@ class BaseController
 		'$update': ['patch', (str) -> "/core/#{str}/:id"]
 		'$remove': ['delete', (str) -> "/core/#{str}/:id"]
 	getModel: ->
-		model = @modelFac.Models[@resourceName]
+		model = @modelFac.models()[@resourceName]
 		return model if model
 		throw new MeanError "#{@resourceName} was not found in #{_.keys @modelFac.Models}"
 

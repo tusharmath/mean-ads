@@ -9,7 +9,7 @@ _ = require 'lodash'
 class Dispatcher
 	constructor: (@modelFac, @dot, @css) ->
 
-	_getModel: (name) -> @modelFac.Models[name]
+	_getModel: (name) -> @modelFac.models()[name]
 	_increaseUsedCredits: (subscription) ->
 		@_getModel 'Subscription'
 		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1

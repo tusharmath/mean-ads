@@ -40,8 +40,8 @@ describe 'BaseController:', ->
 			expect => @mod.getModel()
 			.to.throw 'FakeResource was not found'
 
-		it "resuts model", ->
-			@mod.getModel().should.equal @mod.modelFac.Models.Subscription
+		it "returns model", ->
+			@mod.getModel().should.equal @mod.modelFac.models().Subscription
 
 	describe "$controllers:", ->
 
