@@ -90,7 +90,7 @@ describe 'Dispatcher:', ->
 			.then (@dispatch) =>
 
 		it "expectation", ->
-			@mod._removeDispatchable @dispatch._id
+			@mod._removeDispatchable @subscription._id
 			.then =>
 				@Models.Dispatch.findByIdQ @dispatch._id
 			.then (data) -> expect(data).to.be.null
