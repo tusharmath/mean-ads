@@ -1,5 +1,5 @@
 {
-	"name": "MEAN ADS",
+	"name": "MEAN-ADS",
 	"version": "0.0.0",
 	"dependencies": {
 		"body-parser": "^1.6.6",
