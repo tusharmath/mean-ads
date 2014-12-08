@@ -5,12 +5,16 @@ define ['modules/core/app'], (app)->
 			@auth = 0
 			@$get = ['auth', '$q', @get]
 
+		_getProfileQ: ->
+			@auth.getProfile @auth.idToken
+
 		onLoginSuccess: =>
-			@defer.resolve @auth.profilePromise
+			@defer.resolve @_getProfileQ()
 		get: (@auth, Q) =>
-			if @auth.hasTokenExpired() is no and @auth.isAuthenticated is yes
-				return @auth.profilePromise
-			@defer = Q.defer()
-			@defer.promise
+			if @auth.isAuthenticated is no
+				@defer = Q.defer()
+				return @defer.promise
+			else
+				return @_getProfileQ()
 
 	app.provider 'Profile', ProfileProvider
