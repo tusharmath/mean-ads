@@ -1,11 +1,7 @@
 // Variables
 
 $white-space-margin = 0.3em
-$profile-pic-size = 64px
-.navigation-bar-content
-	.element
-		&.active
-			border-bottom 3px solid rgba(80,80,80,0.8)
+$profile-pic-size = 64 px
 
 body,html
 	height: 100%
@@ -18,18 +14,17 @@ body,html
 		bottom: 0
 .ace_editor
 	height 200px
-.preview-well
-	height 427px
 span.left-space
 	margin-left: $white-space-margin
 span.right-space
 	margin-right: $white-space-margin
 span.both-space
 	margin: $white-space-margin 0
-img.profile-image
+.profile-image, .profile-image img
 	height: $profile-pic-size
 	width: $profile-pic-size
-	border-radius: 8px
-	padding: 6px
-.square
-	border-radius: 0
+	background-color: #2196f3
+	padding: 4px
+	border-radius: 50%
+	position: relative
+	top: ($profile-pic-size / 4)
