@@ -4,6 +4,6 @@ define ["app"], (app) ->
 			if @auth.isAuthenticated is yes and @auth.hasTokenExpired() is no
 				return @onSuccess()
 			@auth.signin {popup: true} , @onSuccess, @onFailure
-		onSuccess: => @location.path '/dashbords'
+		onSuccess: => @location.path '/'
 	LoginCtrl.$inject = ['auth', '$location']
 	app.controller 'LoginCtrl', LoginCtrl
