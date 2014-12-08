@@ -9,11 +9,13 @@ api = require './modules/RouteResolver'
 di = require 'di'
 newrelic = require 'newrelic'
 ModelFactory = require './factories/ModelFactory'
+packageFile = require '../package.json'
 class V1
 	constructor: (api) ->
 		v1 = api.router()
 		app = express()
 		app.locals.newrelic = newrelic
+		app.locals.package = packageFile
 
 		app
 		.set 'jsonp callback name', 'mean'

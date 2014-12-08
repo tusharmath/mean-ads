@@ -15,10 +15,10 @@ html
 				nav.navbar.navbar-inverse.square
 					.container
 						.navbar-header
-							a.navbar-brand(href="#") MEAN ADS
+							a.navbar-brand(href="#") #{package.name}
 						div(ng-include='\'templates/profiles/list-tmpl\'')
 			.content
 				block content
 			.footer
 				p.text-center
-					small v0.0.2
+					small v#{package.version}
