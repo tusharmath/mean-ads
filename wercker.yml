@@ -7,7 +7,9 @@ build:
     - npm-install
     # A step that executes `npm test` command
     - npm-test
-
+    # Deploy to Heroku
+	  - wercker/heroku-deploy@2.2.1
+	  		key-name: HEROKU_DEPLOY_KEY
     # A custom script step, name value is used in the UI
     # and the code value contains the command that get executed
     - script:
