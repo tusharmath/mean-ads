@@ -2,7 +2,6 @@ gulp = require 'gulp'
 inject = require 'gulp-inject'
 bowerFiles = require 'main-bower-files'
 bowerInstall = require 'gulp-bower'
-rename = require 'gulp-rename'
 
 gulp.task 'bower-install', -> bowerInstall()
 
@@ -31,6 +30,7 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
+	rename = require 'gulp-rename'
 	clean = require 'gulp-clean'
 
 	gulp.src 'frontend/**/*ctrl.coffee'
