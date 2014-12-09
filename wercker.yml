@@ -17,5 +17,5 @@ build:
 # Deploy to Heroku
 deploy:
   steps:
-    - wercker/heroku-deploy@2.2.1:
+    - heroku-deploy:
         key-name: HEROKU_DEPLOY_KEY
