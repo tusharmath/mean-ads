@@ -25,16 +25,17 @@
 		"newrelic": "^1.13.2",
 		"q": "^1.0.1",
 		"static-favicon": "^2.0.0-alpha",
+		"gulp": "^3.8.8",
+		"gulp-bower": "0.0.6",
+		"gulp-clean": "^0.3.1",
+		"gulp-inject": "^0.4.1",
+
 		"stylus": "^0.48.1"
 	},
 	"devDependencies": {
 		"chai": "^1.9.2",
 		"chai-as-promised": "^4.1.1",
 		"coffee-errors": "^0.8.6",
-		"gulp": "^3.8.8",
-		"gulp-bower": "0.0.6",
-		"gulp-clean": "^0.3.1",
-		"gulp-inject": "^0.4.1",
 		"gulp-livereload": "^2.1.0",
 		"gulp-rename": "^1.2.0",
 		"main-bower-files": "^2.0.0",
@@ -46,6 +47,7 @@
 	},
 	"scripts": {
 		"start": "coffee server.coffee",
-		"test": "mocha"
+		"test": "mocha",
+		"postinstall": "gulp setup-assets"
 	}
 }

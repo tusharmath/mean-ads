@@ -19,8 +19,3 @@ deploy:
   steps:
     - heroku-deploy:
         key-name: HEROKU_DEPLOY_KEY
-    - script:
-        name: Setup Assets
-        code: |
-          npm install
-          gulp setup-assets
