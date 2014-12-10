@@ -31,10 +31,11 @@ class Dispatcher
 			_subscription.campaign.program = program
 			_subscription
 	_interpolateMarkup: (subscription) ->
-		{html, css} = subscription.campaign.program.style
-		_html = @dot.template(html) subscription.data
-		_html = "<style>#{@css.minify css}</style>#{_html}" if css
-		_html
+		{_id, html, css} = subscription.campaign.program.style
+		_wrappedHtml = "<div id=\"style-#{_id}\">#{html}</div>"
+		_wrappedHtml = @dot.template(_wrappedHtml) subscription.data
+		_wrappedHtml = "<style>#{@css.minify css}</style>#{_wrappedHtml}" if css
+		_wrappedHtml
 	_createDispatchable: (subscription) ->
 		Dispatch = @_getModel 'Dispatch'
 		new Dispatch(

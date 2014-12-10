@@ -58,13 +58,24 @@ describe 'Dispatcher:', ->
 				@mod._populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
 		it "creates html without css", ->
+			styleId = @subscriptionP.campaign.program.style._id
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.equal "<div id=\"style-#{styleId}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
 
 		it "creates html with css", ->
+			styleId = @subscriptionP.campaign.program.style._id
 			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div id=\"style-#{styleId}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
+		it "should be wrapped inside the program-id div"
+		it "html only should be wrapped inside the style.id"
+		it "prefixes the css selectors with the style.id"
+
+		# it "prefixes the css selectors with the style.id", ->
+		# 	@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
+		# 	@mod._interpolateMarkup @subscriptionP
+		# 	.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+
 
 	describe "_createDispatchable()", ->
 		beforeEach ->
@@ -114,6 +125,8 @@ describe 'Dispatcher:', ->
 	describe "next()", ->
 		beforeEach ->
 			sinon.spy @mod, '_postDispatch'
+			sinon.stub @mod, '_interpolateMarkup'
+			.returns 'hello world'
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
@@ -124,14 +137,14 @@ describe 'Dispatcher:', ->
 
 		it "queries by program id", ->
 			@mod.next @program._id
-			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.eventually.be.equal "hello world"
 
 		it "queries null with keywords", ->
 			@mod.next @program._id, ['cc']
 			.should.eventually.be.equal ""
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']
-			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.eventually.be.equal "hello world"
 
 		it "calls _postDispatch", ->
 			@mod.next @program._id
