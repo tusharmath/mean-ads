@@ -52,37 +52,48 @@ describe 'Dispatcher:', ->
 				sub.campaign.program.style._id.should.eql @style._id
 
 	describe "_interpolateMarkup()", ->
+
 		beforeEach ->
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
-		it "creates html without css", ->
+		it "creates html WITHOUT css", ->
+			{_id} = @subscriptionP.campaign.program.style
+			@subscriptionP.campaign.program.style.css = ''
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.eventually.equal "<div id=\".ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
 
-		it "creates html with css", ->
-			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
+		it "creates html WITH css", ->
+			{_id} = @subscriptionP.campaign.program.style
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.eventually.equal "<style>ae-#{_id} p{position:absolute}ae-#{_id} a.selected{color:#f3a}</style><div id=\".ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
+
+		# TODO: Write independent tests
 
 	describe "_createDispatchable()", ->
 		beforeEach ->
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
+
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
+
 		it "save dispatch", ->
 			@subscriptionP.campaign.keywords = ["apples", "bapples"]
 			@mod._createDispatchable @subscriptionP
 			.then (dispatch) =>
 				dispatch = _json dispatch
-				dispatch.markup.should.exist
+				dispatch.markup.should.equal 'hello world'
 				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (@subscriptionP) =>
@@ -114,6 +125,8 @@ describe 'Dispatcher:', ->
 	describe "next()", ->
 		beforeEach ->
 			sinon.spy @mod, '_postDispatch'
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
@@ -124,21 +137,21 @@ describe 'Dispatcher:', ->
 
 		it "queries by program id", ->
 			@mod.next @program._id
-			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.eventually.be.equal "hello world"
 
 		it "queries null with keywords", ->
 			@mod.next @program._id, ['cc']
 			.should.eventually.be.equal ""
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']
-			.should.eventually.be.equal "<div>aaa</div><h2 href=\"ccc\">bbb</h2>"
+			.should.eventually.be.equal "hello world"
 
 		it "calls _postDispatch", ->
 			@mod.next @program._id
 			.then => @mod._postDispatch.calledWith @dispatch
 			.should.be.ok
 
-	describe "createSubscription()", ->
+	describe "subscriptionCreated()", ->
 
 		beforeEach ->
 			sinon.stub @mod, '_populateSubscription'
@@ -158,6 +171,8 @@ describe 'Dispatcher:', ->
 
 	describe "_updateDeliveryDate()", ->
 		beforeEach ->
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (subscriptionP) => @mod._createDispatchable subscriptionP

@@ -34,6 +34,7 @@ program =
 style =
 	name: 'apple-style'
 	html: '<div>{{=it.a}}</div><h2 href="{{=it.c}}">{{=it.b}}</h2>'
+	css: 'p {position: absolute;}   a.selected {color: #f3a;}'
 	placeholders: ['a', 'b', 'c']
 	owner: ownerId
 
