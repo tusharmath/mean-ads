@@ -2,13 +2,14 @@ ModelFactory = require '../factories/ModelFactory'
 Q = require 'q'
 CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
+less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 # Round Robin Dispatcher
 class Dispatcher
 	constructor: (@modelFac, @dot, @css) ->
-
+	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	_increaseUsedCredits: (subscription) ->
 		@_getModel 'Subscription'
@@ -31,22 +32,38 @@ class Dispatcher
 			_subscription.campaign.program = program
 			_subscription
 	_interpolateMarkup: (subscription) ->
-		{_id, html, css} = subscription.campaign.program.style
-		_wrappedHtml = "<div id=\"style-#{_id}\">#{html}</div>"
-		_wrappedHtml = @dot.template(_wrappedHtml) subscription.data
-		_wrappedHtml = "<style>#{@css.minify css}</style>#{_wrappedHtml}" if css
-		_wrappedHtml
+		# Required fields
+		{data} = subscription
+		{html,css, _id} = subscription.campaign.program.style
+
+		# Getting the css selector name
+		el = @_elPrefix _id
+
+		# Wrapping the html markup
+		_wrappedHtml = "<div id=\".#{el}\">#{html}</div>"
+
+		# Creating HTML markup from template
+		_markup = @dot.template(_wrappedHtml) data
+		lessCss = "#{el} { #{css or ''} }"
+		less.render lessCss
+		.then (renderedCss) =>
+			{css} = renderedCss
+
+			# Final Output
+			return _markup if not css or css is ''
+			"<style>#{@css.minify css}</style>#{_markup}"
+
 	_createDispatchable: (subscription) ->
 		Dispatch = @_getModel 'Dispatch'
 		@_interpolateMarkup subscription
 		.then (markup) ->
-		new Dispatch(
+			new Dispatch(
 				markup: markup
-			subscription: subscription._id
-			program: subscription.campaign.program._id
-			keywords: subscription.campaign.keywords
-			)
-		.saveQ()
+				subscription: subscription._id
+				program: subscription.campaign.program._id
+				keywords: subscription.campaign.keywords
+				)
+			.saveQ()
 	_removeDispatchable: (subscriptionId) ->
 		@_getModel 'Dispatch'
 		.find subscription: subscriptionId

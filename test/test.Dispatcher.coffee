@@ -52,30 +52,24 @@ describe 'Dispatcher:', ->
 				sub.campaign.program.style._id.should.eql @style._id
 
 	describe "_interpolateMarkup()", ->
+
 		beforeEach ->
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
-		it "creates html without css", ->
-			styleId = @subscriptionP.campaign.program.style._id
+		it "creates html WITHOUT css", ->
+			{_id} = @subscriptionP.campaign.program.style
+			@subscriptionP.campaign.program.style.css = ''
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<div id=\"style-#{styleId}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
+			.should.eventually.equal "<div id=\".ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
 
-		it "creates html with css", ->
-			styleId = @subscriptionP.campaign.program.style._id
-			@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
+		it "creates html WITH css", ->
+			{_id} = @subscriptionP.campaign.program.style
 			@mod._interpolateMarkup @subscriptionP
-			.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div id=\"style-#{styleId}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
-		it "should be wrapped inside the program-id div"
-		it "html only should be wrapped inside the style.id"
-		it "prefixes the css selectors with the style.id"
+			.should.eventually.equal "<style>ae-#{_id} p{position:absolute}ae-#{_id} a.selected{color:#f3a}</style><div id=\".ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
 
-		# it "prefixes the css selectors with the style.id", ->
-		# 	@subscriptionP.campaign.program.style.css = "p div{position: absolute;}    a.img   {color: #aaa;}"
-		# 	@mod._interpolateMarkup @subscriptionP
-		# 	.should.equal "<style>p div{position:absolute}a.img{color:#aaa}</style><div>aaa</div><h2 href=\"ccc\">bbb</h2>"
-
+		# TODO: Write independent tests
 
 	describe "_createDispatchable()", ->
 		beforeEach ->
@@ -157,7 +151,7 @@ describe 'Dispatcher:', ->
 			.then => @mod._postDispatch.calledWith @dispatch
 			.should.be.ok
 
-	describe "createSubscription()", ->
+	describe "subscriptionCreated()", ->
 
 		beforeEach ->
 			sinon.stub @mod, '_populateSubscription'
