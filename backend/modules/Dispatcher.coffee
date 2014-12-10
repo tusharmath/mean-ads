@@ -38,8 +38,10 @@ class Dispatcher
 		_wrappedHtml
 	_createDispatchable: (subscription) ->
 		Dispatch = @_getModel 'Dispatch'
+		@_interpolateMarkup subscription
+		.then (markup) ->
 		new Dispatch(
-			markup: @_interpolateMarkup subscription
+				markup: markup
 			subscription: subscription._id
 			program: subscription.campaign.program._id
 			keywords: subscription.campaign.keywords

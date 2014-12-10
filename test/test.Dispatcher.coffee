@@ -79,21 +79,27 @@ describe 'Dispatcher:', ->
 
 	describe "_createDispatchable()", ->
 		beforeEach ->
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
+
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
+
 		it "save dispatch", ->
 			@subscriptionP.campaign.keywords = ["apples", "bapples"]
 			@mod._createDispatchable @subscriptionP
 			.then (dispatch) =>
 				dispatch = _json dispatch
-				dispatch.markup.should.exist
+				dispatch.markup.should.equal 'hello world'
 				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (@subscriptionP) =>
@@ -126,7 +132,7 @@ describe 'Dispatcher:', ->
 		beforeEach ->
 			sinon.spy @mod, '_postDispatch'
 			sinon.stub @mod, '_interpolateMarkup'
-			.returns 'hello world'
+			.resolves 'hello world'
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
@@ -171,6 +177,8 @@ describe 'Dispatcher:', ->
 
 	describe "_updateDeliveryDate()", ->
 		beforeEach ->
+			sinon.stub @mod, '_interpolateMarkup'
+			.resolves 'hello world'
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (subscriptionP) => @mod._createDispatchable subscriptionP
