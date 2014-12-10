@@ -9,6 +9,7 @@ module.exports =
 		'Style'
 		'Subscription'
 	]
+	bugsnag: {}
 	appName: 'mean-ads'
 	Q: longStackSupport: true
 	root: rootPath

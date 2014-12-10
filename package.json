@@ -5,6 +5,7 @@
     "body-parser": "^1.6.6",
     "bower": "^1.3.9",
     "bragi": "0.0.10",
+    "bugsnag": "^1.5.1",
     "clean-css": "^2.2.16",
     "coffee-middleware": "^0.2.1",
     "coffee-script": "^1.7.1",
