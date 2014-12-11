@@ -55,13 +55,17 @@ class Dispatcher
 
 	_createDispatchable: (subscription) ->
 		Dispatch = @_getModel 'Dispatch'
+		{campaign} = subscription
+		{program} = campaign
 		@_interpolateMarkup subscription
 		.then (markup) ->
+
 			new Dispatch(
 				markup: markup
 				subscription: subscription._id
-				program: subscription.campaign.program._id
-				keywords: subscription.campaign.keywords
+				program: program._id
+				allowedOrigins: program.allowedOrigins
+				keywords: campaign.keywords
 				)
 			.saveQ()
 	_removeDispatchable: (subscriptionId) ->
@@ -96,8 +100,8 @@ class Dispatcher
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
 				@_postDispatch dispatch
-				return dispatch.markup
-			""
+				return dispatch
+			null
 
 	subscriptionCreated: (subscriptionId) ->
 		@_populateSubscription subscriptionId

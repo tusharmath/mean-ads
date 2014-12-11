@@ -82,6 +82,7 @@ describe 'Dispatcher:', ->
 
 		it "save dispatch", ->
 			@subscriptionP.campaign.keywords = ["apples", "bapples"]
+			@subscriptionP.campaign.program.allowedOrigins = ['http://a.com', 'http://b.com']
 			@mod._createDispatchable @subscriptionP
 			.then (dispatch) =>
 				dispatch = _json dispatch
@@ -89,6 +90,7 @@ describe 'Dispatcher:', ->
 				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
+				dispatch.allowedOrigins.should.deep.equal ['http://a.com', 'http://b.com']
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
@@ -137,19 +139,26 @@ describe 'Dispatcher:', ->
 
 		it "queries by program id", ->
 			@mod.next @program._id
-			.should.eventually.be.equal "hello world"
+			.should.eventually.have.property 'markup'
+			.equal "hello world"
 
 		it "queries null with keywords", ->
 			@mod.next @program._id, ['cc']
-			.should.eventually.be.equal ""
+			.should.eventually.equal null
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']
-			.should.eventually.be.equal "hello world"
+			.should.eventually.have.property 'markup'
+			.be.equal "hello world"
 
 		it "calls _postDispatch", ->
 			@mod.next @program._id
 			.then => @mod._postDispatch.calledWith @dispatch
 			.should.be.ok
+
+		it "resolves to the dispatch", ->
+			@mod.next @program._id
+			.should.eventually.have.property '_id'
+			.to.deep.equal @dispatch._id
 
 	describe "subscriptionCreated()", ->
 
