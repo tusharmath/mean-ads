@@ -62,12 +62,12 @@ describe 'Dispatcher:', ->
 			{_id} = @subscriptionP.campaign.program.style
 			@subscriptionP.campaign.program.style.css = ''
 			@mod._interpolateMarkup @subscriptionP
-			.should.eventually.equal "<div id=\".ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
+			.should.eventually.equal "<div class=\"ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
 
 		it "creates html WITH css", ->
 			{_id} = @subscriptionP.campaign.program.style
 			@mod._interpolateMarkup @subscriptionP
-			.should.eventually.equal "<style>ae-#{_id} p{position:absolute}ae-#{_id} a.selected{color:#f3a}</style><div id=\".ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
+			.should.eventually.equal "<style>.ae-#{_id} p{position:absolute}.ae-#{_id} a.selected{color:#f3a}</style><div class=\"ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
 
 		# TODO: Write independent tests
 

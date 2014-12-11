@@ -40,11 +40,11 @@ class Dispatcher
 		el = @_elPrefix _id
 
 		# Wrapping the html markup
-		_wrappedHtml = "<div id=\".#{el}\">#{html}</div>"
+		_wrappedHtml = "<div class=\"#{el}\">#{html}</div>"
 
 		# Creating HTML markup from template
 		_markup = @dot.template(_wrappedHtml) data
-		lessCss = "#{el} { #{css or ''} }"
+		lessCss = ".#{el} { #{css or ''} }"
 		less.render lessCss
 		.then (renderedCss) =>
 			{css} = renderedCss
