@@ -100,8 +100,8 @@ class Dispatcher
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
 				@_postDispatch dispatch
-				return dispatch.markup
-			""
+				return dispatch
+			null
 
 	subscriptionCreated: (subscriptionId) ->
 		@_populateSubscription subscriptionId

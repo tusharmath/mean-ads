@@ -139,19 +139,26 @@ describe 'Dispatcher:', ->
 
 		it "queries by program id", ->
 			@mod.next @program._id
-			.should.eventually.be.equal "hello world"
+			.should.eventually.have.property 'markup'
+			.equal "hello world"
 
 		it "queries null with keywords", ->
 			@mod.next @program._id, ['cc']
-			.should.eventually.be.equal ""
+			.should.eventually.equal null
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']
-			.should.eventually.be.equal "hello world"
+			.should.eventually.have.property 'markup'
+			.be.equal "hello world"
 
 		it "calls _postDispatch", ->
 			@mod.next @program._id
 			.then => @mod._postDispatch.calledWith @dispatch
 			.should.be.ok
+
+		it "resolves to the dispatch", ->
+			@mod.next @program._id
+			.should.eventually.have.property '_id'
+			.to.deep.equal @dispatch._id
 
 	describe "subscriptionCreated()", ->
 
