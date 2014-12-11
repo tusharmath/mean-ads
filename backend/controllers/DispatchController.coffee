@@ -13,6 +13,7 @@ class DispatchController
 		{origin} = req.headers
 		@dispatch.next req.query.p, req.query.k
 		.then (dispatch) ->
+			return '' if not dispatch
 			if _.contains dispatch.allowedOrigins, origin
 				res.set 'Access-Control-Allow-Origin', origin
 

@@ -39,3 +39,8 @@ describe 'DispatchController:', ->
 		it "NOT set cross origin headers", ->
 			@mod.actions.$ad @req, @res
 			.then => @res.set.called.should.not.be.ok
+		it "returns empty string", ->
+			@dispatcher.next.resolves null
+			@mod.actions.$ad @req, @res
+			.should.eventually.equal ''
+
