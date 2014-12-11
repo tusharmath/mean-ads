@@ -82,6 +82,7 @@ describe 'Dispatcher:', ->
 
 		it "save dispatch", ->
 			@subscriptionP.campaign.keywords = ["apples", "bapples"]
+			@subscriptionP.campaign.program.allowedOrigins = ['http://a.com', 'http://b.com']
 			@mod._createDispatchable @subscriptionP
 			.then (dispatch) =>
 				dispatch = _json dispatch
@@ -89,7 +90,7 @@ describe 'Dispatcher:', ->
 				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
-				dispatch.allowedOrigins.should.have.members @subscriptionP.campaign.program.allowedOrigins
+				dispatch.allowedOrigins.should.deep.equal ['http://a.com', 'http://b.com']
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
