@@ -31,6 +31,7 @@ subscription4 =
 program =
 	name: 'apple-program'
 	owner: ownerId
+	allowedOrigins: ['http://a.com', 'http://b.com']
 style =
 	name: 'apple-style'
 	html: '<div>{{=it.a}}</div><h2 href="{{=it.c}}">{{=it.b}}</h2>'

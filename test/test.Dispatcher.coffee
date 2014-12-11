@@ -89,6 +89,7 @@ describe 'Dispatcher:', ->
 				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
+				dispatch.allowedOrigins.should.have.members @subscriptionP.campaign.program.allowedOrigins
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->

@@ -9,7 +9,8 @@ DispatchSchema = (mongoose) ->
 			type : mongoose.Schema.ObjectId
 			required: true
 			ref: 'Subscription'
-
+		allowedOrigins:
+			type: [String]
 		# Delivery Management
 		program:
 			type : mongoose.Schema.ObjectId
