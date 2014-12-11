@@ -10,6 +10,8 @@ di = require 'di'
 newrelic = require 'newrelic'
 ModelFactory = require './factories/ModelFactory'
 packageFile = require '../package.json'
+bugsnag = require "bugsnag"
+bugsnag.register config.bugsnag.secret
 class V1
 	constructor: (api) ->
 		v1 = api.router()

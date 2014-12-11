@@ -48,4 +48,9 @@ exports.partials = (req, res) ->
 
 #send our single page app
 exports.page = (page) ->
-	(req, res) -> res.status(page).render page
+	(req, res) ->
+		# Status is determined be the page name if its a number
+		status = parseInt page, 10
+		if isNaN status then status = 200
+		res.status status
+		.render page
