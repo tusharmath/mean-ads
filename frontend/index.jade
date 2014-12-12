@@ -5,8 +5,14 @@ block head-scripts
 	script(data-main="/static/require-config.js" src="/static/lib/require.js")
 block content
 	.container
-		.row
-			.col-md-10
-				div(ng-view)
-			.col-md-2
-				div(ng-include='\'templates/nav/list-tmpl\'')
+		.loader-layer
+			#circleG
+				#circleG_1.circleG
+				#circleG_2.circleG
+				#circleG_3.circleG
+		.row-layer
+			.row
+				.col-md-10
+					div(ng-view)
+				.col-md-2
+					div(ng-include='\'templates/nav/list-tmpl\'')
