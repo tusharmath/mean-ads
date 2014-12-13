@@ -27,10 +27,8 @@ describe 'Dispatcher:', ->
 		#Mock Data
 		@mockDataSetup = mockDataSetup
 
-
 	afterEach ->
 		@mongo.__reset()
-
 
 	describe "_populateSubscription()", ->
 		beforeEach ->
@@ -198,7 +196,6 @@ describe 'Dispatcher:', ->
 			@mod.next @program._id
 			.then => @mockPromise.done.called.should.be.ok
 
-
 	describe "subscriptionCreated()", ->
 
 		beforeEach ->
@@ -232,19 +229,37 @@ describe 'Dispatcher:', ->
 
 	describe "_postDispatch()", ->
 		beforeEach ->
-			sinon.stub @mod, '_increaseUsedCredits'
-			sinon.stub @mod, '_removeDispatchable'
-			sinon.stub @mod, '_updateDeliveryDate'
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
 			.then (subscriptionP) => @mod._createDispatchable subscriptionP
 			.then (@dispatch) =>
 
-		#TODO: Tired of writing tests
-		it "updates used credits of subscription"
-		it "updates last delivery date of dispatch"
-		it "removes expired subscriptions"
-		it "removes exausted subscriptions"
+		it "updates used credits of subscription", ->
+			initialCredits = @subscription.usedCredits
+			@mod._postDispatch @dispatch
+			.then => @Models.Subscription.findByIdQ @subscription._id
+			.should.eventually.have.property 'usedCredits'
+			.to.equal initialCredits + 1
+
+		it "updates last delivery date of dispatch", ->
+			sinon.spy @mod, '_updateDeliveryDate'
+			@mod._postDispatch @dispatch
+			.then => @mod._updateDeliveryDate.called.should.be.ok
+
+		it "removes expired subscriptions", ->
+			sinon.stub @mod, '_hasSubscriptionExpired'
+			.returns yes
+			@mod._postDispatch @dispatch
+			.then => @Models.Dispatch.findByIdQ @dispatch._id
+			.should.eventually.equal null
+		it "removes exausted subscriptions", ->
+			sinon.stub @mod, '_increaseUsedCredits'
+			.resolves { usedCredits: 100, totalCredits: 100, _id: @subscription._id}
+			sinon.stub @mod, '_hasSubscriptionExpired'
+			.returns no
+			@mod._postDispatch @dispatch
+			.then => @Models.Dispatch.findByIdQ @dispatch._id
+			.should.eventually.equal null
 
 	describe "_resourceUpdated()", ->
 		beforeEach ->

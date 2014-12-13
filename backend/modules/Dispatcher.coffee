@@ -86,6 +86,7 @@ class Dispatcher
 				keywords: campaign.keywords
 				)
 			.saveQ()
+	# Removes all dispatchable with a subscriptionId
 	_removeDispatchable: (subscriptionId) ->
 		@_getModel 'Dispatch'
 		.find subscription: subscriptionId
@@ -100,8 +101,12 @@ class Dispatcher
 		.then (subscription) =>
 			@_increaseUsedCredits subscription
 		.then (subscription) =>
-			if subscription.usedCredits is subscription.totalCredits
-				@_removeDispatchable dispatch._id
+			subExpired = @_hasSubscriptionExpired subscription
+			if (
+				subExpired is yes or
+				subscription.usedCredits is subscription.totalCredits
+			)
+				@_removeDispatchable subscription._id
 			else
 				@_updateDeliveryDate dispatch
 
@@ -117,7 +122,6 @@ class Dispatcher
 		q.sort lastDeliveredOn: 'asc'
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
-				# TODO: Add a test for done()
 				@_postDispatch dispatch
 				.done()
 				return dispatch
