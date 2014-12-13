@@ -11,6 +11,9 @@ class Dispatcher
 	constructor: (@modelFac, @dot, @css) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
+	# Created so that dates can be mocked in the tests
+	# TODO: Move it to a provider
+	_getCurrentDate: -> Date.now()
 	_increaseUsedCredits: (subscription) ->
 		@_getModel 'Subscription'
 		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
@@ -52,11 +55,26 @@ class Dispatcher
 			# Final Output
 			return _markup if not css or css is ''
 			"<style>#{@css.minify css}</style>#{_markup}"
-
+	# TODO: Util function must go out
+	_hasSubscriptionExpired: (subscription) ->
+		{startDate} = subscription
+		[year, month, date] =[
+			startDate.getFullYear()
+			startDate.getMonth()
+			startDate.getDate() + subscription.campaign.days
+		]
+		endDate = new Date year, month, date
+		if endDate  > @_getCurrentDate() then yes else no
 	_createDispatchable: (subscription) ->
-		Dispatch = @_getModel 'Dispatch'
 		{campaign} = subscription
 		{program} = campaign
+		subExpired = @_hasSubscriptionExpired subscription
+		return Q null if (
+			subExpired is yes or
+			campaign.isEnabled is false or
+			subscription.totalCredits is subscription.usedCredits
+			)
+		Dispatch = @_getModel 'Dispatch'
 		@_interpolateMarkup subscription
 		.then (markup) ->
 
@@ -75,7 +93,7 @@ class Dispatcher
 		.execQ()
 	_updateDeliveryDate: (dispatch) ->
 		@_getModel 'Dispatch'
-		.findByIdAndUpdate dispatch._id, lastDeliveredOn: Date.now()
+		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @_getCurrentDate()
 		.execQ()
 	_postDispatch: (dispatch) ->
 		@_populateSubscription dispatch.subscription
@@ -105,8 +123,8 @@ class Dispatcher
 
 	subscriptionCreated: (subscriptionId) ->
 		@_populateSubscription subscriptionId
-		.then (subscriptionP) =>
-			@_createDispatchable subscriptionP
+		.then (subscription) =>
+			@_createDispatchable subscription
 
 	subscriptionUpdated: (subscriptionId) ->
 		@_removeDispatchable subscriptionId

@@ -91,6 +91,39 @@ describe 'Dispatcher:', ->
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
 				dispatch.keywords.should.be.of.length 2
 				dispatch.allowedOrigins.should.deep.equal ['http://a.com', 'http://b.com']
+		it "Ignores dispatch if campaign is not enabled", ->
+			@subscriptionP.campaign.isEnabled = false
+			@mod._createDispatchable @subscriptionP
+			.then =>
+				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+		it "Ignores dispatch if used credits equal totalCredits", ->
+			@subscriptionP.usedCredits = @subscriptionP.totalCredits = 120
+			@mod._createDispatchable @subscriptionP
+			.then =>
+				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+
+		it "Ignores dispatch, subscription has expired", ->
+			sinon.stub @mod, '_hasSubscriptionExpired'
+			.returns yes
+			@mod._createDispatchable @subscriptionP
+			.then =>
+				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+
+	describe "_hasSubscriptionExpired()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then => @mod._populateSubscription @subscription
+			.then (@subscriptionP) => #P: Populated
+
+		it "returns no", ->
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.equal no
+
+		it "returns yes", ->
+			sinon.stub @mod, '_getCurrentDate'
+			.returns new Date 2010, 1, 1
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.ok
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
@@ -232,12 +265,3 @@ describe 'Dispatcher:', ->
 		it "calls subscriptionCreated", ->
 			@mod.subscriptionUpdated 123456
 			.should.eventually.equal 'subscription-created'
-
-
-
-	# describe "styleUpdated()", ->
-	# 	beforeEach ->
-	# 		@mockDataSetup()
-	# 	it "updates dispatches", ->
-	# 		@mod.styleUpdated @style._id
-	# 		.should.eventually.equal 'yankie'
