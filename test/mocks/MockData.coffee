@@ -10,6 +10,7 @@ subscription =
 	usedCredits: 120
 	data: a:'aaa', b: 'bbb', c: 'ccc'
 	owner: ownerId
+	startDate: new Date(2012,1,2)
 subscription2 =
 	client: 'apples2'
 	totalCredits: 2000
