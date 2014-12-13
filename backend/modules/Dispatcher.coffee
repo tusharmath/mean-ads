@@ -117,7 +117,9 @@ class Dispatcher
 		q.sort lastDeliveredOn: 'asc'
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
+				# TODO: Add a test for done()
 				@_postDispatch dispatch
+				.done()
 				return dispatch
 			null
 

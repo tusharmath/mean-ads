@@ -159,7 +159,9 @@ describe 'Dispatcher:', ->
 
 	describe "next()", ->
 		beforeEach ->
-			sinon.spy @mod, '_postDispatch'
+			@mockPromise = done : sinon.spy()
+			sinon.stub @mod, '_postDispatch'
+			.returns @mockPromise
 			sinon.stub @mod, '_interpolateMarkup'
 			.resolves 'hello world'
 			@mockDataSetup()
@@ -192,6 +194,10 @@ describe 'Dispatcher:', ->
 			@mod.next @program._id
 			.should.eventually.have.property '_id'
 			.to.deep.equal @dispatch._id
+		it "calls done of _postDispatch()", ->
+			@mod.next @program._id
+			.then => @mockPromise.done.called.should.be.ok
+
 
 	describe "subscriptionCreated()", ->
 
