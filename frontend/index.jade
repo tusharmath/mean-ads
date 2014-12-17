@@ -4,12 +4,14 @@ extends ./layout.jade
 block head-scripts
 	script(data-main="/static/require-config.js" src="/static/lib/require.js")
 block content
-		.row.loader-layer
+		.row
 			.col-md-10
-				#circleG
-					#circleG_1.circleG
-					#circleG_2.circleG
-					#circleG_3.circleG
+				div(style="position:absolute;width:100%;height:180px;")
+					#circleG.block-center.block-middle
+						#circleG_1.circleG
+						#circleG_2.circleG
+						#circleG_3.circleG
+						.clearfix
 		.row
 			.col-md-10
 				div(ng-view)
