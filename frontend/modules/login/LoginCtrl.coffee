@@ -1,7 +1,7 @@
 define ["app"], (app) ->
 	class LoginCtrl
 		constructor: (@auth, @location) ->
-			if @auth.isAuthenticated is yes and @auth.hasTokenExpired() is no
+			if @auth.isAuthenticated is yes
 				return @onSuccess()
 			@auth.signin {popup: true} , @onSuccess, @onFailure
 		onSuccess: => @location.path '/'
