@@ -14,12 +14,13 @@ html
 		.page-wrapper
 			.header
 				nav.navbar.navbar-inverse.square
-					.container
+					.container-fluid
 						.navbar-header
 							a.navbar-brand(href="#") #{package.name}
 						div(ng-include='\'templates/profiles/list-tmpl\'')
 			.content
-				block content
+				.container-fluid
+					block content
 			.footer
 				p.text-center
 					small v#{package.version}
