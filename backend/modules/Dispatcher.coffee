@@ -14,7 +14,6 @@ class Dispatcher
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
 	# TODO: Move it to a provider
-	_getCurrentDate: -> @date.now()
 	_increaseUsedCredits: (subscription) ->
 		@_getModel 'Subscription'
 		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
@@ -63,7 +62,7 @@ class Dispatcher
 
 		date += subscription.campaign.days
 		endDate = @date.create year, month, date
-		if endDate  < @_getCurrentDate() then yes else no
+		if endDate  < @date.now() then yes else no
 	_createDispatchable: (subscription) ->
 		{campaign} = subscription
 		{program} = campaign
@@ -93,7 +92,7 @@ class Dispatcher
 		.execQ()
 	_updateDeliveryDate: (dispatch) ->
 		@_getModel 'Dispatch'
-		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @_getCurrentDate()
+		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
 		.execQ()
 	_postDispatch: (dispatch) ->
 		@_populateSubscription dispatch.subscription
