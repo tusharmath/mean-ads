@@ -1,4 +1,5 @@
 DispatchStamper = require '../backend/modules/DispatchStamper'
+DateProvider = require '../backend/providers/DateProvider'
 {Injector} = require 'di'
 describe 'DispatchStamper:', ->
 	beforeEach ->
@@ -7,6 +8,9 @@ describe 'DispatchStamper:', ->
 
 		#DispatchStamper
 		@mod = @injector.get DispatchStamper
+
+		# Date Provider
+		@date = @injector.get DateProvider
 
 	describe "parseStamp()", ->
 		it "returns an array", ->
@@ -21,9 +25,30 @@ describe 'DispatchStamper:', ->
 		it "sets timestamp in date format", ->
 			stamps = @mod.parseStamp 'aaa111:120,bbb222:2,ccc333:3334'
 			stamps[0].timestamp.should.deep.equal new Date 120
+		it "returns empty array if its a mean error", ->
+			@mod.parseStamp ''
+			.should.deep.equal []
+		it "throws if its not a mean error", ->
+			expect => @mod.parseStamp null
+			.to.throw "Cannot call method 'split' of null"
+
+	describe "_reduce()", ->
+		it "reduces", ->
+			@mod._reduce '', subscription: 'asd123', timestamp: new Date 234123123
+			.should.equal 'asd123:234123123'
+		it "adds a comma", ->
+			@mod._reduce 'lop:098', subscription: 'asd123', timestamp: new Date 234123123
+			.should.equal 'lop:098,asd123:234123123'
+
 	describe "appendStamp()", ->
+		beforeEach ->
+			sinon.stub @date, 'now'
+			.returns new Date 1001001
+			@mockDispatch = subscription: 'asd123NEW'
 
-
-
-
-
+		it "pushes the timestamp to empty string", ->
+			@mod.appendStamp '', @mockDispatch
+			.should.equal 'asd123NEW:1001001'
+		it "pushes the timestamp to already set stamps", ->
+			@mod.appendStamp 'asd456OLD:2002002', @mockDispatch
+			.should.equal 'asd456OLD:2002002,asd123NEW:1001001'
