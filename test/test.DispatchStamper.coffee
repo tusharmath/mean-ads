@@ -32,9 +32,14 @@ describe 'DispatchStamper:', ->
 		it "returns empty array if its a mean error", ->
 			@mod.parseStamp ''
 			.should.deep.equal []
+		it "returns empty array if stampStr is null", ->
+			@mod.parseStamp null
+			.should.deep.equal []
 		it "throws if its not a mean error", ->
-			expect => @mod.parseStamp null
-			.to.throw "Cannot call method 'split' of null"
+			sinon.stub @date, 'createFromValue'
+			.throws new Error 'Random uncaught error'
+			expect => @mod.parseStamp 'a:1'
+			.to.throw "Random uncaught error"
 
 	describe "_reduce()", ->
 		it "reduces", ->

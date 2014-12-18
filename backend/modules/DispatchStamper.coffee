@@ -18,6 +18,7 @@ class DispatchStamper
 		stamps.splice 0, stamps.length - @_getMaxDispatchCount()
 		_.reduce stamps, @_reduce, ''
 	parseStamp: (stampStr) ->
+		return [] if not stampStr
 		try
 			stamp = _.map stampStr.split(','), (i) =>
 				[subscription, timestamp] = i.split ':'
