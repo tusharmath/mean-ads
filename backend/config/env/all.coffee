@@ -10,7 +10,7 @@ module.exports =
 		'Subscription'
 	]
 	bugsnag: {}
-	appName: 'mean-ads'
+	appName: 'mean ads'
 	Q: longStackSupport: true
 	root: rootPath
 	cache:

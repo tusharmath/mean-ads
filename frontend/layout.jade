@@ -5,7 +5,7 @@ html
 		!= newrelic.getBrowserTimingHeader()
 		title
 			block title
-				| mean-ads
+				| #{config.appName}
 		link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/paper/bootstrap.min.css')
 		link(rel='stylesheet' href='/static/css/main.css')
 		block head-scripts
@@ -16,7 +16,7 @@ html
 				nav.navbar.navbar-inverse.square
 					.container-fluid
 						.navbar-header
-							a.navbar-brand(href="#") #{package.name}
+							a.text-uppercase.navbar-brand(href="#") #{config.appName}
 						div(ng-include='\'templates/profiles/list-tmpl\'')
 			.content
 				.container-fluid

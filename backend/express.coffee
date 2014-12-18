@@ -11,6 +11,8 @@ newrelic = require 'newrelic'
 ModelFactory = require './factories/ModelFactory'
 packageFile = require '../package.json'
 bugsnag = require "bugsnag"
+cookieParser = require 'cookie-parser'
+
 bugsnag.register config.bugsnag.secret
 class V1
 	constructor: (api) ->
@@ -18,6 +20,7 @@ class V1
 		app = express()
 		app.locals.newrelic = newrelic
 		app.locals.package = packageFile
+		app.locals.config = config
 
 		app
 		.set 'jsonp callback name', 'mean'
@@ -32,6 +35,7 @@ class V1
 
 		app
 		#Middlewares
+		.use cookieParser config.cookie.secret
 		.use '/static', [
 			middleware.coffeescript
 			middleware.stylus
