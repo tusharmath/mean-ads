@@ -113,15 +113,35 @@ describe 'Dispatcher:', ->
 			.then => @mod._populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
 
-		it "returns no", ->
+		it "returns expired", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: today
 			@mod._hasSubscriptionExpired @subscriptionP
-			.should.equal no
+			.should.be.true
 
-		it "returns yes", ->
+		it "returns not expired", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 2010 Feb 1
+
 			sinon.stub @mod, '_getCurrentDate'
 			.returns new Date 2010, 1, 1
 			@mod._hasSubscriptionExpired @subscriptionP
-			.should.be.ok
+			.should.be.false
+		it "returns no if its withing the campaign days", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 5 Feb 2012
+			sinon.stub @mod, '_getCurrentDate'
+			.returns new Date 2012, 1, 5
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.false
+
+		it "returns yes if it is out of the campaign range", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 15 Feb 2012
+			sinon.stub @mod, '_getCurrentDate'
+			.returns new Date 2012, 1, 15
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.true
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->

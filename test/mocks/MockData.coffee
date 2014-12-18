@@ -56,11 +56,10 @@ exports.mockDataSetup = ->
 		subscription3.campaign = @campaign._id
 		subscription4.campaign = @campaign._id
 
-		new @Models.Subscription subscription
-		.saveQ()
-	.then (@subscription) =>
 		Q.all [
+			new @Models.Subscription(subscription).saveQ()
 			new @Models.Subscription(subscription2).saveQ()
 			new @Models.Subscription(subscription3).saveQ()
 			new @Models.Subscription(subscription4).saveQ()
 		]
+	.spread (@subscription) =>
