@@ -9,17 +9,20 @@ describe 'DispatchStamper:', ->
 		@mod = @injector.get DispatchStamper
 
 	describe "parseStamp()", ->
-		it "returns an obj", ->
-			stamp = @mod.parseStamp 'aaa111:120,bbb222:2,ccc333:3334'
+		it "returns an array", ->
+			@mod.parseStamp 'aaa111:120,bbb222:2,ccc333:3334'
+			.length.should.equal 3
+		it "contains subscription", ->
+			stamps = @mod.parseStamp 'aaa111:120,bbb222:2,ccc333:3334'
+			stamps[0].subscription.should.equal 'aaa111'
+		it "contains timestamp", ->
+			stamps = @mod.parseStamp 'aaa111:120,bbb222:2,ccc333:3334'
+			stamps[0].timestamp.should.be.a 'date'
+		it "sets timestamp in date format", ->
+			stamps = @mod.parseStamp 'aaa111:120,bbb222:2,ccc333:3334'
+			stamps[0].timestamp.should.deep.equal new Date 120
+	describe "appendStamp()", ->
 
-			stamp.should.have.property "aaa111"
-			.to.deep.equal new Date 120
-
-			stamp.should.have.property "bbb222"
-			.to.deep.equal new Date 2
-
-			stamp.should.have.property "ccc333"
-			.to.deep.equal new Date 3334
 
 
 

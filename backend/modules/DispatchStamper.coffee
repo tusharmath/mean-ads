@@ -6,10 +6,11 @@ class DispatchStamper
 	constructor: (@date) ->
 	appendStamp : (stamp, dispatch) ->
 	parseStamp: (stamp) ->
-		stamps = {}
+		stamps = []
 		_.each stamp.split(','), (i) =>
-			[sub, timeStamp] = i.split ':'
-			stamps[sub] = @date.createFromValue timeStamp
+			[subscription, timestamp] = i.split ':'
+			timestamp = @date.createFromValue timestamp
+			stamps.push {subscription, timestamp}
 		stamps
 
 annotate DispatchStamper, new Inject DateProvider
