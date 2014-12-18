@@ -38,6 +38,13 @@ describe 'SubscriptionController:', ->
 	it "actions should exist", ->
 		@mod.actions.should.be.an.instanceOf BaseController
 
+	describe "actionMap", ->
+		it "has convertActionMap", ->
+			[method, route] = @mod.actions.actionMap.$convert
+			method.should.equal 'patch'
+			route 'subscription'
+			.should.equal '/subscription/:id/convert'
+
 	describe "$credits()", ->
 		beforeEach ->
 			@mockDataSetup()
@@ -68,3 +75,17 @@ describe 'SubscriptionController:', ->
 			.then =>
 				@dispatcher.subscriptionUpdated.calledWith 1000
 				.should.be.ok
+	describe "$convert()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then =>
+				@Models.Subscription.findByIdAndUpdate @subscription._id, conversions: 220
+				.execQ()
+		it "be a function", ->
+			@mod.actions.$convert.should.be.a.Function
+		it "updates conversion", ->
+			@req.s = @subscription._id
+			@mod.actions.$convert @req
+			.then => @Models.Subscription.findByIdQ @subscription._id
+			.should.eventually.have.property 'conversions'
+			.equals 221

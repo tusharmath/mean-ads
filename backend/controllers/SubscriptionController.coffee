@@ -13,7 +13,10 @@ class SubscriptionController
 
 		# Setting up custom routes
 		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}s/credits"]
+		@actions.actionMap.$convert = ['patch', (str) -> "/#{str}/:id/convert"]
+
 		@actions.$credits = @$credits
+		@actions.$convert = @$convert
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
 
@@ -43,6 +46,12 @@ class SubscriptionController
 			)
 
 			{creditDistribution, creditUsage}
+	$convert: (req) ->
+		Subscription = @getModel()
+		Subscription.findByIdQ req.s
+		.then (subscription) ->
+			Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
+			.execQ()
 
 	# Perfect place to mutate request
 annotate SubscriptionController, new Inject Dispatcher, BaseController
