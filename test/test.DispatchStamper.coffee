@@ -138,3 +138,20 @@ describe 'DispatchStamper:', ->
 			@mod._removeOldStamps @mStamps
 			.should.deep.equal @mStamps
 
+	describe "isConvertableSubscription()", ->
+		beforeEach ->
+			sinon.stub @mod, '_getConversionMaxAge'
+			.returns 20
+
+			sinon.stub @date, 'now'
+			.returns new Date 250
+
+		it "is yes if subscriptionId is present and time hasnt expired", ->
+			@mod.isConvertableSubscription "a:1,b:240.c:3", 'b'
+			.should.be.true
+		it "is no if subscriptionId is NOT present",  ->
+			@mod.isConvertableSubscription "a:1,b:2.c:3", 'd'
+			.should.be.false
+		it "is no if timestamp has expired",  ->
+			@mod.isConvertableSubscription "a:1,b:200.c:3", 'b'
+			.should.be.false

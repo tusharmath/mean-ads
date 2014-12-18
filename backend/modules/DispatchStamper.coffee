@@ -10,6 +10,7 @@ class DispatchStamper
 			m += ','
 		m += "#{i.subscription}:#{i.timestamp.getTime()}"
 	_getMaxDispatchCount: -> config.maxDispatchStampCount
+	_getConversionMaxAge: -> config.conversionMaxAge
 	_removeOldStamps: (stamps) ->
 		maxCount = @_getMaxDispatchCount()
 		_.sortBy stamps, (v) -> v.timestamp
@@ -45,6 +46,10 @@ class DispatchStamper
 		catch e
 			if e instanceof MeanError then stamp = [] else throw e
 		stamp
+	isConvertableSubscription: (stampStr, subscriptionId) ->
+		_.any @parseStamp(stampStr), (v) =>
+			v.subscription is subscriptionId and
+			@date.now().getTime() - v.timestamp < @_getConversionMaxAge()
 
 annotate DispatchStamper, new Inject DateProvider
 module.exports = DispatchStamper
