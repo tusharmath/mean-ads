@@ -1,6 +1,7 @@
 do (window) ->
 	settings =
-		host: "mean-ads.herokuapp.com"
+		# TODO: Should be dynamically set
+		host: "app.meanads.com"
 	# Command Pattern
 	commands =
 		set: (key, value) -> settings[key] = value
