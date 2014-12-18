@@ -16,7 +16,9 @@ class DispatchStamper
 		.slice _.max [stamps.length - maxCount, 0]
 
 	_updateOrAddNewStamp: (stamps, newStamp) ->
-		oldStamp = _.find stamps, (v) -> v.subscription is newStamp.subscription
+
+		oldStamp = _.find stamps, (v) ->
+			v.subscription.toString() is newStamp.subscription.toString()
 		if not oldStamp
 			stamps.push newStamp
 		else

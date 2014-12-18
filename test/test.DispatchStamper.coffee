@@ -102,6 +102,10 @@ describe 'DispatchStamper:', ->
 			newStamp = subscription: 3, timestamp: 789
 			@mod._updateOrAddNewStamp @mStamps, newStamp
 			@mStamps[2].timestamp.should.equal 789
+		it "converts toString() before checking", ->
+			newStamp = subscription: '3', timestamp: 789
+			@mod._updateOrAddNewStamp @mStamps, newStamp
+			@mStamps[2].timestamp.should.equal 789
 
 	describe "_removeOldStamps()", ->
 		beforeEach ->
