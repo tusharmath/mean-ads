@@ -13,7 +13,7 @@ class DispatchStamper
 	_removeOldStamps: (stamps) ->
 		maxCount = @_getMaxDispatchCount()
 		_.sortBy stamps, (v) -> v.timestamp
-		.slice stamps.length - maxCount
+		.slice _.max [stamps.length - maxCount, 0]
 
 	_updateOrAddNewStamp: (stamps, newStamp) ->
 		oldStamp = _.find stamps, (v) -> v.subscription is newStamp.subscription
@@ -27,9 +27,10 @@ class DispatchStamper
 		stamps = @parseStamp stampStr
 		{subscription} = dispatch
 		timestamp = @date.now()
-		stamps.push {subscription, timestamp}
-		stamps.splice 0, stamps.length - @_getMaxDispatchCount()
-		_.reduce stamps, @_reduce, ''
+
+		stampsUpdatedOrAdded = @_updateOrAddNewStamp stamps, {subscription, timestamp}
+		stampsOldRemoved = @_removeOldStamps stampsUpdatedOrAdded
+		_.reduce stampsOldRemoved, @_reduce, ''
 	parseStamp: (stampStr) ->
 		return [] if not stampStr
 		try

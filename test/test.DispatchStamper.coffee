@@ -63,9 +63,9 @@ describe 'DispatchStamper:', ->
 			@mod.appendStamp '', @mockDispatch
 			.should.equal 'asd123NEW:1001001'
 
-		it "pushes the timestamp to already set stamps", ->
+		it "concatinates with the timestamp to already set stamps", ->
 			@mod.appendStamp 'asd456OLD:2002002', @mockDispatch
-			.should.equal 'asd456OLD:2002002,asd123NEW:1001001'
+			.should.equal 'asd123NEW:1001001,asd456OLD:2002002'
 
 		it "removes the first one if maxDispatchStampCount has been achieved",->
 			@mod.appendStamp 'a:1,b:2,c:3,d:4', @mockDispatch
@@ -78,7 +78,7 @@ describe 'DispatchStamper:', ->
 		it "updates present timestamps", ->
 			@mockDispatch.subscription = 'a'
 			@mod.appendStamp 'a:1,b:2', @mockDispatch
-			.should.equal 'a:1001001,b:2'
+			.should.equal 'b:2,a:1001001'
 
 	describe "_updateOrAddNewStamp()", ->
 		beforeEach ->
@@ -89,14 +89,19 @@ describe 'DispatchStamper:', ->
 				{subscription: 4, timestamp: 400}
 				{subscription: 5, timestamp: 500}
 			]
+
+			# Setting the MaxDispatchCount
+			sinon.stub @mod, '_getMaxDispatchCount'
+			.returns 3
+
 		it "adds a new timestamp", ->
 			newStamp = subscription: 6, timestamp: 600
 			@mod._updateOrAddNewStamp @mStamps, newStamp
 			@mStamps[5].should.equal newStamp
 		it "updates old timestamp", ->
-			newStamp = subscription: 3, timestamp: 600
+			newStamp = subscription: 3, timestamp: 789
 			@mod._updateOrAddNewStamp @mStamps, newStamp
-			@mStamps[2].timestamp.should.equal 600
+			@mStamps[2].timestamp.should.equal 789
 
 	describe "_removeOldStamps()", ->
 		beforeEach ->
@@ -121,5 +126,11 @@ describe 'DispatchStamper:', ->
 				{subscription: 4, timestamp: 400}
 				{subscription: 5, timestamp: 500}
 			]
-
+		it "should not remove anything", ->
+			@mStamps = [
+				{subscription: 'a', timestamp: 1}
+				{subscription: 'b', timestamp: 2}
+			]
+			@mod._removeOldStamps @mStamps
+			.should.deep.equal @mStamps
 
