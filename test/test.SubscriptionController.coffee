@@ -4,6 +4,7 @@ ModelFactory = require '../backend/factories/ModelFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
 Dispatcher = require '../backend/modules/Dispatcher'
+DispatchStamper = require '../backend/modules/DispatchStamper'
 {mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
 
@@ -11,7 +12,7 @@ describe 'SubscriptionController:', ->
 
 	beforeEach ->
 		#Initial Setup
-		@req = user : {sub: 9000}, params: {id: 9010}
+		@req = user : {sub: 9000}, params: {id: 9010}, signedCookies: {}
 		@res = send: sinon.spy()
 
 		# Injector
@@ -29,6 +30,12 @@ describe 'SubscriptionController:', ->
 
 		#Dispatcher
 		@dispatcher = @injector.get Dispatcher
+
+		#DispatchStamper
+		@stamper = @injector.get DispatchStamper
+		sinon.stub @stamper, 'isConvertableSubscription'
+		.returns yes
+
 
 		#Subscription Controller
 		@mod = @injector.get SubscriptionController
@@ -81,11 +88,21 @@ describe 'SubscriptionController:', ->
 			.then =>
 				@Models.Subscription.findByIdAndUpdate @subscription._id, conversions: 220
 				.execQ()
+
 		it "be a function", ->
 			@mod.actions.$convert.should.be.a.Function
-		it "updates conversion", ->
-			@req.s = @subscription._id
+
+		it "updates conversion if is in signedCookies._sub", ->
+			@req.params = id: @subscription._id
 			@mod.actions.$convert @req
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 221
+
+		it "ignores conversion if is NOT in signedCookies._sub", ->
+			@stamper.isConvertableSubscription.returns no
+			@req.params = id: @subscription._id
+			@mod.actions.$convert @req
+			.then => @Models.Subscription.findByIdQ @subscription._id
+			.should.eventually.have.property 'conversions'
+			.equals 220
