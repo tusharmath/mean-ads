@@ -1,6 +1,7 @@
 DispatchStamper = require '../backend/modules/DispatchStamper'
 DateProvider = require '../backend/providers/DateProvider'
 {Injector} = require 'di'
+config = require '../backend/config/config'
 describe 'DispatchStamper:', ->
 	beforeEach ->
 		# DI
@@ -11,6 +12,9 @@ describe 'DispatchStamper:', ->
 
 		# Date Provider
 		@date = @injector.get DateProvider
+	describe "_getMaxDispatchCount", ->
+		it "returns config.maxDispatchStampCount", ->
+			@mod._getMaxDispatchCount().should.equal config.maxDispatchStampCount
 
 	describe "parseStamp()", ->
 		it "returns an array", ->

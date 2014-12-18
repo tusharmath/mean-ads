@@ -9,7 +9,7 @@ class DispatchStamper
 		if m isnt ''
 			m += ','
 		m += "#{i.subscription}:#{i.timestamp.getTime()}"
-
+	_getMaxDispatchCount: -> config.maxDispatchStampCount
 	appendStamp : (stampStr, dispatch) ->
 		stamps = @parseStamp stampStr
 		{subscription} = dispatch
