@@ -46,8 +46,12 @@ describe 'DispatchStamper:', ->
 
 	describe "appendStamp()", ->
 		beforeEach ->
+			sinon.stub @mod, '_getMaxDispatchCount'
+			.returns 3
+
 			sinon.stub @date, 'now'
 			.returns new Date 1001001
+
 			@mockDispatch = subscription: 'asd123NEW'
 
 		it "pushes the timestamp to empty string", ->
@@ -56,3 +60,9 @@ describe 'DispatchStamper:', ->
 		it "pushes the timestamp to already set stamps", ->
 			@mod.appendStamp 'asd456OLD:2002002', @mockDispatch
 			.should.equal 'asd456OLD:2002002,asd123NEW:1001001'
+		it "removes the first one if maxDispatchStampCount has been achieved",->
+			@mod.appendStamp 'a:1,b:2,c:3,d:4', @mockDispatch
+			.should.equal 'c:3,d:4,asd123NEW:1001001'
+		it "doesnt remove any the stamp count matches maxDispatchStampCount",->
+			@mod.appendStamp 'a:1,b:2', @mockDispatch
+			.should.equal 'a:1,b:2,asd123NEW:1001001'

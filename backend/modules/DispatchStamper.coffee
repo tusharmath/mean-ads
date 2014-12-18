@@ -15,6 +15,7 @@ class DispatchStamper
 		{subscription} = dispatch
 		timestamp = @date.now()
 		stamps.push {subscription, timestamp}
+		stamps.splice 0, stamps.length - @_getMaxDispatchCount()
 		_.reduce stamps, @_reduce, ''
 	parseStamp: (stampStr) ->
 		try

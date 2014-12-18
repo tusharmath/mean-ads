@@ -2,6 +2,7 @@ path = require 'path'
 
 rootPath = path.normalize __dirname + '/../../..'
 module.exports =
+	maxDispatchStampCount: 4
 	resources: [
 		'Campaign'
 		'Dispatch'
