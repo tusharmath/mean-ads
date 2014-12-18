@@ -62,12 +62,64 @@ describe 'DispatchStamper:', ->
 		it "pushes the timestamp to empty string", ->
 			@mod.appendStamp '', @mockDispatch
 			.should.equal 'asd123NEW:1001001'
+
 		it "pushes the timestamp to already set stamps", ->
 			@mod.appendStamp 'asd456OLD:2002002', @mockDispatch
 			.should.equal 'asd456OLD:2002002,asd123NEW:1001001'
+
 		it "removes the first one if maxDispatchStampCount has been achieved",->
 			@mod.appendStamp 'a:1,b:2,c:3,d:4', @mockDispatch
 			.should.equal 'c:3,d:4,asd123NEW:1001001'
+
 		it "doesnt remove any the stamp count matches maxDispatchStampCount",->
 			@mod.appendStamp 'a:1,b:2', @mockDispatch
 			.should.equal 'a:1,b:2,asd123NEW:1001001'
+
+		it "updates present timestamps", ->
+			@mockDispatch.subscription = 'a'
+			@mod.appendStamp 'a:1,b:2', @mockDispatch
+			.should.equal 'a:1001001,b:2'
+
+	describe "_updateOrAddNewStamp()", ->
+		beforeEach ->
+			@mStamps = [
+				{subscription: 1, timestamp: 100}
+				{subscription: 2, timestamp: 200}
+				{subscription: 3, timestamp: 300}
+				{subscription: 4, timestamp: 400}
+				{subscription: 5, timestamp: 500}
+			]
+		it "adds a new timestamp", ->
+			newStamp = subscription: 6, timestamp: 600
+			@mod._updateOrAddNewStamp @mStamps, newStamp
+			@mStamps[5].should.equal newStamp
+		it "updates old timestamp", ->
+			newStamp = subscription: 3, timestamp: 600
+			@mod._updateOrAddNewStamp @mStamps, newStamp
+			@mStamps[2].timestamp.should.equal 600
+
+	describe "_removeOldStamps()", ->
+		beforeEach ->
+			@mStamps = [
+				{subscription: 3, timestamp: 300}
+				{subscription: 2, timestamp: 200}
+				{subscription: 1, timestamp: 100}
+				{subscription: 5, timestamp: 500}
+				{subscription: 4, timestamp: 400}
+			]
+			# Setting the MaxDispatchCount
+			sinon.stub @mod, '_getMaxDispatchCount'
+			.returns 3
+
+		it "maintains MaxDispatchCount", ->
+			@mod._removeOldStamps @mStamps
+			.length.should.equal 3
+		it "removes from the oldest timestamps", ->
+			@mod._removeOldStamps @mStamps
+			.should.deep.equal [
+				{subscription: 3, timestamp: 300}
+				{subscription: 4, timestamp: 400}
+				{subscription: 5, timestamp: 500}
+			]
+
+

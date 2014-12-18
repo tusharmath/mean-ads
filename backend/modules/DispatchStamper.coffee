@@ -10,6 +10,19 @@ class DispatchStamper
 			m += ','
 		m += "#{i.subscription}:#{i.timestamp.getTime()}"
 	_getMaxDispatchCount: -> config.maxDispatchStampCount
+	_removeOldStamps: (stamps) ->
+		maxCount = @_getMaxDispatchCount()
+		_.sortBy stamps, (v) -> v.timestamp
+		.slice stamps.length - maxCount
+
+	_updateOrAddNewStamp: (stamps, newStamp) ->
+		oldStamp = _.find stamps, (v) -> v.subscription is newStamp.subscription
+		if not oldStamp
+			stamps.push newStamp
+		else
+			oldStamp.timestamp = newStamp.timestamp
+		stamps
+
 	appendStamp : (stampStr, dispatch) ->
 		stamps = @parseStamp stampStr
 		{subscription} = dispatch
