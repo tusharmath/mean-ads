@@ -15,13 +15,14 @@ class SubscriptionController
 
 		# Setting up custom routes
 		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}s/credits"]
-		@actions.actionMap.$convert = ['patch', (str) -> "/#{str}/:id/convert"]
+		@actions.actionMap.$convert = ['get', (str) -> "/#{str}/:id/convert"]
 
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
 
 		@actions.$credits = @$credits
-		@actions.$convert = (req) ->
+		@actions.$convert = (req, res) ->
+			res.set 'Access-Control-Allow-Origin', '*'
 			return Q null if not stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
 			Subscription = @getModel()
 			Subscription.findByIdQ req.params.id

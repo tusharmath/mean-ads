@@ -13,7 +13,7 @@ describe 'SubscriptionController:', ->
 	beforeEach ->
 		#Initial Setup
 		@req = user : {sub: 9000}, params: {id: 9010}, signedCookies: {}
-		@res = send: sinon.spy()
+		@res = send: sinon.spy(), set: sinon.spy()
 
 		# Injector
 		@injector = new Injector [MongooseProviderMock]
@@ -48,7 +48,7 @@ describe 'SubscriptionController:', ->
 	describe "actionMap", ->
 		it "has convertActionMap", ->
 			[method, route] = @mod.actions.actionMap.$convert
-			method.should.equal 'patch'
+			method.should.equal 'get'
 			route 'subscription'
 			.should.equal '/subscription/:id/convert'
 
@@ -86,23 +86,31 @@ describe 'SubscriptionController:', ->
 		beforeEach ->
 			@mockDataSetup()
 			.then =>
+				# Request Mock
+				@req.params = id: @subscription._id
+				@req.headers = origin: 'http://www.site.com'
+
+				# Mocking the conversion count
 				@Models.Subscription.findByIdAndUpdate @subscription._id, conversions: 220
 				.execQ()
 
 		it "be a function", ->
 			@mod.actions.$convert.should.be.a.Function
+		it "sets Access-Control-Allow-Origin Header", ->
+			@mod.actions.$convert @req, @res
+			.then => @res.set.calledWith 'Access-Control-Allow-Origin', '*'
+			.should.eventually.be.ok
+
 
 		it "updates conversion if is in signedCookies._sub", ->
-			@req.params = id: @subscription._id
-			@mod.actions.$convert @req
+			@mod.actions.$convert @req, @res
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 221
 
 		it "ignores conversion if is NOT in signedCookies._sub", ->
 			@stamper.isConvertableSubscription.returns no
-			@req.params = id: @subscription._id
-			@mod.actions.$convert @req
+			@mod.actions.$convert @req, @res
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 220

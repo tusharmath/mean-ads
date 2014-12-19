@@ -18,6 +18,7 @@ class DispatchController
 			return '' if not dispatch
 			if _.contains dispatch.allowedOrigins, origin
 				res.set 'Access-Control-Allow-Origin', origin
+				res.set 'Access-Control-Allow-Credentials', true
 			dispatchStamp = @stamper.appendStamp req.signedCookies[@cookieName], dispatch
 			res.cookie @cookieName, dispatchStamp, signed:true
 			dispatch.markup

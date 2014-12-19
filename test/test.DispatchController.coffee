@@ -35,12 +35,16 @@ describe 'DispatchController:', ->
 			@mod.actions.$ad @req, @res
 			.then => @dispatcher.next.calledWith '123234', ['a', 'b']
 			.should.eventually.be.ok
-		it "set cross origin headers", ->
+		it "set Access-Control-Allow-Origin headers", ->
 			@req.headers = origin: 'a'
 			@mod.actions.$ad @req, @res
 			.then => @res.set.calledWith 'Access-Control-Allow-Origin', 'a'
 			.should.eventually.be.ok
-
+		it "set Access-Control-Allow-Credentials headers", ->
+			@req.headers = origin: 'a'
+			@mod.actions.$ad @req, @res
+			.then => @res.set.calledWith 'Access-Control-Allow-Credentials', true
+			.should.eventually.be.ok
 		it "NOT set cross origin headers", ->
 			@mod.actions.$ad @req, @res
 			.then => @res.set.called.should.not.be.ok
