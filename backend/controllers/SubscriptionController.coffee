@@ -1,11 +1,13 @@
 BaseController = require './BaseController'
 Dispatcher = require '../modules/Dispatcher'
+DispatchStamper = require '../modules/DispatchStamper'
+config = require '../config/config'
 Q = require 'q'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 class SubscriptionController
-	constructor: (@dispatch, @actions) ->
+	constructor: (@dispatch, @actions, stamper) ->
 		@_populate = path: 'campaign', select: 'name'
 		# Filter Keys
 		@actions._filterKeys = ['campaign']
@@ -13,9 +15,20 @@ class SubscriptionController
 
 		# Setting up custom routes
 		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}s/credits"]
-		@actions.$credits = @$credits
+		@actions.actionMap.$convert = ['get', (str) -> "/#{str}/:id/convert"]
+
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
+
+		@actions.$credits = @$credits
+		@actions.$convert = (req, res) ->
+			res.set 'Access-Control-Allow-Origin', '*'
+			return Q null if not stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
+			Subscription = @getModel()
+			Subscription.findByIdQ req.params.id
+			.then (subscription) ->
+				Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
+				.execQ()
 
 	postCreateHook: (subscription) =>
 		@dispatch.subscriptionCreated subscription._id
@@ -45,5 +58,5 @@ class SubscriptionController
 			{creditDistribution, creditUsage}
 
 	# Perfect place to mutate request
-annotate SubscriptionController, new Inject Dispatcher, BaseController
+annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper
 module.exports = SubscriptionController

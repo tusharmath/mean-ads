@@ -1,25 +1,30 @@
 do (window) ->
 	settings =
-		host: "mean-ads.herokuapp.com"
+		# TODO: Should be dynamically set
+		host: "app.meanads.com"
 	# Command Pattern
 	commands =
 		set: (key, value) -> settings[key] = value
+		convert: (id) ->
+			ajax 'get', "//#{settings.host}/api/v1/subscription/#{id}/convert", (r) -> console.log r
 		ad: (program, el, keywords) ->
-			get "//#{settings.host}/api/v1/dispatch/ad?p=#{program}", (response) ->
+			ajax 'get', "//#{settings.host}/api/v1/dispatch/ad?p=#{program}", (response) ->
 				el.innerHTML = response
 
-
 	# Makes Http Get Requests
-	get = (url, callback) ->
+	ajax = (method, url, callback) ->
 		oReq = new XMLHttpRequest()
+		oReq.withCredentials = true
 		oReq.addEventListener 'load', ->
 			if oReq.readyState is 4 and oReq.status is 200
 				callback oReq.responseText
-		oReq.open 'get', url, true
+		oReq.open method, url, true
 		oReq.send()
 
 	# Overriding the ma object
-	ma = (cmd, args...) -> commands[cmd].apply null, args
+	ma = (cmd, args...) ->
+		if commands[cmd]
+			commands[cmd].apply null, args
 
 	# Iterate over all the commands and execute
 	if window.ma.q

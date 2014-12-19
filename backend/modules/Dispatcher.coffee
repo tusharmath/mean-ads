@@ -2,18 +2,18 @@ ModelFactory = require '../factories/ModelFactory'
 Q = require 'q'
 CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
+DateProvder = require '../providers/DateProvider'
 less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 # Round Robin Dispatcher
 class Dispatcher
-	constructor: (@modelFac, @dot, @css) ->
+	constructor: (@modelFac, @dot, @css, @date) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
 	# TODO: Move it to a provider
-	_getCurrentDate: -> Date.now()
 	_increaseUsedCredits: (subscription) ->
 		@_getModel 'Subscription'
 		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
@@ -58,13 +58,11 @@ class Dispatcher
 	# TODO: Util function must go out
 	_hasSubscriptionExpired: (subscription) ->
 		{startDate} = subscription
-		[year, month, date] =[
-			startDate.getFullYear()
-			startDate.getMonth()
-			startDate.getDate() + subscription.campaign.days
-		]
-		endDate = new Date year, month, date
-		if endDate  > @_getCurrentDate() then yes else no
+		[year, month, date] = @date.split startDate
+
+		date += subscription.campaign.days
+		endDate = @date.create year, month, date
+		if endDate  < @date.now() then yes else no
 	_createDispatchable: (subscription) ->
 		{campaign} = subscription
 		{program} = campaign
@@ -94,7 +92,7 @@ class Dispatcher
 		.execQ()
 	_updateDeliveryDate: (dispatch) ->
 		@_getModel 'Dispatch'
-		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @_getCurrentDate()
+		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
 		.execQ()
 	_postDispatch: (dispatch) ->
 		@_populateSubscription dispatch.subscription
@@ -155,5 +153,5 @@ class Dispatcher
 	styleUpdated: (id) ->
 		@_resourceUpdated 'Program', 'Style', id
 
-annotate Dispatcher, new Inject ModelFactory, DotProvider, CleanCssProvider
+annotate Dispatcher, new Inject ModelFactory, DotProvider, CleanCssProvider, DateProvder
 module.exports = Dispatcher

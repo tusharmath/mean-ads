@@ -1,52 +1,62 @@
-h3 Javascript SDK
-p
-	| Include the SDK on your page once, ideally right after the opening &nbsp;
-	code body
-	| &nbsp;tag.
-pre.
-	#{"<script type=\"text/javascript\">"}
-	  (function(i,s,o,g,r,a,m){i['MeanAdsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//mean-ads.herokuapp.com/static/client.js','ma');
-	#{"</script>"}
-h3 AD Snippet
-	a.pull-right(ng-href="#/programs/{{ctrl.program._id}}/update")  {{ctrl.program.name}}
-ol
-	li
-		p.
-			Place the markup in your layout wherever you would like to show the ads.
-		pre #{"<div id='ad-container'></div>"}
-	li
-		p
-			| Load the ads using the&nbsp;
-			code ad
-			| &nbsp;command
+div(style="background-color:#fff;")
+	h3 Javascript SDK
+	p
+		| Include the SDK on your page once, ideally right after the opening &nbsp;
+		code body
+		| &nbsp;tag.
+	pre.
+		#{"<script type=\"text/javascript\">"}
+		  (function(i,s,o,g,r,a,m){i['MeanAdsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//{{ctrl.host}}/static/client.js','ma');
+		#{"</script>"}
+	h3 AD Snippet
+		a.pull-right(ng-href="#/programs/{{ctrl.program._id}}/update")  {{ctrl.program.name}}
+	ol
+		li
+			p.
+				Place the markup in your layout wherever you would like to show the ads.
+			pre #{"<div id='ad-container'></div>"}
+		li
+			p
+				| Load the ads using the&nbsp;
+				code ad
+				| &nbsp;command
 
-		pre.
-			#{"<script type=\"text/javascript\">"}
-			  //REQUIRED
-			  var program = '{{ctrl.program._id}}';
-			  
-			  //REQUIRED
-			  var element = document.getElementById('ad-container');
-			  
-			  //OPTIONAL
-			  var keywords = ['timber, wood, logs, tree'];
-			  
-			  ma('ad', program, element, keywords);
-			#{"</script>"}
+			pre.
+				#{"<script type=\"text/javascript\">"}
+				  //REQUIRED
+				  var program = '{{ctrl.program._id}}';
 
-		h5 Required Settings
-		ul
-			li
-				strong Dom Element
-				| &nbsp;where the ad needs to be injected.
-			li
-				strong Program ID
-				| &nbsp;of the program from where the ads are going to be queried.
-		h5 Optional Settings
-		ul
-			li
-				strong Keywords
-				|  to filter in only those campaigns which matches any one of specified words.
+				  //REQUIRED
+				  var element = document.getElementById('ad-container');
+
+				  //OPTIONAL
+				  var keywords = ['timber, wood, logs, tree'];
+
+				  ma('ad', program, element, keywords);
+				#{"</script>"}
+
+			h5 Required Settings
+			ul
+				li
+					strong Dom Element
+					| &nbsp;where the ad needs to be injected.
+				li
+					strong Program ID
+					| &nbsp;of the program from where the ads are going to be queried.
+			h5 Optional Settings
+			ul
+				li
+					strong Keywords
+					|  to filter in only those campaigns which matches any one of specified words.
+	h3 Conversion Snippet
+	p
+		|A conversion is a way to measure how many users finally reached state X because of an AD impression. Once the user is on the desired page, you can call the
+		code convert
+		| command and pass the subscription's unique identifier as the first parameter.
+	pre.
+		#{"<script type=\"text/javascript\">"}
+		  ma('convert', 'beiBunvfj4ippYjnsj');
+		#{"</script>"}

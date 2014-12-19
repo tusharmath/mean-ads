@@ -1,6 +1,7 @@
 Dispatcher = require '../backend/modules/Dispatcher'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
+DateProvider = require '../backend/providers/DateProvider'
 ModelFactory = require '../backend/factories/ModelFactory'
 {mockDataSetup} = require './mocks/MockData'
 {annotate, Injector, Provide} = require 'di'
@@ -19,6 +20,9 @@ describe 'Dispatcher:', ->
 
 		#MongooseProvier
 		@mongo = @injector.get MongooseProvider
+
+		# DateProvider
+		@date = @injector.get DateProvider
 
 		#ModelFactory
 		@modelFac = @injector.get ModelFactory
@@ -111,17 +115,39 @@ describe 'Dispatcher:', ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
+			.then (@subscriptionP) =>
+				@subscriptionP.startDate = @date.create 2012, 1, 2
+				#P: Populated
 
-		it "returns no", ->
+		it "returns expired", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: today
 			@mod._hasSubscriptionExpired @subscriptionP
-			.should.equal no
+			.should.be.true
 
-		it "returns yes", ->
-			sinon.stub @mod, '_getCurrentDate'
+		it "returns not expired", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 2010 Feb 1
+
+			sinon.stub @date, 'now'
 			.returns new Date 2010, 1, 1
 			@mod._hasSubscriptionExpired @subscriptionP
-			.should.be.ok
+			.should.be.false
+		it "returns no if its withing the campaign days", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 5 Feb 2012
+			sinon.stub @date, 'now'
+			.returns new Date 2012, 1, 5
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.false
+
+		it "returns yes if it is out of the campaign range", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 15 Feb 2012
+			sinon.stub @date, 'now'
+			.returns new Date 2012, 1, 15
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.true
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->

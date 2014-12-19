@@ -6,30 +6,34 @@ $white-space-margin = 0.3em
 $profile-pic-size = 64 px
 
 body,html
-	height: 100%
+	height 100%
 .page-wrapper
-	min-height: 100%
-	position: relative
+	$footer-height = 120px
+	min-height 100%
+	position relative
+	.content
+		padding-bottom $footer-height
 	.footer
-		width: 100%
-		position: absolute
-		bottom: 0
+		width 100%
+		position absolute
+		bottom 0
+		height $footer-height
 .ace_editor
 	height 200px
 span.left-space
-	margin-left: $white-space-margin
+	margin-left $white-space-margin
 span.right-space
-	margin-right: $white-space-margin
+	margin-right $white-space-margin
 span.both-space
-	margin: $white-space-margin 0
+	margin $white-space-margin 0
 .profile-image, .profile-image img
-	height: $profile-pic-size
-	width: $profile-pic-size
-	background-color: #2196f3
-	padding: 4px
-	border-radius: 50%
-	position: relative
-	top: ($profile-pic-size / 4)
+	height $profile-pic-size
+	width $profile-pic-size
+	background-color #2196f3
+	padding 4px
+	border-radius 50%
+	position relative
+	top ($profile-pic-size / 4)
 .row-layer
 	position relative
 	background-color #fff
