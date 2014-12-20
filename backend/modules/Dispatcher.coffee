@@ -79,6 +79,7 @@ class Dispatcher
 			new Dispatch(
 				markup: markup
 				subscription: subscription._id
+				startDate: subscription.startDate
 				program: program._id
 				allowedOrigins: program.allowedOrigins
 				keywords: campaign.keywords

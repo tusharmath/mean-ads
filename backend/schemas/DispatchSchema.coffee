@@ -20,7 +20,9 @@ DispatchSchema = (mongoose) ->
 		lastDeliveredOn:
 			type: Date
 			default: Date.now
-
+		# StartDate of the subscription
+		startDate:
+			type: Date
 		keywords:
 			type: [String]
 

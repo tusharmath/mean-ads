@@ -103,13 +103,19 @@ describe 'Dispatcher:', ->
 			@mod._createDispatchable @subscriptionP
 			.then =>
 				@Models.Dispatch.findQ().should.eventually.be.of.length 0
-
 		it "Ignores dispatch, subscription has expired", ->
 			sinon.stub @mod, '_hasSubscriptionExpired'
 			.returns yes
 			@mod._createDispatchable @subscriptionP
 			.then =>
 				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+		it "Creates a Dispatch with subscription start date", ->
+			sinon.stub @mod, '_hasSubscriptionExpired'
+			.returns no
+			@mod._createDispatchable @subscriptionP
+			.then => @Models.Dispatch.findOneQ()
+			.should.eventually.have.property 'startDate'
+			.to.equalDate @subscriptionP.startDate
 
 	describe "_hasSubscriptionExpired()", ->
 		beforeEach ->
