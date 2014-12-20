@@ -23,6 +23,8 @@ define ["app"], (app) ->
 				name: "Styles"
 				path: "/styles"
 			]
+			# TODO: Adding reverse because we might change the order later
+			.reverse()
 
 		isActive: (route) ->
 			injected.$location.path().match route
