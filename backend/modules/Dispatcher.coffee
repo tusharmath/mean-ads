@@ -113,6 +113,7 @@ class Dispatcher
 	next: (programId, keywords = []) ->
 		q = @_getModel 'Dispatch'
 		.where program: programId
+		.where startDate: $lte: @date.now()
 
 		if keywords.length
 			q = q

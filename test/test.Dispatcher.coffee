@@ -194,10 +194,14 @@ describe 'Dispatcher:', ->
 			.returns @mockPromise
 			sinon.stub @mod, '_interpolateMarkup'
 			.resolves 'hello world'
+			# Stubbing the Current date
+			sinon.stub @date, 'now'
+			.returns new Date 2014, 1, 2
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
 			.then (@subscriptionP) =>
+				@subscriptionP.startDate = new Date 2014, 1, 1
 				@subscriptionP.campaign.keywords = ['aa', 'bb']
 				@mod._createDispatchable @subscriptionP
 			.then (@dispatch) =>
@@ -227,6 +231,17 @@ describe 'Dispatcher:', ->
 		it "calls done of _postDispatch()", ->
 			@mod.next @program._id
 			.then => @mockPromise.done.called.should.be.ok
+		it "resolves to null if startDate is greater than currentDate", ->
+			# Mocking current date to be before the startDAte
+			@date.now.returns new Date 2014, 0,1
+			@mod.next @program._id
+			.should.eventually.equal null
+		it "resolves to Dispatch if startDate is less than currentDate", ->
+			# Mocking current date to be after the startDate
+			@date.now.returns new Date 2014, 2,1
+			@mod.next @program._id
+			.should.eventually.have.property '_id'
+			.to.deep.equal @dispatch._id
 
 	describe "subscriptionCreated()", ->
 
