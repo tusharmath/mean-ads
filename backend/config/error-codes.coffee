@@ -26,7 +26,7 @@ ErrorSchema =
 	# 500
 	UNKNOWN_ERROR:
 		code: 'UNKNOWN_ERROR'
-		message: 'Something went wrong'
+		message: 'Unknown error'
 		httpStatus: 500
 
 ErrorPool = {}

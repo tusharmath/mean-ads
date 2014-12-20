@@ -33,6 +33,8 @@ class V1
 				else
 					if config.bugsnag.notify
 						bugsnag.notify err, {req}
+						unknownErr = ErrorPool.UNKNOWN_ERROR
+						res.status(unknownErr.httpStatus).send unknownErr
 					else
 						throw err
 		.done()
