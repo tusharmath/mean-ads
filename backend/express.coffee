@@ -23,7 +23,8 @@ class V1
 		app.locals.config = config
 
 		app
-		.set 'jsonp callback name', 'mean'
+		# Bugsnag should be the first handler
+		.use bugsnag.requestHandler
 		.set 'views', "#{config.root}/frontend"
 		.set 'view engine', 'jade'
 
@@ -34,7 +35,7 @@ class V1
 
 
 		app
-		#Middlewares
+		# Middlewares
 		.use cookieParser config.cookie.secret
 		.use '/static', [
 			middleware.coffeescript
@@ -50,12 +51,14 @@ class V1
 			bodyParser.json()
 			v1
 		]
-		#Routes
+		# Routes
 		.get '/templates/*', middleware.partials
 		.get '/', middleware.page 'index'
 		.all '/*', middleware.page '404'
 
+		# Make sure to add this after all other middleware
 
+		.use(bugsnag.errorHandler);
 		# Start server
 		app.listen config.port, config.ip, ->
 			bragi.log 'application', bragi.util.symbols.success, 'Server Started', bragi.util.print("#{config.ip}:#{config.port}", 'yellow'), 'in', bragi.util.print("#{app.get 'env'}", 'yellow'), 'mode'

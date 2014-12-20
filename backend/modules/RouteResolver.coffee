@@ -1,6 +1,8 @@
 # Resolves routes to controllers and their actions
 express = require 'express'
 _ = require 'lodash'
+config = require '../config/config'
+bugsnag = require 'bugsnag'
 ControllerFactory = require '../factories/ControllerFactory'
 di = require 'di'
 Q = require 'q'
@@ -29,7 +31,10 @@ class V1
 					err = ErrorPool.NOTFOUND_DOCUMENT
 					res.status(err.httpStatus).send err
 				else
-					throw err
+					if config.bugsnag.notify
+						bugsnag.notify err, {req}
+					else
+						throw err
 		.done()
 	_actionBinder: (router, ctrl, ctrlName, action, actionName) ->
 		{method, route} = @_resolveRoute ctrl, ctrlName, actionName
