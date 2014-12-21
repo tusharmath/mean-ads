@@ -24,6 +24,7 @@ class V1
 		action.call ctrl.actions, req, res
 		.then (doc) -> res.send doc
 		.fail (err) ->
+			bragi.log 'error', err
 			switch err.type
 				when 'mean'
 					res.status(err.httpStatus).send err
@@ -34,7 +35,6 @@ class V1
 					err = ErrorPool.INVALID_DATE
 					res.status(err.httpStatus).send err
 				else
-					bragi.log 'error', err
 					if config.newrelic.notify
 						newrelic.noticeError err
 						unknownErr = ErrorPool.UNKNOWN_ERROR
