@@ -2,9 +2,6 @@
 
 module.exports =
 	cookie: secret: "a71tamXSG"
-	bugsnag:
-		notify: true
-		secret: '5508c1c51f0416834121de08cccf2034'
 	env: 'production'
 	jwt:
 		secret: 'G3AEzjlLJ6Fzk2IiOdwgtrOcfa4jgmUYLiB22PnFtg_D6f3ACv541EqRs5heYDhK'

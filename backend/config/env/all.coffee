@@ -11,7 +11,6 @@ module.exports =
 		'Style'
 		'Subscription'
 	]
-	bugsnag: notify: false
 	appName: 'mean ads'
 	Q: longStackSupport: true
 	root: rootPath

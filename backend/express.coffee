@@ -10,10 +10,8 @@ di = require 'di'
 newrelic = require 'newrelic'
 ModelFactory = require './factories/ModelFactory'
 packageFile = require '../package.json'
-bugsnag = require "bugsnag"
 cookieParser = require 'cookie-parser'
 
-bugsnag.register config.bugsnag.secret
 class V1
 	constructor: (api) ->
 		v1 = api.router()
@@ -23,8 +21,6 @@ class V1
 		app.locals.config = config
 
 		app
-		# Bugsnag should be the first handler
-		.use bugsnag.requestHandler
 		.set 'views', "#{config.root}/frontend"
 		.set 'view engine', 'jade'
 
@@ -56,9 +52,6 @@ class V1
 		.get '/', middleware.page 'index'
 		.all '/*', middleware.page '404'
 
-		# Make sure to add this after all other middleware
-
-		.use(bugsnag.errorHandler);
 		# Start server
 		app.listen config.port, config.ip, ->
 			bragi.log 'application', bragi.util.symbols.success, 'Server Started', bragi.util.print("#{config.ip}:#{config.port}", 'yellow'), 'in', bragi.util.print("#{app.get 'env'}", 'yellow'), 'mode'
