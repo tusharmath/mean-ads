@@ -30,10 +30,12 @@ class V1
 				when 'ObjectId'
 					err = ErrorPool.NOTFOUND_DOCUMENT
 					res.status(err.httpStatus).send err
+				when 'date'
+					err = ErrorPool.INVALID_DATE
+					res.status(err.httpStatus).send err
 				else
 					if config.newrelic.notify
 						newrelic.noticeError err
-
 						unknownErr = ErrorPool.UNKNOWN_ERROR
 						res.status(unknownErr.httpStatus).send unknownErr
 					else

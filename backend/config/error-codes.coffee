@@ -5,6 +5,10 @@ ErrorSchema =
 		code: 'BADREQUEST'
 		message: 'Request made with invalid parameters'
 		httpStatus: 400
+	INVALID_DATE:
+		code: 'DATEFORMAT'
+		message: 'Value could not be converted to date format'
+		httpStatus: 400
 
 	# 403
 	FORBIDDEN_DOCUMENT:
