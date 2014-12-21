@@ -19,10 +19,6 @@ class BaseController
 		return model if model
 		throw new MeanError "#{@resourceName} was not found in #{_.keys @modelFac.Models}"
 
-	_forbiddenDocument: (userId, doc) ->
-		if doc.owner isnt userId
-			throw ErrorPool.FORBIDDEN_DOCUMENT
-		doc
 	postCreateHook: (i) -> i
 	$create: (req) ->
 		req.body.owner = req.user.sub
@@ -32,11 +28,7 @@ class BaseController
 		.then (createResponse) => @postCreateHook createResponse
 	postUpdateHook: (i) ->i
 	$update: (req) ->
-		@getModel()
-		.findOne _id: req.params.id
-		.execQ()
-		.then (doc) =>
-			@_forbiddenDocument req.user.sub, doc
+		@$one req
 		.then =>
 			delete req.body._id
 			@getModel()
@@ -61,19 +53,17 @@ class BaseController
 		.execQ()
 
 	$remove: (req) ->
-		@getModel()
-		.findOne _id: req.params.id
-		.execQ()
+		@$one req
 		.then (doc) =>
-			@_forbiddenDocument req.user.sub, doc
 			@getModel().findByIdAndRemove req.params.id
 			.execQ()
 
 	$one: (req) ->
 		@getModel().findOne _id: req.params.id
 		.execQ()
-		.then (doc) =>
-			@_forbiddenDocument req.user.sub, doc
+		.then (doc) ->
+			if doc is null then throw ErrorPool.NOTFOUND_DOCUMENT
+			if doc.owner isnt req.user.sub then throw ErrorPool.FORBIDDEN_DOCUMENT
 			doc
 
 

@@ -22,18 +22,6 @@ describe 'BaseController:', ->
 		@mongo.__reset()
 
 
-	describe "_forbiddenDocument()", ->
-
-		it "is function", -> @mod._forbiddenDocument.should.be.a.Function
-
-		it "throws if not an owner", ->
-			expect => @mod._forbiddenDocument 1, owner: 2
-			.to.throw ErrorPool.FORBIDDEN_DOCUMENT
-
-		it "returns doc", ->
-			doc = owner: 2
-			@mod._forbiddenDocument(2, doc).should.equal doc
-
 	describe "getModel()", ->
 		it "throws if resource name is not found", ->
 			@mod.resourceName = 'FakeResource'
@@ -119,6 +107,12 @@ describe 'BaseController:', ->
 				@mod.$update @req
 				.should.eventually.equal 'post-updated-responses'
 
+			it "throws when document is not found", ->
+				@req.user.sub = 1001
+				@req.params.id = @mongo.mongoose.Types.ObjectId()
+				@mod.$update @req
+				.should.be.rejectedWith ErrorPool.NOTFOUND_DOCUMENT
+
 		describe "$count()", ->
 			beforeEach ->
 				@mod._filterKeys = ['age']
@@ -152,12 +146,18 @@ describe 'BaseController:', ->
 		describe "$remove()", ->
 			beforeEach ->
 				@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
-				.then (doc) => @req.params.id = doc._id
+				.then (doc) => @req.params.id = doc._id.toString()
 
 			it "throws FORBIDDEN_DOCUMENT", ->
 				@req.user.sub = 1001
 				@mod.$remove @req
 				.should.be.rejectedWith ErrorPool.FORBIDDEN_DOCUMENT
+
+			it "throws when document is not found", ->
+				@req.user.sub = 1001
+				@req.params.id = @mongo.mongoose.Types.ObjectId()
+				@mod.$remove @req
+				.should.be.rejectedWith ErrorPool.NOTFOUND_DOCUMENT
 
 			it "removes the element", ->
 				@req.user.sub = 1000
@@ -180,3 +180,9 @@ describe 'BaseController:', ->
 				@mod.$one @req
 				.should.eventually.have.property '_id'
 				.eql @req.params.id
+
+			it "throws when document is not found", ->
+				@req.user.sub = 1001
+				@req.params.id = @mongo.mongoose.Types.ObjectId()
+				@mod.$one @req
+				.should.be.rejectedWith ErrorPool.NOTFOUND_DOCUMENT
