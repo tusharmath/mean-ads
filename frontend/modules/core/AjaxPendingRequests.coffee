@@ -1,6 +1,6 @@
 define ['modules/core/app'], (app)->
 	class AjaxPendingRequests
-		constructor: ->
+		constructor: (@q) ->
 			@xhrCount = 0
 		callback: ->
 			console.warn 'Custom callaback has not been set'
@@ -12,9 +12,9 @@ define ['modules/core/app'], (app)->
 			response
 		responseError: (rejection) =>
 			@callback --@xhrCount
-			rejection
+			@q.reject rejection
 		onCountChange: (@callback) =>
 
-
+	AjaxPendingRequests.$inject = ['$q']
 
 	app.service 'AjaxPendingRequests', AjaxPendingRequests
