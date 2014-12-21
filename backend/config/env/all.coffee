@@ -23,4 +23,4 @@ module.exports =
 		options:
 			db:
 				safe: true
-	newrelic: {}
+	newrelic: notify: false

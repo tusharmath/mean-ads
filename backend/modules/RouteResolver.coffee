@@ -2,7 +2,7 @@
 express = require 'express'
 _ = require 'lodash'
 config = require '../config/config'
-bugsnag = require 'bugsnag'
+newrelic = require 'newrelic'
 ControllerFactory = require '../factories/ControllerFactory'
 di = require 'di'
 Q = require 'q'
@@ -31,8 +31,8 @@ class V1
 					err = ErrorPool.NOTFOUND_DOCUMENT
 					res.status(err.httpStatus).send err
 				else
-					if config.bugsnag.notify
-						bugsnag.notify err, {req}
+					if config.newrelic.notify
+						newrelic.noticeError err, {req}
 						unknownErr = ErrorPool.UNKNOWN_ERROR
 						res.status(unknownErr.httpStatus).send unknownErr
 					else

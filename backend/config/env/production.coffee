@@ -27,5 +27,6 @@ module.exports =
 			process.env.OPENSHIFT_APP_NAME ||
 			'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
 	newrelic:
+		notify: true
 		license: 'e6d2a6347a283cffb5d7a5f3e35e672eae9d4d06'
 		enabled: true
