@@ -1,6 +1,8 @@
-$loader-circle-size = 12px
+$loader-circle-size = 14px
+$loader-circle-margin = 5px
 #circleG
-	width 149.33333333333334px
+	width ($loader-circle-size + $loader-circle-margin * 2) * 3
+	height $loader-circle-size
 .circleG
 	animation-name bounce_circleG
 	animation-duration 1.2s
@@ -10,19 +12,19 @@ $loader-circle-size = 12px
 	background-color #FFFFFF;
 	float left;
 	height $loader-circle-size
-	margin-left 17px;
+	margin 0 $loader-circle-margin
 	width $loader-circle-size
 
-
+// TODO: Automate it
 #circleG_1
-	animation-delay 0.24000000000000005s
+	animation-delay 0.33s
 
 #circleG_2
-	animation-delay 0.56s
+	animation-delay 0.66s
 
 
 #circleG_3
-	animation-delay 0.72s
+	animation-delay 0.99s
 
 
 @keyframes bounce_circleG
