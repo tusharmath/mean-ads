@@ -7,7 +7,11 @@ ErrorSchema =
 		httpStatus: 400
 	INVALID_DATE:
 		code: 'DATEFORMAT'
-		message: 'Value could not be converted to date format'
+		message: 'Invalid Date Object'
+		httpStatus: 400
+	INVALID_OBJECT_ID:
+		code: 'OBJECTID'
+		message: 'Invalid object id'
 		httpStatus: 400
 
 	# 403

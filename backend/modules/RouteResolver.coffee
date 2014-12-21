@@ -28,12 +28,13 @@ class V1
 				when 'mean'
 					res.status(err.httpStatus).send err
 				when 'ObjectId'
-					err = ErrorPool.NOTFOUND_DOCUMENT
+					err = ErrorPool.INVALID_OBJECT_ID
 					res.status(err.httpStatus).send err
 				when 'date'
 					err = ErrorPool.INVALID_DATE
 					res.status(err.httpStatus).send err
 				else
+					bragi.log 'error', err
 					if config.newrelic.notify
 						newrelic.noticeError err
 						unknownErr = ErrorPool.UNKNOWN_ERROR
