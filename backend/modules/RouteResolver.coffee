@@ -32,7 +32,8 @@ class V1
 					res.status(err.httpStatus).send err
 				else
 					if config.newrelic.notify
-						newrelic.noticeError err, {req}
+						newrelic.noticeError err
+
 						unknownErr = ErrorPool.UNKNOWN_ERROR
 						res.status(unknownErr.httpStatus).send unknownErr
 					else
