@@ -6,14 +6,14 @@ block head-scripts
 block content
 		.row
 			.col-md-10
-				.flat-layer(style="height:160px;")
-					#circleG.block-center.block-middle
+				#circleG.block-center.block-middle
+					div(mean-loader)
 						#circleG_1.circleG
 						#circleG_2.circleG
 						#circleG_3.circleG
 						.clearfix
 		.row
 			.col-md-10
-				.flat-layer.opaque(ng-view)
+				.opaque(ng-view)
 			.col-md-2
 				div(ng-include='\'templates/nav/list-tmpl\'')

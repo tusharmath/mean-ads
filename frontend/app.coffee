@@ -35,6 +35,7 @@ define [
 				loginUrl: '/login'
 				Auth0Widget
 			authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
+			$httpProvider.interceptors.push 'AjaxPendingRequests'
 			$httpProvider.interceptors.push 'authInterceptor'
 
 			restProvider.setBaseUrl '/api/v1/core'
