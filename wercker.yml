@@ -14,8 +14,18 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+  after-steps:
+    - hipchat-notify:
+        token: $HIPCHAT_TOKEN
+        room-id: 1073810
+        from-name: wercker
 # Deploy to Heroku
 deploy:
   steps:
     - heroku-deploy:
         key-name: HEROKU_DEPLOY_KEY
+  after-steps:
+    - hipchat-notify:
+        token: $HIPCHAT_TOKEN
+        room-id: 1073810
+        from-name: wercker

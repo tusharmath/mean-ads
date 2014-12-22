@@ -1,14 +1,18 @@
 do (window) ->
+	urlParse = (url) ->
+		l = document.createElement 'a'
+		l.href = url
+		l
 	settings =
-		# TODO: Should be dynamically set
-		host: "app.meanads.com"
+		hostname: "app.meanads.com"
+		port: ""
 	# Command Pattern
 	commands =
 		set: (key, value) -> settings[key] = value
 		convert: (id) ->
-			ajax 'get', "//#{settings.host}/api/v1/subscription/#{id}/convert", (r) -> console.log r
+			ajax 'get', "//#{settings.hostname}:#{settings.port}/api/v1/subscription/#{id}/convert", (r) -> console.log r
 		ad: (program, el, keywords) ->
-			ajax 'get', "//#{settings.host}/api/v1/dispatch/ad?p=#{program}", (response) ->
+			ajax 'get', "//#{settings.hostname}:#{settings.port}/api/v1/dispatch/ad?p=#{program}", (response) ->
 				el.innerHTML = response
 
 	# Makes Http Get Requests
@@ -25,6 +29,11 @@ do (window) ->
 	ma = (cmd, args...) ->
 		if commands[cmd]
 			commands[cmd].apply null, args
+	# Dynamically setting hostname and port
+	if window.ma.g
+		{hostname, port} = urlParse window.ma.g
+		settings.hostname = hostname
+		settings.port = port
 
 	# Iterate over all the commands and execute
 	if window.ma.q

@@ -23,19 +23,15 @@ div.panel.panel-default
 					td
 						a.text-capitalize(ng-href="#/programs/{{campaign.program._id}}/update") {{campaign.program.name}}
 					td
-						strong.text-muted {{campaign.days}}
+						span {{campaign.days}}
 						small.text-muted &nbsp;days
-					td
-						strong.text-capitalize.text-muted {{campaign.commitment || "0"}}
+					td {{campaign.commitment || "0"}}
+					td.text-right {{campaign.keywords.length}}
 					td.text-right
-						strong.text-muted {{campaign.keywords.length}}
-					td.text-right
-						button.btn.btn-xs(type="button"
+						a.btn.btn-xs(type="button"
 							ng-click="ctrl.toggleStatus(campaign)"
 							ng-class="{'btn-info': campaign.isEnabled, 'btn-warning': !campaign.isEnabled}")
 							span(ng-show="campaign.isEnabled") Started
 							span(ng-hide="campaign.isEnabled") Stopped
-						= ' '
 						a.btn.btn-link.btn-xs(ng-href="#/campaigns/{{campaign._id}}/update") Update
-						= ' '
 						a.btn.btn-link.btn-xs(ng-href="#/campaigns/{{campaign._id}}/metrics") Metrics

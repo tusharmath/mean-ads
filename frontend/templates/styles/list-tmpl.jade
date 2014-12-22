@@ -17,10 +17,9 @@ div.panel.panel-default
 			tbody
 				tr(ng-repeat="style in ctrl.styles")
 					td {{style.name}}
+					td {{style.placeholders.length}}
 					td
-						strong.text-muted {{style.placeholders.length}}
-					td.text-muted
-						strong {{style.html.length + style.css.length}}
+						span {{style.html.length + style.css.length}}
 						small &nbsp;chars
 					td.text-right
 						a.btn.btn-link.btn-xs(
