@@ -19,3 +19,8 @@ deploy:
   steps:
     - heroku-deploy:
         key-name: HEROKU_DEPLOY_KEY
+  after-steps:
+    - hipchat-notify
+        token: $HIPCHAT_TOKEN
+        room-id: 1073810
+        from-name: wercker
