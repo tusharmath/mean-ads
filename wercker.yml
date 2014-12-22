@@ -29,3 +29,4 @@ deploy:
         token: $HIPCHAT_TOKEN
         room-id: 1073810
         from-name: wercker
+
