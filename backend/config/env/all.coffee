@@ -15,7 +15,7 @@ module.exports =
 	Q: longStackSupport: true
 	root: rootPath
 	cache:
-		maxAge: 365 * 24 * 60 * 60 #365 Days (in sec)
+		maxAge: 60 * 60 #1 Hour (in sec)
 		dir: rootPath + '/.cache'
 	port: process.env.PORT || 3000
 	mongo:
