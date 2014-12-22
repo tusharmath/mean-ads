@@ -2,9 +2,11 @@
 	.panel-heading
 		.panel-title
 			a(href="#/subscriptions/{{ctrl.subscription._id}}/update") {{ctrl.subscription.client}}
-			.pull-right
-				span.left-space.label.label-warning(ng-show="ctrl.isExpired") Expired
-				span.left-space.label.label-danger(ng-show="ctrl.isInActive") Inactive
+			.both-space.label.label-warning(ng-show="ctrl.isExpired") Expired
+			.both-space.label.label-danger(ng-show="ctrl.isInActive") Inactive
+			button.pull-right.btn.btn-default.btn-sm(title="Email report")
+				span.glyphicon.glyphicon-envelope
+			.clearfix
 	.panel-body
 		.row.text-muted.text-uppercase
 			.col-md-3.col-md-offset-2 Total Credits
