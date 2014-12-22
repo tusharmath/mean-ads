@@ -12,7 +12,7 @@ div.panel.panel-default
 				tr.text-capitalize
 					th Subscription
 					th Campaign
-					th.text-right Start Date
+					th.text-left Period
 					th.text-right Credits
 					th.text-right Conversions
 					th.text-right Actions
@@ -21,7 +21,10 @@ div.panel.panel-default
 					td {{sub.client}}
 					td
 						a(ng-href="#/campaigns/{{sub.campaign._id}}/update") {{sub.campaign.name}}
-					td.text-right {{sub.startDate|date}}
+					td.text-left(ng-class="ctrl.onExpiredCss(sub)")
+						span.right-space {{sub.startDate|date}}
+						span.right-space -
+						span.right-space {{ctrl.endDate(sub)|date}}
 					td.text-right
 						strong.text-muted
 							span {{sub.usedCredits}}
