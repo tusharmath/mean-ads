@@ -26,7 +26,7 @@ div.panel.panel-default
 						span.right-space -
 						span.right-space {{ctrl.endDate(sub)|date}}
 					td.text-right
-						strong.text-muted
+						span(ng-class="ctrl.onInActiveCss(sub)")
 							span {{sub.usedCredits}}
 							span &nbsp;/&nbsp;
 							span {{sub.totalCredits}}

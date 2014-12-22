@@ -17,6 +17,8 @@ define ["app"], (app) ->
 			new Date year, month, date
 		onExpiredCss: (subscription)->
 			if @endDate(subscription) < Date.now() then "text-danger" else no
+		onInActiveCss: (subscription)->
+			if subscription.usedCredits >= subscription.totalCredits then "text-danger" else ""
 
 
 	SubscriptionCtrl.$inject = ['Restangular', '$routeParams']
