@@ -1,13 +1,11 @@
 {Provide, annotate} = require 'di'
 Q = require 'q'
-MailGunProvider = require '../../backend/providers/MailGunProvider'
-class MailGunProviderMock
+MailgunProvider = require '../../backend/providers/MailgunProvider'
+class MailgunProviderMock
 	constructor: ->
 		sinon.spy @, 'sendMessageQ'
 	sendMessageQ: -> Q 'sent-mailgun-request'
 
-MailGunProviderMock.annotations = [
-	new Provide MailGunProvider
-]
+annotate MailgunProviderMock, new Provide MailgunProvider
 
-module.exports = MailGunProviderMock
+module.exports = MailgunProviderMock

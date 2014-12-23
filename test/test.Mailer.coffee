@@ -14,7 +14,7 @@ describe 'Mailer:', ->
 		@mod = @injector.get Mailer
 
 		# MailGun
-		@mail = @injector.get MailgunProvider
+		@mailP = @injector.get MailgunProvider
 
 		# Juice
 		@juice = @injector.get JuiceProvider
@@ -65,4 +65,9 @@ describe 'Mailer:', ->
 		it "it sends a request to mailgun", ->
 			@mod.sendQ @options
 			.should.eventually.be.equal 'sent-mailgun-request'
-
+		it "it calls sendMessageQ", ->
+			{from, to, subject} = @options
+			@mod.sendQ @options
+			.then =>
+				@mailP.sendMessageQ.calledWith from, to, subject, '<div> poopie </div>'
+			.should.eventually.be.ok
