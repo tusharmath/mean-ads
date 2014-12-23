@@ -17,8 +17,8 @@ class Mailer
 		{from, to, subject, template, locals} = options
 		markup = @interpolate template, locals
 		@juice.juiceContentQ markup
-		# .then (inlineMarkup) =>
-		# 	@mail.sendQ from, to, subject, inlineMarkup
+		.then (inlineMarkup) =>
+			@mail.sendMessageQ from, to, subject, inlineMarkup
 
 annotate Mailer, new Inject JadeProvider, JuiceProvider, MailGunProvider
 module.exports = Mailer

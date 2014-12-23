@@ -1,12 +1,14 @@
 Mailer = require  '../backend/modules/Mailer'
 JadeProvider = require '../backend/providers/JadeProvider'
 MailgunProvider = require '../backend/providers/MailgunProvider'
+MailgunProviderMock = require './mocks/MailgunProviderMock'
 JuiceProvider = require '../backend/providers/JuiceProvider'
 {Injector} = require 'di'
 
 describe 'Mailer:', ->
 	beforeEach ->
-		@injector = new Injector
+		# Injector
+		@injector = new Injector [MailgunProviderMock]
 
 		# Mailer
 		@mod = @injector.get Mailer
@@ -29,8 +31,9 @@ describe 'Mailer:', ->
 		it "be a function", -> @mod.interpolate.should.be.a.Function
 		it "compiles jade templates", ->
 			template = 'subscription-report'
+			templatePath = "./frontend/templates/mailers/subscription-report.jade"
 			@mod.interpolate template
-			@jade.compileFile.calledWith "./frontend/templates/mailers/subscription-report.jade"
+			@jade.compileFile.calledWith templatePath
 			.should.be.ok
 		it "compiles jade templates", ->
 			template = 'subscription-report'
@@ -42,10 +45,8 @@ describe 'Mailer:', ->
 	describe "sendQ()", ->
 		beforeEach ->
 			# Spy & Stubs
-			sinon.stub(@mail, 'sendQ').resolves 'hey there' #WILL SEND A REAL EMAIL IF NOT STUBBED
 			sinon.stub(@mod, 'interpolate').returns '<div> whoopie </div>'
 			sinon.stub(@juice, 'juiceContentQ').resolves '<div> poopie </div>'
-
 			# Defaults
 			@options =
 				from: 'bizcostsavers <noreply@meanads.com>'
@@ -61,4 +62,7 @@ describe 'Mailer:', ->
 			@mod.sendQ @options
 			.then => @juice.juiceContentQ.calledWith '<div> whoopie </div>'
 			.should.eventually.be.ok
+		it "it sends a request to mailgun", ->
+			@mod.sendQ @options
+			.should.eventually.be.equal 'sent-mailgun-request'
 
