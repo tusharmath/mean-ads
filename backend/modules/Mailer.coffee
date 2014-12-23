@@ -5,8 +5,10 @@ MailGunProvider = require '../providers/MailGunProvider'
 
 class Mailer
 	constructor: (@jade, @juice, @mail) ->
+	# TODO: starts with _
 	getTemplatePath: (name) ->
 		"./frontend/templates/mailers/#{name}.jade"
+	# TODO: starts with _
 	interpolate: (jadeTemplate, locals) ->
 		templatePath = @getTemplatePath jadeTemplate
 		templateFn = @jade.compileFile templatePath
