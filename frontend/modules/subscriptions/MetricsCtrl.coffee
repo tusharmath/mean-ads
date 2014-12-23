@@ -10,7 +10,7 @@ define ["app"], (app) ->
 				@isInActive = @subscription.totalCredits is @subscription.usedCredits
 				@creditAnticipation = @subscription.totalCredits / @campaign.days * @elapsedTime_days
 				@creditPotentialUsage = @subscription.usedCredits / @elapsedTime_days * @campaign.days
-				@fulfillment = @creditPotentialUsage / @subscription.totalCredits * 100
+				@fulfillment = @creditPotentialUsage / @subscription.totalCredits
 				@isExpired = @elapsedTime_days >= @campaign.days
 
 	SubscriptionMetricsCtrl.$inject = ['Restangular', '$routeParams', '$q']
