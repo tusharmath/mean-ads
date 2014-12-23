@@ -11,7 +11,7 @@ define ["app"], (app) ->
 				@creditAnticipation = @subscription.totalCredits / @campaign.days * @elapsedTime_days
 				@creditPotentialUsage = @subscription.usedCredits / @elapsedTime_days * @campaign.days
 				@fulfillment = @creditPotentialUsage / @subscription.totalCredits * 100
-				@isExpired = @elapsedTime_days is @campaign.days
+				@isExpired = @elapsedTime_days >= @campaign.days
 
 	SubscriptionMetricsCtrl.$inject = ['Restangular', '$routeParams', '$q']
 	app.controller 'SubscriptionMetricsCtrl', SubscriptionMetricsCtrl
