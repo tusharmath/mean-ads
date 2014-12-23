@@ -2,5 +2,6 @@ jade = require 'jade'
 class JadeProvider
 	constructor: ->
 		@options = {}
-	renderFile: (source) -> jade.renderFile source, @options
+	compileFile: (source) ->
+		jade.compileFile source, @options
 module.exports = JadeProvider
