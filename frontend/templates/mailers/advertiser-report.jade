@@ -3,38 +3,37 @@ doctype html
 extends ./layout.jade
 
 block content
-	h3.text-center www.makeuber.com&nbsp;
-		small Ad Performance Report
-
-
+	h4.text-center
+		div www.makeuber.com&nbsp;
+		div #[small Ad Performance Report]
 	.panel.panel-default
 		.panel-heading
 			.panel-title
-				span Home Store&nbsp;
-				span.text-muted (54570ab090e0020000e5986f)
+				div Home Store&nbsp;
+				.text-muted (54570ab090e0020000e5986f)
 		.panel-body
 			.row.text-muted.text-uppercase
-				.col-md-2.col-md-offset-2 Total Credits
-				.col-md-2 Start date
-				.col-md-2 End date
+				.col-md-3.col-md-offset-2 Total Credits
+				.col-md-3 Start date
+				.col-md-3 End date
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
 					small #[abbr(title="Initial status of the subscription") Inception]
-				.col-md-2 #[big 20,050]
-				.col-md-2 #[big 24th Jan, 2014]
-				.col-md-2 #[big 24th Jan, 2015]
+				.col-md-3 #[big 20,050]
+				.col-md-3 #[big 24th Jan, 2014]
+				.col-md-3 #[big 24th Jan, 2015]
 
 			hr
 			.row.text-muted.text-uppercase
-				.col-md-2.col-md-offset-2 credits used
-				.col-md-2 Elapsed Time
-				.col-md-2 Conversions
+				.col-md-3.col-md-offset-2 credits used
+				.col-md-3 Elapsed Time
+				.col-md-3 Conversions
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
 					small #[abbr(title="Subscription performance till date") Accomplishment]
-				.col-md-2
+				.col-md-3
 					big 1,200
-				.col-md-2 #[big 200] Days
-				.col-md-2 #[big 200]
+				.col-md-3 #[big 200] Days
+				.col-md-3 #[big 200]
