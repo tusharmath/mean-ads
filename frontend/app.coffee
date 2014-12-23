@@ -9,7 +9,13 @@ define [
 	'use strict'
 
 	angular
-	.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'mean.core', 'auth0']
+	.module 'mean-ads', ['ngRoute'
+		'restangular'
+		'ui.ace'
+		'mean.core'
+		'auth0'
+		'ui.bootstrap'
+	]
 	.run ['auth', (auth) -> auth.hookEvents() ]
 	.config [
 		'$routeProvider'
