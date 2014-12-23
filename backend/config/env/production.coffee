@@ -4,7 +4,6 @@ module.exports =
 	mailgun:
 		apiKey: 'key-57091db7c8d6a4b0d557a34a3b9b63e9'
 		password: 'ba45f8a7af2a503c7cc2e436f38c0f9e'
-		login: 'postmaster@meanads.com'
 	cookie: secret: "a71tamXSG"
 	env: 'production'
 	jwt:
