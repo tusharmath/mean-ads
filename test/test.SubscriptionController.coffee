@@ -159,13 +159,18 @@ describe 'SubscriptionController:', ->
 			.should.eventually.equal 'mail-sent'
 
 
-	# describe "$email()", ->
-	# 	beforeEach ->
-	# 		@mockDataSetup()
-	# 	it "be a function",  -> @mod.actions.$email.should.be.a.Function
-	# 	it "calls mail.sendQ 3 times", ->
-	# 		@req.params.id = @subscription._id
-	# 		@mod.actions.$email @req
-	# 		.then => @mailer.sendQ.callCount
-	# 		.should.eventually.equal 3
-
+	describe "$email()", ->
+		beforeEach ->
+			sinon.spy @mod, '_emailQ'
+			@mockDataSetup()
+		it "be a function",  -> @mod.actions.$email.should.be.a.Function
+		it "calls _emailQ with subscription", ->
+			@req.params.id = @subscription._id
+			@mod.actions.$email @req
+			.then => @mod._emailQ.getCall(0).args[0]._id
+			.should.eventually.deep.equal @subscription._id
+		it "calls _emailQ with emailTo", ->
+			@req.params.id = @subscription._id
+			@mod.actions.$email @req
+			.then => @mod._emailQ.getCall(0).args[1]
+			.should.eventually.deep.equal 'a@a.com'

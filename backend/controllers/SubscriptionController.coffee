@@ -35,6 +35,7 @@ class SubscriptionController
 			.then (subscription) ->
 				Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
 				.execQ()
+		@actions.$email = @$email
 
 	postCreateHook: (subscription) =>
 		@dispatch.subscriptionCreated subscription._id
@@ -70,6 +71,11 @@ class SubscriptionController
 			)
 
 			{creditDistribution, creditUsage}
+	$email: (req, res) =>
+		@actions.getModel().findByIdQ req.params.id
+		.then (subscription) =>
+			Q.all _.map subscription.emailAccess, (email) =>
+				@_emailQ subscription, email
 	# Perfect place to mutate request
 annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper, Mailer
 module.exports = SubscriptionController
