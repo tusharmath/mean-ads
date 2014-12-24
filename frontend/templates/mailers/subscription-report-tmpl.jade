@@ -1,39 +1,34 @@
-doctype html
-
 extends ./mailer-layout.jade
 
 block content
-	h4.text-center
-		div www.makeuber.com&nbsp;
-		div #[small Ad Performance Report]
+	- var mockSubscription = {_id: '54570ab090e0020000e5986f','client': 'Home Store',totalCredits: 20340,startDate: Date.now(), usedCredits: 4000, conversions: 45}
+	- var subscription = subscription || mockSubscription
+
+	h4.text-center Ad Performance Report
 	.panel.panel-default
 		.panel-heading
 			.panel-title
-				div Home Store&nbsp;
-				.text-muted (54570ab090e0020000e5986f)
+				div #{subscription.client}&nbsp;
+				.text-muted #{subscription._id}
 		.panel-body
 			.row.text-muted.text-uppercase
 				.col-md-3.col-md-offset-2 Total Credits
 				.col-md-3 Start date
-				.col-md-3 End date
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
 					small #[abbr(title="Initial status of the subscription") Inception]
-				.col-md-3 #[big 20,050]
-				.col-md-3 #[big 24th Jan, 2014]
-				.col-md-3 #[big 24th Jan, 2015]
+				.col-md-3 #[big #{subscription.totalCredits}]
+				.col-md-3 #[big #{subscription.startDate}]
 
 			hr
 			.row.text-muted.text-uppercase
 				.col-md-3.col-md-offset-2 credits used
-				.col-md-3 Elapsed Time
 				.col-md-3 Conversions
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
 					small #[abbr(title="Subscription performance till date") Accomplishment]
 				.col-md-3
-					big 1,200
-				.col-md-3 #[big 200] Days
-				.col-md-3 #[big 200]
+					big #{subscription.usedCredits}
+				.col-md-3 #[big #{subscription.conversions}]
