@@ -38,10 +38,11 @@
 			hr
 			.row
 				.col-md-offset-4.col-md-4
-					h4.text-muted Style Data
+					h4.text-muted
+						#[abbr(title="All the fields that would be required to render the ad") Style Data]
 			.form-group(ng-repeat="holder in ctrl.style.placeholders")
 				label.col-md-4.control-label
-					strong.text-muted.text-uppercase ~{{holder}}
+					strong.text-muted.text-uppercase ~ {{holder}}
 				.col-md-4
 					input.form-control(
 						type='text'
@@ -50,7 +51,8 @@
 			hr
 			.row
 				.col-md-offset-4.col-md-4
-					h4.text-muted Report Sharing
+					h4.text-muted
+						#[abbr(title="Performance of the subscription can be shared from the metrics panel") Report Sharing]
 			.form-group
 				label.col-md-4.control-label Add Email
 				.col-md-4
