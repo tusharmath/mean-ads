@@ -8,7 +8,7 @@ _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 class SubscriptionController
-	constructor: (@dispatch, @actions, stamper, @mailer) ->
+	constructor: (@dispatch, @actions, @stamper, @mailer) ->
 		@_populate = path: 'campaign', select: 'name'
 		# Filter Keys
 		@actions._filterKeys = ['campaign']
@@ -25,16 +25,8 @@ class SubscriptionController
 
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
-
 		@actions.$credits = @$credits
-		@actions.$convert = (req, res) ->
-			res.set 'Access-Control-Allow-Origin', '*'
-			return Q null if not stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
-			Subscription = @getModel()
-			Subscription.findByIdQ req.params.id
-			.then (subscription) ->
-				Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
-				.execQ()
+		@actions.$convert = @$convert
 		@actions.$email = @$email
 
 	postCreateHook: (subscription) =>
@@ -76,6 +68,14 @@ class SubscriptionController
 		.then (subscription) =>
 			Q.all _.map subscription.emailAccess, (email) =>
 				@_emailQ subscription, email
+	$convert: (req, res) =>
+		res.set 'Access-Control-Allow-Origin', '*'
+		return Q null if not @stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
+		Subscription = @actions.getModel()
+		Subscription.findByIdQ req.params.id
+		.then (subscription) ->
+			Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
+			.execQ()
 	# Perfect place to mutate request
 annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper, Mailer
 module.exports = SubscriptionController
