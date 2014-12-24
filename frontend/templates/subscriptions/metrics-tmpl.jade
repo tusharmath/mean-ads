@@ -5,6 +5,7 @@
 			.both-space.label.label-warning(ng-show="ctrl.isExpired") Expired
 			.both-space.label.label-warning(ng-show="ctrl.isInActive") Inactive
 			button.pull-right.btn.btn-default.btn-sm(
+				ng-disabled="ctrl.subscription.emailAccess == 0"
 				ng-click="ctrl.sendEmail()"
 				title="Email a summary of the subscription's performance"
 				) Email
