@@ -56,20 +56,18 @@
 			.form-group
 				label.col-md-4.control-label Add Email
 				.col-md-4
-					.input-group
-						input.form-control(
-							type="text"
-							placeholder="Email id"
-							ng-model="ctrl.newEmailAccess"
-						)
-						.input-group-addon
-							button.btn.btn-default.btn-sm(ng-click="ctrl.addEmail()") Add
+					input.form-control(
+						type="text"
+						placeholder="Email id"
+						ng-model="ctrl.newEmailAccess"
+					)
+				.col-md-2
+					button.btn.btn-default.btn-sm(ng-click="ctrl.addEmail()") Add
 			.row
 
 				.col-md-offset-4.col-md-4
 					.list-group
-						.list-group-item(ng-repeat="email in ctrl.subscription.emailAccess")
-							span {{email}}
+						.list-group-item(ng-repeat="email in ctrl.subscription.emailAccess") {{email}}
 							button.close(ng-click="ctrl.removeEmail(email)")
 								span &times;
 			hr
