@@ -51,6 +51,11 @@ describe 'SubscriptionController:', ->
 			method.should.equal 'get'
 			route 'subscription'
 			.should.equal '/subscription/:id/convert'
+		it "should have email route", ->
+			[action, route] = @mod.actions.actionMap.$email
+			action.should.equal 'post'
+			route 'subscriptions'
+			.should.equal '/core/subscriptions/:id/email'
 
 	describe "$credits()", ->
 		beforeEach ->

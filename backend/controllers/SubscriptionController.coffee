@@ -12,9 +12,14 @@ class SubscriptionController
 		# Filter Keys
 		@actions._filterKeys = ['campaign']
 		@actions.resourceName = 'Subscription'
-
+		# TODO: Find a better way to do this
 		# Setting up custom routes
+
+		# CORE
 		@actions.actionMap.$credits = ['get', (str) -> "/core/#{str}s/credits"]
+		@actions.actionMap.$email = ['post', (str) -> "/core/#{str}/:id/email"]
+
+		# OPEN
 		@actions.actionMap.$convert = ['get', (str) -> "/#{str}/:id/convert"]
 
 		@actions.postUpdateHook = @postUpdateHook
@@ -56,7 +61,7 @@ class SubscriptionController
 			)
 
 			{creditDistribution, creditUsage}
-
+	$email: (req) ->
 	# Perfect place to mutate request
 annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper
 module.exports = SubscriptionController
