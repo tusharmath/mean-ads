@@ -4,6 +4,8 @@ ModelFactory = require '../backend/factories/ModelFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
 Dispatcher = require '../backend/modules/Dispatcher'
+Mailer = require '../backend/modules/Mailer'
+MailgunProviderMock = require './mocks/MailgunProviderMock'
 DispatchStamper = require '../backend/modules/DispatchStamper'
 {mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
@@ -16,7 +18,7 @@ describe 'SubscriptionController:', ->
 		@res = send: sinon.spy(), set: sinon.spy()
 
 		# Injector
-		@injector = new Injector [MongooseProviderMock]
+		@injector = new Injector [MongooseProviderMock, MailgunProviderMock]
 
 		#Mocks
 		@mockDataSetup = mockDataSetup
@@ -36,6 +38,10 @@ describe 'SubscriptionController:', ->
 		sinon.stub @stamper, 'isConvertableSubscription'
 		.returns yes
 
+		# Mailer
+		@mailer = @injector.get Mailer
+		sinon.stub @mailer, 'sendQ'
+		.resolves 'mail-sent'
 
 		#Subscription Controller
 		@mod = @injector.get SubscriptionController
@@ -119,3 +125,47 @@ describe 'SubscriptionController:', ->
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 220
+
+	describe "_emailQ()", ->
+		beforeEach ->
+			@mockDataSetup()
+		it "sends mail with from", ->
+			@mod._emailQ @subscription, 'vendy@pendy.com'
+			.then => @mailer.sendQ.getCall(0).args[0]
+			.should.eventually.have.property 'from'
+			.equal 'noreply@meanads.com'
+		it "sends mail with to", ->
+			@mod._emailQ @subscription, 'vendy@pendy.com'
+			.then => @mailer.sendQ.getCall(0).args[0]
+			.should.eventually.have.property 'to'
+			.equal 'vendy@pendy.com'
+		it "sends mail with subject", ->
+			@mod._emailQ @subscription, 'vendy@pendy.com'
+			.then => @mailer.sendQ.getCall(0).args[0]
+			.should.eventually.have.property 'subject'
+			.equal "Performance report of your subscription #{@subscription._id}"
+		it "sends mail with template", ->
+			@mod._emailQ @subscription, 'vendy@pendy.com'
+			.then => @mailer.sendQ.getCall(0).args[0]
+			.should.eventually.have.property 'template'
+			.equal "subscription-report"
+		it "sends mail with locals", ->
+			@mod._emailQ @subscription, 'vendy@pendy.com'
+			.then => @mailer.sendQ.getCall(0).args[0]
+			.should.eventually.have.property 'locals'
+			.equal @subscription
+		it "resolves with mail-sent", ->
+			@mod._emailQ @subscription, 'vendy@pendy.com'
+			.should.eventually.equal 'mail-sent'
+
+
+	# describe "$email()", ->
+	# 	beforeEach ->
+	# 		@mockDataSetup()
+	# 	it "be a function",  -> @mod.actions.$email.should.be.a.Function
+	# 	it "calls mail.sendQ 3 times", ->
+	# 		@req.params.id = @subscription._id
+	# 		@mod.actions.$email @req
+	# 		.then => @mailer.sendQ.callCount
+	# 		.should.eventually.equal 3
+

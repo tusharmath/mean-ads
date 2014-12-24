@@ -1,13 +1,14 @@
 BaseController = require './BaseController'
 Dispatcher = require '../modules/Dispatcher'
 DispatchStamper = require '../modules/DispatchStamper'
+Mailer = require '../modules/Mailer'
 config = require '../config/config'
 Q = require 'q'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 class SubscriptionController
-	constructor: (@dispatch, @actions, stamper) ->
+	constructor: (@dispatch, @actions, stamper, @mailer) ->
 		@_populate = path: 'campaign', select: 'name'
 		# Filter Keys
 		@actions._filterKeys = ['campaign']
@@ -42,6 +43,14 @@ class SubscriptionController
 	postUpdateHook: (subscription) =>
 		@dispatch.subscriptionUpdated subscription._id
 		.then -> subscription
+	_emailQ: (subscription, toEmail) ->
+		mail =
+			from: config.mailgun.noReplyEmail
+			to: toEmail
+			subject: "Performance report of your subscription #{subscription._id}"
+			template: 'subscription-report'
+			locals: subscription
+		@mailer.sendQ mail
 
 	$credits: (req) ->
 		@getModel()
@@ -61,7 +70,6 @@ class SubscriptionController
 			)
 
 			{creditDistribution, creditUsage}
-	$email: (req) ->
 	# Perfect place to mutate request
-annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper
+annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper, Mailer
 module.exports = SubscriptionController
