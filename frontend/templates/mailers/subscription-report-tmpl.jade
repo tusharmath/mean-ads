@@ -17,8 +17,10 @@ block content
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
-					small #[abbr(title="Initial status of the sub") Inception]
-				.col-md-3 #[big #{humanize.numberFormat(sub.totalCredits, 0)}]
+					abbr(title="Initial status of the sub") Inception
+				.col-md-3
+					big #{humanize.numberFormat(sub.totalCredits, 0)}&nbsp;
+					small Impressions
 				.col-md-3 #[big #{humanize.date('d M, Y',sub.startDate)}]
 
 			hr
@@ -28,7 +30,9 @@ block content
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
-					small #[abbr(title="sub performance till date") Accomplishment]
+					abbr(title="sub performance till date") Accomplishment
 				.col-md-3
-					big #{humanize.numberFormat(sub.usedCredits, 0)}
-				.col-md-3 #[big #{humanize.numberFormat(sub.conversions, 0)}]
+					big #{humanize.numberFormat(sub.usedCredits, 0)}&nbsp;
+					small Impressions
+				.col-md-3
+					big #{humanize.numberFormat(sub.conversions, 0)}
