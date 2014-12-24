@@ -1,15 +1,15 @@
 extends ./mailer-layout.jade
 
 block content
-	- var mockSubscription = {_id: '11111aa111e1111111a1111a','client': 'AAA BBBB',totalCredits: 10000,startDate: Date.now(), usedCredits: 1000, conversions: 10}
-	- var subscription = subscription || mockSubscription
+	- var mockSubscription = {_id: '11111aa111e1111111a1111a','client': 'AAA BBBB',totalCredits: 10000,startDate: new Date(), usedCredits: 1000, conversions: 10}
+	- var sub = subscription || mockSubscription
 
 	h4.text-center Ad Performance Report
 	.panel.panel-default
 		.panel-heading
 			.panel-title
-				div #{subscription.client}&nbsp;
-				.text-muted #{subscription._id}
+				div #{sub.client}&nbsp;
+				.text-muted #{sub._id}
 		.panel-body
 			.row.text-muted.text-uppercase
 				.col-md-3.col-md-offset-2 Total Credits
@@ -17,9 +17,9 @@ block content
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
-					small #[abbr(title="Initial status of the subscription") Inception]
-				.col-md-3 #[big #{subscription.totalCredits}]
-				.col-md-3 #[big #{subscription.startDate}]
+					small #[abbr(title="Initial status of the sub") Inception]
+				.col-md-3 #[big #{humanize.numberFormat(sub.totalCredits, 0)}]
+				.col-md-3 #[big #{humanize.date('d M, Y',sub.startDate)}]
 
 			hr
 			.row.text-muted.text-uppercase
@@ -28,7 +28,7 @@ block content
 
 			.row.text-default.lead
 				.col-md-2.text-info.text-right
-					small #[abbr(title="Subscription performance till date") Accomplishment]
+					small #[abbr(title="sub performance till date") Accomplishment]
 				.col-md-3
-					big #{subscription.usedCredits}
-				.col-md-3 #[big #{subscription.conversions}]
+					big #{humanize.numberFormat(sub.usedCredits, 0)}
+				.col-md-3 #[big #{humanize.numberFormat(sub.conversions, 0)}]
