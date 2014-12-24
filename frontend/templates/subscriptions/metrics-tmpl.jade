@@ -8,7 +8,7 @@
 				ng-disabled="ctrl.subscription.emailAccess == 0"
 				ng-click="ctrl.sendEmail()"
 				title="Email a summary of the subscription's performance"
-				) Email
+				) Email ({{ctrl.subscription.emailAccess.length}})
 			.clearfix
 	.panel-body
 		.row.text-muted.text-uppercase
