@@ -50,7 +50,7 @@ class SubscriptionController
 			to: toEmail
 			subject: "Performance report of your subscription #{subscription._id}"
 			template: 'subscription-report'
-			locals: subscription
+			locals: {subscription}
 		@mailer.sendQ mail
 
 	$credits: (req) ->

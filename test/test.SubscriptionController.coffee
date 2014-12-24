@@ -153,7 +153,7 @@ describe 'SubscriptionController:', ->
 			@mod._emailQ @subscription, 'vendy@pendy.com'
 			.then => @mailer.sendQ.getCall(0).args[0]
 			.should.eventually.have.property 'locals'
-			.equal @subscription
+			.deep.equal {@subscription}
 		it "resolves with mail-sent", ->
 			@mod._emailQ @subscription, 'vendy@pendy.com'
 			.should.eventually.equal 'mail-sent'
