@@ -3,6 +3,8 @@ do (window) ->
 		l = document.createElement 'a'
 		l.href = url
 		l
+	map = (items, callback) ->
+		callback i for i in items
 	settings =
 		hostname: "app.meanads.com"
 		port: ""
@@ -12,7 +14,11 @@ do (window) ->
 		convert: (id) ->
 			ajax 'get', "//#{settings.hostname}:#{settings.port}/api/v1/subscription/#{id}/convert", (r) -> console.log r
 		ad: (program, el, keywords) ->
-			ajax 'get', "//#{settings.hostname}:#{settings.port}/api/v1/dispatch/ad?p=#{program}", (response) ->
+			url = "//#{settings.hostname}:#{settings.port}/api/v1/dispatch/ad?p=#{program}"
+			if keywords and keywords.length > 0
+				keywordParams = map keywords, (k) -> "&k=#{k}"
+				url += keywordParams.join ''
+			ajax 'get', url, (response) ->
 				el.innerHTML = response
 
 	# Makes Http Get Requests
