@@ -1,4 +1,4 @@
-juice = require 'Juice'
+juice = require 'juice'
 config = require '../config/config'
 Q = require 'q'
 class JuiceProvider
