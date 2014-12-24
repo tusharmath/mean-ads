@@ -35,6 +35,10 @@
 						placeholder="Enter initial credits"
 						ng-model="ctrl.subscription.totalCredits"
 					)
+			hr
+			.row
+				.col-md-offset-4.col-md-4
+					h4.text-warning Style Data
 			.form-group(ng-repeat="holder in ctrl.style.placeholders")
 				label.col-md-4.control-label
 					strong.text-muted.text-uppercase ~{{holder}}
@@ -43,7 +47,31 @@
 						type='text'
 						ng-model="ctrl.subscription.data[holder]"
 					)
+			hr
+			.row
+				.col-md-offset-4.col-md-4
+					h4.text-warning Read Access
+			.form-group
+				label.col-md-4.control-label Add access
+				.col-md-4
+					input.form-control(
+						type="text"
+						placeholder="Email id"
+						ng-model="ctrl.readAccess"
+					)
+			.row
 
+				.col-md-offset-4.col-md-4
+					.list-group
+						.list-group-item
+							span tusharmath@gmail.com
+							button.close
+								span &times;
+						.list-group-item
+							span aashiwhispers@gmail.com
+							button.close
+								span &times;
+			hr
 			.form-group
 				.col-md-6.col-md-offset-4
 					button.btn.btn-primary(type="button", ng-click="ctrl.save()") Save
