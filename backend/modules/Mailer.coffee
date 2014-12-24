@@ -7,7 +7,7 @@ class Mailer
 	constructor: (@jade, @juice, @mail) ->
 	# TODO: starts with _
 	getTemplatePath: (name) ->
-		"./frontend/templates/mailers/#{name}.jade"
+		"./frontend/templates/mailers/#{name}-tmpl.jade"
 	# TODO: starts with _
 	interpolate: (jadeTemplate, locals) ->
 		templatePath = @getTemplatePath jadeTemplate

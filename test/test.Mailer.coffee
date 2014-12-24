@@ -31,7 +31,7 @@ describe 'Mailer:', ->
 		it "be a function", -> @mod.interpolate.should.be.a.Function
 		it "compiles jade templates", ->
 			template = 'subscription-report'
-			templatePath = "./frontend/templates/mailers/subscription-report.jade"
+			templatePath = "./frontend/templates/mailers/subscription-report-tmpl.jade"
 			@mod.interpolate template
 			@jade.compileFile.calledWith templatePath
 			.should.be.ok
