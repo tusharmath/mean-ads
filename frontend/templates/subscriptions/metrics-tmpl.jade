@@ -4,8 +4,7 @@
 			a(href="#/subscriptions/{{ctrl.subscription._id}}/update") {{ctrl.subscription.client}}
 			.both-space.label.label-warning(ng-show="ctrl.isExpired") Expired
 			.both-space.label.label-warning(ng-show="ctrl.isInActive") Inactive
-			button.pull-right.btn.btn-default.btn-sm(title="Email report")
-				span.glyphicon.glyphicon-envelope
+			button.pull-right.btn.btn-default.btn-sm(title="Email a summary of the subscription's performance") Email
 			.clearfix
 	.panel-body
 		.row.text-muted.text-uppercase
