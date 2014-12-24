@@ -1,4 +1,4 @@
-define ["app"], (app) ->
+define ["app", "lodash"], (app, _) ->
 	class SubscriptionAlterCtrl
 
 		constructor: (@rest, @alter, @q) ->
@@ -28,7 +28,12 @@ define ["app"], (app) ->
 				@_loadCampaign()
 				.then @_loadProgram
 				.then @_loadStyle
-
+		removeEmail: (email) =>
+			_.remove @subscription.emailAccess, (s) ->s is email
+		addEmail: =>
+			if @newEmailAccess
+				@subscription.emailAccess.push @newEmailAccess
+				@newEmailAccess = ''
 	SubscriptionAlterCtrl.$inject = [
 		"Restangular", "AlterControllerExtensionService", '$q'
 	]

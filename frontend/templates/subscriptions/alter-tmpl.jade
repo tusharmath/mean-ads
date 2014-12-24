@@ -39,7 +39,7 @@
 			.row
 				.col-md-offset-4.col-md-4
 					h4.text-muted
-						#[abbr(title="All the fields that would be required to render the ad") Style Data]
+						abbr(title="All the fields that would be required to render the ad") Style Data
 			.form-group(ng-repeat="holder in ctrl.style.placeholders")
 				label.col-md-4.control-label
 					strong.text-muted.text-uppercase ~ {{holder}}
@@ -52,26 +52,25 @@
 			.row
 				.col-md-offset-4.col-md-4
 					h4.text-muted
-						#[abbr(title="Performance of the subscription can be shared from the metrics panel") Report Sharing]
+						abbr(title="Performance of the subscription can be shared from the metrics panel") Report Sharing
 			.form-group
 				label.col-md-4.control-label Add Email
 				.col-md-4
-					input.form-control(
-						type="text"
-						placeholder="Email id"
-						ng-model="ctrl.readAccess"
-					)
+					.input-group
+						input.form-control(
+							type="text"
+							placeholder="Email id"
+							ng-model="ctrl.newEmailAccess"
+						)
+						.input-group-addon
+							button.btn.btn-default.btn-sm(ng-click="ctrl.addEmail()") Add
 			.row
 
 				.col-md-offset-4.col-md-4
 					.list-group
-						.list-group-item
-							span tusharmath@gmail.com
-							button.close
-								span &times;
-						.list-group-item
-							span aashiwhispers@gmail.com
-							button.close
+						.list-group-item(ng-repeat="email in ctrl.subscription.emailAccess")
+							span {{email}}
+							button.close(ng-click="ctrl.removeEmail(email)")
 								span &times;
 			hr
 			.form-group
