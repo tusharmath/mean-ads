@@ -32,4 +32,6 @@ SubscriptionSchema = (mongoose) ->
 			type: Number
 			required: true
 			default: 0
+		emailAccess:
+			type: [String]
 module.exports = SubscriptionSchema

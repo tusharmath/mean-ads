@@ -2,9 +2,13 @@
 	.panel-heading
 		.panel-title
 			a(href="#/subscriptions/{{ctrl.subscription._id}}/update") {{ctrl.subscription.client}}
-			.pull-right
-				span.left-space.label.label-warning(ng-show="ctrl.isExpired") Expired
-				span.left-space.label.label-danger(ng-show="ctrl.isInActive") Inactive
+			.both-space.label.label-warning(ng-show="ctrl.isExpired") Expired
+			.both-space.label.label-warning(ng-show="ctrl.isInActive") Inactive
+			button.pull-right.btn.btn-default.btn-sm(
+				ng-click="ctrl.sendEmail()"
+				title="Email a summary of the subscription's performance"
+				) Email
+			.clearfix
 	.panel-body
 		.row.text-muted.text-uppercase
 			.col-md-3.col-md-offset-2 Total Credits
@@ -41,7 +45,7 @@
 
 		.row.text-default.lead
 			.col-md-2.text-info.text-right
-				small #[abbr(title="Expected performance of the subscription") Extrapolated]
+				small #[abbr(title="Expected performance of the subscription. Ideally should be 100%") Extrapolated]
 			.col-md-3 #[big {{ctrl.creditPotentialUsage| number: 0}}]
 			.col-md-3
 				big

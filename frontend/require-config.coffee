@@ -11,5 +11,6 @@ require.config
 		"lib/angular-route": ["angular"]
 		"lib/angular-cookies": ["angular"]
 		"lib/auth0-angular": ["angular"]
+		"lib/ui-bootstrap-tpls": ["angular"]
 		"Restangular": ["angular", "lodash"]
 	deps: ["app-bootstrap"]

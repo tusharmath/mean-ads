@@ -11,6 +11,7 @@ newrelic = require 'newrelic'
 ModelFactory = require './factories/ModelFactory'
 packageFile = require '../package.json'
 cookieParser = require 'cookie-parser'
+humanize = require 'humanize'
 
 class V1
 	constructor: (api) ->
@@ -19,6 +20,8 @@ class V1
 		app.locals.newrelic = newrelic
 		app.locals.package = packageFile
 		app.locals.config = config
+		# TODO: Being used in mailer also
+		app.locals.humanize = humanize
 
 		app
 		.set 'views', "#{config.root}/frontend"

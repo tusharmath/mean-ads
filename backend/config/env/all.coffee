@@ -2,6 +2,10 @@ path = require 'path'
 
 rootPath = path.normalize __dirname + '/../../..'
 module.exports =
+	mailgun:
+		login: 'postmaster@meanads.com'
+		domain: 'meanads.com'
+		noReplyEmail: 'noreply@meanads.com'
 	maxDispatchStampCount: 4
 	conversionMaxAge: 5 * 60 * 1000 #5 Mins (in ms)
 	resources: [
