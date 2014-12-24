@@ -2,6 +2,7 @@ JadeProvider = require '../providers/JadeProvider'
 JuiceProvider = require '../providers/JuiceProvider'
 MailgunProvider = require '../providers/MailgunProvider'
 {Inject, annotate} = require 'di'
+humanize = require 'humanize'
 
 class Mailer
 	constructor: (@jade, @juice, @mail) ->
@@ -15,6 +16,7 @@ class Mailer
 		templateFn locals
 	sendQ: (options) ->
 		{from, to, subject, template, locals} = options
+		locals.humanize = humanize
 		markup = @interpolate template, locals
 		@juice.juiceContentQ markup
 		.then (inlineMarkup) =>

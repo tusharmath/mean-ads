@@ -71,3 +71,9 @@ describe 'Mailer:', ->
 			.then =>
 				@mailP.sendMessageQ.calledWith from, to, subject, '<div> poopie </div>'
 			.should.eventually.be.ok
+
+		it "it attaches humanize to locals", ->
+			{locals} = @options
+			@mod.sendQ @options
+			.then -> locals
+			.should.eventually.have.property 'humanize'
