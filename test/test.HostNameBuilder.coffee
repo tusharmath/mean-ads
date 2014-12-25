@@ -11,22 +11,27 @@ describe "HostNameBuilder", ->
 		sinon.stub @windowP, 'window'
 		.returns @window
 	describe "getHost()", ->
-		it "be a function", -> @mod.getHost.should.be.a.Function
+		it "throws if setup has not been called", ->
+			expect =>@mod.getHost()
+			.to.throw 'setup the HostNameBuilder first dude!'
+
+	describe "setup()", ->
+		it "be a function", -> @mod.setup.should.be.a.Function
 		it "should return hostname with port", ->
 			@window.ma.g = 'http://localhost:3000/static/a.js'
-			@mod.getHost()
+			@mod.setup()
 			.should.equal 'localhost:3000'
 		it "should return hostname without port", ->
 			@window.ma.g = 'http://localhost/static/a.js'
-			@mod.getHost()
+			@mod.setup()
 			.should.equal 'localhost'
 		it "should return default hostname", ->
 			delete @window.ma.g
-			@mod.getHost()
+			@mod.setup()
 			.should.equal 'app.meanads.com'
 
 		it "must cache hostname", ->
 			@window.ma.g = 'http://localhost/static/a.js'
-			@mod.getHost()
+			@mod.setup()
 			delete @window.ma.g
-			@mod.getHost().should.equal 'localhost'
+			@mod.setup().should.equal 'localhost'

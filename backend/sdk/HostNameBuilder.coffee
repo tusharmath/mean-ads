@@ -4,7 +4,7 @@ Url = require 'url'
 class HostNameBuilder
 	constructor: (@windowP) ->
 		@_hostCache=null
-	getHost: ->
+	setup: ->
 		return @_hostCache if @_hostCache
 		{g} = @windowP.window().ma
 		if g
@@ -12,6 +12,9 @@ class HostNameBuilder
 			@_hostCache = "#{host}"
 		else
 			@_hostCache = 'app.meanads.com'
+		@_hostCache
+	getHost: ->
+		throw new Error 'setup the HostNameBuilder first dude!' if not @_hostCache
 		@_hostCache
 
 annotate HostNameBuilder, new Inject WindowProvider
