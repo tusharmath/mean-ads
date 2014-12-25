@@ -5,3 +5,4 @@ bower_components/
 frontend/css/
 db/
 *.sublime-workspace
+meanads-sdk.js

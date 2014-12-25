@@ -1,7 +1,10 @@
 gulp = require 'gulp'
+browserify = require 'gulp-browserify'
 inject = require 'gulp-inject'
+rename = require 'gulp-rename'
 bowerFiles = require 'main-bower-files'
 bowerInstall = require 'gulp-bower'
+config = require './backend/config/config'
 
 gulp.task 'bower-install', -> bowerInstall()
 
@@ -44,9 +47,13 @@ gulp.task 'move-files', ->
 		path.basename = basename
 		return undefined
 	.pipe gulp.dest 'frontend'
-
+gulp.task 'browserify', ->
+	gulp.src './frontend/sdk/init.coffee', read: false
+	.pipe browserify debug: config.browserify.debug, transform: ['coffeeify'], extensions: ['.coffee']
+	.pipe rename 'meanads-sdk.js'
+	.pipe gulp.dest './frontend/sdk'
 gulp.task 'watch', ->
 	gulp.watch 'frontend/modules/**/*.coffee', ['inject-modules']
 	gulp.watch 'bower.json', ['setup-assets']
 
-gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules']
+gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules', 'browserify']
