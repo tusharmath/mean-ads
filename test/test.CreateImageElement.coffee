@@ -10,7 +10,8 @@ describe "CreateImageElement", ->
 		@mod = @injector.get CreateImageElement
 
 		# WindowProvider
-		@window = document: createElement: sinon.stub().returns {}
+		@img = {}
+		@window = document: createElement: sinon.stub().returns @img
 		@windowP = @injector.get WindowProvider
 		sinon.stub @windowP, 'window'
 		.returns @window
@@ -20,3 +21,11 @@ describe "CreateImageElement", ->
 			@mod.create 'http://abs.com'
 			@window.document.createElement.calledWith 'img'
 			.should.be.ok
+		it "does not call the callback", ->
+			@mod.create 'http://abs.com'
+			expect => @img.onload()
+			.to.not.throw()
+		it "calls the callback", ->
+			@mod.create 'http://abs.com', callback = sinon.spy()
+			@img.onload()
+			callback.called.should.be.ok

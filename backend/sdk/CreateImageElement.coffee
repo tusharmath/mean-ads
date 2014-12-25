@@ -9,7 +9,7 @@ class CreateImageElement
 		img.src = url
 		img.onload = img.onerror = ->
 			img.onload = img.onerror = null
-			callback()
+			callback() if callback
 
 annotate CreateImageElement, new Inject WindowProvider
 module.exports = CreateImageElement
