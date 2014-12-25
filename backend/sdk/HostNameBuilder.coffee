@@ -6,7 +6,7 @@ class HostNameBuilder
 		@_hostCache=null
 	setup: ->
 		return @_hostCache if @_hostCache
-		{g, location} = @windowP.window().ma
+		{g} = @windowP.window().ma
 		if g
 			{host} = Url.parse "http:#{g}"
 			@_hostCache = "#{host}"
