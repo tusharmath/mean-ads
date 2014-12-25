@@ -7,6 +7,7 @@ Dispatcher = require '../backend/modules/Dispatcher'
 Mailer = require '../backend/modules/Mailer'
 MailgunProviderMock = require './mocks/MailgunProviderMock'
 DispatchStamper = require '../backend/modules/DispatchStamper'
+config = require '../backend/config/config'
 {mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
 
@@ -56,7 +57,7 @@ describe 'SubscriptionController:', ->
 			[method, route] = @mod.actions.actionMap.$convert
 			method.should.equal 'get'
 			route 'subscription'
-			.should.equal '/subscription/:id/convert'
+			.should.equal '/subscription/:id/convert.gif'
 		it "should have email route", ->
 			[action, route] = @mod.actions.actionMap.$email
 			action.should.equal 'post'
@@ -93,7 +94,7 @@ describe 'SubscriptionController:', ->
 			.then =>
 				@dispatcher.subscriptionUpdated.calledWith 1000
 				.should.be.ok
-	describe "$convert()", ->
+	describe "_convertQ()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then =>
@@ -106,22 +107,17 @@ describe 'SubscriptionController:', ->
 				.execQ()
 
 		it "be a function", ->
-			@mod.actions.$convert.should.be.a.Function
-		it "sets Access-Control-Allow-Origin Header", ->
-			@mod.actions.$convert @req, @res
-			.then => @res.set.calledWith 'Access-Control-Allow-Origin', '*'
-			.should.eventually.be.ok
-
+			@mod._convertQ.should.be.a.Function
 
 		it "updates conversion if is in signedCookies._sub", ->
-			@mod.actions.$convert @req, @res
+			@mod._convertQ @req, @res
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 221
 
 		it "ignores conversion if is NOT in signedCookies._sub", ->
 			@stamper.isConvertableSubscription.returns no
-			@mod.actions.$convert @req, @res
+			@mod._convertQ @req, @res
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 220
@@ -174,3 +170,26 @@ describe 'SubscriptionController:', ->
 			@mod.actions.$email @req
 			.then => @mod._emailQ.getCall(0).args[1]
 			.should.eventually.deep.equal 'a@a.com'
+	describe "$convert()", ->
+		beforeEach ->
+			@fakePromise = done: sinon.spy()
+			sinon.stub @mod, '_convertQ'
+			.returns @fakePromise
+		it "be a function", ->
+			@mod.actions.$convert.should.be.a.Function
+		it "sends transparent image", ->
+			@mod.actions.$convert @req, @res
+			.should.eventually.deep.equal config.transparentGif.image
+		it "sets content-type", ->
+			@mod.actions.$convert @req, @res
+			.then => @res.set.calledWith 'Content-Type', 'image/gif'
+			.should.eventually.be.ok
+		it "calls the _convertQ", ->
+			@mod.actions.$convert @req, @res
+			.then => @mod._convertQ.calledWith @req
+			.should.eventually.be.ok
+		it "calls the _convertQ.done()", ->
+			@mod.actions.$convert @req, @res
+			.then => @fakePromise.done.called
+			.should.eventually.be.ok
+
