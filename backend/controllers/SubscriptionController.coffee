@@ -69,7 +69,7 @@ class SubscriptionController
 			Q.all _.map subscription.emailAccess, (email) =>
 				@_emailQ subscription, email
 	#TODO: Resolve with a fake image
-	convert: (req) ->
+	_convertQ: (req) ->
 		return Q null if not @stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
 		Subscription = @actions.getModel()
 		Subscription.findByIdQ req.params.id
