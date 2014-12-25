@@ -107,11 +107,6 @@ describe 'SubscriptionController:', ->
 
 		it "be a function", ->
 			@mod.actions.$convert.should.be.a.Function
-		it "sets Access-Control-Allow-Origin Header", ->
-			@mod.actions.$convert @req, @res
-			.then => @res.set.calledWith 'Access-Control-Allow-Origin', '*'
-			.should.eventually.be.ok
-
 
 		it "updates conversion if is in signedCookies._sub", ->
 			@mod.actions.$convert @req, @res
