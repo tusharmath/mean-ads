@@ -2,8 +2,11 @@ querystring = require 'querystring'
 {annotate, Inject} = require 'di'
 HttpProvider = require '../providers/HttpProvider'
 HostNameBuilder = require './HostNameBuilder'
+CommandExecutor = require './CommandExecutor'
 class ConvertCommand
-	constructor: (@http, @host) ->
+	constructor: (@http, @host, @exec) ->
+		@exec.register @
+	alias: 'convert'
 	_getUrl: (id) ->
 		"//" + @host.getHost() + "/api/v1/subscription/#{id}/convert"
 	callback: ->
@@ -13,5 +16,5 @@ class ConvertCommand
 		@http.get url, @callback
 
 
-annotate ConvertCommand, new Inject HttpProvider, HostNameBuilder
+annotate ConvertCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor
 module.exports = ConvertCommand
