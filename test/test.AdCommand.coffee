@@ -13,7 +13,7 @@ describe "AdCommand", ->
 
 		# HostNameBuilder
 		@hostName = @injector.get HostNameBuilder
-		sinon.stub(@hostName, 'getHost').returns 'mean-ads.io'
+		sinon.stub(@hostName, 'getHostWithProtocol').returns 'shit://mean-ads.io'
 
 		# HttpProvider
 		@http = @injector.get HttpProvider
@@ -49,7 +49,7 @@ describe "AdCommand", ->
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->
 			@mod._getUrl 'abc', ['a','b', 'c']
-			.should.equal '//mean-ads.io/api/v1/dispatch/ad?p=abc&k=a&k=b&k=c'
+			.should.equal 'shit://mean-ads.io/api/v1/dispatch/ad?p=abc&k=a&k=b&k=c'
 		it "creates query params with only p", ->
 			@mod._getUrl 'abc'
-			.should.equal '//mean-ads.io/api/v1/dispatch/ad?p=abc'
+			.should.equal 'shit://mean-ads.io/api/v1/dispatch/ad?p=abc'

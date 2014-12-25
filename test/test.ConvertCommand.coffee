@@ -13,8 +13,7 @@ describe "ConvertCommand", ->
 
 		# HostName
 		@hostName = @injector.get HostNameBuilder
-		sinon.stub(@hostName, 'getHost').returns 'mean-ads.io'
-
+		sinon.stub(@hostName, 'getHostWithProtocol').returns 'shit://mean-ads.io'
 		# HttpProvider
 		@http = @injector.get HttpProvider
 		sinon.spy @http, 'get'
@@ -50,4 +49,4 @@ describe "ConvertCommand", ->
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->
 			@mod._getUrl 1000
-			.should.equal '//mean-ads.io/api/v1/subscription/1000/convert'
+			.should.equal 'shit://mean-ads.io/api/v1/subscription/1000/convert'

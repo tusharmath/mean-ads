@@ -8,7 +8,7 @@ class ConvertCommand
 		@exec.register @
 	alias: 'convert'
 	_getUrl: (id) ->
-		"//" + @host.getHost() + "/api/v1/subscription/#{id}/convert"
+		@host.getHostWithProtocol() + "/api/v1/subscription/#{id}/convert"
 	callback: ->
 	execute: (subscriptionId) ->
 		return null if not subscriptionId

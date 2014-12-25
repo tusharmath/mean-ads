@@ -11,7 +11,7 @@ class AdCommand
 	_getUrl: (p, k) ->
 		req = {p}
 		req.k = k if k
-		"//" + @host.getHost() + @_baseUrl + querystring.stringify req
+		@host.getHostWithProtocol() + @_baseUrl + querystring.stringify req
 	execute: (program, element, keywords) ->
 		return null if not program or not element
 		url = @_getUrl program, keywords
