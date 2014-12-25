@@ -48,7 +48,7 @@ gulp.task 'move-files', ->
 		return undefined
 	.pipe gulp.dest 'frontend'
 gulp.task 'browserify', ->
-	gulp.src './frontend/sdk/init.coffee', read: false
+	gulp.src './backend/sdk/init.coffee', read: false
 	.pipe browserify debug: config.browserify.debug, transform: ['coffeeify'], extensions: ['.coffee']
 	.pipe rename 'meanads-sdk.js'
 	.pipe gulp.dest './frontend/lib'
