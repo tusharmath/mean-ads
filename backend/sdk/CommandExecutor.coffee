@@ -1,8 +1,12 @@
+{annotate, Injector, Inject} = require 'di'
 class CommandExecutor
-	constructor: ->
+	constructor: (@injector) ->
 		@_executables = {}
-	register: (commandName, action) ->
-		@_executables[commandName] = action
-	execute: (commandName, args) ->
-		@_executables[commandName]?.execute? args...
+	register: (Command) ->
+		cmd = @injector.get Command
+		@_executables[cmd.alias] = cmd
+	execute: (alias, args) ->
+		@_executables[alias]?.execute? args...
+
+annotate CommandExecutor, new Inject Injector
 module.exports = CommandExecutor
