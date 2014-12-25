@@ -15,7 +15,8 @@ class AdCommand
 	execute: (program, element, keywords) ->
 		return null if not program or not element
 		url = @_getUrl program, keywords
-		@http.get url, (response) -> element.innerHTML = response
+		@http.get url, (err, response, body) ->
+			element.innerHTML = body
 
 
 annotate AdCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor

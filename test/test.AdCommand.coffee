@@ -43,8 +43,8 @@ describe "AdCommand", ->
 			.should.be.ok
 		it "updates the innerHtml", ->
 			@mod.execute @program, @element
-			@http.$flush '<fake-response></fake-response>'
-			@element.innerHTML = '<fake-response></fake-response>'
+			@http.$flush null, {}, '<fake-response></fake-response>'
+			@element.innerHTML.should.equal '<fake-response></fake-response>'
 
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->

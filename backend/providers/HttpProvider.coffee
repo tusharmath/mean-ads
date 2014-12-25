@@ -1,6 +1,6 @@
 class HttpProvider
 	constructor: ->
-		@http = require 'http'
+		@http = require 'request'
 	get: (args...)->
-		@http.get args...
+		@http args...
 module.exports = HttpProvider
