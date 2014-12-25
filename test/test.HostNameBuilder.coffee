@@ -24,3 +24,9 @@ describe "HostNameBuilder", ->
 			delete @window.ma.g
 			@mod.getHost()
 			.should.equal 'app.meanads.com'
+
+		it "must cache hostname", ->
+			@window.ma.g = 'http://localhost/static/a.js'
+			@mod.getHost()
+			delete @window.ma.g
+			@mod.getHost().should.equal 'localhost'
