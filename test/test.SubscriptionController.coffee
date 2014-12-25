@@ -56,7 +56,7 @@ describe 'SubscriptionController:', ->
 			[method, route] = @mod.actions.actionMap.$convert
 			method.should.equal 'get'
 			route 'subscription'
-			.should.equal '/subscription/:id/convert'
+			.should.equal '/subscription/:id/convert.gif'
 		it "should have email route", ->
 			[action, route] = @mod.actions.actionMap.$email
 			action.should.equal 'post'
@@ -169,3 +169,6 @@ describe 'SubscriptionController:', ->
 			@mod.actions.$email @req
 			.then => @mod._emailQ.getCall(0).args[1]
 			.should.eventually.deep.equal 'a@a.com'
+	describe "$convert()", ->
+		it "be a function", ->
+			@mod.actions.$convert.should.be.a.Function
