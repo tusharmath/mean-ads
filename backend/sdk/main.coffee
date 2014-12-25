@@ -1,18 +1,27 @@
 {annotate, Inject} = require 'di'
 CommandExecutor = require './CommandExecutor'
 WindowProvider = require '../providers/WindowProvider'
+HostNameBuilder = require './HostNameBuilder'
 
 class Main
-	constructor: (@exec, @windowP) ->
+	constructor: (@exec, @windowP, @host) ->
+
+	ma : (command, args...) ->
+		@exec.execute command, args
 	setup: ->
-		{ma} = @windowP.window()
+		@host.setup()
+		window = @windowP.window()
+
+
+		# # Override the original ma
+		window.ma = @ma
 
 
 injecteds = new Inject(
 	# Actual Deps
 	CommandExecutor
 	WindowProvider
-
+	HostNameBuilder
 	# Loading Commands
 	require './AdCommand'
 	require './ConvertCommand'
