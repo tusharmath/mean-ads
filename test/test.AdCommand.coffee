@@ -1,4 +1,5 @@
 AdCommand = require '../backend/sdk/AdCommand'
+CommandExecutor = require '../backend/sdk/CommandExecutor'
 HostNameBuilder = require '../backend/sdk/HostNameBuilder'
 HttpProvider = require '../backend/providers/HttpProvider'
 HttpProviderMock = require './mocks/HttpProviderMock'
@@ -6,13 +7,24 @@ HttpProviderMock = require './mocks/HttpProviderMock'
 
 describe "AdCommand", ->
 	beforeEach ->
+		# Injector
 		@injector = new Injector [HttpProviderMock]
 		@mod = @injector.get AdCommand
+
+		# HostNameBuilder
 		@hostName = @injector.get HostNameBuilder
-		sinon.stub @hostName, 'getHost'
-		.returns 'mean-ads.io'
+		sinon.stub(@hostName, 'getHost').returns 'mean-ads.io'
+
+		# HttpProvider
 		@http = @injector.get HttpProvider
 		sinon.spy @http, 'get'
+
+		# CommandExecutor
+		@exec = @injector.get CommandExecutor
+
+	describe "constructor()", ->
+		it "should register on cmdexec", ->
+			@exec._executables['ad'].should.exist
 
 	describe "execute()", ->
 		beforeEach ->
