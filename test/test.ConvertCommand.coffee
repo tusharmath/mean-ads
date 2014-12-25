@@ -47,11 +47,6 @@ describe "ConvertCommand", ->
 			@mod.execute @subscriptionId
 			@img.create.calledWith 'fake-http-url'
 			.should.be.ok
-		# it "calls the callback with response", ->
-		# 	@mod.execute @subscriptionId
-		# 	@http.$flush '<fake-response></fake-response>'
-		# 	@mod.callback.calledWith '<fake-response></fake-response>'
-		# 	.should.be.ok
 
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->
