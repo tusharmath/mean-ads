@@ -6,12 +6,20 @@ HostNameBuilder = require './HostNameBuilder'
 class Main
 	constructor: (@exec, @windowP, @host) ->
 
-	ma : (command, args...) ->
+	ma : (command, args) ->
 		@exec.execute command, args
 	setup: ->
-		@host.setup()
+
 		window = @windowP.window()
 
+		if window.ma
+			# Setup host
+			@host.setup()
+			# execute queue commands
+			if window.ma.q
+				for savedArgs in window.ma.q
+					[cmd, arg2...]  = savedArgs
+					@ma cmd, arg2
 
 		# # Override the original ma
 		window.ma = @ma
