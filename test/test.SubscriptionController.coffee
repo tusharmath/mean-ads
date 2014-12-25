@@ -7,6 +7,7 @@ Dispatcher = require '../backend/modules/Dispatcher'
 Mailer = require '../backend/modules/Mailer'
 MailgunProviderMock = require './mocks/MailgunProviderMock'
 DispatchStamper = require '../backend/modules/DispatchStamper'
+config = require '../backend/config/config'
 {mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
 
@@ -170,5 +171,25 @@ describe 'SubscriptionController:', ->
 			.then => @mod._emailQ.getCall(0).args[1]
 			.should.eventually.deep.equal 'a@a.com'
 	describe "$convert()", ->
+		beforeEach ->
+			@fakePromise = done: sinon.spy()
+			sinon.stub @mod, '_convertQ'
+			.returns @fakePromise
 		it "be a function", ->
 			@mod.actions.$convert.should.be.a.Function
+		it "sends transparent image", ->
+			@mod.actions.$convert @req, @res
+			.should.eventually.deep.equal config.transparentGif.image
+		it "sets content-type", ->
+			@mod.actions.$convert @req, @res
+			.then => @res.set.calledWith 'Content-Type', 'image/gif'
+			.should.eventually.be.ok
+		it "calls the _convertQ", ->
+			@mod.actions.$convert @req, @res
+			.then => @mod._convertQ.calledWith @req
+			.should.eventually.be.ok
+		it "calls the _convertQ.done()", ->
+			@mod.actions.$convert @req, @res
+			.then => @fakePromise.done.called
+			.should.eventually.be.ok
+
