@@ -14,8 +14,9 @@ class HostNameBuilder
 			@_hostCache = 'app.meanads.com'
 		@_hostCache
 	getHost: ->
+	getHostWithProtocol: ->
 		throw new Error 'setup the HostNameBuilder first dude!' if not @_hostCache
-		@_hostCache
+		"#{@windowP.window().location.protocol}//#{@_hostCache}"
 
 annotate HostNameBuilder, new Inject WindowProvider
 module.exports = HostNameBuilder
