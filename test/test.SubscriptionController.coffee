@@ -93,7 +93,7 @@ describe 'SubscriptionController:', ->
 			.then =>
 				@dispatcher.subscriptionUpdated.calledWith 1000
 				.should.be.ok
-	describe "$convert()", ->
+	describe "convert()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then =>
@@ -106,17 +106,17 @@ describe 'SubscriptionController:', ->
 				.execQ()
 
 		it "be a function", ->
-			@mod.actions.$convert.should.be.a.Function
+			@mod.convert.should.be.a.Function
 
 		it "updates conversion if is in signedCookies._sub", ->
-			@mod.actions.$convert @req, @res
+			@mod.convert @req, @res
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 221
 
 		it "ignores conversion if is NOT in signedCookies._sub", ->
 			@stamper.isConvertableSubscription.returns no
-			@mod.actions.$convert @req, @res
+			@mod.convert @req, @res
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'conversions'
 			.equals 220
