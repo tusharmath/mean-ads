@@ -13,7 +13,7 @@ class ConvertCommand
 	execute: (subscriptionId) ->
 		return null if not subscriptionId
 		url = @_getUrl subscriptionId
-		@http.get url, @callback
+		@http.get url, {withCredentials: true}, @callback
 
 
 annotate ConvertCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor

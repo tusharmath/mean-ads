@@ -38,7 +38,7 @@ describe "ConvertCommand", ->
 			.to.equal null
 		it "calls http.get",  ->
 			@mod.execute @subscriptionId
-			@http.get.calledWith 'fake-http-url', @mod.callback
+			@http.get.calledWith 'fake-http-url', {withCredentials: true}, @mod.callback
 			.should.be.ok
 		it "calls the callback with response", ->
 			@mod.execute @subscriptionId
