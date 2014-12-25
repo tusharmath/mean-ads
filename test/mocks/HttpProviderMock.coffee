@@ -1,4 +1,4 @@
-HttpProvider = require '../../backend/providers/HttpProvider'
+HttpProvider = require '../../backend/sdk/HttpProvider'
 {annotate, Provide} = require 'di'
 class HttpProviderMock
 	get: (url,options, @callback) ->

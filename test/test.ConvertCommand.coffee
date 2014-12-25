@@ -1,7 +1,7 @@
 ConvertCommand = require '../backend/sdk/ConvertCommand'
 CommandExecutor = require '../backend/sdk/CommandExecutor'
 HostNameBuilder = require '../backend/sdk/HostNameBuilder'
-HttpProvider = require '../backend/providers/HttpProvider'
+HttpProvider = require '../backend/sdk/HttpProvider'
 HttpProviderMock = require './mocks/HttpProviderMock'
 CreateImageElement = require '../backend/sdk/CreateImageElement'
 {Injector} = require 'di'
@@ -42,8 +42,7 @@ describe "ConvertCommand", ->
 			expect @mod.execute()
 			.to.equal null
 
-
-		it "calls http.get",  ->
+		it "create image",  ->
 			@mod.execute @subscriptionId
 			@img.create.calledWith 'fake-http-url'
 			.should.be.ok

@@ -1,6 +1,6 @@
 querystring = require 'querystring'
 {annotate, Inject} = require 'di'
-HttpProvider = require '../providers/HttpProvider'
+HttpProvider = require '../sdk/HttpProvider'
 CreateImageElement = require './CreateImageElement'
 HostNameBuilder = require './HostNameBuilder'
 CommandExecutor = require './CommandExecutor'

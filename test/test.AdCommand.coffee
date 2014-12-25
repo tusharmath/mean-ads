@@ -1,7 +1,7 @@
 AdCommand = require '../backend/sdk/AdCommand'
 CommandExecutor = require '../backend/sdk/CommandExecutor'
 HostNameBuilder = require '../backend/sdk/HostNameBuilder'
-HttpProvider = require '../backend/providers/HttpProvider'
+HttpProvider = require '../backend/sdk/HttpProvider'
 HttpProviderMock = require './mocks/HttpProviderMock'
 {Injector} = require 'di'
 
