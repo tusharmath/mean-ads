@@ -10,9 +10,7 @@ describe "HostNameBuilder", ->
 		@windowP = @injector.get WindowProvider
 		sinon.stub @windowP, 'window'
 		.returns @window
-
 	describe "getHost()", ->
-		beforeEach ->
 		it "be a function", -> @mod.getHost.should.be.a.Function
 		it "should return hostname with port", ->
 			@window.ma.g = 'http://localhost:3000/static/a.js'
