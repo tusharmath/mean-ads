@@ -21,9 +21,9 @@ describe "CommandExecutor", ->
 		it "executes the command.execute method", ->
 			@mod.execute 'load-my-gun-1'
 			@lmg1.execute.called.should.be.ok
-		it "should throw if command is not register", ->
+		it "should not throw if command is not register", ->
 			expect => @mod.execute 'load-my-gun-2'
-			.to.throw 'load-my-gun-2 is not registered'
+			.to.not.throw()
 		it "should pass args to execute method", ->
 			@mod.execute 'load-my-gun-1', [1,2,3]
 			@lmg1.execute.calledWith 1, 2, 3
