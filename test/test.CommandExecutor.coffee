@@ -35,4 +35,8 @@ describe "CommandExecutor", ->
 			@mod.execute 'load-my-gun-1'
 			@lmg1.execute.calledOn @lmg1
 			.should.be.ok
-
+		it "should not throw if execute command is not found", ->
+			@lmg1 = execute1: sinon.spy()
+			@mod.register 'load-my-gun-1', @lmg1
+			expect => @mod.execute 'load-my-gun-1'
+			.to.not.throw()

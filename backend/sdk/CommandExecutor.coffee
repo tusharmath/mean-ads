@@ -6,5 +6,5 @@ class CommandExecutor
 	execute: (commandName, args) ->
 		if not @_executables[commandName]
 			throw new Error "#{commandName} is not registered"
-		@_executables[commandName].execute args...
+		@_executables[commandName].execute? args...
 module.exports = CommandExecutor
