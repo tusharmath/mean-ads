@@ -30,8 +30,6 @@ describe "AdCommand", ->
 			@http.$flush '<fake-response></fake-response>'
 			@element.innerHTML = '<fake-response></fake-response>'
 
-
-
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->
 			@mod._getUrl 'abc', ['a','b', 'c']
@@ -39,5 +37,3 @@ describe "AdCommand", ->
 		it "creates query params with only p", ->
 			@mod._getUrl 'abc'
 			.should.equal '/api/v1/dispatch/ad?p=abc'
-
-
