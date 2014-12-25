@@ -4,7 +4,7 @@ Url = require 'url'
 class HostNameBuilder
 	constructor: (@windowP) ->
 	getHost: ->
-		{g} = @windowP.window()
+		{g} = @windowP.window().ma
 		if g
 			{host} = Url.parse g
 			"#{host}"
