@@ -51,7 +51,7 @@ gulp.task 'browserify', ->
 	gulp.src './frontend/sdk/init.coffee', read: false
 	.pipe browserify debug: config.browserify.debug, transform: ['coffeeify'], extensions: ['.coffee']
 	.pipe rename 'meanads-sdk.js'
-	.pipe gulp.dest './frontend/sdk'
+	.pipe gulp.dest './frontend/lib'
 gulp.task 'watch', ->
 	gulp.watch 'frontend/modules/**/*.coffee', ['inject-modules']
 	gulp.watch 'bower.json', ['setup-assets']
