@@ -10,7 +10,8 @@ subscription =
 	usedCredits: 120
 	data: a:'aaa', b: 'bbb', c: 'ccc'
 	owner: ownerId
-	startDate: new Date(2012,1,2)
+	emailAccess: ['a@a.com', 'b@b.com', 'c@c.com']
+	# startDate: new Date(2012,1,2)
 subscription2 =
 	client: 'apples2'
 	totalCredits: 2000
@@ -56,11 +57,10 @@ exports.mockDataSetup = ->
 		subscription3.campaign = @campaign._id
 		subscription4.campaign = @campaign._id
 
-		new @Models.Subscription subscription
-		.saveQ()
-	.then (@subscription) =>
 		Q.all [
+			new @Models.Subscription(subscription).saveQ()
 			new @Models.Subscription(subscription2).saveQ()
 			new @Models.Subscription(subscription3).saveQ()
 			new @Models.Subscription(subscription4).saveQ()
 		]
+	.spread (@subscription) =>

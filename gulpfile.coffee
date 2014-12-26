@@ -50,3 +50,4 @@ gulp.task 'watch', ->
 	gulp.watch 'bower.json', ['setup-assets']
 
 gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules']
+

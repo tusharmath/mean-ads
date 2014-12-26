@@ -1,0 +1,38 @@
+extends ./mailer-layout.jade
+
+block content
+	- var mockSubscription = {_id: '11111aa111e1111111a1111a','client': 'AAA BBBB',totalCredits: 10000,startDate: new Date(), usedCredits: 1000, conversions: 10}
+	- var sub = subscription || mockSubscription
+
+	h4.text-center Ad Performance Report
+	.panel.panel-default
+		.panel-heading
+			.panel-title
+				div #{sub.client}&nbsp;
+				.text-muted #{sub._id}
+		.panel-body
+			.row.text-muted.text-uppercase
+				.col-md-3.col-md-offset-2 Total Credits
+				.col-md-3 Start date
+
+			.row.text-default.lead
+				.col-md-2.text-info.text-right
+					abbr(title="Initial status of the sub") Inception
+				.col-md-3
+					big #{humanize.numberFormat(sub.totalCredits, 0)}&nbsp;
+					small Impressions
+				.col-md-3 #[big #{humanize.date('d M, Y',sub.startDate)}]
+
+			hr
+			.row.text-muted.text-uppercase
+				.col-md-3.col-md-offset-2 credits used
+				.col-md-3 Conversions
+
+			.row.text-default.lead
+				.col-md-2.text-info.text-right
+					abbr(title="sub performance till date") Accomplishment
+				.col-md-3
+					big #{humanize.numberFormat(sub.usedCredits, 0)}&nbsp;
+					small Impressions
+				.col-md-3
+					big #{humanize.numberFormat(sub.conversions, 0)}

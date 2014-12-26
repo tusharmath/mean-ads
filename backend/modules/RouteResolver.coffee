@@ -1,6 +1,8 @@
 # Resolves routes to controllers and their actions
 express = require 'express'
 _ = require 'lodash'
+config = require '../config/config'
+newrelic = require 'newrelic'
 ControllerFactory = require '../factories/ControllerFactory'
 di = require 'di'
 Q = require 'q'
@@ -22,14 +24,23 @@ class V1
 		action.call ctrl.actions, req, res
 		.then (doc) -> res.send doc
 		.fail (err) ->
+			bragi.log 'error', err
 			switch err.type
 				when 'mean'
 					res.status(err.httpStatus).send err
 				when 'ObjectId'
-					err = ErrorPool.NOTFOUND_DOCUMENT
+					err = ErrorPool.INVALID_OBJECT_ID
+					res.status(err.httpStatus).send err
+				when 'date'
+					err = ErrorPool.INVALID_DATE
 					res.status(err.httpStatus).send err
 				else
-					throw err
+					if config.newrelic.notify
+						newrelic.noticeError err
+						unknownErr = ErrorPool.UNKNOWN_ERROR
+						res.status(unknownErr.httpStatus).send unknownErr
+					else
+						throw err
 		.done()
 	_actionBinder: (router, ctrl, ctrlName, action, actionName) ->
 		{method, route} = @_resolveRoute ctrl, ctrlName, actionName

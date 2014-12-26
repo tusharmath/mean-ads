@@ -1,6 +1,7 @@
 Dispatcher = require '../backend/modules/Dispatcher'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
+DateProvider = require '../backend/providers/DateProvider'
 ModelFactory = require '../backend/factories/ModelFactory'
 {mockDataSetup} = require './mocks/MockData'
 {annotate, Injector, Provide} = require 'di'
@@ -19,6 +20,9 @@ describe 'Dispatcher:', ->
 
 		#MongooseProvier
 		@mongo = @injector.get MongooseProvider
+
+		# DateProvider
+		@date = @injector.get DateProvider
 
 		#ModelFactory
 		@modelFac = @injector.get ModelFactory
@@ -99,29 +103,57 @@ describe 'Dispatcher:', ->
 			@mod._createDispatchable @subscriptionP
 			.then =>
 				@Models.Dispatch.findQ().should.eventually.be.of.length 0
-
 		it "Ignores dispatch, subscription has expired", ->
 			sinon.stub @mod, '_hasSubscriptionExpired'
 			.returns yes
 			@mod._createDispatchable @subscriptionP
 			.then =>
 				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+		it "Creates a Dispatch with subscription start date", ->
+			sinon.stub @mod, '_hasSubscriptionExpired'
+			.returns no
+			@mod._createDispatchable @subscriptionP
+			.then => @Models.Dispatch.findOneQ()
+			.should.eventually.have.property 'startDate'
+			.to.equalDate @subscriptionP.startDate
 
 	describe "_hasSubscriptionExpired()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @mod._populateSubscription @subscription
-			.then (@subscriptionP) => #P: Populated
+			.then (@subscriptionP) =>
+				@subscriptionP.startDate = @date.create 2012, 1, 2
+				#P: Populated
 
-		it "returns no", ->
+		it "returns expired", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: today
 			@mod._hasSubscriptionExpired @subscriptionP
-			.should.equal no
+			.should.be.true
 
-		it "returns yes", ->
-			sinon.stub @mod, '_getCurrentDate'
+		it "returns not expired", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 2010 Feb 1
+
+			sinon.stub @date, 'now'
 			.returns new Date 2010, 1, 1
 			@mod._hasSubscriptionExpired @subscriptionP
-			.should.be.ok
+			.should.be.false
+		it "returns no if its withing the campaign days", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 5 Feb 2012
+			sinon.stub @date, 'now'
+			.returns new Date 2012, 1, 5
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.false
+
+		it "returns yes if it is out of the campaign range", ->
+			# SubscriptionStartDate: 2 Feb 2012
+			# Current Date: 15 Feb 2012
+			sinon.stub @date, 'now'
+			.returns new Date 2012, 1, 15
+			@mod._hasSubscriptionExpired @subscriptionP
+			.should.be.true
 
 	describe "_removeDispatchable()", ->
 		beforeEach ->
@@ -162,10 +194,14 @@ describe 'Dispatcher:', ->
 			.returns @mockPromise
 			sinon.stub @mod, '_interpolateMarkup'
 			.resolves 'hello world'
+			# Stubbing the Current date
+			sinon.stub @date, 'now'
+			.returns new Date 2014, 1, 2
 			@mockDataSetup()
 			.then =>
 				@mod._populateSubscription @subscription
 			.then (@subscriptionP) =>
+				@subscriptionP.startDate = new Date 2014, 1, 1
 				@subscriptionP.campaign.keywords = ['aa', 'bb']
 				@mod._createDispatchable @subscriptionP
 			.then (@dispatch) =>
@@ -195,6 +231,17 @@ describe 'Dispatcher:', ->
 		it "calls done of _postDispatch()", ->
 			@mod.next @program._id
 			.then => @mockPromise.done.called.should.be.ok
+		it "resolves to null if startDate is greater than currentDate", ->
+			# Mocking current date to be before the startDAte
+			@date.now.returns new Date 2014, 0,1
+			@mod.next @program._id
+			.should.eventually.equal null
+		it "resolves to Dispatch if startDate is less than currentDate", ->
+			# Mocking current date to be after the startDate
+			@date.now.returns new Date 2014, 2,1
+			@mod.next @program._id
+			.should.eventually.have.property '_id'
+			.to.deep.equal @dispatch._id
 
 	describe "subscriptionCreated()", ->
 

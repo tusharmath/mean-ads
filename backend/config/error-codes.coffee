@@ -5,6 +5,14 @@ ErrorSchema =
 		code: 'BADREQUEST'
 		message: 'Request made with invalid parameters'
 		httpStatus: 400
+	INVALID_DATE:
+		code: 'DATEFORMAT'
+		message: 'Invalid Date Object'
+		httpStatus: 400
+	INVALID_OBJECT_ID:
+		code: 'OBJECTID'
+		message: 'Invalid object id'
+		httpStatus: 400
 
 	# 403
 	FORBIDDEN_DOCUMENT:
@@ -26,7 +34,7 @@ ErrorSchema =
 	# 500
 	UNKNOWN_ERROR:
 		code: 'UNKNOWN_ERROR'
-		message: 'Something went wrong'
+		message: 'Unknown error'
 		httpStatus: 500
 
 ErrorPool = {}

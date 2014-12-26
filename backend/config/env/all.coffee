@@ -2,6 +2,12 @@ path = require 'path'
 
 rootPath = path.normalize __dirname + '/../../..'
 module.exports =
+	mailgun:
+		login: 'postmaster@meanads.com'
+		domain: 'meanads.com'
+		noReplyEmail: 'noreply@meanads.com'
+	maxDispatchStampCount: 4
+	conversionMaxAge: 5 * 60 * 1000 #5 Mins (in ms)
 	resources: [
 		'Campaign'
 		'Dispatch'
@@ -9,16 +15,15 @@ module.exports =
 		'Style'
 		'Subscription'
 	]
-	bugsnag: {}
-	appName: 'mean-ads'
+	appName: 'mean ads'
 	Q: longStackSupport: true
 	root: rootPath
 	cache:
-		maxAge: 365 * 24 * 60 * 60 #365 Days
+		maxAge: 60 * 60 #1 Hour (in sec)
 		dir: rootPath + '/.cache'
 	port: process.env.PORT || 3000
 	mongo:
 		options:
 			db:
 				safe: true
-	newrelic: {}
+	newrelic: notify: false

@@ -10,17 +10,20 @@ di = require 'di'
 newrelic = require 'newrelic'
 ModelFactory = require './factories/ModelFactory'
 packageFile = require '../package.json'
-bugsnag = require "bugsnag"
-bugsnag.register config.bugsnag.secret
+cookieParser = require 'cookie-parser'
+humanize = require 'humanize'
+
 class V1
 	constructor: (api) ->
 		v1 = api.router()
 		app = express()
 		app.locals.newrelic = newrelic
 		app.locals.package = packageFile
+		app.locals.config = config
+		# TODO: Being used in mailer also
+		app.locals.humanize = humanize
 
 		app
-		.set 'jsonp callback name', 'mean'
 		.set 'views', "#{config.root}/frontend"
 		.set 'view engine', 'jade'
 
@@ -31,7 +34,8 @@ class V1
 
 
 		app
-		#Middlewares
+		# Middlewares
+		.use cookieParser config.cookie.secret
 		.use '/static', [
 			middleware.coffeescript
 			middleware.stylus
@@ -46,11 +50,10 @@ class V1
 			bodyParser.json()
 			v1
 		]
-		#Routes
+		# Routes
 		.get '/templates/*', middleware.partials
 		.get '/', middleware.page 'index'
 		.all '/*', middleware.page '404'
-
 
 		# Start server
 		app.listen config.port, config.ip, ->

@@ -1,45 +1,30 @@
-vendor(prop, args)
-	-webkit-{prop} args
-	-moz-{prop} args
-	-o-{prop} args
-	-ms-{prop} args
-	{prop} args
-animation-delay()
-	vendor 'animation-delay', arguments
-animation-duration()
-	vendor 'animation-duration', arguments
-animation-direction()
-	vendor 'animation-direction', arguments
-animation-iteration-count()
-	vendor 'animation-iteration-count', arguments
-animation-name()
-	vendor 'animation-name', arguments
-border-radius()
-	vendor 'border-radius', arguments
+$loader-circle-size = 14px
+$loader-circle-margin = 5px
 #circleG
-	width 149.33333333333334px
+	width ($loader-circle-size + $loader-circle-margin * 2) * 3
+	height $loader-circle-size
 .circleG
 	animation-name bounce_circleG
 	animation-duration 1.2s
 	animation-iteration-count infinite
 	animation-direction linear
 	border-radius 50%
-	background-color:#FFFFFF;
-	float:left;
-	height:32px;
-	margin-left:17px;
-	width:32px;
+	background-color #FFFFFF;
+	float left;
+	height $loader-circle-size
+	margin 0 $loader-circle-margin
+	width $loader-circle-size
 
-
+// TODO: Automate it
 #circleG_1
-	animation-delay 0.24000000000000005s
+	animation-delay 0.33s
 
 #circleG_2
-	animation-delay 0.56s
+	animation-delay 0.66s
 
 
 #circleG_3
-	animation-delay 0.72s
+	animation-delay 0.99s
 
 
 @keyframes bounce_circleG
@@ -47,7 +32,7 @@ border-radius()
 	}
 
 	50%{
-		background-color:#2196f3
+		background-color #2196f3
 	}
 
 	100%{

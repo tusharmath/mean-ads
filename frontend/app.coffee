@@ -9,7 +9,13 @@ define [
 	'use strict'
 
 	angular
-	.module 'mean-ads', ['ngRoute', 'restangular', 'ui.ace', 'mean.core', 'auth0']
+	.module 'mean-ads', ['ngRoute'
+		'restangular'
+		'ui.ace'
+		'mean.core'
+		'auth0'
+		'ui.bootstrap'
+	]
 	.run ['auth', (auth) -> auth.hookEvents() ]
 	.config [
 		'$routeProvider'
@@ -35,6 +41,7 @@ define [
 				loginUrl: '/login'
 				Auth0Widget
 			authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
+			$httpProvider.interceptors.push 'AjaxPendingRequests'
 			$httpProvider.interceptors.push 'authInterceptor'
 
 			restProvider.setBaseUrl '/api/v1/core'

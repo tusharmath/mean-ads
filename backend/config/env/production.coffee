@@ -1,8 +1,10 @@
 'use strict'
 
 module.exports =
-	bugsnag:
-		secret: '5508c1c51f0416834121de08cccf2034'
+	mailgun:
+		apiKey: 'key-57091db7c8d6a4b0d557a34a3b9b63e9'
+		password: 'ba45f8a7af2a503c7cc2e436f38c0f9e'
+	cookie: secret: "a71tamXSG"
 	env: 'production'
 	jwt:
 		secret: 'G3AEzjlLJ6Fzk2IiOdwgtrOcfa4jgmUYLiB22PnFtg_D6f3ACv541EqRs5heYDhK'
@@ -25,5 +27,6 @@ module.exports =
 			process.env.OPENSHIFT_APP_NAME ||
 			'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
 	newrelic:
+		notify: true
 		license: 'e6d2a6347a283cffb5d7a5f3e35e672eae9d4d06'
 		enabled: true

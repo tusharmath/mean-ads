@@ -1,38 +1,34 @@
 // Variables
+@import 'mixins'
 @import 'loader'
-$white-space-margin = 0.3em
+@import 'utils'
 $profile-pic-size = 64 px
 
 body,html
-	height: 100%
+	height 100%
 .page-wrapper
-	min-height: 100%
-	position: relative
+	$footer-height = 120px
+	min-height 100%
+	position relative
+	.content
+		padding-bottom $footer-height
 	.footer
-		width: 100%
-		position: absolute
-		bottom: 0
+		border-top 1px solid #eeeeee
+		width 100%
+		position absolute
+		bottom 0
+		height $footer-height
 .ace_editor
 	height 200px
-span.left-space
-	margin-left: $white-space-margin
-span.right-space
-	margin-right: $white-space-margin
-span.both-space
-	margin: $white-space-margin 0
 .profile-image, .profile-image img
-	height: $profile-pic-size
-	width: $profile-pic-size
-	background-color: #2196f3
-	padding: 4px
-	border-radius: 50%
-	position: relative
-	top: ($profile-pic-size / 4)
-.loader-layer
-	position absolute
-	left 50%
-	margin-left -75px
-	top 120px
-.row-layer
+	height $profile-pic-size
+	width $profile-pic-size
+	background-color #2196f3
+	padding 4px
+	border-radius 50%
 	position relative
-	background-color #fff
+	top ($profile-pic-size / 4)
+// TODO: Need to rethink what this layer is doing
+.flat-layer
+	position absolute
+	width 100%
