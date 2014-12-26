@@ -2,12 +2,13 @@ Main = require '../backend/sdk/Main'
 WindowProvider = require '../backend/providers/WindowProvider'
 CommandExecutor = require '../backend/sdk/CommandExecutor'
 HostNameBuilder = require '../backend/sdk/HostNameBuilder'
+HttpProviderMock = require './mocks/HttpProviderMock'
 {Injector} = require 'di'
 
 describe "Main", ->
 	beforeEach ->
 		# Injector
-		@injector = new Injector
+		@injector = new Injector [HttpProviderMock]
 
 		#HostNameBuilder
 		@host = @injector.get HostNameBuilder
