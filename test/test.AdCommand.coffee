@@ -43,7 +43,7 @@ describe "AdCommand", ->
 			.should.be.ok
 		it "updates the innerHtml", ->
 			@mod.execute @program, @element
-			@http.$flush null, {}, '<fake-response></fake-response>'
+			@http.$flush '<fake-response></fake-response>', null, null
 			@element.innerHTML.should.equal '<fake-response></fake-response>'
 
 	describe "_getUrl()", ->
