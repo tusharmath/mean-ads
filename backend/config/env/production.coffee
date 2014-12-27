@@ -1,6 +1,8 @@
 'use strict'
 
 module.exports =
+	browserify:
+		debug: false
 	mailgun:
 		apiKey: 'key-57091db7c8d6a4b0d557a34a3b9b63e9'
 		password: 'ba45f8a7af2a503c7cc2e436f38c0f9e'

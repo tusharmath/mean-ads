@@ -21,7 +21,7 @@ class SubscriptionController
 		@actions.actionMap.$email = ['post', (str) -> "/core/#{str}/:id/email"]
 
 		# OPEN
-		@actions.actionMap.$convert = ['get', (str) -> "/#{str}/:id/convert"]
+		@actions.actionMap.$convert = ['get', (str) -> "/#{str}/:id/convert.gif"]
 
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
@@ -68,8 +68,15 @@ class SubscriptionController
 		.then (subscription) =>
 			Q.all _.map subscription.emailAccess, (email) =>
 				@_emailQ subscription, email
+	#TODO: Resolve with a fake image
 	$convert: (req, res) =>
-		res.set 'Access-Control-Allow-Origin', '*'
+		# Call conversion logic
+		@_convertQ(req).done()
+		# Resolve with a transparent image
+		res.set 'Content-Type', config.transparentGif.contentType
+		Q config.transparentGif.image
+
+	_convertQ: (req) ->
 		return Q null if not @stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
 		Subscription = @actions.getModel()
 		Subscription.findByIdQ req.params.id
