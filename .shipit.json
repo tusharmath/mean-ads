@@ -1,0 +1,6 @@
+{
+	"steps": ["FindVersion", "ChangeVersion", "Commit", "Tag"],
+	"Commit": {
+		"message": "Checking in changes prior to tagging version \"{{version}}\".\n\nChangelog diff:\n\n{{changelogDiff}}"
+	}
+}
