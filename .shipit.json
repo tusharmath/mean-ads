@@ -1,12 +1,5 @@
 {
 	"steps": ["FindVersion", "ChangeVersion", "Commit", "Tag"],
-	"vc": {
-		"Git": {
-			"PushTo": "origin",
-			"SignTag": true,
-			"TagPattern": "version-%v"
-		}
-	},
 	"Commit": {
 		"message": "Checking in changes prior to tagging version \"{{version}}\".\n\nChangelog diff:\n\n{{changelogDiff}}"
 	}
