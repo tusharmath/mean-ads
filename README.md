@@ -1,4 +1,5 @@
-[![wercker status](https://app.wercker.com/status/e03bf0c77a793a7857a2b8abc9fac779/m "wercker status")](https://app.wercker.com/project/bykey/e03bf0c77a793a7857a2b8abc9fac779)
+[![wercker status](https://app.wercker.com/status/5646e9dcf1bf613106212f161c085219/m/master "wercker status")](https://app.wercker.com/project/bykey/5646e9dcf1bf613106212f161c085219)
+
 Application Setup
 
 1. Install NodeJS, HomeBrew
