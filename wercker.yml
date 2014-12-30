@@ -3,6 +3,8 @@ box: wercker/nodejs
 build:
   # The steps that will be executed on build
   steps:
+    # A Step to install shipitjs
+    - npm install -g shipitjs
     # A step that executes `npm install` command
     - npm-install
     # A step that executes `npm test` command
@@ -15,6 +17,9 @@ build:
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
   after-steps:
+    - script:
+        name: Tag and release
+        code: "shipitjs release --patch"
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
         room-id: 1073810
