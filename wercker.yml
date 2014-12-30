@@ -17,9 +17,6 @@ build:
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
   after-steps:
-    - script:
-        name: Tag and release
-        code: "shipitjs release --patch"
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
         room-id: 1073810
