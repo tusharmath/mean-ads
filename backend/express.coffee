@@ -46,6 +46,9 @@ class V1
 		.use '/api/v1/core', [
 			middleware.auth
 		]
+		.use '/api/v1/dispatch', [
+			middleware.uuid
+		]
 		.use '/api/v1', [
 			bodyParser.json()
 			v1
