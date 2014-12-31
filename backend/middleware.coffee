@@ -57,7 +57,7 @@ exports.page = (page) ->
 		.render page
 
 exports.uuid = (req, res, next) ->
-	uuid = req.cookies.uuid or nodeUuid.v4()
-	res.cookie '_uuid', uuid
-	console.log uuid
+	uuid = req.cookies._uuid or nodeUuid.v4()
+	maxAge = config.uuidMaxAge
+	res.cookie '_uuid', uuid,  {maxAge}
 	next()
