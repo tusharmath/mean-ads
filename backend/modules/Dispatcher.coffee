@@ -95,7 +95,7 @@ class Dispatcher
 		@_getModel 'Dispatch'
 		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
 		.execQ()
-	_postDispatch: (dispatch) ->
+	_postDelivery: (dispatch) ->
 		@_populateSubscription dispatch.subscription
 		.then (subscription) =>
 			@_increaseUsedCredits subscription
@@ -122,7 +122,7 @@ class Dispatcher
 		q.sort lastDeliveredOn: 'asc'
 		.findOne().execQ().then (dispatch) =>
 			if dispatch
-				@_postDispatch dispatch
+				@_postDelivery dispatch
 				.done()
 				return dispatch
 			null
