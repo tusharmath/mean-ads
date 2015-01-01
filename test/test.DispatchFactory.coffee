@@ -1,4 +1,4 @@
-DispatchFactory = require '../backend/modules/DispatchFactory'
+DispatchFactory = require '../backend/factories/DispatchFactory'
 Utils = require '../backend/Utils'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'

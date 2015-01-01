@@ -1,5 +1,5 @@
 ModelFactory = require '../factories/ModelFactory'
-DispatchFactory = require './DispatchFactory'
+DispatchFactory = require '../factories/DispatchFactory'
 SubscriptionPopulator = require './SubscriptionPopulator'
 Utils = require '../Utils'
 Q = require 'q'
