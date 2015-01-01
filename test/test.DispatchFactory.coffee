@@ -106,7 +106,7 @@ describe 'DispatchFactory:', ->
 			.should.eventually.have.property 'startDate'
 			.to.equalDate @subscriptionP.startDate
 
-	describe "_removeDispatchable()", ->
+	describe "removeForSubscriptionId()", ->
 		beforeEach ->
 			sinon.stub @mod, '_interpolateMarkup'
 			.resolves 'hello world'
@@ -117,7 +117,7 @@ describe 'DispatchFactory:', ->
 			.then (@dispatch) =>
 
 		it "expectation", ->
-			@mod._removeDispatchable @subscription._id
+			@mod.removeForSubscriptionId @subscription._id
 			.then =>
 				@Models.Dispatch.findByIdQ @dispatch._id
 			.then (data) -> expect(data).to.be.null
@@ -143,14 +143,14 @@ describe 'DispatchFactory:', ->
 
 	describe "updateForSubscriptionId()", ->
 		beforeEach ->
-			sinon.stub @mod, '_removeDispatchable'
+			sinon.stub @mod, 'removeForSubscriptionId'
 			.resolves null
 			sinon.stub @mod, 'createForSubscriptionId'
 			.resolves 'subscription-created'
-		it "calls _removeDispatchable", ->
+		it "calls removeForSubscriptionId", ->
 			@mod.updateForSubscriptionId 123456
 			.then =>
-				@mod._removeDispatchable.calledWith 123456
+				@mod.removeForSubscriptionId.calledWith 123456
 				.should.be.ok
 		it "calls createForSubscriptionId", ->
 			@mod.updateForSubscriptionId 123456

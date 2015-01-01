@@ -60,7 +60,7 @@ class DispatchFactory
 				)
 			.saveQ()
 	# Removes all dispatchable with a subscriptionId
-	_removeDispatchable: (subscriptionId) ->
+	removeForSubscriptionId: (subscriptionId) ->
 		@_getModel 'Dispatch'
 		.find subscription: subscriptionId
 		.remove()
@@ -72,7 +72,7 @@ class DispatchFactory
 			@_createDispatchable subscription
 
 	updateForSubscriptionId: (subscriptionId) ->
-		@_removeDispatchable subscriptionId
+		@removeForSubscriptionId subscriptionId
 		.then =>
 			@createForSubscriptionId subscriptionId
 annotate DispatchFactory, new Inject(

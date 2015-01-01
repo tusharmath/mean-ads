@@ -34,7 +34,7 @@ class Dispatcher
 				subExpired is yes or
 				subscription.usedCredits is subscription.totalCredits
 			)
-				@dispatchFac._removeDispatchable subscription._id
+				@dispatchFac.removeForSubscriptionId subscription._id
 			else
 				@_updateDeliveryDate dispatch
 
