@@ -1,4 +1,5 @@
 ModelFactory = require '../factories/ModelFactory'
+Utils = require '../Utils'
 Q = require 'q'
 CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
@@ -9,7 +10,7 @@ _ = require 'lodash'
 
 # Round Robin DispatchFactory
 class DispatchFactory
-	constructor: (@modelFac, @dot, @css, @date) ->
+	constructor: (@modelFac, @dot, @css, @date, @utils) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
@@ -55,18 +56,10 @@ class DispatchFactory
 			# Final Output
 			return _markup if not css or css is ''
 			"<style>#{@css.minify css}</style>#{_markup}"
-	# TODO: Util function must go out
-	_hasSubscriptionExpired: (subscription) ->
-		{startDate} = subscription
-		[year, month, date] = @date.split startDate
-
-		date += subscription.campaign.days
-		endDate = @date.create year, month, date
-		if endDate  < @date.now() then yes else no
 	_createDispatchable: (subscription) ->
 		{campaign} = subscription
 		{program} = campaign
-		subExpired = @_hasSubscriptionExpired subscription
+		subExpired = @utils.hasSubscriptionExpired subscription
 		return Q null if (
 			subExpired is yes or
 			campaign.isEnabled is false or
@@ -100,7 +93,7 @@ class DispatchFactory
 		.then (subscription) =>
 			@_increaseUsedCredits subscription
 		.then (subscription) =>
-			subExpired = @_hasSubscriptionExpired subscription
+			subExpired = @utils.hasSubscriptionExpired subscription
 			if (
 				subExpired is yes or
 				subscription.usedCredits is subscription.totalCredits
@@ -118,5 +111,5 @@ class DispatchFactory
 		@_removeDispatchable subscriptionId
 		.then =>
 			@createForSubscriptionId subscriptionId
-annotate DispatchFactory, new Inject ModelFactory, DotProvider, CleanCssProvider, DateProvder
+annotate DispatchFactory, new Inject ModelFactory, DotProvider, CleanCssProvider, DateProvder, Utils
 module.exports = DispatchFactory

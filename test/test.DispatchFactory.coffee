@@ -1,4 +1,5 @@
 DispatchFactory = require '../backend/modules/DispatchFactory'
+Utils = require '../backend/Utils'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
 DateProvider = require '../backend/providers/DateProvider'
@@ -17,6 +18,9 @@ describe 'DispatchFactory:', ->
 		# DispatchFactory
 		@mod = @injector.get DispatchFactory
 		@mod.Models = {}
+
+		#Utils
+		@utils = @injector.get Utils
 
 		#MongooseProvier
 		@mongo = @injector.get MongooseProvider
@@ -85,13 +89,13 @@ describe 'DispatchFactory:', ->
 			.then =>
 				@Models.Dispatch.findQ().should.eventually.be.of.length 0
 		it "Ignores dispatch, subscription has expired", ->
-			sinon.stub @mod, '_hasSubscriptionExpired'
+			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns yes
 			@mod._createDispatchable @subscriptionP
 			.then =>
 				@Models.Dispatch.findQ().should.eventually.be.of.length 0
 		it "Creates a Dispatch with subscription start date", ->
-			sinon.stub @mod, '_hasSubscriptionExpired'
+			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns no
 			@mod._createDispatchable @subscriptionP
 			.then => @Models.Dispatch.findOneQ()
