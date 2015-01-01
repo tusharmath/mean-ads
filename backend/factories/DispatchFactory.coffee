@@ -16,26 +16,6 @@ class DispatchFactory
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
 	# TODO: Move it to a provider
-	_increaseUsedCredits: (subscription) ->
-		@_getModel 'Subscription'
-		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
-		.execQ()
-	_populateSubscription: (subscriptionId) ->
-		_subscription = {}
-		@_getModel 'Subscription'
-		.findOne _id: subscriptionId
-		.populate 'campaign'
-		.execQ()
-		.then (subscription) ->
-			_subscription = subscription
-			subscription.campaign.populateQ 'program'
-		.then (campaign) ->
-			_subscription.campaign = campaign
-			campaign.program.populateQ 'style'
-		.then (program) ->
-			# console.log _subscription
-			_subscription.campaign.program = program
-			_subscription
 	_interpolateMarkup: (subscription) ->
 		# Required fields
 		{data} = subscription
@@ -85,26 +65,9 @@ class DispatchFactory
 		.find subscription: subscriptionId
 		.remove()
 		.execQ()
-	_updateDeliveryDate: (dispatch) ->
-		@_getModel 'Dispatch'
-		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
-		.execQ()
-	_postDispatch: (dispatch) ->
-		@_populateSubscription dispatch.subscription
-		.then (subscription) =>
-			@_increaseUsedCredits subscription
-		.then (subscription) =>
-			subExpired = @utils.hasSubscriptionExpired subscription
-			if (
-				subExpired is yes or
-				subscription.usedCredits is subscription.totalCredits
-			)
-				@_removeDispatchable subscription._id
-			else
-				@_updateDeliveryDate dispatch
 
 	createForSubscriptionId: (subscriptionId) ->
-		@_populateSubscription subscriptionId
+		@subPopulator.populateSubscription subscriptionId
 		.then (subscription) =>
 			@_createDispatchable subscription
 

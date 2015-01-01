@@ -1,5 +1,6 @@
 DispatchFactory = require '../backend/factories/DispatchFactory'
 Utils = require '../backend/Utils'
+SubscriptionPopulator = require '../backend/modules/SubscriptionPopulator'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 MongooseProvider = require '../backend/providers/MongooseProvider'
 DateProvider = require '../backend/providers/DateProvider'
@@ -18,6 +19,9 @@ describe 'DispatchFactory:', ->
 		# DispatchFactory
 		@mod = @injector.get DispatchFactory
 		@mod.Models = {}
+
+		#SubscriptionPopulator
+		@subPopulator =  @injector.get SubscriptionPopulator
 
 		#Utils
 		@utils = @injector.get Utils
@@ -43,7 +47,7 @@ describe 'DispatchFactory:', ->
 		beforeEach ->
 			@mockDataSetup()
 			.then =>
-				@mod._populateSubscription @subscription
+				@subPopulator.populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
 		it "creates html WITHOUT css", ->
 			{_id} = @subscriptionP.campaign.program.style
@@ -64,7 +68,7 @@ describe 'DispatchFactory:', ->
 			.resolves 'hello world'
 
 			@mockDataSetup()
-			.then => @mod._populateSubscription @subscription
+			.then => @subPopulator.populateSubscription @subscription
 			.then (@subscriptionP) => #P: Populated
 
 		it "save dispatch", ->
@@ -107,7 +111,7 @@ describe 'DispatchFactory:', ->
 			sinon.stub @mod, '_interpolateMarkup'
 			.resolves 'hello world'
 			@mockDataSetup()
-			.then => @mod._populateSubscription @subscription
+			.then => @subPopulator.populateSubscription @subscription
 			.then (@subscriptionP) =>
 				@mod._createDispatchable @subscriptionP
 			.then (@dispatch) =>
@@ -121,7 +125,7 @@ describe 'DispatchFactory:', ->
 	describe "createForSubscriptionId()", ->
 
 		beforeEach ->
-			sinon.stub @mod, '_populateSubscription'
+			sinon.stub @subPopulator, 'populateSubscription'
 			.resolves 'sub-data'
 			sinon.stub @mod, '_createDispatchable'
 			.resolves 'disp-data'
@@ -129,7 +133,7 @@ describe 'DispatchFactory:', ->
 		it "calls _populateSubscription", ->
 			@mod.createForSubscriptionId 123345
 			.then =>
-				@mod._populateSubscription.calledWith 123345
+				@subPopulator.populateSubscription.calledWith 123345
 				.should.be.ok
 
 		it "calls _createDispatchable", ->
