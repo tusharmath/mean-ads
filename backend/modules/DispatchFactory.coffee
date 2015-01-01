@@ -4,13 +4,14 @@ Q = require 'q'
 CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
 DateProvder = require '../providers/DateProvider'
+SubscriptionPopulator = require './SubscriptionPopulator'
 less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 # Round Robin DispatchFactory
 class DispatchFactory
-	constructor: (@modelFac, @dot, @css, @date, @utils) ->
+	constructor: (@modelFac, @dot, @css, @date, @utils, @subPopulator) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
@@ -111,5 +112,12 @@ class DispatchFactory
 		@_removeDispatchable subscriptionId
 		.then =>
 			@createForSubscriptionId subscriptionId
-annotate DispatchFactory, new Inject ModelFactory, DotProvider, CleanCssProvider, DateProvder, Utils
+annotate DispatchFactory, new Inject(
+	ModelFactory
+	DotProvider
+	CleanCssProvider
+	DateProvder
+	Utils
+	SubscriptionPopulator
+	)
 module.exports = DispatchFactory
