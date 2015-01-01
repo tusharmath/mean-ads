@@ -24,7 +24,7 @@ class Dispatcher
 		@_getModel 'Dispatch'
 		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
 		.execQ()
-	_postDelivery: (dispatch) ->
+	delivered: (dispatch) ->
 		@subPopulator.populateSubscription dispatch.subscription
 		.then (subscription) =>
 			@_increaseUsedCredits subscription

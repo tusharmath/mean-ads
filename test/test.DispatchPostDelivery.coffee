@@ -72,7 +72,7 @@ describe 'DispatchPostDelivery:', ->
 			@mod._updateDeliveryDate @dispatch
 			.then => @dispatch.lastDeliveredOn.should.be.greaterThan new Date 10, 10, 10
 
-	describe "_postDelivery()", ->
+	describe "delivered()", ->
 		beforeEach ->
 			@mockDataSetup()
 			.then => @dispatchFac.createForSubscriptionId @subscription._id
@@ -80,20 +80,20 @@ describe 'DispatchPostDelivery:', ->
 
 		it "updates used credits of subscription", ->
 			initialCredits = @subscription.usedCredits
-			@mod._postDelivery @dispatch
+			@mod.delivered @dispatch
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'usedCredits'
 			.to.equal initialCredits + 1
 
 		it "updates last delivery date of dispatch", ->
 			sinon.spy @mod, '_updateDeliveryDate'
-			@mod._postDelivery @dispatch
+			@mod.delivered @dispatch
 			.then => @mod._updateDeliveryDate.called.should.be.ok
 
 		it "removes expired subscriptions", ->
 			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns yes
-			@mod._postDelivery @dispatch
+			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
 		it "removes exausted subscriptions", ->
@@ -101,6 +101,6 @@ describe 'DispatchPostDelivery:', ->
 			.resolves { usedCredits: 100, totalCredits: 100, _id: @subscription._id}
 			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns no
-			@mod._postDelivery @dispatch
+			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
