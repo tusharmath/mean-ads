@@ -12,15 +12,16 @@ Q = require 'q'
 sinonAsPromised = require('sinon-as-promised') Q.Promise
 _ = require 'lodash'
 ###
-	DI extender
+	DI Auto Mocker
 ###
 
 {Injector} = require 'di'
 
-_createMock: (Module) ->
+_createMock = (Module) ->
 	class MockModule
 	_.each Module::, (v, k) ->
-		MockModule[k] = sinon.stub() if typeof v is 'function'
+		MockModule::[k] = sinon.stub() if typeof v is 'function'
+	MockModule
 
 Injector::getModule = (path, _options = {}) ->
 	options =
@@ -30,8 +31,6 @@ Injector::getModule = (path, _options = {}) ->
 	_.assign options, _options
 	path = options.basePath + path.replace '.', '/'
 	Module = require path
-
-	if options.mock is true and @_providers.has(Module) is no
+	if options.mock is true
 		Module = _createMock Module
-
 	@get Module
