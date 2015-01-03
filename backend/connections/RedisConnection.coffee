@@ -18,8 +18,6 @@ class RedisConnection
 				'Redis Connection could not be established'
 			)
 
-	connection: -> @conn
-
 RedisConnection.annotations = [
 	new Inject RedisProvider
 ]
