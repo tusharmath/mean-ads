@@ -6,26 +6,27 @@ describe "SplitTesting", ->
 		# Injector
 		# TODO: Use global mock
 		@injector = new Injector [RedisConnectionMock]
-		@mod = @injector.getModule 'modules.SplitTesting', mock: false
 
 		# RequireProvider
-		@mockExperiment =
-			startDate : new Date 2010, 2, 1
-			endDate : new Date 2010, 2, 10
 		@requireP = @injector.getModule 'providers.RequireProvider'
-		@requireP.require.returns @mockExperiment
 
 		# RedisConnection
 		@redis = @injector.getModule 'connections.RedisConnection', mock: false
 
 		# AbTestingProvider
+		@scenarioName = 'sample-scenario-name'
+		@abExperiment =
+			getGroup: => @scenarioName
+			test: sinon.spy()
 		@ab = @injector.getModule 'providers.AbTestingProvider'
+		@ab.abTesting.returns createTest: => @abExperiment
 
 		# DateProvider
 		@dateP = @injector.getModule 'providers.DateProvider'
-		# Current Date 1 Mar 2010
+		## Current Date 1 Mar 2010
 		@dateP.now.returns new Date 2010, 2, 1
 
+		@mod = @injector.getModule 'modules.SplitTesting', mock: false
 
 	describe "_load(expName)", ->
 		beforeEach ->
@@ -47,27 +48,49 @@ describe "SplitTesting", ->
 	describe "getExperiment()", ->
 		beforeEach ->
 
-			@uuid = 'LW407gJudbDK7rbXm'
-			@experimentName = 'valid-experiment'
-			@executables = [
-				sinon.spy()
-				sinon.spy()
-				sinon.spy()
-			]
+			@mockExperiment =
+				startDate : new Date 2010, 2, 1
+				endDate : new Date 2010, 2, 10
+				scenarioDescriptors : [
+					name: 'a', weight: .5
+				,	name: 'b', weight: .5
+				]
+			@requireP.require.returns @mockExperiment
+
+			@uuid = '915a4c9f-5bde-4b76-a1fe-922943603c13'
+			@experimentName = 'valid-experiment-name'
+
 		it "returns null is startDate is in future", ->
 			# startDate 10 Mar 2010
 			@mockExperiment.startDate = new Date 2010, 2, 10
-			expect @mod.getExperiment 'alpha', 'bravo'
+			expect @mod.getExperiment @experimentName, @uuid
 			.to.be.null
 		it "returns null is endDate is in past", ->
 			# endDate 10 Feb 2010
 			@mockExperiment.endDate = new Date 2010, 1, 10
-			expect @mod.getExperiment 'alpha', 'bravo'
+			expect @mod.getExperiment @experimentName, @uuid
 			.to.be.null
 		it "returns descriptor is in valid date range", ->
 			# endDate 10 March 2010
 			# startDate 20 Feb 2010
 			@mockExperiment.endDate = new Date 2010, 3, 10
 			@mockExperiment.startDate = new Date 2010, 1, 20
-			@mod.getExperiment 'alpha', 'bravo'
+			@mod.getExperiment @experimentName, @uuid
 			.should.equal @mockExperiment
+		it "attaches execute method", ->
+			@mod.getExperiment @experimentName, @uuid
+			.execute cb = [1,2,3]
+			@abExperiment.test.calledWith @scenarioName, cb
+			.should.be.ok
+		it "execute method calls save", ->
+			sinon.spy @mod, '_save'
+			@mod.getExperiment @experimentName, @uuid
+			.execute cb = [1,2,3]
+			@mod._save.calledWith @experimentName, @scenarioName, 'execute'
+		it "convert method calls save", ->
+			sinon.spy @mod, '_save'
+			@mod.getExperiment @experimentName, @uuid
+			.convert cb = [1,2,3]
+			@mod._save.calledWith @experimentName, @scenarioName, 'convert'
+
+
