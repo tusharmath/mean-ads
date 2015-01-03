@@ -7,3 +7,4 @@ db/
 *.sublime-workspace
 .DS_Store
 *.log.*
+*.rdb
