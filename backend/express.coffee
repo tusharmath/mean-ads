@@ -12,10 +12,9 @@ ModelFactory = require './factories/ModelFactory'
 packageFile = require '../package.json'
 cookieParser = require 'cookie-parser'
 humanize = require 'humanize'
-RedisConnection = require './connections/RedisConnection'
 
 class V1
-	constructor: (api, redis) ->
+	constructor: (api) ->
 		v1 = api.router()
 		app = express()
 		app.locals.newrelic = newrelic
@@ -62,7 +61,7 @@ class V1
 		# Start server
 		app.listen config.port, config.ip, ->
 			bragi.log 'application', bragi.util.symbols.success, 'Server Started', bragi.util.print("#{config.ip}:#{config.port}", 'yellow'), 'in', bragi.util.print("#{app.get 'env'}", 'yellow'), 'mode'
-di.annotate V1, new di.Inject api, ModelFactory, RedisConnection
+di.annotate V1, new di.Inject api, ModelFactory
 
 injector = new di.Injector()
 injector.get V1
