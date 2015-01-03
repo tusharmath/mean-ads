@@ -17,9 +17,9 @@ _ = require 'lodash'
 
 {Injector} = require 'di'
 
-_createMock: (module) ->
+_createMock: (Module) ->
 	class MockModule
-	_.each module::, (v, k) ->
+	_.each Module::, (v, k) ->
 		MockModule[k] = sinon.stub() if typeof v is 'function'
 
 Injector::getModule = (path, _options = {}) ->
@@ -29,6 +29,9 @@ Injector::getModule = (path, _options = {}) ->
 
 	_.assign options, _options
 	path = options.basePath + path.replace '.', '/'
-	module = require path
-	_createMock module if options.mock is true
-	@get module
+	Module = require path
+
+	if options.mock is true and @_providers.has(Module) is no
+		Module = _createMock Module
+
+	@get Module
