@@ -1,5 +1,4 @@
 config = require '../config/config'
-RedisProvider = require '../providers/RedisProvider'
 {Inject} = require 'di'
 class RedisConnection
 	constructor: (redisP) ->
@@ -19,6 +18,6 @@ class RedisConnection
 			)
 
 RedisConnection.annotations = [
-	new Inject RedisProvider
+	new Inject require '../providers/RedisProvider'
 ]
 module.exports = RedisConnection
