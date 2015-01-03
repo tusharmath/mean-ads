@@ -41,3 +41,13 @@ describe 'Utils:', ->
 			@dateP.now.returns new Date 2012, 1, 15
 			@mod.hasSubscriptionExpired @subscription
 			.should.be.true
+	describe "camelCasetoSnakeCase()", ->
+		it "ABC to abc", ->
+			@mod.camelCaseToSnakeCase 'ABC'
+			.should.equal 'a-b-c'
+		it "AbcDef to abc-def", ->
+			@mod.camelCaseToSnakeCase 'AbcDef'
+			.should.equal 'abc-def'
+		it "abcDef to abc-def", ->
+			@mod.camelCaseToSnakeCase 'abcDef'
+			.should.equal 'abc-def'

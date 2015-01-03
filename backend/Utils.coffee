@@ -17,5 +17,12 @@ class Utils
 		date += subscription.campaign.days
 		endDate = new Date year, month, date
 		endDate < @dateP.now()
+	camelCaseToSnakeCase: (str) ->
+		out = ""
+		for v,k in str
+			if v.toUpperCase() is v and k isnt 0
+				out += '-'
+			out+= v.toLowerCase()
+		out
 annotate Utils, new Inject DateProvider
 module.exports = Utils
