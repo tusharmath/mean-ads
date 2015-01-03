@@ -10,3 +10,25 @@ global.bragi.options.groupsEnabled = false
 global.sinon = require 'sinon'
 Q = require 'q'
 sinonAsPromised = require('sinon-as-promised') Q.Promise
+_ = require 'lodash'
+###
+	DI extender
+###
+
+{Injector} = require 'di'
+
+_createMock: (module) ->
+	class MockModule
+	_.each module::, (v, k) ->
+		MockModule[k] = sinon.stub() if typeof v is 'function'
+
+Injector::getModule = (path, _options = {}) ->
+	options =
+		mock: true
+		basePath: '../backend/'
+
+	_.assign options, _options
+	path = options.basePath + path.replace '.', '/'
+	module = require path
+	_createMock module if options.mock is true
+	@get module
