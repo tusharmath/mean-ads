@@ -6,14 +6,14 @@ class RedisConnection
 		@conn = redisP.redis().createClient config.redis.uri
 		@conn.on 'ready', ->
 			bragi.log(
-				'application'
+				'application:redis'
 				bragi.util.symbols.success
 				'Redis Connection established successfully'
 			)
 
 		@conn.on 'error', ->
 			bragi.log(
-				'application'
+				'application:redis'
 				bragi.util.symbols.error
 				'Redis Connection could not be established'
 			)
