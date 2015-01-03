@@ -24,5 +24,17 @@ class Utils
 				out += '-'
 			out+= v.toLowerCase()
 		out
+	snakeCaseToCamelCase: (str, separator = '-') ->
+		out = ""
+		capitalize = yes
+		for v in str
+			if v is separator
+				capitalize = yes
+			else if capitalize is yes
+				out += v.toUpperCase()
+				capitalize = no
+			else
+				out += v
+		out
 annotate Utils, new Inject DateProvider
 module.exports = Utils

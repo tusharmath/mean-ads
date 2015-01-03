@@ -51,3 +51,13 @@ describe 'Utils:', ->
 		it "abcDef to abc-def", ->
 			@mod.camelCaseToSnakeCase 'abcDef'
 			.should.equal 'abc-def'
+	describe "snakeCasetoCamelCase()", ->
+		it "abc to Abc", ->
+			@mod.snakeCaseToCamelCase 'abc'
+			.should.equal 'Abc'
+		it "abc-def to AbcDef", ->
+			@mod.snakeCaseToCamelCase 'abc-def'
+			.should.equal 'AbcDef'
+		it "--abc---def---- to AbcDef", ->
+			@mod.snakeCaseToCamelCase '--abc---def----'
+			.should.equal 'AbcDef'
