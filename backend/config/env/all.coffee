@@ -8,6 +8,7 @@ module.exports =
 		noReplyEmail: 'noreply@meanads.com'
 	maxDispatchStampCount: 4
 	conversionMaxAge: 5 * 60 * 1000 #5 Mins (in ms)
+	uuidMaxAge: 10 * 365 * 24 * 60 * 60 * 1000 #10 Years (in ms)
 	resources: [
 		'Campaign'
 		'Dispatch'
@@ -25,6 +26,7 @@ module.exports =
 	mongo:
 		options:
 			db:
+				autoConnectIn: 5000 # 5 Seconds (in ms)
 				safe: true
 	newrelic: notify: false
 	transparentGif:

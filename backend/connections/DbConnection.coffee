@@ -4,22 +4,29 @@ MongooseProvider = require '../providers/MongooseProvider'
 class DbConnection
 	constructor: (@mongooseProvider) ->
 		mongoose = @mongooseProvider.mongoose
-		@conn = mongoose.createConnection config.mongo.uri
-		bragi.log 'application', 'Db Connection Initializing...'
-		@conn.on 'open', ->
-			bragi.log(
-				'application'
-				bragi.util.symbols.success
-				'Db Connection established successfully'
-			)
+		@_connect = =>
+			@conn = mongoose.createConnection config.mongo.uri
+			@conn.on 'open', ->
+				bragi.log(
+					'application:mongo'
+					bragi.util.symbols.success
+					'Db Connection established successfully'
+				)
 
-		@conn.on 'error', ->
-			bragi.log(
-				'application'
-				bragi.util.symbols.error
-				'Db Connection could not be established'
-			)
-
+			@conn.on 'error', ->
+				bragi.log(
+					'application:mongo'
+					bragi.util.symbols.error
+					'Db Connection could not be established'
+				)
+			@conn.on 'disconnected', =>
+				bragi.log(
+					'application:mongo'
+					bragi.util.symbols.error
+					'Db Connection got disconnected'
+				)
+				setTimeout @_connect, config.mongo.options.autoConnectIn
+		@_connect()
 DbConnection.annotations = [
 	new Inject MongooseProvider
 ]

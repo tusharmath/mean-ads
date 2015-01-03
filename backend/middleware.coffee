@@ -1,4 +1,5 @@
 coffeeMiddleware = require 'coffee-middleware'
+nodeUuid = require 'node-uuid'
 config = require './config/config'
 express = require 'express'
 favicon = require 'static-favicon'
@@ -54,3 +55,9 @@ exports.page = (page) ->
 		if isNaN status then status = 200
 		res.status status
 		.render page
+
+exports.uuid = (req, res, next) ->
+	uuid = req.cookies._uuid or nodeUuid.v4()
+	maxAge = config.uuidMaxAge
+	res.cookie '_uuid', uuid,  {maxAge}
+	next()
