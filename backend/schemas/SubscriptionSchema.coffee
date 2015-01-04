@@ -11,6 +11,7 @@ SubscriptionSchema = (mongoose) ->
 			type : mongoose.Schema.ObjectId
 			required: true
 			ref : 'Campaign'
+			index: true
 		totalCredits:
 			type : Number
 			required: true

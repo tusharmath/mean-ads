@@ -8,6 +8,7 @@ ProgramSchema = (mongoose) ->
 		style:
 			type : mongoose.Schema.ObjectId
 			ref : 'Style'
+			index: true
 		created:
 			type: Date
 			default: Date.now
