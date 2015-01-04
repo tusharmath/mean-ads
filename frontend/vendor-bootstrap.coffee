@@ -1,0 +1,5 @@
+require "angular"
+require "angular-route"
+require "angular-cookies"
+require "auth0-angular"
+require "Restangular"

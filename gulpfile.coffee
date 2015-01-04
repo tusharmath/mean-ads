@@ -70,7 +70,6 @@ gulp.task 'browserify-vendor', ->
 	gulp.src './frontend/vendor-bootstrap.coffee', read: false
 	.pipe browserify(
 		debug: config.browserify.debug
-		external: ['angular']
 		transform: ['coffeeify']
 		extensions: ['.coffee']
 		)
@@ -85,5 +84,6 @@ gulp.task 'setup-assets', [
 	'inject-modules'
 	'browserify-sdk'
 	'browserify-client'
+	'browserify-vendor'
 ]
 
