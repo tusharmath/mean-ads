@@ -1,19 +1,21 @@
-define ["app", "lodash"], (app, _) ->
-	class AlterPersistenceService
-		constructor: (@rest, @loc) ->
+app = require '../../app'
+_ = require 'lodash'
 
-		_update: (resourceName, resource) ->
-			@rest.one resourceName, resource._id
-			.patch resource
+class AlterPersistenceService
+	constructor: (@rest, @loc) ->
 
-		_create: (resourceName, resource) ->
-			@rest.all resourceName
-			.post resource
+	_update: (resourceName, resource) ->
+		@rest.one resourceName, resource._id
+		.patch resource
 
-		persist: (resourceName, resource) ->
-			mode = if resource._id then 'update' else 'create'
-			@["_#{mode}"] resourceName, resource
-			.then => @loc.path "/#{resourceName}s"
+	_create: (resourceName, resource) ->
+		@rest.all resourceName
+		.post resource
 
-	AlterPersistenceService.$inject = ["Restangular", "$location"]
-	app.service 'AlterPersistenceService', AlterPersistenceService
+	persist: (resourceName, resource) ->
+		mode = if resource._id then 'update' else 'create'
+		@["_#{mode}"] resourceName, resource
+		.then => @loc.path "/#{resourceName}s"
+
+AlterPersistenceService.$inject = ["Restangular", "$location"]
+app.service 'AlterPersistenceService', AlterPersistenceService

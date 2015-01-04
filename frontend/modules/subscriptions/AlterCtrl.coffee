@@ -1,40 +1,42 @@
-define ["app", "lodash"], (app, _) ->
-	class SubscriptionAlterCtrl
+app = require '../../app'
+_ = require 'lodash'
 
-		constructor: (@rest, @alter, @q) ->
+class SubscriptionAlterCtrl
 
-			@alter.bootstrap @, 'subscription'
+	constructor: (@rest, @alter, @q) ->
 
-			@rest.all('campaigns').getList().then (@campaigns) =>
-				do @onCampaignSelect
+		@alter.bootstrap @, 'subscription'
 
-		_loadCampaign: =>
-			@rest
-			.one 'campaign', @subscription.campaign
-			.get()
+		@rest.all('campaigns').getList().then (@campaigns) =>
+			do @onCampaignSelect
 
-		_loadProgram: (@campaign) =>
-			@rest
-			.one 'program', @campaign.program
-			.get()
+	_loadCampaign: =>
+		@rest
+		.one 'campaign', @subscription.campaign
+		.get()
 
-		_loadStyle: (@program) =>
-			@rest.one 'style', @program.style
-			.get()
-			.then (@style) =>
+	_loadProgram: (@campaign) =>
+		@rest
+		.one 'program', @campaign.program
+		.get()
 
-		onCampaignSelect: () =>
-			if @subscription.campaign
-				@_loadCampaign()
-				.then @_loadProgram
-				.then @_loadStyle
-		removeEmail: (email) =>
-			_.remove @subscription.emailAccess, (s) ->s is email
-		addEmail: =>
-			if @newEmailAccess
-				@subscription.emailAccess.push @newEmailAccess
-				@newEmailAccess = ''
-	SubscriptionAlterCtrl.$inject = [
-		"Restangular", "AlterControllerExtensionService", '$q'
-	]
-	app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl
+	_loadStyle: (@program) =>
+		@rest.one 'style', @program.style
+		.get()
+		.then (@style) =>
+
+	onCampaignSelect: () =>
+		if @subscription.campaign
+			@_loadCampaign()
+			.then @_loadProgram
+			.then @_loadStyle
+	removeEmail: (email) =>
+		_.remove @subscription.emailAccess, (s) ->s is email
+	addEmail: =>
+		if @newEmailAccess
+			@subscription.emailAccess.push @newEmailAccess
+			@newEmailAccess = ''
+SubscriptionAlterCtrl.$inject = [
+	"Restangular", "AlterControllerExtensionService", '$q'
+]
+app.controller 'SubscriptionAlterCtrl', SubscriptionAlterCtrl

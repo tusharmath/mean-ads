@@ -1,13 +1,15 @@
-define ["app", "lodash"], (app, _) ->
-	class FirstDocumentLoaderService
-		constructor: (@rest, @route) ->
+app = require '../../app'
+_ = require 'lodash'
 
-		load: (resourceName) ->
-			if @route.id
-				return @rest.one resourceName, @route.id
-				.get()
-				.$object
-			{}
+class FirstDocumentLoaderService
+	constructor: (@rest, @route) ->
 
-	FirstDocumentLoaderService.$inject = ["Restangular", "$routeParams"]
-	app.service 'FirstDocumentLoaderService', FirstDocumentLoaderService
+	load: (resourceName) ->
+		if @route.id
+			return @rest.one resourceName, @route.id
+			.get()
+			.$object
+		{}
+
+FirstDocumentLoaderService.$inject = ["Restangular", "$routeParams"]
+app.service 'FirstDocumentLoaderService', FirstDocumentLoaderService

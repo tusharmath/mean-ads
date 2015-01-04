@@ -1,15 +1,16 @@
-define ["app", "lodash"], (app, _) ->
-	class CampaignAlterCtrl
-		constructor: (@rest, @alter, @tok) ->
+app = require '../../app'
+_ = require 'lodash'
+class CampaignAlterCtrl
+	constructor: (@rest, @alter, @tok) ->
 
-			@alter.bootstrap @, 'campaign'
+		@alter.bootstrap @, 'campaign'
 
-			rest.all('programs').getList().then (@programs) =>
+		rest.all('programs').getList().then (@programs) =>
 
-		beforeSave: () ->
-			@campaign.keywords = @tok.tokenize @campaign.keywords
+	beforeSave: () ->
+		@campaign.keywords = @tok.tokenize @campaign.keywords
 
-	CampaignAlterCtrl.$inject = [
-		"Restangular" , 'AlterControllerExtensionService', 'TokenizerService'
-	]
-	app.controller 'CampaignAlterCtrl', CampaignAlterCtrl
+CampaignAlterCtrl.$inject = [
+	"Restangular" , 'AlterControllerExtensionService', 'TokenizerService'
+]
+app.controller 'CampaignAlterCtrl', CampaignAlterCtrl

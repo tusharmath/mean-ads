@@ -1,4 +1,6 @@
-define ["app", "lodash"], (app, _) ->
+app = require '../../app'
+_ = require 'lodash'
+
 	class StyleAlterCtrl
 		constructor: (@rest, @interpolate, @alter, @tok) ->
 			@alter.bootstrap @, 'style'
