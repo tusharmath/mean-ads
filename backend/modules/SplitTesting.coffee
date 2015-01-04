@@ -6,7 +6,9 @@ class SplitTesting
 	_baseExprPath: '../experiments/'
 	# Dynamically loads an experiment
 	_load: (module) ->
-		path = "#{@_baseExprPath + @utils.snakeCaseToCamelCase module}Expr"
+		moduleFileName = "#{@utils.snakeCaseToCamelCase module}Expr"
+		path = @_baseExprPath + moduleFileName
+		#TODO: Objects should be instantiated here
 		@requireP.require path
 
 	_save: (exprName, scenarioName, command) ->
