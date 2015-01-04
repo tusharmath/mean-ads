@@ -47,7 +47,7 @@ gulp.task 'move-files', ->
 		path.basename = basename
 		return undefined
 	.pipe gulp.dest 'frontend'
-gulp.task 'browserify', ->
+gulp.task 'browserify-sdk', ->
 	gulp.src './backend/sdk/init.coffee', read: false
 	.pipe browserify(
 		debug: config.browserify.debug
@@ -56,7 +56,7 @@ gulp.task 'browserify', ->
 		)
 	.pipe rename 'meanads-sdk.js'
 	.pipe gulp.dest './frontend/lib'
-gulp.task 'browserify-fe', ->
+gulp.task 'browserify-client', ->
 	gulp.src './frontend/app-bootstrap.coffee', read: false
 	.pipe browserify(
 		debug: config.browserify.debug
@@ -72,5 +72,9 @@ gulp.task 'watch', ->
 	gulp.watch 'backend/sdk/*.coffee', ['browserify']
 	gulp.watch 'bower.json', ['setup-assets']
 
-gulp.task 'setup-assets', ['bower-copy', 'non-bower-copy', 'inject-modules', 'browserify']
+gulp.task 'setup-assets', [
+	'inject-modules'
+	'browserify-sdk'
+	'browserify-client'
+]
 
