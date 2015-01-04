@@ -23,7 +23,7 @@ class V1
 
 		action.call ctrl.actions, req, res
 		.then (doc) -> res.send doc
-		.fail (err) ->
+		.catch (err) ->
 			bragi.log 'error', err
 			switch err.type
 				when 'mean'

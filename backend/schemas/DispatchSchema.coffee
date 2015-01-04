@@ -4,11 +4,11 @@ DispatchSchema = (mongoose) ->
 		markup:
 			type: String
 			required: true
-
 		subscription:
 			type : mongoose.Schema.ObjectId
 			required: true
 			ref: 'Subscription'
+			index: true
 		allowedOrigins:
 			type: [String]
 		# Delivery Management
@@ -16,7 +16,7 @@ DispatchSchema = (mongoose) ->
 			type : mongoose.Schema.ObjectId
 			required: true
 			ref: 'Program'
-
+			index: true
 		lastDeliveredOn:
 			type: Date
 			default: Date.now
@@ -26,5 +26,6 @@ DispatchSchema = (mongoose) ->
 			required: true
 		keywords:
 			type: [String]
+			index: true
 
 module.exports = DispatchSchema

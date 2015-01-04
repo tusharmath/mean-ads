@@ -6,4 +6,5 @@ frontend/css/
 db/
 *.sublime-workspace
 .DS_Store
-*.log
+*.log.*
+*.rdb

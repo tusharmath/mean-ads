@@ -9,6 +9,7 @@ CampaignSchema = (mongoose) ->
 			type : mongoose.Schema.ObjectId
 			required: true
 			ref: 'Program'
+			index: true
 		days:
 			type: Number
 			required: true
