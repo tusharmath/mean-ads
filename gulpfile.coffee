@@ -29,7 +29,7 @@ gulp.task 'inject-modules', ->
 			filepath = filepath
 			.replace /^.+?\//, '' #removes frontend/, .tmp/
 			.replace /\.coffee/, '' #remove the .coffee extension
-			"'#{filepath}'"
+			"require('../#{filepath}')"
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
@@ -56,6 +56,17 @@ gulp.task 'browserify', ->
 		)
 	.pipe rename 'meanads-sdk.js'
 	.pipe gulp.dest './frontend/lib'
+gulp.task 'browserify-fe', ->
+	gulp.src './frontend/app-bootstrap.coffee', read: false
+	.pipe browserify(
+		debug: config.browserify.debug
+		external: ['angular']
+		transform: ['coffeeify']
+		extensions: ['.coffee']
+		)
+	.pipe rename 'meanads-client.js'
+	.pipe gulp.dest './frontend/lib'
+
 gulp.task 'watch', ->
 	gulp.watch 'frontend/modules/**/*.coffee', ['inject-modules']
 	gulp.watch 'backend/sdk/*.coffee', ['browserify']

@@ -1,5 +1,5 @@
-angular
-.module 'mean-ads', ['ngRoute'
+angular = require 'angular'
+angular.module 'mean-ads', ['ngRoute'
 	'restangular'
 	'ui.ace'
 	'mean.core'
