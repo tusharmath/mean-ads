@@ -9,29 +9,36 @@ class SplitTesting
 		path = "#{@_baseExprPath + @utils.snakeCaseToCamelCase module}Expr"
 		@requireP.require path
 
-	_save: (experimentName, scenarioName, command) ->
-		@redis.conn.incr "#{experimentName}:#{scenarioName}:#{command}"
+	_save: (exprName, scenarioName, command) ->
+		@redis.conn.incr "#{exprName}:#{scenarioName}:#{command}"
 
 
-	getExperiment: (experimentName, uuid) ->
-		experimentDescriptor = @_load experimentName
-		{startDate, endDate} = experimentDescriptor
+	getExperiment: (exprName, uuid) ->
+		exprDescriptor = @_load exprName
+		{startDate, endDate} = exprDescriptor
 
-		return null if endDate < @date.now() or startDate > @date.now()
+		return null if(
+			endDate < @date.now() or
+			startDate > @date.now()
+			)
 
-		abExperiment = @ab.createTest experimentName, experimentDescriptor.scenarioDescriptors
+		# Create Experiment
+		abExpr = @ab
+		.createTest exprName, exprDescriptor.scenarioDescriptors
 
 		# Set Scenario Name
-		experimentDescriptor.scenarioName = abExperiment.getGroup experimentName, uuid
+		exprDescriptor.scenarioName = abExpr
+		.getGroup exprName, uuid
 
 		# Add Extension methods
-		experimentDescriptor.execute = (scenarioCallbacks) =>
-			abExperiment.test experimentDescriptor.scenarioName, scenarioCallbacks
-			@_save experimentName, experimentDescriptor.scenarioName, 'execute'
+		exprDescriptor.execute = (scenarioCallbacks) =>
+			abExpr
+			.test exprDescriptor.scenarioName, scenarioCallbacks
+			@_save exprName, exprDescriptor.scenarioName, 'execute'
 
-		experimentDescriptor.convert = =>
-			@_save experimentName, experimentDescriptor.scenarioName, 'convert'
-		experimentDescriptor
+		exprDescriptor.convert = =>
+			@_save exprName, exprDescriptor.scenarioName, 'convert'
+		exprDescriptor
 
 annotate SplitTesting, new Inject(
 	require '../providers/RequireProvider'
