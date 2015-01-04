@@ -60,4 +60,6 @@ exports.uuid = (req, res, next) ->
 	uuid = req.cookies._uuid or nodeUuid.v4()
 	maxAge = config.uuidMaxAge
 	res.cookie '_uuid', uuid,  {maxAge}
+	req.user = req.user or {}
+	req.user.uuid = uuid
 	next()

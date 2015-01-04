@@ -1,5 +1,3 @@
-Dispatcher = require '../modules/Dispatcher'
-DispatchStamper = require '../modules/DispatchStamper'
 {ErrorPool} = require '../config/error-codes'
 {annotate, Inject} = require 'di'
 _ = require 'lodash'
@@ -23,5 +21,8 @@ class DispatchController
 			res.cookie @cookieName, dispatchStamp, signed:true
 			dispatch.markup
 
-annotate DispatchController, new Inject Dispatcher, DispatchStamper
+annotate DispatchController, new Inject(
+	require '../modules/Dispatcher'
+	require '../modules/DispatchStamper'
+	)
 module.exports = DispatchController

@@ -1,5 +1,3 @@
-DispatchStamper = require '../backend/modules/DispatchStamper'
-DateProvider = require '../backend/providers/DateProvider'
 {Injector} = require 'di'
 config = require '../backend/config/config'
 describe 'DispatchStamper:', ->
@@ -8,10 +6,10 @@ describe 'DispatchStamper:', ->
 		@injector = new Injector
 
 		#DispatchStamper
-		@mod = @injector.get DispatchStamper
+		@mod = @injector.getModule 'modules.DispatchStamper', mock: false
 
 		# Date Provider
-		@date = @injector.get DateProvider
+		@date = @injector.getModule 'providers.DateProvider'
 	describe "_getMaxDispatchCount", ->
 		it "returns config.maxDispatchStampCount", ->
 			@mod._getMaxDispatchCount().should.equal config.maxDispatchStampCount
@@ -36,10 +34,8 @@ describe 'DispatchStamper:', ->
 			@mod.parseStamp null
 			.should.deep.equal []
 		it "throws if its not a mean error", ->
-			sinon.stub @date, 'createFromValue'
-			.throws new Error 'Random uncaught error'
-			expect => @mod.parseStamp 'a:1'
-			.to.throw "Random uncaught error"
+			expect => @mod.parseStamp 'a:aasd'
+			.to.throw "Can not parse dispatch timestamp"
 
 	describe "_reduce()", ->
 		it "reduces", ->
@@ -54,8 +50,7 @@ describe 'DispatchStamper:', ->
 			sinon.stub @mod, '_getMaxDispatchCount'
 			.returns 3
 
-			sinon.stub @date, 'now'
-			.returns new Date 1001001
+			@date.now.returns new Date 1001001
 
 			@mockDispatch = subscription: 'asd123NEW'
 
@@ -143,8 +138,7 @@ describe 'DispatchStamper:', ->
 			sinon.stub @mod, '_getConversionMaxAge'
 			.returns 20
 
-			sinon.stub @date, 'now'
-			.returns new Date 250
+			@date.now.returns new Date 250
 
 		it "is yes if subscriptionId is present and time hasnt expired", ->
 			@mod.isConvertableSubscription "a:1,b:240.c:3", 'b'

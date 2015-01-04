@@ -36,16 +36,12 @@ class DispatchStamper
 		_.reduce stampsOldRemoved, @_reduce, ''
 	parseStamp: (stampStr) ->
 		return [] if not stampStr
-		try
-			stamp = _.map stampStr.split(','), (i) =>
-				[subscription, timestamp] = i.split ':'
-				timestamp = @date.createFromValue timestamp
-				if not subscription or no is _.isDate timestamp
-					throw new MeanError 'Can not parse dispatch timestamp.'
-				{subscription, timestamp}
-		catch e
-			if e instanceof MeanError then stamp = [] else throw e
-		stamp
+		_.map stampStr.split(','), (i) ->
+			[subscription, timestamp] = i.split ':'
+			timestamp = new Date parseInt timestamp, 10
+			if not subscription or timestamp.toString() is 'Invalid Date'
+				throw new MeanError 'Can not parse dispatch timestamp.'
+			{subscription, timestamp}
 	isConvertableSubscription: (stampStr, subscriptionId) ->
 		_.any @parseStamp(stampStr), (v) =>
 			v.subscription is subscriptionId and
