@@ -8,15 +8,25 @@ describe "SplitTesting", ->
 		@injector = new Injector [RedisConnectionMock]
 
 		# RequireProvider
+		@mockExperiment =
+			startDate : new Date 2010, 2, 1
+			endDate : new Date 2010, 2, 10
+			scenarioDescriptors : [
+				name: 'a', weight: .5
+			,	name: 'b', weight: .5
+			]
 		@requireP = @injector.getModule 'providers.RequireProvider'
+		@requireP.require.returns @mockExperiment
 
 		# RedisConnection
 		@redis = @injector.getModule 'connections.RedisConnection', mock: false
 
 		# AbTestingProvider
 		@scenarioName = 'sample-scenario-name'
+		@experimentName = 'sample-experiment-name'
 		@abExperiment =
 			getGroup: => @scenarioName
+			getName: => @experimentName
 			test: sinon.spy()
 		@ab = @injector.getModule 'providers.AbTestingProvider'
 		@ab.abTesting.returns createTest: => @abExperiment
@@ -41,24 +51,16 @@ describe "SplitTesting", ->
 			.should.be.ok
 
 	describe "_save()", ->
+		beforeEach ->
+			@mockExperiment = @mod.getExperiment @mockExperiment
 		it "updates command counts counts", ->
-			@mod._save 'aaa', 'bbb', 'ccc'
-			@redis.conn.get 'aaa:bbb:ccc'
+			@mod._save @mockExperiment, 'convertis'
+			@redis.conn.get "#{@experimentName}:#{@scenarioName}:convertis"
 			.should.eventually.equal '1'
 	describe "getExperiment()", ->
 		beforeEach ->
-
-			@mockExperiment =
-				startDate : new Date 2010, 2, 1
-				endDate : new Date 2010, 2, 10
-				scenarioDescriptors : [
-					name: 'a', weight: .5
-				,	name: 'b', weight: .5
-				]
-			@requireP.require.returns @mockExperiment
-
 			@uuid = '915a4c9f-5bde-4b76-a1fe-922943603c13'
-			@experimentName = 'valid-experiment-name'
+			sinon.spy @mod, '_save'
 
 		it "returns null is startDate is in future", ->
 			# startDate 10 Mar 2010
@@ -82,15 +84,19 @@ describe "SplitTesting", ->
 			.execute cb = [1,2,3]
 			@abExperiment.test.calledWith @scenarioName, cb
 			.should.be.ok
-		it "execute method calls save", ->
-			sinon.spy @mod, '_save'
+		it "execute() method calls save", ->
 			@mod.getExperiment @experimentName, @uuid
 			.execute cb = [1,2,3]
-			@mod._save.calledWith @experimentName, @scenarioName, 'execute'
-		it "convert method calls save", ->
-			sinon.spy @mod, '_save'
+			@mod._save.calledWith @mockExperiment, 'execute'
+			.should.be.ok
+		it "convert() method calls save", ->
 			@mod.getExperiment @experimentName, @uuid
-			.convert cb = [1,2,3]
-			@mod._save.calledWith @experimentName, @scenarioName, 'convert'
-
-
+			.convert()
+			@mod._save.calledWith @mockExperiment, 'convert'
+			.should.be.ok
+		it "sets name()", ->
+			@mod.getExperiment @experimentName, @uuid
+			.name().should.equal @experimentName
+		it "sets scenario()", ->
+			@mod.getExperiment @experimentName, @uuid
+			.scenario().should.equal @scenarioName

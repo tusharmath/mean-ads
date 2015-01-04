@@ -11,7 +11,8 @@ class SplitTesting
 		#TODO: Objects should be instantiated here
 		@requireP.require path
 
-	_save: (exprName, scenarioName, command) ->
+	_save: (exprDescriptor, command) ->
+		[exprName, scenarioName] = [exprDescriptor.name(), exprDescriptor.scenario()]
 		@redis.conn.incr "#{exprName}:#{scenarioName}:#{command}"
 
 
@@ -19,27 +20,23 @@ class SplitTesting
 		exprDescriptor = @_load exprName
 		{startDate, endDate} = exprDescriptor
 
-		return null if(
-			endDate < @date.now() or
-			startDate > @date.now()
-			)
+		return null if endDate < @date.now() or startDate > @date.now()
 
 		# Create Experiment
-		abExpr = @ab
-		.createTest exprName, exprDescriptor.scenarioDescriptors
+		abExpr = @ab.createTest exprName, exprDescriptor.scenarioDescriptors
 
-		# Set Scenario Name
-		exprDescriptor.scenarioName = abExpr
-		.getGroup exprName, uuid
+		# Experiment Name Getter
+		exprDescriptor.name = -> abExpr.getName()
 
-		# Add Extension methods
+		# Scenario Name Getter
+		exprDescriptor.scenario = -> abExpr.getGroup uuid
+
+		# Increates execute value by one
 		exprDescriptor.execute = (scenarioCallbacks) =>
-			abExpr
-			.test exprDescriptor.scenarioName, scenarioCallbacks
-			@_save exprName, exprDescriptor.scenarioName, 'execute'
-
-		exprDescriptor.convert = =>
-			@_save exprName, exprDescriptor.scenarioName, 'convert'
+			abExpr.test exprDescriptor.scenario(), scenarioCallbacks
+			@_save exprDescriptor, 'execute'
+		# Increates convert value by one
+		exprDescriptor.convert = => @_save exprDescriptor, 'convert'
 		exprDescriptor
 
 annotate SplitTesting, new Inject(
