@@ -1,5 +1,5 @@
 app = require '../../app'
-_ = require 'lodash'
+
 
 class SubscriptionAlterCtrl
 
