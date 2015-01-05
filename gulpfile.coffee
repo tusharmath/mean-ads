@@ -60,23 +60,13 @@ gulp.task 'browserify-client', ->
 	gulp.src './frontend/app-bootstrap.coffee', read: false
 	.pipe browserify(
 		debug: config.browserify.debug
-		external: ['angular']
 		transform: ['coffeeify']
 		extensions: ['.coffee']
 		)
 	.pipe rename 'meanads-client.js'
 	.pipe gulp.dest './frontend/lib'
-gulp.task 'browserify-vendor', ->
-	gulp.src './frontend/vendor-bootstrap.coffee', read: false
-	.pipe browserify(
-		debug: config.browserify.debug
-		transform: ['coffeeify']
-		extensions: ['.coffee']
-		)
-	.pipe rename 'meanads-vendor.js'
-	.pipe gulp.dest './frontend/lib'
 gulp.task 'watch', ->
-	gulp.watch 'frontend/modules/**/*.coffee', ['inject-modules']
+	gulp.watch ['frontend/modules/**/*.coffee', 'frontend/app.coffee'], ['inject-modules', 'browserify-client']
 	gulp.watch 'backend/sdk/*.coffee', ['browserify']
 	gulp.watch 'bower.json', ['setup-assets']
 
@@ -84,6 +74,5 @@ gulp.task 'setup-assets', [
 	'inject-modules'
 	'browserify-sdk'
 	'browserify-client'
-	'browserify-vendor'
 ]
 
