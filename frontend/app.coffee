@@ -1,10 +1,17 @@
-angular = require 'angular'
-angular.module 'mean-ads', ['ngRoute'
+# Adds to global window
+require "angular"
+require "angular-storage/dist/angular-storage"
+require "angular-jwt/dist/angular-jwt"
+require "angular-route"
+require "angular-cookies"
+require "Restangular"
+require "auth0-angular"
+
+app = angular.module 'mean-ads', [
+	'ngRoute'
 	'restangular'
-	'ui.ace'
 	'mean.core'
 	'auth0'
-	'ui.bootstrap'
 ]
 .run ['auth', (auth) -> auth.hookEvents() ]
 .config [
@@ -29,7 +36,6 @@ angular.module 'mean-ads', ['ngRoute'
 			domain: 'mean-ads.auth0.com'
 			clientID: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
 			loginUrl: '/login'
-			Auth0Widget
 		authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 		$httpProvider.interceptors.push 'AjaxPendingRequests'
 		$httpProvider.interceptors.push 'authInterceptor'
@@ -51,3 +57,4 @@ angular.module 'mean-ads', ['ngRoute'
 		$routeProvider.otherwise redirectTo: '/subscriptions'
 		$locationProvider.html5Mode false
 ]
+module.exports = app
