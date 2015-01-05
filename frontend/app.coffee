@@ -1,12 +1,3 @@
-# Adds to global window
-require "angular"
-require "angular-storage/dist/angular-storage"
-require "angular-jwt/dist/angular-jwt"
-require "angular-route"
-require "angular-cookies"
-require "Restangular"
-require "auth0-angular"
-
 app = angular.module 'mean-ads', [
 	'ngRoute'
 	'restangular'
@@ -15,7 +6,9 @@ app = angular.module 'mean-ads', [
 	'angular-jwt'
 	'angular-storage'
 ]
-.run ['auth', (auth) -> auth.hookEvents() ]
+.run ['auth', (auth) ->
+		auth.hookEvents()
+	]
 .config [
 	'$routeProvider'
 	'$locationProvider'
@@ -24,6 +17,7 @@ app = angular.module 'mean-ads', [
 	'RouteResolverProvider'
 	'authProvider'
 	'ProfileProvider'
+	'jwtInterceptorProvider'
 	(args...) ->
 		[
 			$routeProvider
@@ -33,6 +27,7 @@ app = angular.module 'mean-ads', [
 			routeResolver
 			authProvider
 			profileProvider
+			jwtInterceptorProvider
 		] = args
 		authProvider.init
 			domain: 'mean-ads.auth0.com'
@@ -40,6 +35,8 @@ app = angular.module 'mean-ads', [
 			loginUrl: '/login'
 		authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 		$httpProvider.interceptors.push 'AjaxPendingRequests'
+		$httpProvider.interceptors.push 'jwtInterceptor'
+		jwtInterceptorProvider.tokenGetter = ['store', (store) -> store.get 'token']
 
 		restProvider.setBaseUrl '/api/v1/core'
 		restProvider.setDefaultHttpFields cache: false

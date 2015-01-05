@@ -32,10 +32,12 @@ class RouteResolveProvider
 	resolve: (routeProvider, resource, actions = ['Index']) =>
 
 		_.each actions, (action) =>
+			requiresLogin = false
 			templateUrl = @getTemplateUrl resource, action
 			controller = @getController resource, action
 			route = @getRoute resource, action
-			# console.log route, {templateUrl, controller}
-			routeProvider.when route, {templateUrl, controller}
+			if resource isnt 'Login'
+				requiresLogin = true
+			routeProvider.when route, {templateUrl, controller, requiresLogin}
 
 app.provider 'RouteResolver', RouteResolveProvider
