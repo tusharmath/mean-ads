@@ -1,4 +1,4 @@
-app = require '../../app'
+app = require './app'
 class ProfileProvider
 	constructor: ->
 		@defer = null

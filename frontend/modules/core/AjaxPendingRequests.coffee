@@ -1,4 +1,4 @@
-app = require '../../app'
+app = require './app'
 class AjaxPendingRequests
 	constructor: (@q) ->
 		@xhrCount = 0

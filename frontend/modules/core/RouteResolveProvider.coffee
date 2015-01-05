@@ -1,4 +1,4 @@
-app = require '../../app'
+app = require './app'
 class RouteResolveProvider
 
 	$get: -> {@resolve}
