@@ -45,11 +45,11 @@ app = angular.module 'mean-ads', [
 		_routeResolver = _.curry(routeResolver.resolve, 2) $routeProvider
 		#TODO: Read all controllers and their actions and create this
 		_routeResolver 'Dashboard'
-		_routeResolver 'Login'
-		_routeResolver 'Program', ['Create', 'Update', 'List', 'Snippet']
-		_routeResolver 'Campaign', ['Create', 'Update', 'List', 'Metrics']
-		_routeResolver 'Subscription', ['Create', 'Update', 'List', 'Metrics']
-		_routeResolver 'Style', ['Create', 'Update', 'List']
+		_routeResolver 'Login', requiresLogin: false
+		_routeResolver 'Program', actions: ['Create', 'Update', 'List', 'Snippet']
+		_routeResolver 'Campaign', actions: ['Create', 'Update', 'List', 'Metrics']
+		_routeResolver 'Subscription', actions: ['Create', 'Update', 'List', 'Metrics']
+		_routeResolver 'Style', actions: ['Create', 'Update', 'List']
 
 
 		$routeProvider.otherwise redirectTo: '/subscriptions'
