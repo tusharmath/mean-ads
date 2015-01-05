@@ -28,17 +28,16 @@ class RouteResolveProvider
 			when 'List' then "/#{resourcePath}s"
 			when 'Create' then "/#{resourcePath}s/create"
 			else "/#{resourcePath}s/:id/#{action.toLowerCase()}"
-	defaultOptions:
-		actions: ['Index']
-		requiresLogin: true
-	resolve: (routeProvider, resource, options = {}) =>
 
-		{actions, requiresLogin} = _.assign options, @defaultOptions
+	resolve: (routeProvider, resource, options = {}) =>
+		_options =
+			actions: ['Index']
+		{actions} = _.assign _options, options
 		_.each actions, (action) =>
-			requiresLogin = false
 			templateUrl = @getTemplateUrl resource, action
 			controller = @getController resource, action
 			route = @getRoute resource, action
-			routeProvider.when route, {templateUrl, controller, requiresLogin}
+			console.log route, templateUrl, controller
+			routeProvider.when route, {templateUrl, controller}
 
 app.provider 'RouteResolver', RouteResolveProvider
