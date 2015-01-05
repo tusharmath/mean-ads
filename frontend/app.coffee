@@ -12,6 +12,8 @@ app = angular.module 'mean-ads', [
 	'restangular'
 	'mean.core'
 	'auth0'
+	'angular-jwt'
+	'angular-storage'
 ]
 .run ['auth', (auth) -> auth.hookEvents() ]
 .config [
@@ -38,7 +40,6 @@ app = angular.module 'mean-ads', [
 			loginUrl: '/login'
 		authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 		$httpProvider.interceptors.push 'AjaxPendingRequests'
-		$httpProvider.interceptors.push 'authInterceptor'
 
 		restProvider.setBaseUrl '/api/v1/core'
 		restProvider.setDefaultHttpFields cache: false
