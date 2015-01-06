@@ -18,7 +18,6 @@ app = angular.module 'mean-ads', [
 	'RestangularProvider'
 	'RouteResolverProvider'
 	'authProvider'
-	'ProfileProvider'
 	'jwtInterceptorProvider'
 	(args...) ->
 		[
@@ -28,13 +27,11 @@ app = angular.module 'mean-ads', [
 			restProvider
 			routeResolver
 			authProvider
-			profileProvider
 			jwtInterceptorProvider
 		] = args
 		authProvider.init
 			domain: 'mean-ads.auth0.com'
 			clientID: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
-		authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 		$httpProvider.interceptors.push 'AjaxPendingRequests'
 		$httpProvider.interceptors.push 'jwtInterceptor'
 		jwtInterceptorProvider.tokenGetter = ['store', (store) -> store.get 'token']
