@@ -66,7 +66,7 @@ gulp.task 'browserify-client', ->
 	.pipe rename 'meanads-client.js'
 	.pipe gulp.dest './frontend/lib'
 gulp.task 'watch', ->
-	gulp.watch ['frontend/modules/**/*.coffee', 'frontend/app.coffee'], ['inject-modules', 'browserify-client']
+	gulp.watch ['frontend/modules/**/*.coffee', 'frontend/**.coffee'], ['inject-modules', 'browserify-client']
 	gulp.watch 'backend/sdk/*.coffee', ['browserify']
 	gulp.watch 'bower.json', ['setup-assets']
 
