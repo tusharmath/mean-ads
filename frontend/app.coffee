@@ -6,8 +6,10 @@ app = angular.module 'mean-ads', [
 	'angular-jwt'
 	'angular-storage'
 ]
-.run ['auth', (auth) ->
+.run ['auth', '$rootScope', '$location', (auth, $rootScope, $location) ->
 		auth.hookEvents()
+		$rootScope.$on 'unauthenticated', ->
+			$location.path '/login'
 	]
 .config [
 	'$routeProvider'
@@ -32,7 +34,6 @@ app = angular.module 'mean-ads', [
 		authProvider.init
 			domain: 'mean-ads.auth0.com'
 			clientID: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
-			loginUrl: '/login'
 		authProvider.on 'loginSuccess', profileProvider.onLoginSuccess
 		$httpProvider.interceptors.push 'AjaxPendingRequests'
 		$httpProvider.interceptors.push 'jwtInterceptor'
