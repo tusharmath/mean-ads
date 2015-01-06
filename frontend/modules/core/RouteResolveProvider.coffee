@@ -37,7 +37,6 @@ class RouteResolveProvider
 			templateUrl = @getTemplateUrl resource, action
 			controller = @getController resource, action
 			route = @getRoute resource, action
-			console.log route, templateUrl, controller
 			routeProvider.when route, {templateUrl, controller}
 
 app.provider 'RouteResolver', RouteResolveProvider
