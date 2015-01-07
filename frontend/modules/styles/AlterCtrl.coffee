@@ -1,18 +1,20 @@
-define ["app", "lodash"], (app, _) ->
-	class StyleAlterCtrl
-		constructor: (@rest, @interpolate, @alter, @tok) ->
-			@alter.bootstrap @, 'style'
+app = require '../../app'
 
-		# TODO: Move to a service
-		_getStyleTags: -> "<style>#{@style.css}</style>"
 
-		beforeSave: () ->
-			@style.placeholders = @tok.tokenize @style.placeholders
+class StyleAlterCtrl
+	constructor: (@rest, @interpolate, @alter, @tok) ->
+		@alter.bootstrap @, 'style'
 
-	StyleAlterCtrl.$inject = [
-		'Restangular'
-		'$interpolate'
-		'AlterControllerExtensionService'
-		'TokenizerService'
-		]
-	app.controller 'StyleAlterCtrl', StyleAlterCtrl
+	# TODO: Move to a service
+	_getStyleTags: -> "<style>#{@style.css}</style>"
+	getRowCount: (str) -> str?.split('\n').length
+	beforeSave: () ->
+		@style.placeholders = @tok.tokenize @style.placeholders
+
+StyleAlterCtrl.$inject = [
+	'Restangular'
+	'$interpolate'
+	'AlterControllerExtensionService'
+	'TokenizerService'
+	]
+app.controller 'StyleAlterCtrl', StyleAlterCtrl
