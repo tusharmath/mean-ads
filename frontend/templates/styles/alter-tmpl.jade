@@ -18,15 +18,14 @@
 						a(href="http://olado.github.io/doT/index.html" target="_blank") DotJS
 
 			.form-group
-				.col-md-4
-					div
-						label.text-muted.control-label Stylesheet (CSS)
-					div(ui-ace="{mode:'handlebars', theme: 'github', onChange: ctrl.onContentChange}" ng-model="ctrl.style.css")
+				label.col-md-4.control-label Stylesheet (CSS)
+				.col-md-6
 
-				.col-md-8
-					div
-						label.text-muted.control-label HTML
-					div(ui-ace="{mode:'handlebars', theme: 'github', onChange: ctrl.onContentChange}" ng-model="ctrl.style.html")
+					textarea.code.form-control(ng-model="ctrl.style.css" rows="{{ctrl.getRowCount(ctrl.style.css)}}")
+			.form-group
+				label.col-md-4.control-label Html
+				.col-md-6
+					textarea.code.form-control(ng-model="ctrl.style.html" rows="{{ctrl.getRowCount(ctrl.style.html)}}")
 
 			.form-group
 				.col-md-6.col-md-offset-4

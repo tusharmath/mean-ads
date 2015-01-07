@@ -1,9 +1,11 @@
-define [
-	"angular"
-	'lib/auth0-widget'
-	'lib/auth0-angular'
-	'lib/angular-cookies'
-	"lib/module-loader"
-	"lib/ui-bootstrap-tpls"
-], (angular) ->
-	angular.bootstrap document, ['mean-ads']
+# Adds to global window
+require "angular"
+require "angular-storage/dist/angular-storage"
+require "angular-jwt/dist/angular-jwt"
+require "angular-route"
+require "angular-cookies"
+require "restangular"
+require "auth0-angular"
+window._ = require 'lodash'
+modules = require './lib/module-loader'
+angular.bootstrap document, ['mean-ads']

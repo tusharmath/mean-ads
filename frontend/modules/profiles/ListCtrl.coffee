@@ -1,10 +1,12 @@
-define ["app"], (app) ->
-	class ProfileListCtrl
-		constructor: (profilePromise) ->
-			profilePromise.then (@profile) =>
-				# TODO: Must move to a service
-				@profile.picture=@profile.picture.replace 's=480', 's=64'
+app = require '../../app'
 
-	ProfileListCtrl.$inject = ['Profile']
+class ProfileListCtrl
+	constructor: (auth, scope, profile) ->
+		profile.getProfileQ().then (@profile) =>
+			@profile.picture = @_reducePicture @profile.picture
+	_reducePicture: (picture)->
+		picture.replace 's=480', "s=64"
 
-	app.controller 'ProfileListCtrl', ProfileListCtrl
+ProfileListCtrl.$inject = ['auth', '$scope', 'ProfileService']
+
+app.controller 'ProfileListCtrl', ProfileListCtrl
