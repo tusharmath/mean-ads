@@ -22,5 +22,8 @@ html
 				.container-fluid
 					block content
 			.footer
-				p.text-center.block-middle
-					small.text-info version #{package.version} (Beta)
+				.block-center.block-middle.text-center.text-uppercase
+					span copyright ©
+					span #{(new Date(Date.now())).getFullYear() + " " + config.appName}
+					small &nbsp;(Beta)
+		block body-scripts

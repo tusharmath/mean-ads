@@ -1,19 +1,20 @@
 //- TODO: Remove from git
 extends ./layout.jade
 
-block head-scripts
-	script(data-main="/static/require-config.js" src="/static/lib/require.js")
+block body-scripts
+	script(src="//cdn.auth0.com/js/lock-6.min.js")
+	script(src="/static/lib/meanads-client.js")
 block content
-		.row
-			.col-md-10
-				#circleG.block-center.block-middle
-					div(mean-loader)
-						#circleG_1.circleG
-						#circleG_2.circleG
-						#circleG_3.circleG
-						.clearfix
-		.row
-			.col-md-10
-				.opaque(ng-view)
-			.col-md-2
-				div(ng-include='\'templates/nav/list-tmpl\'')
+	.row
+		.col-md-10
+			#circleG.block-center.block-middle
+				div(mean-loader)
+					#circleG_1.circleG
+					#circleG_2.circleG
+					#circleG_3.circleG
+					.clearfix
+	.row
+		.col-md-10
+			.opaque(ng-view)
+		.col-md-2
+			div(ng-include='\'templates/nav/list-tmpl\'')

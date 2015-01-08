@@ -1,8 +1,10 @@
-define ["app", "lodash"], (app, _) ->
-	class TokenizerService
-		tokenize: (str) ->
-			return [] if str is undefined
-			return str if str instanceof Array is yes
-			return _.compact str.split /[\s,|]/
+app = require '../../app'
 
-	app.service 'TokenizerService', TokenizerService
+
+class TokenizerService
+	tokenize: (str) ->
+		return [] if str is undefined
+		return str if str instanceof Array is yes
+		return _.compact str.split /[\s,|]/
+
+app.service 'TokenizerService', TokenizerService

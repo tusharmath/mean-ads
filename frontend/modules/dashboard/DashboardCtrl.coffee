@@ -1,2 +1,2 @@
-define ["app"], (app) ->
-		app.controller 'DashboardCtrl', ($scope) ->
+app = require '../../app'
+app.controller 'DashboardCtrl', ($scope) ->
