@@ -4,13 +4,13 @@ class ProfileService
 
 	getProfileQ: ->
 		profile = @store.get 'profile'
-		if profile then return @Q -> profile
+		if profile then return @Q (r)-> r profile
 		token = @store.get 'token'
 		return rootscope.$broadcast 'unauthenticated' if not token
 		@auth.getProfile token
 		.then (profile) =>
 			@store.set 'profile', profile
-			ProfileService
+			profile
 
 
 ProfileService.$inject = ['auth', '$q', 'store', '$rootScope']
