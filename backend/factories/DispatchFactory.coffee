@@ -1,10 +1,4 @@
-ModelFactory = require './ModelFactory'
-Utils = require '../Utils'
 Q = require 'q'
-CleanCssProvider = require '../providers/CleanCssProvider'
-DotProvider = require '../providers/DotProvider'
-DateProvder = require '../providers/DateProvider'
-SubscriptionPopulator = require '../modules/SubscriptionPopulator'
 less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
@@ -20,7 +14,6 @@ class DispatchFactory
 		# Required fields
 		{data} = subscription
 		{html,css, _id} = subscription.campaign.program.style
-
 		# Getting the css selector name
 		el = @_elPrefix _id
 
@@ -76,11 +69,11 @@ class DispatchFactory
 		.then =>
 			@createForSubscriptionId subscriptionId
 annotate DispatchFactory, new Inject(
-	ModelFactory
-	DotProvider
-	CleanCssProvider
-	DateProvder
-	Utils
-	SubscriptionPopulator
+	require './ModelFactory'
+	require '../providers/DotProvider'
+	require '../providers/CleanCssProvider'
+	require '../providers/DateProvider'
+	require '../Utils'
+	require '../modules/SubscriptionPopulator'
 	)
 module.exports = DispatchFactory
