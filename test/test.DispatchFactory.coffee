@@ -1,10 +1,4 @@
-DispatchFactory = require '../backend/factories/DispatchFactory'
-Utils = require '../backend/Utils'
-SubscriptionPopulator = require '../backend/modules/SubscriptionPopulator'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
-MongooseProvider = require '../backend/providers/MongooseProvider'
-DateProvider = require '../backend/providers/DateProvider'
-ModelFactory = require '../backend/factories/ModelFactory'
 {mockDataSetup} = require './mocks/MockData'
 {annotate, Injector, Provide} = require 'di'
 Q = require 'q'
@@ -17,23 +11,23 @@ describe 'DispatchFactory:', ->
 		@injector = new Injector [MongooseProviderMock]
 
 		# DispatchFactory
-		@mod = @injector.get DispatchFactory
+		@mod = @injector.getModule 'factories.DispatchFactory', mock: false
 		@mod.Models = {}
 
 		#SubscriptionPopulator
-		@subPopulator =  @injector.get SubscriptionPopulator
+		@subPopulator =  @injector.getModule 'modules.SubscriptionPopulator', mock: false
 
 		#Utils
-		@utils = @injector.get Utils
+		@utils = @injector.getModule 'Utils', mock: false
 
 		#MongooseProvier
-		@mongo = @injector.get MongooseProvider
+		@mongo = @injector.getModule 'providers.MongooseProvider', mock: false
 
 		# DateProvider
-		@date = @injector.get DateProvider
+		@date = @injector.getModule 'providers.DateProvider', mock: false
 
 		#ModelFactory
-		@modelFac = @injector.get ModelFactory
+		@modelFac = @injector.getModule 'factories.ModelFactory', mock: false
 		@Models = @modelFac.models()
 
 		#Mock Data
@@ -139,7 +133,6 @@ describe 'DispatchFactory:', ->
 		it "calls _createDispatchable", ->
 			@mod.createForSubscriptionId 123345
 			.should.eventually.equal 'disp-data'
-
 
 	describe "updateForSubscriptionId()", ->
 		beforeEach ->
