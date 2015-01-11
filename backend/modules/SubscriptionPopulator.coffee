@@ -1,8 +1,5 @@
 ModelFactory = require '../factories/ModelFactory'
 Q = require 'q'
-CleanCssProvider = require '../providers/CleanCssProvider'
-DotProvider = require '../providers/DotProvider'
-DateProvder = require '../providers/DateProvider'
 less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'

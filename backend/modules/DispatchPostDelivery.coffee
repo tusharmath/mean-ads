@@ -3,7 +3,6 @@ DispatchFactory = require '../factories/DispatchFactory'
 SubscriptionPopulator = require './SubscriptionPopulator'
 Utils = require '../Utils'
 Q = require 'q'
-CleanCssProvider = require '../providers/CleanCssProvider'
 DotProvider = require '../providers/DotProvider'
 DateProvder = require '../providers/DateProvider'
 less = require 'less'
@@ -12,7 +11,7 @@ _ = require 'lodash'
 
 # Round Robin Dispatcher
 class Dispatcher
-	constructor: (@modelFac, @dot, @css, @date, @subPopulator, @utils, @dispatchFac) ->
+	constructor: (@modelFac, @dot, @date, @subPopulator, @utils, @dispatchFac) ->
 	_getModel: (name) -> @modelFac.models()[name]
 
 	_increaseUsedCredits: (subscription) ->
@@ -41,7 +40,6 @@ class Dispatcher
 annotate Dispatcher, new Inject(
 	ModelFactory
 	DotProvider
-	CleanCssProvider
 	DateProvder
 	SubscriptionPopulator
 	Utils
