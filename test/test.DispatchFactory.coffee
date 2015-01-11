@@ -53,7 +53,13 @@ describe 'DispatchFactory:', ->
 			{_id} = @subscriptionP.campaign.program.style
 			@mod._interpolateMarkup @subscriptionP
 			.should.eventually.equal "<style>.ae-#{_id} p{position:absolute}.ae-#{_id} a.selected{color:#f3a}</style><div class=\"ae-#{_id}\"><div>aaa</div><h2 href=\"ccc\">bbb</h2></div>"
-
+		it "calls HTML minifier", ->
+			{_id} = @subscriptionP.campaign.program.style
+			{style} = @subscriptionP.campaign.program
+			style.html = "<div> A A A </div>    <p> B B B </p>"
+			style.css = ''
+			@mod._interpolateMarkup @subscriptionP
+			.should.eventually.equal "<div class=\"ae-#{_id}\"><div>A A A</div><p>B B B</p></div>"
 		# TODO: Write independent tests
 
 	describe "_createDispatchable()", ->

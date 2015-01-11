@@ -5,7 +5,7 @@ _ = require 'lodash'
 
 # Round Robin DispatchFactory
 class DispatchFactory
-	constructor: (@modelFac, @dot, @css, @date, @utils, @subPopulator) ->
+	constructor: (@modelFac, @dot, @htmlMinify, @date, @utils, @subPopulator) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
@@ -28,8 +28,11 @@ class DispatchFactory
 			{css} = renderedCss
 
 			# Final Output
-			return _markup if not css or css is ''
-			"<style>#{@css.minify css}</style>#{_markup}"
+			if not css or css is ''
+				out = _markup
+			else
+				out = "<style>#{css}</style>#{_markup}"
+			@htmlMinify.minify out
 	_createDispatchable: (subscription) ->
 		{campaign} = subscription
 		{program} = campaign
@@ -71,7 +74,7 @@ class DispatchFactory
 annotate DispatchFactory, new Inject(
 	require './ModelFactory'
 	require '../providers/DotProvider'
-	require '../providers/CleanCssProvider'
+	require '../providers/HtmlMinifierProvider'
 	require '../providers/DateProvider'
 	require '../Utils'
 	require '../modules/SubscriptionPopulator'
