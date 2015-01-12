@@ -35,6 +35,15 @@ describe 'DispatchController:', ->
 			@mod.actions.$ad @req, @res
 			.then => @dispatcher.next.calledWith '123234', ['a', 'b']
 			.should.eventually.be.ok
+		it "ignores k if not an array", ->
+			@req.query = p:'123234', k: 'xyz'
+			@mod.actions.$ad @req, @res
+			.then =>
+				@dispatcher.next.calledWithExactly '123234'
+				.should.be.ok
+				@dispatcher.next.calledOn @dispatcher
+				.should.be.ok
+
 		it "set Access-Control-Allow-Origin headers", ->
 			@req.headers = origin: 'a'
 			@mod.actions.$ad @req, @res

@@ -11,7 +11,10 @@ class DispatchController
 	cookieName: '_sub'
 	$ad: (req, res) =>
 		{origin} = req.headers
-		@dispatch.next req.query.p, req.query.k
+		{k,p} = req.query
+		nextArgs = [p]
+		nextArgs.push k if _.isArray k
+		@dispatch.next.apply @dispatch, nextArgs
 		.then (dispatch) =>
 			return '' if not dispatch
 			if _.contains dispatch.allowedOrigins, origin
