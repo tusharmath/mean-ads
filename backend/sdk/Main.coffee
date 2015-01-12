@@ -6,7 +6,7 @@ HostNameBuilder = require './HostNameBuilder'
 class Main
 	constructor: (@exec, @windowP, @host) ->
 
-	ma : (command, args) ->
+	ma : (command, args) =>
 		@exec.execute command, args
 	setup: ->
 

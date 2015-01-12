@@ -28,6 +28,10 @@ describe "Main", ->
 		.returns @window
 
 	describe "setup()", ->
+		before ->
+			sinon.spy Main::, 'ma'
+		after ->
+			Main::ma.restore()
 		it "be a function", -> @mod.setup.should.be.a.Function
 		it "setups the hostnamebuilder", ->
 			@mod.setup()
@@ -49,3 +53,8 @@ describe "Main", ->
 			delete @window.ma
 			@mod.setup()
 			@exec.execute.callCount.should.equal 0
+		it "context should be static for ma", ->
+			@mod.setup()
+			@window.ma()
+			Main::ma.calledOn @mod
+			.should.be.ok
