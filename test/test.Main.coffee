@@ -1,6 +1,5 @@
 Main = require '../backend/sdk/Main'
 WindowProvider = require '../backend/providers/WindowProvider'
-CommandExecutor = require '../backend/sdk/CommandExecutor'
 HostNameBuilder = require '../backend/sdk/HostNameBuilder'
 HttpProviderMock = require './mocks/HttpProviderMock'
 {Injector} = require 'di'
@@ -15,8 +14,7 @@ describe "Main", ->
 		sinon.spy @host, 'setup'
 
 		#CommandExecutor
-		@exec = @injector.get CommandExecutor
-		sinon.stub @exec, 'execute'
+		@exec = @injector.getModule 'sdk.CommandExecutor'
 
 		# Main
 		@mod = @injector.get Main
@@ -58,3 +56,10 @@ describe "Main", ->
 			@window.ma()
 			Main::ma.calledOn @mod
 			.should.be.ok
+	describe "ma()", ->
+		it "calls executables", ->
+			@mod.ma 'convert', 'AEvFxjRyb6', flag: true
+			@exec.execute.calledWith 'convert', ['AEvFxjRyb6', flag: true]
+			.should.be.ok
+
+
