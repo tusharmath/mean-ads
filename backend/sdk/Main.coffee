@@ -6,7 +6,8 @@ HostNameBuilder = require './HostNameBuilder'
 class Main
 	constructor: (@exec, @windowP, @host) ->
 
-	ma : (command, args) ->
+	# command: string, args: Array
+	ma : (command, args...) =>
 		@exec.execute command, args
 	setup: ->
 
@@ -19,7 +20,7 @@ class Main
 			if window.ma.q
 				for savedArgs in window.ma.q
 					[cmd, arg2...]  = savedArgs
-					@ma cmd, arg2
+					@ma cmd, arg2...
 
 		# # Override the original ma
 		window.ma = @ma
