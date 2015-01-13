@@ -1,14 +1,8 @@
-Dispatcher = require '../backend/modules/Dispatcher'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
-MongooseProvider = require '../backend/providers/MongooseProvider'
-DateProvider = require '../backend/providers/DateProvider'
-ModelFactory = require '../backend/factories/ModelFactory'
 {mockDataSetup} = require './mocks/MockData'
 {annotate, Injector, Provide} = require 'di'
 Q = require 'q'
 {ErrorPool} = require '../backend/config/error-codes'
-DispatchPostDelivery = require '../backend/modules/DispatchPostDelivery'
-DispatchFactory = require '../backend/factories/DispatchFactory'
 
 _json = (obj) ->
 	JSON.parse JSON.stringify obj
@@ -17,17 +11,17 @@ describe 'Dispatcher:', ->
 		@injector = new Injector [MongooseProviderMock]
 
 		# Dispatcher
-		@mod = @injector.get Dispatcher
+		@mod = @injector.getModule 'modules.Dispatcher', mock: no
 		@mod.Models = {}
 
 		#MongooseProvier
-		@mongo = @injector.get MongooseProvider
+		@mongo = @injector.getModule 'providers.MongooseProvider',  mock: no
 
 		# DateProvider
-		@date = @injector.get DateProvider
+		@date = @injector.getModule 'providers.DateProvider', mock: no
 
 		#ModelFactory
-		@modelFac = @injector.get ModelFactory
+		@modelFac = @injector.getModule 'factories.ModelFactory',  mock: no
 		@Models = @modelFac.models()
 
 		#Mock Data
@@ -35,12 +29,12 @@ describe 'Dispatcher:', ->
 
 		#DispatchPostDelivery
 		@mockPromise = done: sinon.spy()
-		@dispatchDelivery = @injector.get DispatchPostDelivery
-		sinon.stub @dispatchDelivery, 'delivered'
+		@dispatchDelivery = @injector.getModule 'modules.DispatchPostDelivery'
+		@dispatchDelivery.delivered
 		.returns @mockPromise
 
 		#DispatchFactory
-		@dispatchFac = @injector.get DispatchFactory
+		@dispatchFac = @injector.getModule 'factories.DispatchFactory',  mock: no
 
 	afterEach ->
 		@mongo.__reset()
