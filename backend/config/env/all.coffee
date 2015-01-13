@@ -39,3 +39,8 @@ module.exports =
 	]
 	redis:
 		uri: process.env.REDISCLOUD_URL or 'tcp://localhost:6379'
+	htmlMinify:
+		removeComments: yes
+		collapseWhitespace: yes
+		minifyJS: true
+		minifyCSS: true

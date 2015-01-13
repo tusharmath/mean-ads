@@ -16,7 +16,7 @@ _ = require 'lodash'
 ###
 
 {Injector} = require 'di'
-
+global.Injector = Injector
 Injector::getModule = (path, _options = {}) ->
 	options =
 		mock: yes

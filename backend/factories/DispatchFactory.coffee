@@ -1,17 +1,11 @@
-ModelFactory = require './ModelFactory'
-Utils = require '../Utils'
 Q = require 'q'
-CleanCssProvider = require '../providers/CleanCssProvider'
-DotProvider = require '../providers/DotProvider'
-DateProvder = require '../providers/DateProvider'
-SubscriptionPopulator = require '../modules/SubscriptionPopulator'
 less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 # Round Robin DispatchFactory
 class DispatchFactory
-	constructor: (@modelFac, @dot, @css, @date, @utils, @subPopulator) ->
+	constructor: (@modelFac, @dot, @htmlMinify, @date, @utils, @subPopulator) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
@@ -20,7 +14,6 @@ class DispatchFactory
 		# Required fields
 		{data} = subscription
 		{html,css, _id} = subscription.campaign.program.style
-
 		# Getting the css selector name
 		el = @_elPrefix _id
 
@@ -35,8 +28,11 @@ class DispatchFactory
 			{css} = renderedCss
 
 			# Final Output
-			return _markup if not css or css is ''
-			"<style>#{@css.minify css}</style>#{_markup}"
+			if not css or css is ''
+				out = _markup
+			else
+				out = "<style>#{css}</style>#{_markup}"
+			@htmlMinify.minify out
 	_createDispatchable: (subscription) ->
 		{campaign} = subscription
 		{program} = campaign
@@ -76,11 +72,11 @@ class DispatchFactory
 		.then =>
 			@createForSubscriptionId subscriptionId
 annotate DispatchFactory, new Inject(
-	ModelFactory
-	DotProvider
-	CleanCssProvider
-	DateProvder
-	Utils
-	SubscriptionPopulator
+	require './ModelFactory'
+	require '../providers/DotProvider'
+	require '../providers/HtmlMinifierProvider'
+	require '../providers/DateProvider'
+	require '../Utils'
+	require '../modules/SubscriptionPopulator'
 	)
 module.exports = DispatchFactory
