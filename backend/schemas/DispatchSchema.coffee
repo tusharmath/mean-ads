@@ -27,5 +27,8 @@ DispatchSchema = (mongoose) ->
 		keywords:
 			type: [String]
 			index: true
+		# Subscription Data for rendering
+		data:
+			type: mongoose.Schema.Types.Mixed
 
 module.exports = DispatchSchema

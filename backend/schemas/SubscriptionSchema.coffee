@@ -24,7 +24,6 @@ SubscriptionSchema = (mongoose) ->
 			default: Date.now
 		data:
 			type: mongoose.Schema.Types.Mixed
-			require: true
 		owner:
 			type: String
 			required: true
