@@ -1,4 +1,6 @@
 Q = require 'q'
+_ = require 'lodash'
+# TODO: Make it readable!
 ownerId = 9000
 campaign =
 	name: 'apple-campaign'
@@ -30,6 +32,19 @@ subscription4 =
 	usedCredits: 120
 	data: a:'aaa4', b: 'bbb4', c: 'ccc4'
 	owner: ownerId
+dispatches = [
+	markup: 'hello world 1'
+	startDate: new Date 2014, 1, 1
+	keywords: ['aa', 'bb']
+,
+	markup: 'hello world 2 '
+	startDate: new Date 2014, 1, 1
+	keywords: ['bb', 'cc']
+,
+	markup: 'hello world 3'
+	startDate: new Date 2014, 1, 1
+	keywords: ['cc', 'dd']
+]
 program =
 	name: 'apple-program'
 	owner: ownerId
@@ -64,3 +79,8 @@ exports.mockDataSetup = ->
 			new @Models.Subscription(subscription4).saveQ()
 		]
 	.spread (@subscription) =>
+		Q.all _.map dispatches, (d) =>
+			d.subscription = @subscription._id
+			d.program = @program._id
+			new @Models.Dispatch(d).saveQ()
+	.spread (@dispatch) =>

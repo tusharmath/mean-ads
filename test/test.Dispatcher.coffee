@@ -2,6 +2,7 @@ MongooseProviderMock = require './mocks/MongooseProviderMock'
 {mockDataSetup} = require './mocks/MockData'
 {annotate, Injector, Provide} = require 'di'
 Q = require 'q'
+_ = require 'lodash'
 {ErrorPool} = require '../backend/config/error-codes'
 
 _json = (obj) ->
@@ -18,7 +19,8 @@ describe 'Dispatcher:', ->
 		@mongo = @injector.getModule 'providers.MongooseProvider',  mock: no
 
 		# DateProvider
-		@date = @injector.getModule 'providers.DateProvider', mock: no
+		@date = @injector.getModule 'providers.DateProvider'
+		@date.now.returns new Date 2014, 1, 2
 
 		#ModelFactory
 		@modelFac = @injector.getModule 'factories.ModelFactory',  mock: no
@@ -30,8 +32,7 @@ describe 'Dispatcher:', ->
 		#DispatchPostDelivery
 		@mockPromise = done: sinon.spy()
 		@dispatchDelivery = @injector.getModule 'modules.DispatchPostDelivery'
-		@dispatchDelivery.delivered
-		.returns @mockPromise
+		@dispatchDelivery.delivered.returns @mockPromise
 
 		#DispatchFactory
 		@dispatchFac = @injector.getModule 'factories.DispatchFactory',  mock: no
@@ -41,29 +42,18 @@ describe 'Dispatcher:', ->
 
 	describe "next()", ->
 		beforeEach ->
-			# Stubbing the Current date
-			sinon.stub @date, 'now'
-			.returns new Date 2014, 1, 2
+
 
 			# Fake dispatch
 			@mockDataSetup()
-			.then =>
-				dispatch =
-					markup: 'hello world'
-					subscription: @subscription._id
-					program : @program._id
-					startDate: new Date 2014, 1, 1
-					keywords: ['aa', 'bb']
-				@Models.Dispatch(dispatch).saveQ()
-			.then (@dispatch)=>
 
 		it "queries by program id", ->
 			@mod.next @program._id
 			.should.eventually.have.property 'markup'
-			.equal "hello world"
+			.equal "hello world 1"
 
 		it "queries null with keywords", ->
-			@mod.next @program._id, ['cc']
+			@mod.next @program._id, ['ff']
 			.should.eventually.equal null
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']

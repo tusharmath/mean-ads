@@ -85,26 +85,26 @@ describe 'DispatchFactory:', ->
 		it "Ignores dispatch if campaign is not enabled", ->
 			@subscriptionP.campaign.isEnabled = false
 			@mod._createDispatchable @subscriptionP
-			.then =>
-				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+			.then => @Models.Dispatch.count().execQ()
+			.should.eventually.equal 3
 		it "Ignores dispatch if used credits equal totalCredits", ->
 			@subscriptionP.usedCredits = @subscriptionP.totalCredits = 120
 			@mod._createDispatchable @subscriptionP
-			.then =>
-				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+			.then =>@Models.Dispatch.count().execQ()
+			.should.eventually.equal 3
 		it "Ignores dispatch, subscription has expired", ->
 			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns yes
 			@mod._createDispatchable @subscriptionP
-			.then =>
-				@Models.Dispatch.findQ().should.eventually.be.of.length 0
+			.then =>@Models.Dispatch.count().execQ()
+			.should.eventually.equal 3
 		it "Creates a Dispatch with subscription start date", ->
 			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns no
+			@subscriptionP.startDate = startDate = new Date Date.now()
 			@mod._createDispatchable @subscriptionP
-			.then => @Models.Dispatch.findOneQ()
 			.should.eventually.have.property 'startDate'
-			.to.equalDate @subscriptionP.startDate
+			.to.equalDate startDate
 
 	describe "removeForSubscriptionId()", ->
 		beforeEach ->
