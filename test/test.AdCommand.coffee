@@ -31,25 +31,25 @@ describe "AdCommand", ->
 			sinon.stub @mod, '_getUrl'
 			.returns 'fake-http-url'
 			@program = 102
-			@element = {}
+			@elements = [{} , {} , {} , {} ]
 
 		it "be a function", -> @mod.execute.should.be.a.Function
-		it "returns null if program is empty",  ->
+		it "returns null if program is empty", ->
 			expect @mod.execute()
 			.to.equal null
-		it "calls http.get",  ->
-			@mod.execute @program, @element
+		it "calls http.get", ->
+			@mod.execute @program, @elements
 			@http.get.calledWith 'fake-http-url'
 			.should.be.ok
 		it "updates the innerHtml", ->
-			@mod.execute @program, @element
-			@http.$flush '<fake-response></fake-response>', null, null
-			@element.innerHTML.should.equal '<fake-response></fake-response>'
+			@mod.execute @program, @elements
+			@http.$flush ['<fake-response></fake-response>'], null, null
+			@elements[0].innerHTML.should.equal '<fake-response></fake-response>'
 
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->
 			@mod._getUrl 'abc', ['a','b', 'c']
-			.should.equal 'shit://mean-ads.io/api/v1/dispatch/ad?p=abc&k=a&k=b&k=c'
+			.should.equal 'shit://mean-ads.io/api/v1/dispatch/abc?k=a&k=b&k=c&l=1'
 		it "creates query params with only p", ->
 			@mod._getUrl 'abc'
-			.should.equal 'shit://mean-ads.io/api/v1/dispatch/ad?p=abc'
+			.should.equal 'shit://mean-ads.io/api/v1/dispatch/abc?l=1'
