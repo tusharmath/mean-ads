@@ -16,14 +16,14 @@ describe 'Dispatcher:', ->
 		@mod.Models = {}
 
 		#MongooseProvier
-		@mongo = @injector.getModule 'providers.MongooseProvider',  mock: no
+		@mongo = @injector.getModule 'providers.MongooseProvider', mock: no
 
 		# DateProvider
 		@date = @injector.getModule 'providers.DateProvider'
 		@date.now.returns new Date 2014, 1, 2
 
 		#ModelFactory
-		@modelFac = @injector.getModule 'factories.ModelFactory',  mock: no
+		@modelFac = @injector.getModule 'factories.ModelFactory', mock: no
 		@Models = @modelFac.models()
 
 		#Mock Data
@@ -35,7 +35,7 @@ describe 'Dispatcher:', ->
 		@dispatchDelivery.delivered.returns @mockPromise
 
 		#DispatchFactory
-		@dispatchFac = @injector.getModule 'factories.DispatchFactory',  mock: no
+		@dispatchFac = @injector.getModule 'factories.DispatchFactory', mock: no
 
 	afterEach ->
 		@mongo.__reset()
@@ -49,14 +49,16 @@ describe 'Dispatcher:', ->
 
 		it "queries by program id", ->
 			@mod.next @program._id
+			.then (d) -> d[0]
 			.should.eventually.have.property 'markup'
 			.equal "hello world 1"
 
 		it "queries null with keywords", ->
 			@mod.next @program._id, ['ff']
-			.should.eventually.equal null
+			.should.eventually.be.of.length 0
 		it "queries with keywords", ->
 			@mod.next @program._id, ['aa']
+			.then (d) -> d[0]
 			.should.eventually.have.property '_id'
 			.be.deep.equal @dispatch._id
 
@@ -67,6 +69,7 @@ describe 'Dispatcher:', ->
 
 		it "resolves to the dispatch", ->
 			@mod.next @program._id
+			.then (d) -> d[0]
 			.should.eventually.have.property '_id'
 			.to.deep.equal @dispatch._id
 		it "calls done of _postDelivery()", ->
@@ -76,14 +79,17 @@ describe 'Dispatcher:', ->
 			# Mocking current date to be before the startDAte
 			@date.now.returns new Date 2014, 0, 1
 			@mod.next @program._id
-			.should.eventually.equal null
+			.should.eventually.be.of.length 0
 		it "resolves to Dispatch if startDate is less than currentDate", ->
 			# Mocking current date to be after the startDate
-			@date.now.returns new Date 2014, 2,1
+			@date.now.returns new Date 2014, 2, 1
 			@mod.next @program._id
+			.then (d) -> d[0]
 			.should.eventually.have.property '_id'
 			.to.deep.equal @dispatch._id
-
+		it "resolves to an array of length equal to count", ->
+			@mod.next @program._id, [] , 3
+			.should.eventually.be.of.length 3
 	describe "subscriptionCreated()", ->
 		beforeEach ->
 			sinon.stub @dispatchFac, 'createForSubscriptionId'

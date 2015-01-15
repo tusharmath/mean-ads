@@ -16,7 +16,7 @@ class Dispatcher
 		) ->
 
 	_getModel: (name) -> @modelFac.models()[name]
-	next: (programId, keywords = []) ->
+	next: (programId, keywords = [], count = 1) ->
 		q = @_getModel 'Dispatch'
 		.where program: programId
 		.where startDate: $lte: @date.now()
@@ -26,7 +26,9 @@ class Dispatcher
 			.where 'keywords'
 			.in keywords
 		q.sort lastDeliveredOn: 'asc'
-		.findOneQ()
+		.find()
+		.limit count
+		.execQ()
 		.then (dispatch) =>
 			if dispatch
 				@dispatchDelivery.delivered dispatch
