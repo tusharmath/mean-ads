@@ -24,8 +24,6 @@ class Dispatcher
 	getAllowedOrigins: (dispatchList) ->
 			dispatch = _.find dispatchList, (d) -> d.allowedOrigins.length > 0
 			return if dispatch then dispatch.allowedOrigins else []
-	# TODO: Find a better name
-	_postQuery: (dispatchList) ->
 
 	next: (programId, options) ->
 		{keywords, limit} = @_defaultOptions options
