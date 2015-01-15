@@ -42,8 +42,6 @@ describe 'Dispatcher:', ->
 
 	describe "next()", ->
 		beforeEach ->
-
-
 			# Fake dispatch
 			@mockDataSetup()
 
@@ -54,13 +52,11 @@ describe 'Dispatcher:', ->
 			.equal "hello world 1"
 
 		it "queries null with keywords", ->
-			@mod.next @program._id, ['ff']
+			@mod.next @program._id, keywords: ['ff']
 			.should.eventually.be.of.length 0
 		it "queries with keywords", ->
-			@mod.next @program._id, ['aa']
-			.then (d) -> d[0]
-			.should.eventually.have.property '_id'
-			.be.deep.equal @dispatch._id
+			@mod.next @program._id, keywords: ['aa']
+			.should.eventually.be.of.length 1
 
 		it "calls postDelivery", ->
 			@mod.next @program._id
@@ -87,9 +83,9 @@ describe 'Dispatcher:', ->
 			.then (d) -> d[0]
 			.should.eventually.have.property '_id'
 			.to.deep.equal @dispatch._id
-		it "resolves to an array of length equal to count", ->
-			@mod.next @program._id, [] , 3
-			.should.eventually.be.of.length 3
+		it "resolves to an array of length equal to limit", ->
+			@mod.next @program._id, limit: 2
+			.should.eventually.be.of.length 2
 	describe "subscriptionCreated()", ->
 		beforeEach ->
 			sinon.stub @dispatchFac, 'createForSubscriptionId'

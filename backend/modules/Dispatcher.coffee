@@ -16,7 +16,11 @@ class Dispatcher
 		) ->
 
 	_getModel: (name) -> @modelFac.models()[name]
-	next: (programId, keywords = [], count = 1) ->
+	_defaultOptions:
+		keywords: []
+		limit: 1
+	next: (programId, options) ->
+		{keywords, limit} = _.assign @_defaultOptions, options
 		q = @_getModel 'Dispatch'
 		.where program: programId
 		.where startDate: $lte: @date.now()
@@ -27,7 +31,7 @@ class Dispatcher
 			.in keywords
 		q.sort lastDeliveredOn: 'asc'
 		.find()
-		.limit count
+		.limit limit
 		.execQ()
 		.then (dispatch) =>
 			if dispatch
