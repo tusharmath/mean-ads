@@ -86,9 +86,9 @@ describe 'Dispatcher:', ->
 		it "resolves to an array of length equal to limit", ->
 			@mod.next @program._id, limit: 2
 			.should.eventually.be.of.length 2
-	describe "_getAllowedOrigins()", ->
+	describe "getAllowedOrigins()", ->
 		it "returns an array", ->
-			@mod._getAllowedOrigins()
+			@mod.getAllowedOrigins()
 			.should.deep.equal []
 		it "returns the first allowed origin", ->
 			dispatches = [
@@ -96,7 +96,7 @@ describe 'Dispatcher:', ->
 				{allowedOrigins: []}
 				{allowedOrigins: ['b', 'c']}
 			]
-			@mod._getAllowedOrigins dispatches
+			@mod.getAllowedOrigins dispatches
 			.should.deep.equal ['a']
 		it "ignores empty allowedOrigins", ->
 				dispatches = [
@@ -104,7 +104,7 @@ describe 'Dispatcher:', ->
 					{allowedOrigins: ['b', 'c']}
 					{allowedOrigins: ['a']}
 				]
-				@mod._getAllowedOrigins dispatches
+				@mod.getAllowedOrigins dispatches
 				.should.deep.equal ['b', 'c']
 	describe "subscriptionCreated()", ->
 		beforeEach ->
