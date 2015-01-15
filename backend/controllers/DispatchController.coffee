@@ -3,7 +3,7 @@
 _ = require 'lodash'
 
 class DispatchController
-	constructor: (@dispatch, @stamper) ->
+	constructor: (@dispatch) ->
 		@actions =
 			actionMap: $index: [ 'get', -> '/dispatch/:program']
 		@actions.$index = @$index
@@ -17,17 +17,14 @@ class DispatchController
 		{origin} = req.headers
 		{program} = req.params
 		@dispatch.next program, @_dispatcherOptions req.query
-		.then (dispatch) =>
-			return '' if not dispatch
-			if _.contains dispatch.allowedOrigins, origin
+		.then (dispatchList) =>
+			return '' if not dispatchList
+			if _.contains dispatchList.allowedOrigins, origin
 				res.set 'Access-Control-Allow-Origin', origin
 				res.set 'Access-Control-Allow-Credentials', true
-			dispatchStamp = @stamper.appendStamp req.signedCookies[@cookieName], dispatch
-			res.cookie @cookieName, dispatchStamp, signed: true
-			dispatch.markup
+			dispatchList.markup
 
 annotate DispatchController, new Inject(
 	require '../modules/Dispatcher'
-	require '../modules/DispatchStamper'
 	)
 module.exports = DispatchController
