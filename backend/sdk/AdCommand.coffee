@@ -16,7 +16,8 @@ class AdCommand
 	execute: (program, elements, keywords) ->
 		return null if not program or not elements
 		url = @_getUrl program, keywords, elements.length
-		@http.get url, {withCredentials: true} , (markupList, status, obj) ->
+		@http.get url, {withCredentials: true} , (body, status, obj) ->
+			markupList = JSON.parse body
 			elements[i].innerHTML = markup for markup, i in markupList
 
 annotate AdCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor

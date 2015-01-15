@@ -42,8 +42,9 @@ describe "AdCommand", ->
 			@http.get.calledWith 'fake-http-url'
 			.should.be.ok
 		it "updates the innerHtml", ->
+			response = JSON.stringify ['<fake-response></fake-response>']
 			@mod.execute @program, @elements
-			@http.$flush ['<fake-response></fake-response>'], null, null
+			@http.$flush response, null, null
 			@elements[0].innerHTML.should.equal '<fake-response></fake-response>'
 
 	describe "_getUrl()", ->
