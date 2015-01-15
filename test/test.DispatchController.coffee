@@ -1,5 +1,3 @@
-DispatchController = require '../backend/controllers/DispatchController'
-Dispatcher = require '../backend/modules/Dispatcher'
 errors = require '../backend/config/error-codes'
 Q = require 'q'
 {Injector} = require 'di'
@@ -15,18 +13,18 @@ describe 'DispatchController:', ->
 
 
 		injector = new Injector
-		@mod = injector.get DispatchController
+		@mod = injector.getModule 'controllers.DispatchController', mock: false
 
 		# Dispatcher
-		@dispatcher = injector.get Dispatcher
-		sinon.stub @dispatcher, 'next'
-		.resolves markup: 'sample-markup', allowedOrigins: ['a', 'b', 'c']
+		@dispatcher = injector.getModule 'modules.Dispatcher'
+		@dispatcher.next.resolves [markup: 'sample-markup']
+		@dispatcher.getAllowedOrigins.returns ['http://a.com', 'http://b.com']
 
 	describe "$index()", ->
 
 		it "calls resolve with dispatcher.next", ->
 			@mod.actions.$index @req, @res
-			.should.eventually.equal 'sample-markup'
+			.should.eventually.deep.equal ['sample-markup']
 		it "calls next", ->
 			@req.query = k: ['a', 'b'], l: 100
 			@mod.actions.$index @req, @res
@@ -40,29 +38,20 @@ describe 'DispatchController:', ->
 				.should.be.ok
 				@dispatcher.next.calledOn @dispatcher
 				.should.be.ok
-
 		it "set Access-Control-Allow-Origin headers", ->
-			@req.headers = origin: 'a'
+			@req.headers = origin: 'http://a.com'
 			@mod.actions.$index @req, @res
-			.then => @res.set.calledWith 'Access-Control-Allow-Origin', 'a'
+			.then => @res.set.calledWith 'Access-Control-Allow-Origin', 'http://a.com'
 			.should.eventually.be.ok
 		it "set Access-Control-Allow-Credentials headers", ->
-			@req.headers = origin: 'a'
+			@req.headers = origin: 'http://a.com'
 			@mod.actions.$index @req, @res
 			.then => @res.set.calledWith 'Access-Control-Allow-Credentials', true
 			.should.eventually.be.ok
 		it "NOT set cross origin headers", ->
 			@mod.actions.$index @req, @res
 			.then => @res.set.called.should.not.be.ok
-		it "returns empty string", ->
-			@dispatcher.next.resolves null
+		it "returns empty array", ->
+			@dispatcher.next.resolves []
 			@mod.actions.$index @req, @res
-			.should.eventually.equal ''
-		# it "sets the subscription cookie", ->
-		# 	@mod.actions.$index @req, @res
-		# 	.then => @res.cookie.calledWith '_sub', 'alpha-bravo-charlie', signed: true
-		# 	.should.eventually.be.ok
-		# it "calls appendStamp with signed cookies", ->
-		# 	@mod.actions.$index @req, @res
-		# 	.then => @stamper.appendStamp.calledWith @req.signedCookies._sub
-		# 	.should.eventually.be.ok
+			.should.eventually.deep.equal []

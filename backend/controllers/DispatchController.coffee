@@ -18,11 +18,12 @@ class DispatchController
 		{program} = req.params
 		@dispatch.next program, @_dispatcherOptions req.query
 		.then (dispatchList) =>
-			return '' if not dispatchList
-			if _.contains dispatchList.allowedOrigins, origin
+			return [] if dispatchList.length is 0
+			allowedOrigins = @dispatch.getAllowedOrigins dispatchList
+			if _.contains allowedOrigins, origin
 				res.set 'Access-Control-Allow-Origin', origin
 				res.set 'Access-Control-Allow-Credentials', true
-			dispatchList.markup
+			_.pluck dispatchList, 'markup'
 
 annotate DispatchController, new Inject(
 	require '../modules/Dispatcher'
