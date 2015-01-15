@@ -21,6 +21,12 @@ class Dispatcher
 			keywords: []
 			limit: 1
 		_.assign _options, options
+	_getAllowedOrigins: (dispatchList) ->
+			dispatch = _.find dispatchList, (d) -> d.allowedOrigins.length > 0
+			return if dispatch then dispatch.allowedOrigins else []
+	# TODO: Find a better name
+	_postQuery: (dispatchList) ->
+
 	next: (programId, options) ->
 		{keywords, limit} = @_defaultOptions options
 		dispatchQuery = @_getModel 'Dispatch'
