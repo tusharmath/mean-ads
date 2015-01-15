@@ -25,27 +25,25 @@ describe 'SubscriptionController:', ->
 		@mockDataSetup = mockDataSetup
 
 		#MongooseProvier
-		@mongo = @injector.get MongooseProvider
+		@mongo = @injector.getModule 'providers.MongooseProvider', mock: false
 
 		#Models
-		@modelFac = @injector.get ModelFactory
+		@modelFac = @injector.getModule 'factories.ModelFactory', mock: false
 		@Models = @modelFac.models()
 
 		#Dispatcher
-		@dispatcher = @injector.get Dispatcher
+		@dispatcher = @injector.getModule 'modules.Dispatcher'
 
 		#DispatchStamper
-		@stamper = @injector.get DispatchStamper
-		sinon.stub @stamper, 'isConvertableSubscription'
-		.returns yes
+		@stamper = @injector.getModule 'modules.DispatchStamper'
+		@stamper.isConvertableSubscription.returns yes
 
 		# Mailer
-		@mailer = @injector.get Mailer
-		sinon.stub @mailer, 'sendQ'
-		.resolves 'mail-sent'
+		@mailer = @injector.getModule 'modules.Mailer'
+		@mailer.sendQ.resolves 'mail-sent'
 
 		#Subscription Controller
-		@mod = @injector.get SubscriptionController
+		@mod = @injector.getModule 'controllers.SubscriptionController', mock: false
 
 	afterEach ->
 		@mongo.__reset()
@@ -78,8 +76,7 @@ describe 'SubscriptionController:', ->
 			.equal 360
 	describe "postCreateHooks()", ->
 		beforeEach ->
-			sinon.stub @dispatcher, 'subscriptionCreated'
-			.resolves null
+			@dispatcher.subscriptionCreated.resolves null
 		it "calls subscriptionCreated", ->
 			@mod.postCreateHook _id: 1000
 			.then =>
@@ -87,8 +84,7 @@ describe 'SubscriptionController:', ->
 				.should.be.ok
 	describe "postUpdateHooks()", ->
 		beforeEach ->
-			sinon.stub @dispatcher, 'subscriptionUpdated'
-			.resolves null
+			@dispatcher.subscriptionUpdated.resolves null
 		it "calls subscriptionUpdated", ->
 			@mod.postUpdateHook _id: 1000
 			.then =>
