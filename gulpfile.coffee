@@ -67,7 +67,7 @@ gulp.task 'browserify-client', ->
 	.pipe gulp.dest './frontend/lib'
 gulp.task 'watch', ->
 	gulp.watch ['frontend/modules/**/*.coffee', 'frontend/**.coffee'], ['inject-modules', 'browserify-client']
-	gulp.watch 'backend/sdk/*.coffee', ['browserify']
+	gulp.watch 'backend/sdk/*.coffee', ['browserify-sdk']
 	gulp.watch 'bower.json', ['setup-assets']
 
 gulp.task 'setup-assets', [
@@ -75,4 +75,3 @@ gulp.task 'setup-assets', [
 	'browserify-sdk'
 	'browserify-client'
 ]
-
