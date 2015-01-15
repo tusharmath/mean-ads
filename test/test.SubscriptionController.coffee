@@ -15,7 +15,7 @@ describe 'SubscriptionController:', ->
 
 	beforeEach ->
 		#Initial Setup
-		@req = user : {sub: 9000}, params: {id: 9010}, signedCookies: {}
+		@req = user : {sub: 9000} , params: {id: 9010} , signedCookies: {}
 		@res = send: sinon.spy(), set: sinon.spy()
 
 		# Injector
@@ -68,11 +68,11 @@ describe 'SubscriptionController:', ->
 		beforeEach ->
 			@mockDataSetup()
 		it "be a function", -> @mod.actions.$credits.should.be.a.Function
-		it "returns creditDistribution",  ->
+		it "returns creditDistribution", ->
 			@mod.actions.$credits @req
 			.should.eventually.have.property 'creditDistribution'
 			.equal 7000
-		it "returns credtUsage",  ->
+		it "returns credtUsage", ->
 			@mod.actions.$credits @req
 			.should.eventually.have.property 'creditUsage'
 			.equal 360
@@ -115,13 +115,6 @@ describe 'SubscriptionController:', ->
 			.should.eventually.have.property 'conversions'
 			.equals 221
 
-		it "ignores conversion if is NOT in signedCookies._sub", ->
-			@stamper.isConvertableSubscription.returns no
-			@mod._convertQ @req, @res
-			.then => @Models.Subscription.findByIdQ @subscription._id
-			.should.eventually.have.property 'conversions'
-			.equals 220
-
 	describe "_emailQ()", ->
 		beforeEach ->
 			@mockDataSetup()
@@ -159,7 +152,7 @@ describe 'SubscriptionController:', ->
 		beforeEach ->
 			sinon.spy @mod, '_emailQ'
 			@mockDataSetup()
-		it "be a function",  -> @mod.actions.$email.should.be.a.Function
+		it "be a function", -> @mod.actions.$email.should.be.a.Function
 		it "calls _emailQ with subscription", ->
 			@req.params.id = @subscription._id
 			@mod.actions.$email @req
@@ -192,4 +185,3 @@ describe 'SubscriptionController:', ->
 			@mod.actions.$convert @req, @res
 			.then => @fakePromise.done.called
 			.should.eventually.be.ok
-

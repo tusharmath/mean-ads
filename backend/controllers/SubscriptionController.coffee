@@ -1,14 +1,10 @@
-BaseController = require './BaseController'
-Dispatcher = require '../modules/Dispatcher'
-DispatchStamper = require '../modules/DispatchStamper'
-Mailer = require '../modules/Mailer'
 config = require '../config/config'
 Q = require 'q'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
 class SubscriptionController
-	constructor: (@dispatch, @actions, @stamper, @mailer) ->
+	constructor: (@dispatch, @actions, @mailer) ->
 		@_populate = path: 'campaign', select: 'name'
 		# Filter Keys
 		@actions._filterKeys = ['campaign']
@@ -77,12 +73,15 @@ class SubscriptionController
 		Q config.transparentGif.image
 
 	_convertQ: (req) ->
-		return Q null if not @stamper.isConvertableSubscription req.signedCookies._sub, req.params.id
 		Subscription = @actions.getModel()
 		Subscription.findByIdQ req.params.id
 		.then (subscription) ->
 			Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
 			.execQ()
 	# Perfect place to mutate request
-annotate SubscriptionController, new Inject Dispatcher, BaseController, DispatchStamper, Mailer
+annotate SubscriptionController, new Inject(
+	require '../modules/Dispatcher'
+	require './BaseController'
+	require '../modules/Mailer'
+	)
 module.exports = SubscriptionController
