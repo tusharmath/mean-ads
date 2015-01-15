@@ -15,6 +15,7 @@ class AdCommand
 		@host.getHostWithProtocol() + @_baseUrl + "/#{p}?" + querystring.stringify req
 	execute: (program, elements, keywords) ->
 		return null if not program or not elements
+		elements = [elements] if elements instanceof Array is false
 		url = @_getUrl program, keywords, elements.length
 		@http.get url, {withCredentials: true} , (body, status, obj) ->
 			markupList = JSON.parse body

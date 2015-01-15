@@ -32,6 +32,7 @@ describe "AdCommand", ->
 			.returns 'fake-http-url'
 			@program = 102
 			@elements = [{} , {} , {} , {} ]
+			@response = JSON.stringify ['<fake-response></fake-response>']
 
 		it "be a function", -> @mod.execute.should.be.a.Function
 		it "returns null if program is empty", ->
@@ -42,10 +43,13 @@ describe "AdCommand", ->
 			@http.get.calledWith 'fake-http-url'
 			.should.be.ok
 		it "updates the innerHtml", ->
-			response = JSON.stringify ['<fake-response></fake-response>']
 			@mod.execute @program, @elements
-			@http.$flush response, null, null
+			@http.$flush @response, null, null
 			@elements[0].innerHTML.should.equal '<fake-response></fake-response>'
+		it "handles non array elements", ->
+			@mod.execute @program, el = {}
+			@http.$flush @response, null, null
+			el.innerHTML.should.equal '<fake-response></fake-response>'
 
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->
