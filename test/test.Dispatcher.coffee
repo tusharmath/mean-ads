@@ -58,9 +58,9 @@ describe 'Dispatcher:', ->
 			@mod.next @program._id, keywords: ['aa']
 			.should.eventually.be.of.length 1
 
-		it "calls postDelivery", ->
-			@mod.next @program._id
-			.then => @dispatchDelivery.delivered.calledOnce
+		it "calls postDelivery methods thrice", ->
+			@mod.next @program._id, limit: 3
+			.then => @dispatchDelivery.delivered.calledThrice
 			.should.eventually.be.ok
 
 		it "resolves to the dispatch", ->
@@ -69,8 +69,8 @@ describe 'Dispatcher:', ->
 			.should.eventually.have.property '_id'
 			.to.deep.equal @dispatch._id
 		it "calls done of _postDelivery()", ->
-			@mod.next @program._id
-			.then => @mockPromise.done.called.should.be.ok
+			@mod.next @program._id, limit: 3
+			.then => @mockPromise.done.calledThrice.should.be.ok
 		it "resolves to null if startDate is greater than currentDate", ->
 			# Mocking current date to be before the startDAte
 			@date.now.returns new Date 2014, 0, 1

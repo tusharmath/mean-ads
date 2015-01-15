@@ -16,29 +16,27 @@ class Dispatcher
 		) ->
 
 	_getModel: (name) -> @modelFac.models()[name]
-	_defaultOptions:
-		keywords: []
-		limit: 1
+	_defaultOptions: (options) ->
+		_options =
+			keywords: []
+			limit: 1
+		_.assign _options, options
 	next: (programId, options) ->
-		{keywords, limit} = _.assign @_defaultOptions, options
-		q = @_getModel 'Dispatch'
+		{keywords, limit} = @_defaultOptions options
+		dispatchQuery = @_getModel 'Dispatch'
 		.where program: programId
 		.where startDate: $lte: @date.now()
-
 		if keywords.length
-			q = q
-			.where 'keywords'
-			.in keywords
-		q.sort lastDeliveredOn: 'asc'
+			dispatchQuery = dispatchQuery.where('keywords').in keywords
+		dispatchQuery.sort lastDeliveredOn: 'asc'
 		.find()
 		.limit limit
 		.execQ()
-		.then (dispatch) =>
-			if dispatch
-				@dispatchDelivery.delivered dispatch
+		.then (dispatchList) =>
+			_.each dispatchList, (d) =>
+				@dispatchDelivery.delivered d
 				.done()
-				return dispatch
-			null
+			dispatchList
 
 	subscriptionCreated: (subscriptionId) ->
 		@dispatchFac.createForSubscriptionId subscriptionId
