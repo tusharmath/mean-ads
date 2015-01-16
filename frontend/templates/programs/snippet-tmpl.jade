@@ -16,8 +16,10 @@ div(style="background-color:#fff;")
 	ol
 		li
 			p.
-				Place the markup in your layout wherever you would like to show the ads.
-			pre #{"<div id='ad-container'></div>"}
+				Place the markup in your layout wherever you would like to show the ad(s).
+			pre.
+				#{"<div id='container-1' class='ad-container'></div>"}
+				#{"<div id='container-2' class='ad-container'></div>"}
 		li
 			p
 				| Load the ads using the&nbsp;
@@ -29,20 +31,20 @@ div(style="background-color:#fff;")
 				  //REQUIRED
 				  var program = '{{ctrl.program._id}}';
 
-				  //REQUIRED
-				  var element = document.getElementById('ad-container');
+				  //REQUIRED (Select all the dom elements where you would like to inject your ads)
+				  var elements = document.getElementsByClassName('ad-container');
 
 				  //OPTIONAL
 				  var keywords = ['timber', 'wood', 'logs', 'tree'];
 
-				  ma('ad', program, element, keywords);
+				  ma('ad', program, elements, keywords);
 				#{"</script>"}
 
 			h5 Required Settings
 			ul
 				li
-					strong Dom Element
-					| &nbsp;where the ad needs to be injected.
+					strong Dom Elements
+					| &nbsp; where the ads are required to be injected.
 				li
 					strong Program ID
 					| &nbsp;of the program from where the ads are going to be queried.
