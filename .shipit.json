@@ -1,6 +1,11 @@
 {
 	"steps": ["FindVersion", "ChangeVersion", "Commit", "Tag"],
 	"Commit": {
-		"message": "release: version \"{{version}}\""
+		"message": "release: \"{{version}}\""
+	},
+	"vc": {
+		"Git": {
+			"PushTo": "origin"
+		}
 	}
 }
