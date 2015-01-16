@@ -1,6 +1,6 @@
 {
 	"steps": ["FindVersion", "ChangeVersion", "Commit", "Tag"],
 	"Commit": {
-		"message": "docs: update package version to \"{{version}}\".\n\nChangelog diff:\n\n{{changelogDiff}}"
+		"message": "release: version \"{{version}}\""
 	}
 }

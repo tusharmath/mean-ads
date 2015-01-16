@@ -23,6 +23,7 @@ TYPES =
 	test: true
 	chore: true
 	revert: true
+	release: true
 
 error = ->
 
