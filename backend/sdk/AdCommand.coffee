@@ -1,9 +1,5 @@
 querystring = require 'querystring'
 {annotate, Inject} = require 'di'
-HttpProvider = require '../sdk/HttpProvider'
-HostNameBuilder = require './HostNameBuilder'
-CommandExecutor = require './CommandExecutor'
-WindowProvider = require '../providers/WindowProvider'
 class AdCommand
 	constructor: (@http, @host, @exec, @windowP) ->
 		@exec.register @
@@ -27,5 +23,10 @@ class AdCommand
 			markupList = JSON.parse body
 			elements[i].innerHTML = markup for markup, i in markupList
 
-annotate AdCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor, WindowProvider
+annotate AdCommand, new Inject(
+	require '../sdk/HttpProvider'
+	require './HostNameBuilder'
+	require './CommandExecutor'
+	require '../providers/WindowProvider'
+	)
 module.exports = AdCommand
