@@ -18,6 +18,15 @@ describe "AdCommand", ->
 		# CommandExecutor
 		@exec = @injector.getModule 'sdk.CommandExecutor', mock: false
 
+		#WindowProvider
+		class HTMLCollection
+			constructor: ->
+				@[0] = {}
+				@[1] = {}
+		@window = {HTMLCollection}
+		@windowP = @injector.getModule 'providers.WindowProvider'
+		@windowP.window.returns @window
+
 	describe "constructor()", ->
 		it "should register on cmdexec", ->
 			@exec._executables['ad'].should.exist
@@ -46,6 +55,10 @@ describe "AdCommand", ->
 			@mod.execute @program, el = {}
 			@http.$flush @response, null, null
 			el.innerHTML.should.equal '<fake-response></fake-response>'
+		it "handles non HTMLCollection elements", ->
+			@mod.execute @program, el = new @window.HTMLCollection
+			@http.$flush @response, null, null
+			el[0].innerHTML.should.equal '<fake-response></fake-response>'
 
 	describe "_getUrl()", ->
 		it "creates query params with both p and k", ->

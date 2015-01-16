@@ -3,8 +3,9 @@ querystring = require 'querystring'
 HttpProvider = require '../sdk/HttpProvider'
 HostNameBuilder = require './HostNameBuilder'
 CommandExecutor = require './CommandExecutor'
+WindowProvider = require '../providers/WindowProvider'
 class AdCommand
-	constructor: (@http, @host, @exec) ->
+	constructor: (@http, @host, @exec, @windowP) ->
 		@exec.register @
 	_baseUrl: '/api/v1/dispatch'
 	alias: 'ad'
@@ -15,11 +16,16 @@ class AdCommand
 		@host.getHostWithProtocol() + @_baseUrl + "/#{p}?" + querystring.stringify req
 	execute: (program, elements, keywords) ->
 		return null if not program or not elements
-		elements = [elements] if elements instanceof Array is false
+		{HTMLCollection} =  @windowP.window()
+		if (
+			elements instanceof Array is false and
+			elements instanceof HTMLCollection is false
+		)
+			elements = [elements]
 		url = @_getUrl program, keywords, elements.length
 		@http.get url, {withCredentials: true} , (body, status, obj) ->
 			markupList = JSON.parse body
 			elements[i].innerHTML = markup for markup, i in markupList
 
-annotate AdCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor
+annotate AdCommand, new Inject HttpProvider, HostNameBuilder, CommandExecutor, WindowProvider
 module.exports = AdCommand
