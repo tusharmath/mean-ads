@@ -5,7 +5,7 @@ class CampaignAlterCtrl
 
 		@alter.bootstrap @, 'campaign'
 
-		rest.all('programs').getList().then (@programs) =>
+		@rest.all('programs').getList().then (@programs) =>
 
 	beforeSave: () ->
 		@campaign.keywords = @tok.tokenize @campaign.keywords
