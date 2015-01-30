@@ -31,7 +31,7 @@ class Dispatcher
 			subExpired = @utils.hasSubscriptionExpired subscription
 			if (
 				subExpired is yes or
-				subscription.usedCredits is subscription.totalCredits
+				subscription.usedCredits >= subscription.totalCredits
 			)
 				@dispatchFac.removeForSubscriptionId subscription._id
 			else

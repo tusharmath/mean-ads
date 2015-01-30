@@ -104,3 +104,11 @@ describe 'DispatchPostDelivery:', ->
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		it "removes over exausted subscriptions", ->
+			sinon.stub @mod, '_increaseUsedCredits'
+			.resolves { usedCredits: 101, totalCredits: 100, _id: @subscription._id}
+			sinon.stub @utils, 'hasSubscriptionExpired'
+			.returns no
+			@mod.delivered @dispatch
+			.then => @Models.Dispatch.findByIdQ @dispatch._id
+			.should.eventually.equal null
