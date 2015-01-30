@@ -9,8 +9,8 @@ less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
 
-# Round Robin Dispatcher
-class Dispatcher
+# Round Robin DispatchPostDelivery
+class DispatchPostDelivery
 	constructor: (@modelFac, @dot, @date, @subPopulator, @utils, @dispatchFac) ->
 	_getModel: (name) -> @modelFac.models()[name]
 
@@ -37,7 +37,7 @@ class Dispatcher
 			else
 				@_updateDeliveryDate dispatch
 
-annotate Dispatcher, new Inject(
+annotate DispatchPostDelivery, new Inject(
 	ModelFactory
 	DotProvider
 	DateProvder
@@ -45,4 +45,4 @@ annotate Dispatcher, new Inject(
 	Utils
 	DispatchFactory
 	)
-module.exports = Dispatcher
+module.exports = DispatchPostDelivery
