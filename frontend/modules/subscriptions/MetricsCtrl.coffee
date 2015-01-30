@@ -11,7 +11,7 @@ class SubscriptionMetricsCtrl
 			@isInActive = @subscription.totalCredits is @subscription.usedCredits
 			@creditAnticipation = @subscription.totalCredits / @campaign.days * @elapsedTime_days
 			@creditPotentialUsage = @subscription.usedCredits / @elapsedTime_days * @campaign.days
-			@fulfillment = @creditPotentialUsage / @subscription.totalCredits
+			@fulfillment = 100 * @creditPotentialUsage / @subscription.totalCredits
 			@isExpired = @elapsedTime_days >= @campaign.days
 	sendEmail: =>
 		@rest.one 'subscription', @route.id
