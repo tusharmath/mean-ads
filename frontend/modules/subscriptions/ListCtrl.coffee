@@ -16,6 +16,7 @@ class SubscriptionCtrl
 
 		date += subscription.campaign.days
 		new Date year, month, date
+	# TODO: Use Utils.hasSubscriptionExpired
 	onExpiredCss: (subscription)->
 		if @endDate(subscription) < Date.now() then "text-danger" else no
 	onInActiveCss: (subscription)->
