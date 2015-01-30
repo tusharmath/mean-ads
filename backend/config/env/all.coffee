@@ -26,7 +26,7 @@ module.exports =
 	mongo:
 		options:
 			db:
-				autoConnectIn: 5000 # 5 Seconds (in ms)
+				autoConnectIn: 1000 # 1 Second (in ms)
 				safe: true
 	newrelic: notify: false
 	transparentGif:

@@ -25,7 +25,7 @@ class DbConnection
 					bragi.util.symbols.error
 					'Db Connection got disconnected'
 				)
-				setTimeout @_connect, config.mongo.options.autoConnectIn
+				setTimeout @_connect, config.mongo.options.db.autoConnectIn
 		@_connect()
 DbConnection.annotations = [
 	new Inject MongooseProvider
