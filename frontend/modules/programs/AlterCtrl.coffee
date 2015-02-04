@@ -2,7 +2,7 @@ app = require '../../app'
 class ProgramAlterCtrl
 	constructor: (@rest, @alter, @tok) ->
 		@alter.bootstrap @, 'program'
-		rest.all('styles').getList().then (@styles) =>
+		@rest.all('styles').getList().then (@styles) =>
 	beforeSave: ->
 		@program.allowedOrigins = @tok.tokenize @program.allowedOrigins
 
