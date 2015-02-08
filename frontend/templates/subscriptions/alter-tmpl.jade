@@ -1,6 +1,8 @@
 .panel.panel-info
 	.panel-heading
-		.panel-title Alter Subscription
+		.panel-title
+			| Alter Subscription
+			.pull-right.button.btn.btn-sm.btn-danger(type="button" ng-click="ctrl.remove()") Delete
 	.panel-body
 		form.form-horizontal(role='form')
 			.form-group
