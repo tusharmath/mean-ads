@@ -17,5 +17,9 @@ class AlterPersistenceService
 		@["_#{mode}"] resourceName, resource
 		.then => @loc.path "/#{resourceName}s"
 
+	remove: (resourceName, resource) ->
+		@rest.one resourceName, resource._id
+		.remove().then => @loc.path "/#{resourceName}s"
+
 AlterPersistenceService.$inject = ["Restangular", "$location"]
 app.service 'AlterPersistenceService', AlterPersistenceService

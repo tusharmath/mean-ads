@@ -10,6 +10,9 @@ class AlterControllerExtensionService
 			ctrl.beforeSave() if ctrl.beforeSave
 			@alter.persist resourceName, ctrl[resourceName]
 
+		ctrl.remove = =>
+			@alter.remove resourceName, ctrl[resourceName]
+
 		#Initialzing
 		ctrl[resourceName] = @first.load resourceName
 
