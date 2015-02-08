@@ -3,16 +3,15 @@ app = require '../../app'
 class AlterControllerExtensionService
 	constructor: (@alter, @first) ->
 
-	bootstrap: (ctrl, docName) ->
-		resourceName = "#{docName}"
+	bootstrap: (ctrl, resourceName) ->
 
 		# Adding extension methods
 		ctrl.save = =>
 			ctrl.beforeSave() if ctrl.beforeSave
-			@alter.persist resourceName, ctrl[docName]
+			@alter.persist resourceName, ctrl[resourceName]
 
 		#Initialzing
-		ctrl[docName] = @first.load resourceName
+		ctrl[resourceName] = @first.load resourceName
 
 AlterControllerExtensionService.$inject = [
 	'AlterPersistenceService'
