@@ -16,7 +16,7 @@ module.exports =
 		'Style'
 		'Subscription'
 	]
-	appName: process.env.appName || 'mean ads'
+	appName: process.env.APP_NAME || 'mean ads'
 	Q: longStackSupport: true
 	root: rootPath
 	cache:
