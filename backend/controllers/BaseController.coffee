@@ -54,7 +54,7 @@ class BaseController
 
 	$remove: (req) ->
 		@$one req
-		.then (doc) =>
+		.then =>
 			@getModel().findByIdAndRemove req.params.id
 			.execQ()
 
