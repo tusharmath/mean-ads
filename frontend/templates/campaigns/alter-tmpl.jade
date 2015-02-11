@@ -15,33 +15,38 @@
 					select.form-control(
 						ng-model="ctrl.campaign.program"
 						ng-options="program._id as program.name for program in ctrl.programs")
+			hr
 			.row.form-group
+				.col-md-offset-4.col-md-4
+					h4.text-muted Pricing
+			.form-group
 				label.col-md-4.control-label
 					abbr(title="default value of cost per thousand impression") Default CPM
 				.col-md-3
 					input.form-control(type="text" placeholder="CPM" ng-model="keyword")
-			.row.form-group
+			.form-group
 				label.col-md-4.control-label Special Keyword CPM
 				.col-md-3
 					input.form-control(type="text" placeholder="Keywords/Phrases" ng-model="keyword")
 				.col-md-1
 					input.form-control(type="text" placeholder="CPM")
 				.col-md-1
+					.form-control-static
+						label.control-label.text-muted
+							abbr(title="Total number of subscriptions using a special keyword") Popularity
+				.col-md-1
 					button.btn.btn-primary
 						span.glyphicon.glyphicon-plus
-			.row.form-group(ng-repeat="keyword in ctrl.campaign.keywords")
+			.form-group(ng-repeat="keyword in ctrl.campaign.keywords")
 				.col-md-offset-4.col-md-3
 					.form-control-static {{keyword}}
 				.col-md-1
 					.form-control-static 0
 				.col-md-1
+					.form-control-static 20
+				.col-md-1
 					button.btn.btn-warning
 						span.glyphicon.glyphicon-trash
-			.form-group
-				label.col-md-4.control-label Keywords
-					small.text-muted &nbsp;csv
-				.col-md-6
-					input.form-control(type="text" placeholder="Enter comma separated values for keywords", ng-model="ctrl.campaign.keywords")
 			.form-group
 				.col-md-6.col-md-offset-4
 					button.btn.btn-primary(type="button" ng-click="ctrl.save()") Save

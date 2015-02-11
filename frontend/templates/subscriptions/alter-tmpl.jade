@@ -38,24 +38,45 @@
 						ng-model="ctrl.subscription.totalCredits"
 					)
 			hr
+			.form-group
+				.col-md-offset-4.col-md-4
+					h4.text-muted Keywords
+			.form-group
+				label.col-md-4.control-label Add Keyword
+				.col-md-4
+					input.form-control(
+						type="text"
+						placeholder="Keyword"
+					)
+				.col-md-1
+					button.btn.btn-primary
+						span.glyphicon.glyphicon-plus
+			.form-group(ng-repeat="n in [1,2,3]")
+				.col-md-4.col-md-offset-4
+					label.form-control-static organic fruits {{n}}
+				.col-md-1
+					button.btn.btn-warning
+						span.glyphicon.glyphicon-trash
+
+			hr
 			.row
 				.col-md-offset-4.col-md-4
 					h4.text-muted
 						abbr(title="All the fields that would be required to render the ad") Style Data
 			.form-group(ng-repeat="holder in ctrl.style.placeholders")
 				label.col-md-4.control-label
-					strong.text-muted.text-uppercase ~ {{holder}}
-				.col-md-4
+					label.text-muted.text-uppercase ~ {{holder}}
+				.col-md-6
 					input.form-control(
 						type='text'
 						ng-model="ctrl.subscription.data[holder]"
 					)
 			hr
-			.row.form-group
+			.form-group
 				.col-md-offset-4.col-md-4
 					h4.text-muted
 						abbr(title="Performance of the subscription can be shared from the metrics panel") Report Sharing
-			.row.form-group
+			.form-group
 				label.col-md-4.control-label Add Email
 				.col-md-4
 					input.form-control(
@@ -66,13 +87,12 @@
 				.col-md-1
 					button.btn.btn-primary(ng-click="ctrl.addEmail()")
 						span.glyphicon.glyphicon-plus
-			.row.form-group(ng-repeat="email in ctrl.subscription.emailAccess")
+			.form-group(ng-repeat="email in ctrl.subscription.emailAccess")
 				.col-md-offset-4.col-md-4
 						label.form-control-static {{email}}
 				.col-md-1
 					button.btn.btn-warning(ng-click="ctrl.removeEmail(email)")
 						span.glyphicon.glyphicon-trash
-
 			hr
 			.form-group
 				.col-md-6.col-md-offset-4
