@@ -63,15 +63,16 @@
 						placeholder="Email id"
 						ng-model="ctrl.newEmailAccess"
 					)
-				.col-md-2
-					button.btn.btn-default.btn-sm(ng-click="ctrl.addEmail()") Add
-			.row
-
+				.col-md-1
+					button.btn.btn-primary(ng-click="ctrl.addEmail()")
+						span.glyphicon.glyphicon-plus
+			.row.form-group(ng-repeat="email in ctrl.subscription.emailAccess")
 				.col-md-offset-4.col-md-4
-					.list-group
-						.list-group-item(ng-repeat="email in ctrl.subscription.emailAccess") {{email}}
-							button.close(ng-click="ctrl.removeEmail(email)")
-								span &times;
+						label.form-control-static {{email}}
+				.col-md-1
+					button.btn.btn-warning(ng-click="ctrl.removeEmail(email)")
+						span.glyphicon.glyphicon-trash
+
 			hr
 			.form-group
 				.col-md-6.col-md-offset-4
