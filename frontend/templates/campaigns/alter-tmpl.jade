@@ -15,15 +15,6 @@
 					select.form-control(
 						ng-model="ctrl.campaign.program"
 						ng-options="program._id as program.name for program in ctrl.programs")
-			.form-group
-				label.col-md-4.control-label Duration
-					small.text-muted &nbsp;days
-				.col-md-6
-					input.form-control(type="text" placeholder="Enter duration in days", ng-model="ctrl.campaign.days")
-			.form-group
-				label.col-md-4.control-label Commitment
-				.col-md-6
-					input.form-control(type="text" placeholder="Enter expected traffic commitment", ng-model="ctrl.campaign.commitment")
 			hr
 			.row.form-group
 				.col-md-offset-4.col-md-6
