@@ -24,6 +24,27 @@
 				label.col-md-4.control-label Commitment
 				.col-md-6
 					input.form-control(type="text" placeholder="Enter expected traffic commitment", ng-model="ctrl.campaign.commitment")
+			hr
+			.row.form-group
+				.col-md-offset-4.col-md-6
+					h4.text-muted Cost Per 1k Impressions (CPM)
+			.row.form-group
+				label.col-md-4.control-label Add
+				.col-md-3
+					input.form-control(type="text" placeholder="Keywords/Phrases" ng-model="keyword")
+				.col-md-1
+					input.form-control(type="text" placeholder="CPM")
+				.col-md-1
+					button.btn.btn-primary
+						span.glyphicon.glyphicon-plus
+			.row.form-group(ng-repeat="keyword in ctrl.campaign.keywords")
+				.col-md-offset-4.col-md-3
+					.form-control-static {{keyword}}
+				.col-md-1
+					.form-control-static 0
+				.col-md-1
+					button.btn.btn-warning
+						span.glyphicon.glyphicon-trash
 			.form-group
 				label.col-md-4.control-label Keywords
 					small.text-muted &nbsp;csv
