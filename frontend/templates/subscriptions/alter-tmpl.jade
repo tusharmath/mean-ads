@@ -1,8 +1,6 @@
 .panel.panel-info
 	.panel-heading
-		.panel-title
-			| Alter Subscription
-			.pull-right.button.btn.btn-sm.btn-danger(type="button" ng-click="ctrl.remove()") Delete
+		.panel-title Alter Subscription
 	.panel-body
 		form.form-horizontal(role='form')
 			.row.text-muted.text-uppercase
@@ -110,3 +108,5 @@
 					button.btn.btn-primary(type="button", ng-click="ctrl.save()") Save
 					| &nbsp;
 					a.btn.btn-default(ng-href="#/subscriptions") Cancel
+					| &nbsp;
+					button.btn.btn-danger(type="button" ng-click="ctrl.remove()" ng-show="ctrl.subscription._id") Delete
