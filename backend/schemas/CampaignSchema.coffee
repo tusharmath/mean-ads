@@ -1,6 +1,4 @@
 CampaignSchema = (mongoose) ->
-	SubscriptionSchema = require './SubscriptionSchema'
-
 	new mongoose.Schema
 		name:
 			type: String
@@ -10,16 +8,14 @@ CampaignSchema = (mongoose) ->
 			required: true
 			ref: 'Program'
 			index: true
-		days:
+		defaultCost:
 			type: Number
 			required: true
-		keywords:
-			type: [String]
-		commitment:
-			type: Number
+		keywordCost:
+			type: mongoose.Schema.Types.Mixed
 		isEnabled:
 			type: Boolean
-			default: true
+			default: false
 		owner:
 			type: String
 			required: true
