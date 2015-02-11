@@ -30,7 +30,6 @@ class SubscriptionAlterCtrl
 			@_loadCampaign()
 			.then @_loadProgram
 			.then @_loadStyle
-			.done()
 	removeEmail: (email) =>
 		_.remove @subscription.emailAccess, (s) ->s is email
 	addEmail: =>
