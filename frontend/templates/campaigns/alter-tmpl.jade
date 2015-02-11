@@ -27,25 +27,19 @@
 			.form-group
 				label.col-md-4.control-label Special Keyword CPM
 				.col-md-3
-					input.form-control(type="text" placeholder="Keywords/Phrases" ng-model="keyword")
+					input.form-control(type="text" placeholder="Keywords/Phrases" ng-model="ctrl.keyName")
 				.col-md-1
-					input.form-control(type="text" placeholder="CPM")
+					input.form-control(type="text" placeholder="CPM" ng-model="ctrl.keyCost")
 				.col-md-1
-					.form-control-static
-						label.control-label.text-muted
-							abbr(title="Total number of subscriptions using a special keyword") Popularity
-				.col-md-1
-					button.btn.btn-primary
+					button.btn.btn-primary(ng-click="ctrl.addKeyword()")
 						span.glyphicon.glyphicon-plus
-			.form-group(ng-repeat="keyword in ctrl.campaign.keywords")
+			.form-group(ng-repeat="keywordCost in ctrl.campaign.keywordCost")
 				.col-md-offset-4.col-md-3
-					.form-control-static {{keyword}}
+					.form-control-static {{keywordCost.keyName}}
 				.col-md-1
-					.form-control-static 0
+					.form-control-static {{keywordCost.keyCost}}
 				.col-md-1
-					.form-control-static 20
-				.col-md-1
-					button.btn.btn-warning
+					button.btn.btn-warning(ng-click="ctrl.removeKeyword(keywordCost)")
 						span.glyphicon.glyphicon-trash
 			.form-group
 				.col-md-6.col-md-offset-4
