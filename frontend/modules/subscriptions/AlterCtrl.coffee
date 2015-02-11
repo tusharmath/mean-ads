@@ -36,6 +36,13 @@ class SubscriptionAlterCtrl
 		if @newEmailAccess
 			@subscription.emailAccess.push @newEmailAccess
 			@newEmailAccess = ''
+	removeKeyword: (keyword) ->
+		_.remove @subscription.keywords, (s) ->s is keyword
+	addKeyword: ->
+		@subscription.keywords = [] if not @subscription.keywords
+		if @newKeyword
+			@subscription.keywords.push @newKeyword
+			@newKeyword = null
 SubscriptionAlterCtrl.$inject = [
 	"Restangular", "AlterControllerExtensionService", '$q'
 ]

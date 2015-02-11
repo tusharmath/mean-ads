@@ -6,7 +6,7 @@
 	.panel-body
 		form.form-horizontal(role='form')
 			.row.text-muted.text-uppercase
-				.col-md-offset-4.col-md-2 Impressions
+				.col-md-offset-4.col-md-2 Throughput
 				.col-md-2 Average CPC
 			.row.lead
 				.col-md-offset-4.col-md-2
@@ -57,15 +57,16 @@
 					input.form-control(
 						type="text"
 						placeholder="Keyword"
+						ng-model="ctrl.newKeyword"
 					)
 				.col-md-1
-					button.btn.btn-primary
+					button.btn.btn-primary(ng-click="ctrl.addKeyword()")
 						span.glyphicon.glyphicon-plus
-			.form-group(ng-repeat="n in [1,2,3]")
+			.form-group(ng-repeat="keyword in ctrl.subscription.keywords")
 				.col-md-4.col-md-offset-4
-					label.form-control-static organic fruits {{n}}
+					label.form-control-static {{keyword}}
 				.col-md-1
-					button.btn.btn-warning
+					button.btn.btn-warning(ng-click="ctrl.removeKeyword(keyword)")
 						span.glyphicon.glyphicon-trash
 
 			hr
