@@ -16,5 +16,8 @@ ProgramSchema = (mongoose) ->
 			type: String
 			required: true
 			index: true
+		pricing:
+			type: String
+			enum: ['CPM', 'CPA']
 
 module.exports = ProgramSchema

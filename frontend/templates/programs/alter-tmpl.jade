@@ -16,11 +16,11 @@
 				.col-md-6
 					.radio
 						label
-							input(type="radio" name="pricing-strategy" checked value="CPM")
+							input(type="radio" name="pricing-strategy" checked value="CPM" ng-model="ctrl.program.pricing")
 							| CPM
 					.radio
 						label
-							input(type="radio" name="pricing-strategy" value="CPA")
+							input(type="radio" name="pricing-strategy" value="CPA" ng-model="ctrl.program.pricing")
 							| CPA
 			.form-group
 				label.col-md-4.control-label Delivery
