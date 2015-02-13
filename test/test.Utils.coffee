@@ -63,3 +63,19 @@ describe 'Utils:', ->
 		it "--abc---def---- to AbcDef", ->
 			@mod.snakeCaseToCamelCase '--abc---def----'
 			.should.equal 'AbcDef'
+	describe "getType()", ->
+		it "returns date", ->
+			@mod.getType new Date
+			.should.equal Date
+		it "returns number", ->
+			@mod.getType 12345
+			.should.equal Number
+		it "returns string", ->
+			@mod.getType 'qwerty'
+			.should.equal String
+		it "returns null", ->
+			expect @mod.getType null
+			.to.equal.null
+		it "returns undefined", ->
+			expect @mod.getType undefined
+			.to.equal undefined

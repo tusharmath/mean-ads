@@ -9,7 +9,7 @@ Utils =
 	# Determines if the subscription has expired
 	# TODO: Could be a part of subscription schema
 	hasSubscriptionExpired: (subscription, now) ->
-		throw new MeanError 'now should be of date type' if 'date' isnt @getType now
+		throw new MeanError 'now should be of date type' if Date isnt @getType now
 		{startDate} = subscription
 		[year, month, date] = @dateSplit startDate
 
@@ -35,4 +35,13 @@ Utils =
 			else
 				out += v
 		out
-module.exports = Utils
+	getType: (item) ->
+		return item if item is null or item is undefined
+		x = {}
+		keyName = x.toString.call item
+		.replace /\[object /, ''
+		.replace ']', ''
+		# .toLowerCase()
+		global[keyName]
+
+module.exports = -> Utils
