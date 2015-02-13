@@ -29,17 +29,17 @@
 				.col-md-3
 					input.form-control(type="text" placeholder="Keywords/Phrases" ng-model="ctrl.keyName")
 				.col-md-1
-					input.form-control(type="text" placeholder="CPM" ng-model="ctrl.keyCost")
+					input.form-control(type="text" placeholder="CPM" ng-model="ctrl.keyPrice")
 				.col-md-1
 					button.btn.btn-primary(ng-click="ctrl.addKeyword()")
 						span.glyphicon.glyphicon-plus
-			.form-group(ng-repeat="keywordCost in ctrl.campaign.keywordCost")
+			.form-group(ng-repeat="keywordPrice in ctrl.campaign.keywordPricing")
 				.col-md-offset-4.col-md-3
-					.form-control-static {{keywordCost.keyName}}
+					.form-control-static {{keywordPrice.keyName}}
 				.col-md-1
-					.form-control-static {{keywordCost.keyCost}}
+					.form-control-static {{keywordPrice.keyPrice}}
 				.col-md-1
-					button.btn.btn-warning(ng-click="ctrl.removeKeyword(keywordCost)")
+					button.btn.btn-warning(ng-click="ctrl.removeKeyword(keywordPrice)")
 						span.glyphicon.glyphicon-trash
 			.form-group
 				.col-md-6.col-md-offset-4

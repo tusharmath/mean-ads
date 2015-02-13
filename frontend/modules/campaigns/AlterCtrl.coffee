@@ -10,12 +10,12 @@ class CampaignAlterCtrl
 	beforeSave: () ->
 		@campaign.keywords = @tok.tokenize @campaign.keywords
 	addKeyword: () ->
-		@campaign.keywordCost = [] if not @campaign.keywordCost
-		if @keyName and @keyCost
-			@campaign.keywordCost.push {@keyName, @keyCost}
-		@keyName = @keyCost = null
+		@campaign.keywordPricing = [] if not @campaign.keywordPricing
+		if @keyName and @keyPrice
+			@campaign.keywordPricing.push {@keyName, @keyPrice}
+		@keyName = @keyPrice = null
 	removeKeyword: (keyword) ->
-		_.remove @campaign.keywordCost, (s) -> s is keyword
+		_.remove @campaign.keywordPricing, (s) -> s is keyword
 CampaignAlterCtrl.$inject = [
 	"Restangular" , 'AlterControllerExtensionService', 'TokenizerService'
 ]
