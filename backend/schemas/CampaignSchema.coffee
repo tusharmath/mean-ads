@@ -11,6 +11,7 @@ CampaignSchema = (mongoose) ->
 		defaultCost:
 			type: Number
 			required: true
+			default: 1
 		keywordPricing:
 			type: mongoose.Schema.Types.Mixed
 		isEnabled:
