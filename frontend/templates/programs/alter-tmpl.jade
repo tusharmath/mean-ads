@@ -12,20 +12,18 @@
 				.col-md-6
 					select.form-control(ng-model="ctrl.program.style", ng-options="style._id as style.name for style in ctrl.styles")
 			.form-group
-				label.col-md-4.control-label Subject
+				label.col-md-4.control-label Pricing Strategy
 				.col-md-6
 					.radio
 						label
-							input(type="radio" name="pricing-strategy" checked)
-							| Branding &nbsp;
-							small.text-muted CPM based pricing
+							input(type="radio" name="pricing-strategy" checked value="CPM")
+							| CPM
 					.radio
 						label
-							input(type="radio" name="pricing-strategy")
-							| Conversions &nbsp;
-							small.text-muted CPA based pricing
+							input(type="radio" name="pricing-strategy" value="CPA")
+							| CPA
 			.form-group
-				label.col-sm-4.control-label Delivery
+				label.col-md-4.control-label Delivery
 				.col-md-6
 					p.form-control-static Round Robin
 			.form-group
