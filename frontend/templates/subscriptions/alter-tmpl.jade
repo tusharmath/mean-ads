@@ -4,14 +4,15 @@
 	.panel-body
 		form.form-horizontal(role='form')
 			.row.text-muted.text-uppercase
-				.col-md-offset-4.col-md-2 Throughput
-				.col-md-2 Average CPM
+				.col-md-offset-4.col-md-3 Throughput
+				.col-md-2 Average {{ctrl.program.pricing}}
 			.row.lead
-				.col-md-offset-4.col-md-2
-					big 980k
+				.col-md-offset-4.col-md-3
+					big {{ctrl.throughput.v}}
+					| &nbsp;{{ctrl.throughput.u}}
 				.col-md-2
-					big 22.3
-					| $
+					big {{ctrl.costPerTransaction}}
+					| &nbsp;$
 			hr
 			.form-group
 				label.col-md-4.control-label Subscriptions Name
@@ -38,12 +39,14 @@
 						ng-change="ctrl.onCampaignSelect()"
 					)
 			.form-group
-				label.col-md-4.control-label Initial Credits
+				label.col-md-4.control-label Total Budget
+					small.text-muted &nbsp;{{ctrl.program.pricing}}
 				.col-md-4
 					input.form-control(
 						type="text"
 						placeholder="Enter initial credits"
 						ng-model="ctrl.subscription.totalCredits"
+						ng-change="ctrl._setEstimations()"
 					)
 			hr
 			.form-group
