@@ -1,7 +1,4 @@
-DateProvider = require './providers/DateProvider'
-{annotate, Inject} = require 'di'
-class Utils
-	constructor: (@dateP) ->
+Utils =
 	dateSplit:(date) ->
 		[
 			date.getFullYear()
@@ -10,13 +7,13 @@ class Utils
 		]
 	# Determines if the subscription has expired
 	# TODO: Could be a part of subscription schema
-	hasSubscriptionExpired: (subscription) ->
+	hasSubscriptionExpired: (subscription, now) ->
 		{startDate} = subscription
 		[year, month, date] = @dateSplit startDate
 
 		date += subscription.campaign.days
 		endDate = new Date year, month, date
-		endDate < @dateP.now()
+		endDate < now
 	camelCaseToSnakeCase: (str) ->
 		out = ""
 		for v,k in str
@@ -36,5 +33,4 @@ class Utils
 			else
 				out += v
 		out
-annotate Utils, new Inject DateProvider
 module.exports = Utils
