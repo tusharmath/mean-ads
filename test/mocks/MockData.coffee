@@ -6,6 +6,8 @@ campaign =
 	name: 'apple-campaign'
 	days: 10
 	owner: ownerId
+	defaultCost: 1
+	isEnabled: true
 subscription =
 	client: 'apples'
 	totalCredits: 1000
@@ -48,6 +50,7 @@ dispatches = [
 program =
 	name: 'apple-program'
 	owner: ownerId
+	pricing: 'CPM'
 style =
 	name: 'apple-style'
 	html: '<div>{{=it.a}}</div><h2 href="{{=it.c}}">{{=it.b}}</h2>'
