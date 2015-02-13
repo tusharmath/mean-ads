@@ -52,7 +52,7 @@ class DispatchFactory
 				startDate: subscription.startDate
 				program: program._id
 				allowedOrigins: program.allowedOrigins
-				keywords: campaign.keywords
+				keywords: subscription.keywords
 				)
 			.saveQ()
 	# Removes all dispatchable with a subscriptionId

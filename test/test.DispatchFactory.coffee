@@ -72,7 +72,6 @@ describe 'DispatchFactory:', ->
 			.then (@subscriptionP) => #P: Populated
 
 		it "save dispatch", ->
-			@subscriptionP.campaign.keywords = ["apples", "bapples"]
 			@subscriptionP.campaign.program.allowedOrigins = ['http://a.com', 'http://b.com']
 			@mod._createDispatchable @subscriptionP
 			.then (dispatch) =>
@@ -80,7 +79,7 @@ describe 'DispatchFactory:', ->
 				dispatch.markup.should.equal 'hello world'
 				dispatch.subscription.toString().should.eql @subscriptionP._id.toString()
 				dispatch.program.toString().should.eql @subscriptionP.campaign.program._id.toString()
-				dispatch.keywords.should.be.of.length 2
+				dispatch.keywords.should.deep.equal ['inky', 'pinky', 'ponky']
 				dispatch.allowedOrigins.should.deep.equal ['http://a.com', 'http://b.com']
 		it "Ignores dispatch if campaign is not enabled", ->
 			@subscriptionP.campaign.isEnabled = false
