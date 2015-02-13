@@ -1,3 +1,4 @@
+MeanError = require './modules/MeanError'
 Utils =
 	dateSplit:(date) ->
 		[
@@ -8,6 +9,7 @@ Utils =
 	# Determines if the subscription has expired
 	# TODO: Could be a part of subscription schema
 	hasSubscriptionExpired: (subscription, now) ->
+		throw new MeanError 'now should be of date type' if 'date' isnt @getType now
 		{startDate} = subscription
 		[year, month, date] = @dateSplit startDate
 

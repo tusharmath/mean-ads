@@ -1,5 +1,5 @@
 {annotate, Injector, Provide} = require 'di'
-utils = require '../backend/Utils'
+utils = do require '../backend/Utils'
 describe 'Utils:', ->
 	beforeEach ->
 		@injector = new Injector
@@ -39,6 +39,10 @@ describe 'Utils:', ->
 			now = new Date 2012, 1, 15
 			@mod.hasSubscriptionExpired @subscription, now
 			.should.be.true
+		it "throws if now is not provided", ->
+			expect => @mod.hasSubscriptionExpired @subscription, 12312
+			.to.throw 'now should be of date type'
+
 	describe "camelCasetoSnakeCase()", ->
 		it "ABC to abc", ->
 			@mod.camelCaseToSnakeCase 'ABC'
