@@ -4,15 +4,15 @@
 	.panel-body
 		form.form-horizontal(role='form')
 			.row.text-muted.text-uppercase
-				.col-md-4
-				.col-md-3 Impressions
+				.col-md-2.col-md-offset-4 Impressions
 				.col-md-2 Average CPM
 			.row.lead
-				.col-md-offset-4.col-md-3
-					big {{ctrl.throughput}}
+				label.col-md-4.control-label.text-muted Estimations
+				.col-md-2.form-control-static
+					big {{ctrl.throughput| number: 2}}
 					| &nbsp;k
-				.col-md-2
-					big {{ctrl.costPerTransaction}}
+				.col-md-2.form-control-static
+					big {{ctrl.costPerTransaction | number: 2}}
 					| &nbsp;$
 			hr
 			.form-group

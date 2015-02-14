@@ -38,8 +38,8 @@ class SubscriptionAlterCtrl
 	_setEstimations: (@style) =>
 		totalCost = _.reduce @subscription.keywords, @_reduceCost, 0
 		if totalCost > 0 and  @subscription.keywords.length > 0
-			@costPerTransaction = Math.round(totalCost/@subscription.keywords.length*100)/100
-			@throughput = Math.round @subscription.totalCredits / @costPerTransaction
+			@costPerTransaction = totalCost/@subscription.keywords.length
+			@throughput = @subscription.totalCredits / @costPerTransaction
 		else
 			@costPerTransaction = @throughput = 0
 

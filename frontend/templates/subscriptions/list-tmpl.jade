@@ -26,7 +26,7 @@ div.panel.panel-default
 						span.right-space {{sub.startDate|date}}
 					td.text-right
 						span(ng-class="ctrl.onInActiveCss(sub)")
-							span {{sub.usedCredits}}
+							span {{sub.usedCredits | number: 2}}
 							span &nbsp;/&nbsp;
 							span {{sub.totalCredits}}
 					td.text-right {{sub.conversions}}
