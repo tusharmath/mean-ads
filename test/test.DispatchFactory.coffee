@@ -18,13 +18,13 @@ describe 'DispatchFactory:', ->
 		@subPopulator =  @injector.getModule 'modules.SubscriptionPopulator', mock: false
 
 		#Utils
-		@utils = @injector.getModule 'Utils', mock: false
+		# @utils = do require '../backend/Utils'
 
 		#MongooseProvier
 		@mongo = @injector.getModule 'providers.MongooseProvider', mock: false
 
 		# DateProvider
-		@date = @injector.getModule 'providers.DateProvider', mock: false
+		# @date = @injector.getModule 'providers.DateProvider'
 
 		#ModelFactory
 		@modelFac = @injector.getModule 'factories.ModelFactory', mock: false
@@ -91,15 +91,14 @@ describe 'DispatchFactory:', ->
 			@mod._createDispatchable @subscriptionP
 			.then =>@Models.Dispatch.count().execQ()
 			.should.eventually.equal 3
+		### TODO: remove Subscriptions don't expire
 		it "Ignores dispatch, subscription has expired", ->
-			sinon.stub @utils, 'hasSubscriptionExpired'
-			.returns yes
+			@date.now.returns new Date 2010, 1, 1
 			@mod._createDispatchable @subscriptionP
-			.then =>@Models.Dispatch.count().execQ()
+			.then => @Models.Dispatch.count().execQ()
 			.should.eventually.equal 3
+		###
 		it "Creates a Dispatch with subscription start date", ->
-			sinon.stub @utils, 'hasSubscriptionExpired'
-			.returns no
 			@subscriptionP.startDate = startDate = new Date Date.now()
 			@mod._createDispatchable @subscriptionP
 			.should.eventually.have.property 'startDate'

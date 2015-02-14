@@ -5,7 +5,7 @@ _ = require 'lodash'
 
 # Round Robin DispatchFactory
 class DispatchFactory
-	constructor: (@modelFac, @dot, @htmlMinify, @date, @utils, @subPopulator) ->
+	constructor: (@modelFac, @dot, @htmlMinify, @date, @subPopulator) ->
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
@@ -36,9 +36,7 @@ class DispatchFactory
 	_createDispatchable: (subscription) ->
 		{campaign} = subscription
 		{program} = campaign
-		subExpired = @utils.hasSubscriptionExpired subscription
 		return Q null if (
-			subExpired is yes or
 			campaign.isEnabled is false or
 			subscription.totalCredits is subscription.usedCredits
 			)
@@ -76,7 +74,6 @@ annotate DispatchFactory, new Inject(
 	require '../providers/DotProvider'
 	require '../providers/HtmlMinifierProvider'
 	require '../providers/DateProvider'
-	require '../Utils'
 	require '../modules/SubscriptionPopulator'
 	)
 module.exports = DispatchFactory
