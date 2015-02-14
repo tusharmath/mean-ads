@@ -18,8 +18,8 @@ class DispatchPostDelivery
 		keywordPrice = _.find keywordPricing, (kp) -> kp.keyName is keyword
 		return keywordPrice.keyPrice if keywordPrice
 		subscriptionP.campaign.defaultCost
+	# TODO: Rename function
 	_increaseUsedCredits: (subscriptionP, cost = 0) ->
-		cost = 0 if subscriptionP.campaign.program.pricing isnt 'CPM'
 		delta = usedCredits: subscriptionP.usedCredits + cost
 		delta.impressions = subscriptionP.impressions + 1
 		@_getModel 'Subscription'

@@ -58,11 +58,13 @@ describe 'DispatchPostDelivery:', ->
 			.should.eventually.have.property 'usedCredits'
 			.equal 120
 
+		###
 		it "ignore credits if pricing isnt CPM", ->
 			@subscriptionP.campaign.program.pricing = "CPA"
 			@mod._increaseUsedCredits @subscriptionP, 20
 			.should.eventually.have.property 'usedCredits'
 			.equal 100
+		###
 		it "increases impressions", ->
 			@mod._increaseUsedCredits @subscriptionP
 			.should.eventually.have.property 'impressions'

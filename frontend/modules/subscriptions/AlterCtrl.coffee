@@ -23,11 +23,6 @@ class SubscriptionAlterCtrl
 	_loadStyle: (@program) =>
 		@rest.one 'style', @program.style
 		.get()
-	# TODO: Util function move out, use a filter
-	_formatThroughput: (throughput) ->
-		if @program.pricing is 'CPM'
-			return v: "#{Math.round(throughput/10)/100}", u: 'k'
-		v: "#{Math.round(throughput*100)/100}", u: 'conv'
 
 	_setEstimations: (@style) =>
 		@costPerTransaction = @throughput = 0
@@ -40,7 +35,7 @@ class SubscriptionAlterCtrl
 				@costPerTransaction += @campaign.defaultCost or 0
 		@costPerTransaction /= @subscription.keywords.length
 		@costPerTransaction = Math.round(@costPerTransaction*100)/100
-		@throughput = @_formatThroughput @subscription.totalCredits / @costPerTransaction
+		@throughput = Math.round(@subscription.totalCredits / @costPerTransaction / 10) * 100
 
 
 	onCampaignSelect: () =>

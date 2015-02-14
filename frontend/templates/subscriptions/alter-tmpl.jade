@@ -4,8 +4,9 @@
 	.panel-body
 		form.form-horizontal(role='form')
 			.row.text-muted.text-uppercase
-				.col-md-offset-4.col-md-3 Throughput
-				.col-md-2 Average {{ctrl.program.pricing}}
+				.col-md-4
+				.col-md-3 Impressions
+				.col-md-2 Average CPM
 			.row.lead
 				.col-md-offset-4.col-md-3
 					big {{ctrl.throughput.v}}
@@ -40,7 +41,7 @@
 					)
 			.form-group
 				label.col-md-4.control-label Total Budget
-					small.text-muted &nbsp;{{ctrl.program.pricing}}
+					small.text-muted &nbsp;CPM
 				.col-md-4
 					input.form-control(
 						type="text"
