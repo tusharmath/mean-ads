@@ -1,7 +1,6 @@
 ModelFactory = require '../factories/ModelFactory'
 DispatchFactory = require '../factories/DispatchFactory'
 SubscriptionPopulator = require './SubscriptionPopulator'
-Utils = require '../Utils'
 Q = require 'q'
 DotProvider = require '../providers/DotProvider'
 DateProvder = require '../providers/DateProvider'
@@ -11,7 +10,7 @@ _ = require 'lodash'
 
 # Round Robin DispatchPostDelivery
 class DispatchPostDelivery
-	constructor: (@modelFac, @dot, @date, @subPopulator, @utils, @dispatchFac) ->
+	constructor: (@modelFac, @dot, @date, @subPopulator, @dispatchFac) ->
 	_getModel: (name) -> @modelFac.models()[name]
 
 	_increaseUsedCredits: (subscription) ->
@@ -28,21 +27,16 @@ class DispatchPostDelivery
 		.then (subscription) =>
 			@_increaseUsedCredits subscription
 		.then (subscription) =>
-			subExpired = @utils.hasSubscriptionExpired subscription
-			if (
-				subExpired is yes or
-				subscription.usedCredits >= subscription.totalCredits
-			)
-				@dispatchFac.removeForSubscriptionId subscription._id
-			else
+			if subscription.hasCredits
 				@_updateDeliveryDate dispatch
+			else
+				@dispatchFac.removeForSubscriptionId subscription._id
 
 annotate DispatchPostDelivery, new Inject(
 	ModelFactory
 	DotProvider
 	DateProvder
 	SubscriptionPopulator
-	Utils
 	DispatchFactory
 	)
 module.exports = DispatchPostDelivery

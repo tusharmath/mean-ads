@@ -38,7 +38,7 @@ class DispatchFactory
 		{program} = campaign
 		return Q null if (
 			campaign.isEnabled is false or
-			subscription.totalCredits is subscription.usedCredits
+			subscription.hasCredits is false
 			)
 		Dispatch = @_getModel 'Dispatch'
 		@_interpolateMarkup subscription

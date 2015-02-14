@@ -1,5 +1,4 @@
 DispatchPostDelivery = require '../backend/modules/DispatchPostDelivery'
-Utils = require '../backend/Utils'
 SubscriptionPopulator = require '../backend/modules/SubscriptionPopulator'
 DispatchFactory = require '../backend/factories/DispatchFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
@@ -33,9 +32,6 @@ describe 'DispatchPostDelivery:', ->
 		#ModelFactory
 		@modelFac = @injector.get ModelFactory
 		@Models = @modelFac.models()
-
-		#Utils
-		@utils = @injector.get Utils
 
 		#DispatchFactory
 		@dispatchFac = @injector.get DispatchFactory
@@ -89,26 +85,30 @@ describe 'DispatchPostDelivery:', ->
 			sinon.spy @mod, '_updateDeliveryDate'
 			@mod.delivered @dispatch
 			.then => @mod._updateDeliveryDate.called.should.be.ok
-
+		### TODO: Remove subscriptions dont expire
 		it "removes expired subscriptions", ->
 			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns yes
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		###
 		it "removes exausted subscriptions", ->
 			sinon.stub @mod, '_increaseUsedCredits'
-			.resolves { usedCredits: 100, totalCredits: 100, _id: @subscription._id}
-			sinon.stub @utils, 'hasSubscriptionExpired'
-			.returns no
+			.resolves { hasCredits: no, _id: @subscription._id}
+			# sinon.stub @utils, 'hasSubscriptionExpired'
+			# .returns no
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+
+		### TODO:remove invalid scenario
 		it "removes over exausted subscriptions", ->
 			sinon.stub @mod, '_increaseUsedCredits'
 			.resolves { usedCredits: 101, totalCredits: 100, _id: @subscription._id}
-			sinon.stub @utils, 'hasSubscriptionExpired'
-			.returns no
+			# sinon.stub @utils, 'hasSubscriptionExpired'
+			# .returns no
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		###

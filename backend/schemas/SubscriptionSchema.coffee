@@ -1,5 +1,5 @@
 SubscriptionSchema = (mongoose) ->
-	new mongoose.Schema
+	schema = new mongoose.Schema
 		client:
 			type: String
 			required: true
@@ -36,4 +36,8 @@ SubscriptionSchema = (mongoose) ->
 			type: [String]
 		keywords:
 			type: [String]
+
+	schema.virtual 'hasCredits'
+	.get -> @totalCredits > @usedCredits
+	schema
 module.exports = SubscriptionSchema
