@@ -15,15 +15,16 @@ class SubscriptionPopulator
 		.populate 'campaign'
 		.execQ()
 		.then (subscription) ->
+			return null if not subscription
 			_subscription = subscription
 			subscription.campaign.populateQ 'program'
-		.then (campaign) ->
-			_subscription.campaign = campaign
-			campaign.program.populateQ 'style'
-		.then (program) ->
-			# console.log _subscription
-			_subscription.campaign.program = program
-			_subscription
+			.then (campaign) ->
+				_subscription.campaign = campaign
+				campaign.program.populateQ 'style'
+			.then (program) ->
+				# console.log _subscription
+				_subscription.campaign.program = program
+				_subscription
 
 annotate SubscriptionPopulator, new Inject ModelFactory
 module.exports = SubscriptionPopulator
