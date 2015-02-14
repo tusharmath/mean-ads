@@ -115,6 +115,15 @@ describe 'DispatchPostDelivery:', ->
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		it "removes dispatches for not found subscriptions", ->
+			sinon.spy @dispatchFac, 'removeForSubscriptionId'
+			sinon.stub @subPopulator, 'populateSubscription'
+			.resolves null
+			@mod.delivered @dispatch
+			.then =>
+				@dispatchFac.removeForSubscriptionId.callCount.should.equal 1
+				@Models.Dispatch.findByIdQ @dispatch._id
+			.should.eventually.equal null
 
 		### TODO:remove invalid scenario
 		it "removes over exausted subscriptions", ->

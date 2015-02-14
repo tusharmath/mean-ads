@@ -32,16 +32,20 @@ class DispatchPostDelivery
 		@_getModel 'Dispatch'
 		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
 		.execQ()
+	# TODO: too slanty
 	delivered: (dispatch) ->
 		@subPopulator.populateSubscription dispatch.subscription
 		.then (subscriptionP) =>
-			cost = @_getImpressionCost subscriptionP
-			@_increaseUsedCredits subscriptionP, cost
-		.then (subscriptionP) =>
-			if subscriptionP.hasCredits
-				@_updateDeliveryDate dispatch
+			if subscriptionP is null
+				@dispatchFac.removeForSubscriptionId dispatch.subscription
 			else
-				@dispatchFac.removeForSubscriptionId subscriptionP._id
+				cost = @_getImpressionCost subscriptionP
+				@_increaseUsedCredits subscriptionP, cost
+				.then (subscriptionP) =>
+					if subscriptionP.hasCredits
+						@_updateDeliveryDate dispatch
+					else
+						@dispatchFac.removeForSubscriptionId subscriptionP._id
 
 annotate DispatchPostDelivery, new Inject(
 	ModelFactory
