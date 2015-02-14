@@ -8,14 +8,15 @@ module.exports = ->
 		]
 	# Determines if the subscription has expired
 	# TODO: Could be a part of subscription schema
-	hasSubscriptionExpired: (subscription, now) ->
-		throw new MeanError 'now should be of date type' if Date isnt @getType now
-		{startDate} = subscription
-		[year, month, date] = @dateSplit startDate
+	# TODO: Remove
+	# hasSubscriptionExpired: (subscription, now) ->
+	# 	throw new MeanError 'now should be of date type' if Date isnt @getType now
+	# 	{startDate} = subscription
+	# 	[year, month, date] = @dateSplit startDate
 
-		date += subscription.campaign.days
-		endDate = new Date year, month, date
-		endDate < now
+	# 	date += subscription.campaign.days
+	# 	endDate = new Date year, month, date
+	# 	endDate < now
 	camelCaseToSnakeCase: (str) ->
 		out = ""
 		for v,k in str

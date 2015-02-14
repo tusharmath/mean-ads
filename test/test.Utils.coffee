@@ -6,7 +6,7 @@ describe 'Utils:', ->
 
 		# Utils
 		@mod = utils
-
+	### TODO: Remove - subscriptions dont expire
 	describe "hasSubscriptionExpired()", ->
 		beforeEach ->
 			@subscription =
@@ -42,7 +42,7 @@ describe 'Utils:', ->
 		it "throws if now is not provided", ->
 			expect => @mod.hasSubscriptionExpired @subscription, 12312
 			.to.throw 'now should be of date type'
-
+	###
 	describe "camelCasetoSnakeCase()", ->
 		it "ABC to abc", ->
 			@mod.camelCaseToSnakeCase 'ABC'
