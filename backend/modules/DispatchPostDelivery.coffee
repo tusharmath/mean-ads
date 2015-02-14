@@ -18,8 +18,10 @@ class DispatchPostDelivery
 		keywordPrice = _.find keywordPricing, (kp) -> kp.keyName is keyword
 		return keywordPrice.keyPrice if keywordPrice
 		subscriptionP.campaign.defaultCost
+	_increaseUsedCredits: (subscriptionP) ->
+		delta = usedCredits: subscriptionP.usedCredits + 1
 		@_getModel 'Subscription'
-		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
+		.findByIdAndUpdate subscriptionP._id, delta
 		.execQ()
 
 	_updateDeliveryDate: (dispatch) ->
@@ -28,13 +30,13 @@ class DispatchPostDelivery
 		.execQ()
 	delivered: (dispatch) ->
 		@subPopulator.populateSubscription dispatch.subscription
-		.then (subscription) =>
-			@_increaseUsedCredits subscription
-		.then (subscription) =>
-			if subscription.hasCredits
+		.then (subscriptionP) =>
+			@_increaseUsedCredits subscriptionP
+		.then (subscriptionP) =>
+			if subscriptionP.hasCredits
 				@_updateDeliveryDate dispatch
 			else
-				@dispatchFac.removeForSubscriptionId subscription._id
+				@dispatchFac.removeForSubscriptionId subscriptionP._id
 
 annotate DispatchPostDelivery, new Inject(
 	ModelFactory
