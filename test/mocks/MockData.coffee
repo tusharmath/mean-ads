@@ -11,6 +11,7 @@ campaign =
 subscription =
 	client: 'apples'
 	totalCredits: 1000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa', b: 'bbb', c: 'ccc'
 	owner: ownerId
@@ -21,18 +22,21 @@ subscription =
 subscription2 =
 	client: 'apples2'
 	totalCredits: 2000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa2', b: 'bbb2', c: 'ccc2'
 	owner: ownerId
 subscription3 =
 	client: 'apples3'
 	totalCredits: 3000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa3', b: 'bbb3', c: 'ccc3'
 	owner: 9001
 subscription4 =
 	client: 'apples4'
 	totalCredits: 4000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa4', b: 'bbb4', c: 'ccc4'
 	owner: ownerId
