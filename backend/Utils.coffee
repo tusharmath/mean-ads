@@ -1,5 +1,5 @@
 MeanError = require './modules/MeanError'
-Utils =
+module.exports = ->
 	dateSplit:(date) ->
 		[
 			date.getFullYear()
@@ -43,5 +43,3 @@ Utils =
 		.replace ']', ''
 		# .toLowerCase()
 		global[keyName]
-
-module.exports = -> Utils
