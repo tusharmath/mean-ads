@@ -9,8 +9,8 @@
 				.col-md-2 Average CPM
 			.row.lead
 				.col-md-offset-4.col-md-3
-					big {{ctrl.throughput.v}}
-					| &nbsp;{{ctrl.throughput.u}}
+					big {{ctrl.throughput}}
+					| k
 				.col-md-2
 					big {{ctrl.costPerTransaction}}
 					| &nbsp;$
@@ -41,14 +41,16 @@
 					)
 			.form-group
 				label.col-md-4.control-label Total Budget
-					small.text-muted &nbsp;CPM
-				.col-md-4
-					input.form-control(
-						type="text"
-						placeholder="Enter initial credits"
-						ng-model="ctrl.subscription.totalCredits"
-						ng-change="ctrl._setEstimations()"
-					)
+				.col-md-6
+					.input-group
+						input.form-control(
+							type="text"
+							placeholder="Enter initial credits"
+							ng-model="ctrl.subscription.totalCredits"
+							ng-change="ctrl._setEstimations()"
+						)
+						.input-group-addon
+							a(href="http://ad-spend-calculator.qwilr.com/" target="_blank") Can't decide?
 			hr
 			.form-group
 				.col-md-offset-4.col-md-4
