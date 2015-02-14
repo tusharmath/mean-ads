@@ -18,8 +18,10 @@ class DispatchPostDelivery
 		keywordPrice = _.find keywordPricing, (kp) -> kp.keyName is keyword
 		return keywordPrice.keyPrice if keywordPrice
 		subscriptionP.campaign.defaultCost
-	_increaseUsedCredits: (subscriptionP) ->
-		delta = usedCredits: subscriptionP.usedCredits + 1
+	_increaseUsedCredits: (subscriptionP, cost = 0) ->
+		cost = 0 if subscriptionP.campaign.program.pricing isnt 'CPM'
+		delta = usedCredits: subscriptionP.usedCredits + cost
+		delta.impressions = subscriptionP.impressions + 1
 		@_getModel 'Subscription'
 		.findByIdAndUpdate subscriptionP._id, delta
 		.execQ()
@@ -31,7 +33,8 @@ class DispatchPostDelivery
 	delivered: (dispatch) ->
 		@subPopulator.populateSubscription dispatch.subscription
 		.then (subscriptionP) =>
-			@_increaseUsedCredits subscriptionP
+			cost = @_getSubscriptionCost subscriptionP
+			@_increaseUsedCredits subscriptionP, cost
 		.then (subscriptionP) =>
 			if subscriptionP.hasCredits
 				@_updateDeliveryDate dispatch

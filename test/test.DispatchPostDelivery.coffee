@@ -54,9 +54,19 @@ describe 'DispatchPostDelivery:', ->
 			.then (@subscriptionP) => #P: Populated
 
 		it "updates used credits", ->
-			@mod._increaseUsedCredits @subscriptionP
+			@mod._increaseUsedCredits @subscriptionP, 20
 			.should.eventually.have.property 'usedCredits'
-			.equal 101
+			.equal 120
+
+		it "ignore credits if pricing isnt CPM", ->
+			@subscriptionP.campaign.program.pricing = "CPA"
+			@mod._increaseUsedCredits @subscriptionP, 20
+			.should.eventually.have.property 'usedCredits'
+			.equal 100
+		it "increases impressions", ->
+			@mod._increaseUsedCredits @subscriptionP
+			.should.eventually.have.property 'impressions'
+			.equal 1001
 
 	describe "_updateDeliveryDate()", ->
 		beforeEach ->
@@ -70,6 +80,8 @@ describe 'DispatchPostDelivery:', ->
 
 	describe "delivered()", ->
 		beforeEach ->
+			sinon.stub @mod, '_getSubscriptionCost'
+			.returns 35
 			@mockDataSetup()
 			.then => @dispatchFac.createForSubscriptionId @subscription._id
 			.then (@dispatch) =>
@@ -79,7 +91,7 @@ describe 'DispatchPostDelivery:', ->
 			@mod.delivered @dispatch
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'usedCredits'
-			.to.equal initialCredits + 1
+			.to.equal initialCredits + 35
 
 		it "updates last delivery date of dispatch", ->
 			sinon.spy @mod, '_updateDeliveryDate'
@@ -128,6 +140,8 @@ describe 'DispatchPostDelivery:', ->
 			@mod._getSubscriptionCost.should.be.a.function
 		it "returns default cost", ->
 			@mod._getSubscriptionCost @subscriptionP, 'ee'
+			.should.equal 100
+			@mod._getSubscriptionCost @subscriptionP
 			.should.equal 100
 		it "returns price of keyword", ->
 			@mod._getSubscriptionCost @subscriptionP, 'aa'
