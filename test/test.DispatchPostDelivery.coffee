@@ -112,3 +112,25 @@ describe 'DispatchPostDelivery:', ->
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
 		###
+	describe "_getSubscriptionCost()", ->
+		beforeEach ->
+			@subscriptionP =
+				keywords: ['aa', 'bb', 'cc', 'dd']
+				campaign:
+					keywordPricing: [
+						{keyName: 'aa', keyPrice: 10}
+						{keyName: 'bb', keyPrice: 20}
+						{keyName: 'dd', keyPrice: 30}
+					]
+					defaultCost: 100
+
+		it "be a function", ->
+			@mod._getSubscriptionCost.should.be.a.function
+		it "returns default cost", ->
+			@mod._getSubscriptionCost @subscriptionP, 'ee'
+			.should.equal 100
+		it "returns price of keyword", ->
+			@mod._getSubscriptionCost @subscriptionP, 'aa'
+			.should.equal 10
+			@mod._getSubscriptionCost @subscriptionP, 'bb'
+			.should.equal 20

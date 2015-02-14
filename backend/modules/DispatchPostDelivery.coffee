@@ -12,8 +12,12 @@ _ = require 'lodash'
 class DispatchPostDelivery
 	constructor: (@modelFac, @dot, @date, @subPopulator, @dispatchFac) ->
 	_getModel: (name) -> @modelFac.models()[name]
-
-	_increaseUsedCredits: (subscription) ->
+	# TODO: Could be a part of the campaign schema
+	_getSubscriptionCost: (subscriptionP, keyword) ->
+		{keywordPricing} = subscriptionP.campaign
+		keywordPrice = _.find keywordPricing, (kp) -> kp.keyName is keyword
+		return keywordPrice.keyPrice if keywordPrice
+		subscriptionP.campaign.defaultCost
 		@_getModel 'Subscription'
 		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
 		.execQ()
