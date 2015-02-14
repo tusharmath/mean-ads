@@ -16,6 +16,7 @@ subscription =
 	owner: ownerId
 	emailAccess: ['a@a.com', 'b@b.com', 'c@c.com']
 	keywords: ['inky', 'pinky', 'ponky']
+	impressions: 1000
 	# startDate: new Date(2012,1,2)
 subscription2 =
 	client: 'apples2'

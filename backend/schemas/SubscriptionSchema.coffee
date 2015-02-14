@@ -32,6 +32,10 @@ SubscriptionSchema = (mongoose) ->
 			type: Number
 			required: true
 			default: 0
+		impressions:
+			type: Number
+			required: true
+			default: 0
 		emailAccess:
 			type: [String]
 		keywords:
