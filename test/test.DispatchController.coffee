@@ -30,11 +30,11 @@ describe 'DispatchController:', ->
 			@mod.actions.$index @req, @res
 			.then => @dispatcher.next.calledWith @req.params.program, {keywords: ['a', 'b'], limit: 100}
 			.should.eventually.be.ok
-		it "sends empty k if not an array", ->
+		it "sends [k] if not an array", ->
 			@req.query = k: 'xyz'
 			@mod.actions.$index @req, @res
 			.then =>
-				@dispatcher.next.calledWithExactly @req.params.program, {limit: 1, keywords: []}
+				@dispatcher.next.calledWithExactly @req.params.program, {limit: 1, keywords: ['xyz']}
 				.should.be.ok
 				@dispatcher.next.calledOn @dispatcher
 				.should.be.ok

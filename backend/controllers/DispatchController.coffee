@@ -11,7 +11,7 @@ class DispatchController
 	_dispatcherOptions: (query) ->
 		defaultOptions = k: [], l: 1
 		{k, l} = _.assign defaultOptions, query
-		k = [] if not _.isArray k
+		k = [k] if not _.isArray k
 		{keywords: k, limit: l}
 	$index: (req, res) =>
 		{origin} = req.headers

@@ -135,6 +135,13 @@ describe 'DispatchPostDelivery:', ->
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
 		###
+		it "calls _getImpressionCost with keywords", ->
+			keywords = ['aa', 'bb', 'cc']
+			sinon.stub @subPopulator, 'populateSubscription'
+			.resolves @subscriptionP = impressions: 0, usedCredits: 10
+			@mod.delivered @dispatch, keywords
+			.then => @mod._getImpressionCost.calledWith @subscriptionP, keywords
+			.should.eventually.be.ok
 	describe "_getImpressionCost()", ->
 		beforeEach ->
 			@subscriptionP =
@@ -143,19 +150,22 @@ describe 'DispatchPostDelivery:', ->
 					keywordPricing: [
 						{keyName: 'aa', keyPrice: 10}
 						{keyName: 'bb', keyPrice: 20}
-						{keyName: 'dd', keyPrice: 30}
+						{keyName: 'cc', keyPrice: 300}
+						{keyName: 'dd', keyPrice: 40}
 					]
 					defaultCost: 100
 
 		it "be a function", ->
 			@mod._getImpressionCost.should.be.a.function
 		it "returns default cost", ->
-			@mod._getImpressionCost @subscriptionP, 'ee'
+			@mod._getImpressionCost @subscriptionP, ['ee']
 			.should.equal 0.1
 			@mod._getImpressionCost @subscriptionP
 			.should.equal 0.1
 		it "returns price of keyword", ->
-			@mod._getImpressionCost @subscriptionP, 'aa'
+			@mod._getImpressionCost @subscriptionP, ['aa']
 			.should.equal 0.01
-			@mod._getImpressionCost @subscriptionP, 'bb'
+			@mod._getImpressionCost @subscriptionP, ['aa', 'bb']
+			.should.equal 0.02
+			@mod._getImpressionCost @subscriptionP, ['abc', 'bb']
 			.should.equal 0.02

@@ -67,7 +67,7 @@ describe 'Dispatcher:', ->
 			@mod.next @program._id, keywords: ['aa', 'bb']
 			.then =>
 				[dispatch, keyName] = @dispatchDelivery.delivered.getCall(0).args
-				keyName.should.equal 'aa'
+				keyName.should.deep.equal ['aa', 'bb']
 				dispatch._id.should.deep.	equal @dispatch._id
 
 		it "resolves to the dispatch", ->
