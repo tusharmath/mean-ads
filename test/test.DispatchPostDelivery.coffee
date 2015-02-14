@@ -82,7 +82,7 @@ describe 'DispatchPostDelivery:', ->
 
 	describe "delivered()", ->
 		beforeEach ->
-			sinon.stub @mod, '_getSubscriptionCost'
+			sinon.stub @mod, '_getImpressionCost'
 			.returns 35
 			@mockDataSetup()
 			.then => @dispatchFac.createForSubscriptionId @subscription._id
@@ -126,7 +126,7 @@ describe 'DispatchPostDelivery:', ->
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
 		###
-	describe "_getSubscriptionCost()", ->
+	describe "_getImpressionCost()", ->
 		beforeEach ->
 			@subscriptionP =
 				keywords: ['aa', 'bb', 'cc', 'dd']
@@ -139,14 +139,14 @@ describe 'DispatchPostDelivery:', ->
 					defaultCost: 100
 
 		it "be a function", ->
-			@mod._getSubscriptionCost.should.be.a.function
+			@mod._getImpressionCost.should.be.a.function
 		it "returns default cost", ->
-			@mod._getSubscriptionCost @subscriptionP, 'ee'
-			.should.equal 100
-			@mod._getSubscriptionCost @subscriptionP
-			.should.equal 100
+			@mod._getImpressionCost @subscriptionP, 'ee'
+			.should.equal 0.1
+			@mod._getImpressionCost @subscriptionP
+			.should.equal 0.1
 		it "returns price of keyword", ->
-			@mod._getSubscriptionCost @subscriptionP, 'aa'
-			.should.equal 10
-			@mod._getSubscriptionCost @subscriptionP, 'bb'
-			.should.equal 20
+			@mod._getImpressionCost @subscriptionP, 'aa'
+			.should.equal 0.01
+			@mod._getImpressionCost @subscriptionP, 'bb'
+			.should.equal 0.02

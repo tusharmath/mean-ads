@@ -13,11 +13,13 @@ class DispatchPostDelivery
 	constructor: (@modelFac, @dot, @date, @subPopulator, @dispatchFac) ->
 	_getModel: (name) -> @modelFac.models()[name]
 	# TODO: Could be a part of the campaign schema
-	_getSubscriptionCost: (subscriptionP, keyword) ->
+	_getImpressionCost: (subscriptionP, keyword) ->
 		{keywordPricing} = subscriptionP.campaign
 		keywordPrice = _.find keywordPricing, (kp) -> kp.keyName is keyword
-		return keywordPrice.keyPrice if keywordPrice
-		subscriptionP.campaign.defaultCost
+		if keywordPrice
+			keywordPrice.keyPrice / 1000
+		else
+			subscriptionP.campaign.defaultCost / 1000
 	# TODO: Rename function
 	_increaseUsedCredits: (subscriptionP, cost = 0) ->
 		delta = usedCredits: subscriptionP.usedCredits + cost
@@ -33,7 +35,7 @@ class DispatchPostDelivery
 	delivered: (dispatch) ->
 		@subPopulator.populateSubscription dispatch.subscription
 		.then (subscriptionP) =>
-			cost = @_getSubscriptionCost subscriptionP
+			cost = @_getImpressionCost subscriptionP
 			@_increaseUsedCredits subscriptionP, cost
 		.then (subscriptionP) =>
 			if subscriptionP.hasCredits
