@@ -63,6 +63,13 @@ describe 'Dispatcher:', ->
 			.then => @dispatchDelivery.delivered.calledThrice
 			.should.eventually.be.ok
 
+		it "calls postDelivery with args", ->
+			@mod.next @program._id, keywords: ['aa', 'bb']
+			.then =>
+				[dispatch, keyName] = @dispatchDelivery.delivered.getCall(0).args
+				keyName.should.equal 'aa'
+				dispatch._id.should.deep.	equal @dispatch._id
+
 		it "resolves to the dispatch", ->
 			@mod.next @program._id
 			.then (d) -> d[0]
