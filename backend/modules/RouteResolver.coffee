@@ -19,30 +19,33 @@ class V1
 		[method, routeFunc] = ctrl.actions.actionMap[actionName]
 		route = routeFunc ctrlName.toLowerCase()
 		{method, route}
-	_actionMiddleware: (ctrl, action, req, res) ->
+	_catch: (req, res, err) ->
+		bragi.log 'error', err.stack
+		if err.name is 'ValidationError'
+			return res.status(400).send err
+		switch err.type
+			when 'mean'
+				res.status(err.httpStatus).send err
+			when 'ObjectId'
+				err = ErrorPool.INVALID_OBJECT_ID
+				res.status(err.httpStatus).send err
+			when 'date'
+				err = ErrorPool.INVALID_DATE
+				res.status(err.httpStatus).send err
+			else
+				if config.newrelic.notify
+					newrelic.noticeError err
+				unknownErr = ErrorPool.UNKNOWN_ERROR
+				res.status(unknownErr.httpStatus).send unknownErr
+	_actionMiddleware: (ctrl, action, req, res) =>
+		try
+			action.call ctrl.actions, req, res
+			.then (doc) -> res.send doc
+			.catch (err) =>  @_catch req, res, err
+			.done()
+		catch err
+			@_catch req, res, err
 
-		action.call ctrl.actions, req, res
-		.then (doc) -> res.send doc
-		.catch (err) ->
-			bragi.log 'error', err.stack
-			if err.name is 'ValidationError'
-				return res.status(400).send err
-			switch err.type
-				when 'mean'
-					res.status(err.httpStatus).send err
-				when 'ObjectId'
-					err = ErrorPool.INVALID_OBJECT_ID
-					res.status(err.httpStatus).send err
-				when 'date'
-					err = ErrorPool.INVALID_DATE
-					res.status(err.httpStatus).send err
-				else
-					if config.newrelic.notify
-						newrelic.noticeError err
-					unknownErr = ErrorPool.UNKNOWN_ERROR
-					res.status(unknownErr.httpStatus).send unknownErr
-
-		.done()
 	_actionBinder: (router, ctrl, ctrlName, action, actionName) ->
 		{method, route} = @_resolveRoute ctrl, ctrlName, actionName
 		bragi.log 'api', bragi.util.print("[#{method.toUpperCase()}]"), route
