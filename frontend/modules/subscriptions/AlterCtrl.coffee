@@ -54,6 +54,7 @@ class SubscriptionAlterCtrl
 		_.remove @subscription.emailAccess, (s) ->s is email
 	addEmail: =>
 		if @newEmailAccess
+			@subscription.emailAccess = [] if not @subscription.email
 			@subscription.emailAccess.push @newEmailAccess
 			@newEmailAccess = ''
 	removeKeyword: (keyword) ->
