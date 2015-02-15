@@ -4,13 +4,13 @@ module.exports =
 	browserify:
 		debug: false
 	mailgun:
-		apiKey: 'key-57091db7c8d6a4b0d557a34a3b9b63e9'
-		password: 'ba45f8a7af2a503c7cc2e436f38c0f9e'
-	cookie: secret: "a71tamXSG"
+		apiKey: process.env.MAILGUN_APIKEY
+		password: process.env.MAILGUN_PASSWORD
+	cookie: secret: process.env.COOKIE_SECRET
 	env: 'production'
 	jwt:
-		secret: 'G3AEzjlLJ6Fzk2IiOdwgtrOcfa4jgmUYLiB22PnFtg_D6f3ACv541EqRs5heYDhK'
-		clientId: '6zvBZ3dG9XJl8zre9bCpPNTTxozUShX7'
+		secret: process.env.JWT_SECRET
+		clientId: process.env.JWT_CLIENTID
 		domain: 'mean-ads.auth0.com'
 	stylus: forceCompile: false
 	bragi:
@@ -23,11 +23,7 @@ module.exports =
 	port: process.env.OPENSHIFT_NODEJS_PORT ||
 		process.env.PORT
 	mongo:
-		uri: process.env.MONGOLAB_URI ||
-			process.env.MONGOHQ_URL ||
-			process.env.OPENSHIFT_MONGODB_DB_URL +
-			process.env.OPENSHIFT_APP_NAME ||
-			'mongodb://root:1234567890@kahana.mongohq.com:10062/adwords'
+		uri: process.env.MONGOLAB_URI
 	newrelic:
 		notify: true
 		license: process.env.NEW_RELIC_LICENSE_KEY
