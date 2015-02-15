@@ -23,3 +23,4 @@ module.exports =
 	newrelic:
 		license: 'no-license'
 		enabled: false
+	appHost: 'localhost:3000'

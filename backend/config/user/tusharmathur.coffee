@@ -9,3 +9,4 @@ module.exports =
 			groupsEnabled: ['application']
 	env: 'development'
 	newrelic: enabled: false
+	appHost: 'localhost:3000'
