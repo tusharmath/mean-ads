@@ -12,25 +12,25 @@ div.panel.panel-default
 				tr.text-capitalize
 					th Subscription
 					th Campaign
-					th.text-left Period
-					th.text-right Credits
+					th.text-left Start Date
+					th.text-right Budget
 					th.text-right Conversions
+					th.text-right Impressions
 					th.text-right Actions
 			tbody
 				tr(ng-repeat="sub in ctrl.subscriptions")
 					td {{sub.client}}
 					td
 						a(ng-href="#/campaigns/{{sub.campaign._id}}/update") {{sub.campaign.name}}
-					td.text-left(ng-class="ctrl.onExpiredCss(sub)")
+					td.text-left
 						span.right-space {{sub.startDate|date}}
-						span.right-space -
-						span.right-space {{ctrl.endDate(sub)|date}}
 					td.text-right
 						span(ng-class="ctrl.onInActiveCss(sub)")
-							span {{sub.usedCredits}}
+							span {{sub.usedCredits | number: 2}}
 							span &nbsp;/&nbsp;
 							span {{sub.totalCredits}}
 					td.text-right {{sub.conversions}}
+					td.text-right {{sub.impressions}}
 					td.text-right
 						a.btn.btn-link.btn-xs(ng-href="#/subscriptions/{{sub._id}}/update") Update
 						a.btn.btn-link.btn-xs(ng-href="#/subscriptions/{{sub._id}}/metrics") Metrics

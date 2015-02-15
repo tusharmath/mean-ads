@@ -1,7 +1,6 @@
 ModelFactory = require '../factories/ModelFactory'
 DispatchFactory = require '../factories/DispatchFactory'
 SubscriptionPopulator = require './SubscriptionPopulator'
-Utils = require '../Utils'
 Q = require 'q'
 DotProvider = require '../providers/DotProvider'
 DateProvder = require '../providers/DateProvider'
@@ -11,38 +10,50 @@ _ = require 'lodash'
 
 # Round Robin DispatchPostDelivery
 class DispatchPostDelivery
-	constructor: (@modelFac, @dot, @date, @subPopulator, @utils, @dispatchFac) ->
+	constructor: (@modelFac, @dot, @date, @subPopulator, @dispatchFac) ->
 	_getModel: (name) -> @modelFac.models()[name]
+	# TODO: Could be a part of the campaign schema
+	_getImpressionCost: (subscriptionP, keywords) ->
+		defaultCost = subscriptionP.campaign.defaultCost / 1000
+		keywordPricing = _.filter subscriptionP.campaign.keywordPricing, (i) ->
+			_.any keywords, (j) -> j is i.keyName
+		if keywordPricing.length is 0
+			defaultCost
+		else
+			_.max(keywordPricing, (i) -> i.keyPrice).keyPrice/1000
 
-	_increaseUsedCredits: (subscription) ->
+	# TODO: Rename function
+	_increaseUsedCredits: (subscriptionP, cost = 0) ->
+		delta = usedCredits: subscriptionP.usedCredits + cost
+		delta.impressions = subscriptionP.impressions + 1
 		@_getModel 'Subscription'
-		.findByIdAndUpdate subscription._id, usedCredits: subscription.usedCredits + 1
+		.findByIdAndUpdate subscriptionP._id, delta
 		.execQ()
 
 	_updateDeliveryDate: (dispatch) ->
 		@_getModel 'Dispatch'
 		.findByIdAndUpdate dispatch._id, lastDeliveredOn:  @date.now()
 		.execQ()
-	delivered: (dispatch) ->
+	# TODO: too slanty
+	delivered: (dispatch, keywords) ->
 		@subPopulator.populateSubscription dispatch.subscription
-		.then (subscription) =>
-			@_increaseUsedCredits subscription
-		.then (subscription) =>
-			subExpired = @utils.hasSubscriptionExpired subscription
-			if (
-				subExpired is yes or
-				subscription.usedCredits >= subscription.totalCredits
-			)
-				@dispatchFac.removeForSubscriptionId subscription._id
+		.then (subscriptionP) =>
+			if subscriptionP is null
+				@dispatchFac.removeForSubscriptionId dispatch.subscription
 			else
-				@_updateDeliveryDate dispatch
+				cost = @_getImpressionCost subscriptionP, keywords
+				@_increaseUsedCredits subscriptionP, cost
+				.then (subscriptionP) =>
+					if subscriptionP.hasCredits
+						@_updateDeliveryDate dispatch
+					else
+						@dispatchFac.removeForSubscriptionId subscriptionP._id
 
 annotate DispatchPostDelivery, new Inject(
 	ModelFactory
 	DotProvider
 	DateProvder
 	SubscriptionPopulator
-	Utils
 	DispatchFactory
 	)
 module.exports = DispatchPostDelivery

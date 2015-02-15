@@ -1,10 +1,20 @@
 .panel.panel-info
 	.panel-heading
-		.panel-title
-			| Alter Subscription
-			.pull-right.button.btn.btn-sm.btn-danger(type="button" ng-click="ctrl.remove()") Delete
+		.panel-title Alter Subscription
 	.panel-body
 		form.form-horizontal(role='form')
+			.row.text-muted.text-uppercase
+				.col-md-2.col-md-offset-4 Impressions
+				.col-md-2 Average CPM
+			.row.lead
+				label.col-md-4.control-label.text-muted Estimations
+				.col-md-2.form-control-static
+					big {{ctrl.throughput| number: 2}}
+					| &nbsp;k
+				.col-md-2.form-control-static
+					big {{ctrl.costPerTransaction | number: 2}}
+					| &nbsp;$
+			hr
 			.form-group
 				label.col-md-4.control-label Subscriptions Name
 				.col-md-6
@@ -30,13 +40,39 @@
 						ng-change="ctrl.onCampaignSelect()"
 					)
 			.form-group
-				label.col-md-4.control-label Initial Credits
+				label.col-md-4.control-label Total Budget
+				.col-md-6
+					.input-group
+						input.form-control(
+							type="text"
+							placeholder="Enter initial credits"
+							ng-model="ctrl.subscription.totalCredits"
+							ng-change="ctrl._setEstimations()"
+						)
+						.input-group-addon
+							a(href="http://ad-spend-calculator.qwilr.com/" target="_blank") Can't decide?
+			hr
+			.form-group
+				.col-md-offset-4.col-md-4
+					h4.text-muted Keywords
+			.form-group
+				label.col-md-4.control-label Add Keyword
 				.col-md-4
 					input.form-control(
 						type="text"
-						placeholder="Enter initial credits"
-						ng-model="ctrl.subscription.totalCredits"
+						placeholder="Keyword"
+						ng-model="ctrl.newKeyword"
 					)
+				.col-md-1
+					button.btn.btn-primary(ng-click="ctrl.addKeyword()")
+						span.glyphicon.glyphicon-plus
+			.form-group(ng-repeat="keyword in ctrl.subscription.keywords")
+				.col-md-4.col-md-offset-4
+					p.form-control-static {{keyword}}
+				.col-md-1
+					button.btn.btn-warning(ng-click="ctrl.removeKeyword(keyword)")
+						span.glyphicon.glyphicon-trash
+
 			hr
 			.row
 				.col-md-offset-4.col-md-4
@@ -44,18 +80,18 @@
 						abbr(title="All the fields that would be required to render the ad") Style Data
 			.form-group(ng-repeat="holder in ctrl.style.placeholders")
 				label.col-md-4.control-label
-					strong.text-muted.text-uppercase ~ {{holder}}
-				.col-md-4
+					label.text-muted.text-uppercase ~ {{holder}}
+				.col-md-6
 					input.form-control(
 						type='text'
 						ng-model="ctrl.subscription.data[holder]"
 					)
 			hr
-			.row.form-group
+			.form-group
 				.col-md-offset-4.col-md-4
 					h4.text-muted
 						abbr(title="Performance of the subscription can be shared from the metrics panel") Report Sharing
-			.row.form-group
+			.form-group
 				label.col-md-4.control-label Add Email
 				.col-md-4
 					input.form-control(
@@ -66,16 +102,17 @@
 				.col-md-1
 					button.btn.btn-primary(ng-click="ctrl.addEmail()")
 						span.glyphicon.glyphicon-plus
-			.row.form-group(ng-repeat="email in ctrl.subscription.emailAccess")
+			.form-group(ng-repeat="email in ctrl.subscription.emailAccess")
 				.col-md-offset-4.col-md-4
-						label.form-control-static {{email}}
+						p.form-control-static {{email}}
 				.col-md-1
 					button.btn.btn-warning(ng-click="ctrl.removeEmail(email)")
 						span.glyphicon.glyphicon-trash
-
 			hr
 			.form-group
 				.col-md-6.col-md-offset-4
 					button.btn.btn-primary(type="button", ng-click="ctrl.save()") Save
 					| &nbsp;
 					a.btn.btn-default(ng-href="#/subscriptions") Cancel
+					| &nbsp;
+					button.btn.btn-danger(type="button" ng-click="ctrl.remove()" ng-show="ctrl.subscription._id") Delete

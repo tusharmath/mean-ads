@@ -1,5 +1,4 @@
 DispatchPostDelivery = require '../backend/modules/DispatchPostDelivery'
-Utils = require '../backend/Utils'
 SubscriptionPopulator = require '../backend/modules/SubscriptionPopulator'
 DispatchFactory = require '../backend/factories/DispatchFactory'
 MongooseProviderMock = require './mocks/MongooseProviderMock'
@@ -34,9 +33,6 @@ describe 'DispatchPostDelivery:', ->
 		@modelFac = @injector.get ModelFactory
 		@Models = @modelFac.models()
 
-		#Utils
-		@utils = @injector.get Utils
-
 		#DispatchFactory
 		@dispatchFac = @injector.get DispatchFactory
 
@@ -58,9 +54,21 @@ describe 'DispatchPostDelivery:', ->
 			.then (@subscriptionP) => #P: Populated
 
 		it "updates used credits", ->
-			@mod._increaseUsedCredits @subscriptionP
+			@mod._increaseUsedCredits @subscriptionP, 20
 			.should.eventually.have.property 'usedCredits'
-			.equal 101
+			.equal 120
+
+		###
+		it "ignore credits if pricing isnt CPM", ->
+			@subscriptionP.campaign.program.pricing = "CPA"
+			@mod._increaseUsedCredits @subscriptionP, 20
+			.should.eventually.have.property 'usedCredits'
+			.equal 100
+		###
+		it "increases impressions", ->
+			@mod._increaseUsedCredits @subscriptionP
+			.should.eventually.have.property 'impressions'
+			.equal 1001
 
 	describe "_updateDeliveryDate()", ->
 		beforeEach ->
@@ -74,6 +82,8 @@ describe 'DispatchPostDelivery:', ->
 
 	describe "delivered()", ->
 		beforeEach ->
+			sinon.stub @mod, '_getImpressionCost'
+			.returns 35
 			@mockDataSetup()
 			.then => @dispatchFac.createForSubscriptionId @subscription._id
 			.then (@dispatch) =>
@@ -83,32 +93,79 @@ describe 'DispatchPostDelivery:', ->
 			@mod.delivered @dispatch
 			.then => @Models.Subscription.findByIdQ @subscription._id
 			.should.eventually.have.property 'usedCredits'
-			.to.equal initialCredits + 1
+			.to.equal initialCredits + 35
 
 		it "updates last delivery date of dispatch", ->
 			sinon.spy @mod, '_updateDeliveryDate'
 			@mod.delivered @dispatch
 			.then => @mod._updateDeliveryDate.called.should.be.ok
-
+		### TODO: Remove subscriptions dont expire
 		it "removes expired subscriptions", ->
 			sinon.stub @utils, 'hasSubscriptionExpired'
 			.returns yes
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		###
 		it "removes exausted subscriptions", ->
 			sinon.stub @mod, '_increaseUsedCredits'
-			.resolves { usedCredits: 100, totalCredits: 100, _id: @subscription._id}
-			sinon.stub @utils, 'hasSubscriptionExpired'
-			.returns no
+			.resolves { hasCredits: no, _id: @subscription._id}
+			# sinon.stub @utils, 'hasSubscriptionExpired'
+			# .returns no
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		it "removes dispatches for not found subscriptions", ->
+			sinon.spy @dispatchFac, 'removeForSubscriptionId'
+			sinon.stub @subPopulator, 'populateSubscription'
+			.resolves null
+			@mod.delivered @dispatch
+			.then =>
+				@dispatchFac.removeForSubscriptionId.callCount.should.equal 1
+				@Models.Dispatch.findByIdQ @dispatch._id
+			.should.eventually.equal null
+
+		### TODO:remove invalid scenario
 		it "removes over exausted subscriptions", ->
 			sinon.stub @mod, '_increaseUsedCredits'
 			.resolves { usedCredits: 101, totalCredits: 100, _id: @subscription._id}
-			sinon.stub @utils, 'hasSubscriptionExpired'
-			.returns no
+			# sinon.stub @utils, 'hasSubscriptionExpired'
+			# .returns no
 			@mod.delivered @dispatch
 			.then => @Models.Dispatch.findByIdQ @dispatch._id
 			.should.eventually.equal null
+		###
+		it "calls _getImpressionCost with keywords", ->
+			keywords = ['aa', 'bb', 'cc']
+			sinon.stub @subPopulator, 'populateSubscription'
+			.resolves @subscriptionP = impressions: 0, usedCredits: 10
+			@mod.delivered @dispatch, keywords
+			.then => @mod._getImpressionCost.calledWith @subscriptionP, keywords
+			.should.eventually.be.ok
+	describe "_getImpressionCost()", ->
+		beforeEach ->
+			@subscriptionP =
+				keywords: ['aa', 'bb', 'cc', 'dd']
+				campaign:
+					keywordPricing: [
+						{keyName: 'aa', keyPrice: 10}
+						{keyName: 'bb', keyPrice: 20}
+						{keyName: 'cc', keyPrice: 300}
+						{keyName: 'dd', keyPrice: 40}
+					]
+					defaultCost: 100
+
+		it "be a function", ->
+			@mod._getImpressionCost.should.be.a.function
+		it "returns default cost", ->
+			@mod._getImpressionCost @subscriptionP, ['ee']
+			.should.equal 0.1
+			@mod._getImpressionCost @subscriptionP
+			.should.equal 0.1
+		it "returns price of keyword", ->
+			@mod._getImpressionCost @subscriptionP, ['aa']
+			.should.equal 0.01
+			@mod._getImpressionCost @subscriptionP, ['aa', 'bb']
+			.should.equal 0.02
+			@mod._getImpressionCost @subscriptionP, ['abc', 'bb']
+			.should.equal 0.02

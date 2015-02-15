@@ -6,29 +6,37 @@ campaign =
 	name: 'apple-campaign'
 	days: 10
 	owner: ownerId
+	defaultCost: 1
+	isEnabled: true
 subscription =
 	client: 'apples'
 	totalCredits: 1000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa', b: 'bbb', c: 'ccc'
 	owner: ownerId
 	emailAccess: ['a@a.com', 'b@b.com', 'c@c.com']
+	keywords: ['inky', 'pinky', 'ponky']
+	impressions: 1000
 	# startDate: new Date(2012,1,2)
 subscription2 =
 	client: 'apples2'
 	totalCredits: 2000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa2', b: 'bbb2', c: 'ccc2'
 	owner: ownerId
 subscription3 =
 	client: 'apples3'
 	totalCredits: 3000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa3', b: 'bbb3', c: 'ccc3'
 	owner: 9001
 subscription4 =
 	client: 'apples4'
 	totalCredits: 4000
+	keywords: ["abc"]
 	usedCredits: 120
 	data: a:'aaa4', b: 'bbb4', c: 'ccc4'
 	owner: ownerId

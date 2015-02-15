@@ -52,3 +52,6 @@ describe 'SubscriptionPopulator:', ->
 			@mod.populateSubscription @subscription._id
 			.then (sub) =>
 				sub.campaign.program.style._id.should.eql @style._id
+		it "resolves to null if subscription is not found", ->
+			@mod.populateSubscription @mongo.mongoose.Types.ObjectId()
+			.should.eventually.equal null

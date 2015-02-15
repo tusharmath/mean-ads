@@ -14,7 +14,10 @@ class AlterControllerExtensionService
 			@alter.remove resourceName, ctrl[resourceName]
 
 		#Initialzing
-		ctrl[resourceName] = @first.load resourceName
+		@first.load resourceName
+		.then (val) ->
+			ctrl[resourceName] = val
+			val
 
 AlterControllerExtensionService.$inject = [
 	'AlterPersistenceService'

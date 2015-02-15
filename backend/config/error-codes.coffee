@@ -1,4 +1,5 @@
 _ = require 'lodash'
+MeanError = require '../modules/MeanError'
 ErrorSchema =
 	# 400
 	INVALID_PARAMETERS:
@@ -38,11 +39,6 @@ ErrorSchema =
 		httpStatus: 500
 
 ErrorPool = {}
-
-class MeanError extends Error
-	constructor: (@message, @code = 'KNOWN_ERROR', @httpStatus = '500') ->
-		@type = 'mean'
-
 
 _.each ErrorSchema, (val, key) ->
 	ErrorPool[key] = new MeanError val.message, val.code, val.httpStatus

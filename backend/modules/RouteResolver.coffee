@@ -25,6 +25,8 @@ class V1
 		.then (doc) -> res.send doc
 		.catch (err) ->
 			bragi.log 'error', err.stack
+			if err.name is 'ValidationError'
+				return res.status(400).send err
 			switch err.type
 				when 'mean'
 					res.status(err.httpStatus).send err

@@ -38,7 +38,7 @@ class Dispatcher
 		.execQ()
 		.then (dispatchList) =>
 			_.each dispatchList, (d) =>
-				@dispatchDelivery.delivered d
+				@dispatchDelivery.delivered d, keywords
 				.done()
 			dispatchList
 

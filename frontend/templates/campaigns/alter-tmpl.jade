@@ -15,20 +15,32 @@
 					select.form-control(
 						ng-model="ctrl.campaign.program"
 						ng-options="program._id as program.name for program in ctrl.programs")
+			hr
+			.row.form-group
+				.col-md-offset-4.col-md-4
+					h4.text-muted Pricing
 			.form-group
-				label.col-md-4.control-label Duration
-					small.text-muted &nbsp;days
-				.col-md-6
-					input.form-control(type="text" placeholder="Enter duration in days", ng-model="ctrl.campaign.days")
+				label.col-md-4.control-label
+					abbr(title="default value of cost per thousand impression") Default CPM
+				.col-md-3
+					input.form-control(type="text" placeholder="CPM" ng-model="ctrl.campaign.defaultCost")
 			.form-group
-				label.col-md-4.control-label Commitment
-				.col-md-6
-					input.form-control(type="text" placeholder="Enter expected traffic commitment", ng-model="ctrl.campaign.commitment")
-			.form-group
-				label.col-md-4.control-label Keywords
-					small.text-muted &nbsp;csv
-				.col-md-6
-					input.form-control(type="text" placeholder="Enter comma separated values for keywords", ng-model="ctrl.campaign.keywords")
+				label.col-md-4.control-label Special Keyword CPM
+				.col-md-3
+					input.form-control(type="text" placeholder="Keywords/Phrases" ng-model="ctrl.keyName")
+				.col-md-1
+					input.form-control(type="text" placeholder="CPM" ng-model="ctrl.keyPrice")
+				.col-md-1
+					button.btn.btn-primary(ng-click="ctrl.addKeyword()")
+						span.glyphicon.glyphicon-plus
+			.form-group(ng-repeat="keywordPrice in ctrl.campaign.keywordPricing")
+				.col-md-offset-4.col-md-3
+					.form-control-static {{keywordPrice.keyName}}
+				.col-md-1
+					.form-control-static {{keywordPrice.keyPrice}}
+				.col-md-1
+					button.btn.btn-warning(ng-click="ctrl.removeKeyword(keywordPrice)")
+						span.glyphicon.glyphicon-trash
 			.form-group
 				.col-md-6.col-md-offset-4
 					button.btn.btn-primary(type="button" ng-click="ctrl.save()") Save
