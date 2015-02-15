@@ -16,7 +16,8 @@ html
 				nav.navbar.navbar-inverse.square
 					.container
 						.navbar-header
-							a.text-uppercase.navbar-brand(href="#/") #{config.appName}
+							a.text-uppercase.navbar-brand(href="#/" style="padding: 0")
+								img(src="/static/img/logo-white.png", alt="" style="height: 64px")
 						div(ng-include='\'templates/profiles/list-tmpl\'')
 			.content
 				.container
