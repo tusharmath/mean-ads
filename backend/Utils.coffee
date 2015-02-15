@@ -37,10 +37,9 @@ module.exports = ->
 				out += v
 		out
 	getType: (item) ->
-		return item if item is null or item is undefined
+		return 'null' if item is null
+		return 'undefined' if item is undefined
 		x = {}
-		keyName = x.toString.call item
+		x.toString.call item
 		.replace /\[object /, ''
 		.replace ']', ''
-		# .toLowerCase()
-		global[keyName]

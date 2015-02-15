@@ -66,16 +66,16 @@ describe 'Utils:', ->
 	describe "getType()", ->
 		it "returns date", ->
 			@mod.getType new Date
-			.should.equal Date
+			.should.equal 'Date'
 		it "returns number", ->
 			@mod.getType 12345
-			.should.equal Number
+			.should.equal 'Number'
 		it "returns string", ->
 			@mod.getType 'qwerty'
-			.should.equal String
+			.should.equal 'String'
 		it "returns null", ->
 			expect @mod.getType null
-			.to.equal.null
+			.to.equal 'null'
 		it "returns undefined", ->
 			expect @mod.getType undefined
-			.to.equal undefined
+			.to.equal 'undefined'
