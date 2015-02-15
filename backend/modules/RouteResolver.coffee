@@ -24,7 +24,7 @@ class V1
 		action.call ctrl.actions, req, res
 		.then (doc) -> res.send doc
 		.catch (err) ->
-			bragi.log 'error', err
+			bragi.log 'error', err.stack
 			if err.name is 'ValidationError'
 				return res.status(400).send err
 			switch err.type
@@ -39,10 +39,9 @@ class V1
 				else
 					if config.newrelic.notify
 						newrelic.noticeError err
-						unknownErr = ErrorPool.UNKNOWN_ERROR
-						res.status(unknownErr.httpStatus).send unknownErr
-					else
-						throw err
+					unknownErr = ErrorPool.UNKNOWN_ERROR
+					res.status(unknownErr.httpStatus).send unknownErr
+
 		.done()
 	_actionBinder: (router, ctrl, ctrlName, action, actionName) ->
 		{method, route} = @_resolveRoute ctrl, ctrlName, actionName
