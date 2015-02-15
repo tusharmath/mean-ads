@@ -24,7 +24,7 @@ class SubscriptionAlterCtrl
 
 	_loadStyle: (@program) =>
 		@rest.one 'style', @program.style
-		.get()
+		.get().then (@style) =>
 	_reduceCost: (totalCost, keyName) =>
 		return 0 if not @campaign
 		keywordPrice = _.find @campaign.keywordPricing, (keywordPrice) =>
@@ -35,7 +35,7 @@ class SubscriptionAlterCtrl
 			totalCost += @campaign.defaultCost or 0
 
 	# TODO: Reusable logic
-	_setEstimations: (@style) =>
+	_setEstimations: =>
 		totalCost = _.reduce @subscription.keywords, @_reduceCost, 0
 		if totalCost > 0 and  @subscription.keywords.length > 0
 			@costPerTransaction = totalCost/@subscription.keywords.length
