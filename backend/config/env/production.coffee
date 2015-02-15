@@ -28,4 +28,4 @@ module.exports =
 		notify: true
 		license: process.env.NEW_RELIC_LICENSE_KEY
 		enabled: true
-	appHost: 'app.meanads.com' || process.env.APP_HOST
+	appHost: process.env.APP_HOST || 'app.meanads.com'
