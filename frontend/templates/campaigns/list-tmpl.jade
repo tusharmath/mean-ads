@@ -12,8 +12,7 @@ div.panel.panel-default
 				tr.text-capitalize
 					th Campaign
 					th Program
-					th Duration
-					th Commitment
+					th Default CPM
 					th.text-right Keys
 					th.text-right Actions
 			tbody
@@ -22,11 +21,8 @@ div.panel.panel-default
 						.text-capitalize {{campaign.name}}
 					td
 						a.text-capitalize(ng-href="#/programs/{{campaign.program._id}}/update") {{campaign.program.name}}
-					td
-						span {{campaign.days}}
-						small.text-muted &nbsp;days
-					td {{campaign.commitment || "0"}}
-					td.text-right {{campaign.keywords.length}}
+					td {{campaign.defaultCost}}
+					td.text-right {{campaign.keywordPricing.length}}
 					td.text-right
 						a.btn.btn-xs(type="button"
 							ng-click="ctrl.toggleStatus(campaign)"
