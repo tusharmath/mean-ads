@@ -39,6 +39,7 @@ describe 'DispatchFactory:', ->
 	describe "_interpolateMarkup()", ->
 
 		beforeEach ->
+			sinon.spy @mod, '_attachRedirectURI'
 			@mockDataSetup()
 			.then =>
 				@subPopulator.populateSubscription @subscription
@@ -60,6 +61,10 @@ describe 'DispatchFactory:', ->
 			style.css = ''
 			@mod._interpolateMarkup @subscriptionP
 			.should.eventually.equal "<div class=\"ae-#{_id}\"><div>A A A</div><p>B B B</p></div>"
+		it "calls _attachRedirectURI with subscription", ->
+			@mod._interpolateMarkup @subscriptionP
+			.then => @mod._attachRedirectURI.calledWith @subscriptionP
+			.should.eventually.be.ok
 		# TODO: Write independent tests
 
 	describe "_createDispatchable()", ->
@@ -152,3 +157,14 @@ describe 'DispatchFactory:', ->
 		it "calls createForSubscriptionId", ->
 			@mod.updateForSubscriptionId 123456
 			.should.eventually.equal 'subscription-created'
+	describe "_attachRedirectURI()", ->
+		it "attaches redirect uri to subscription data", ->
+			subscription =
+				_id: '707218d9-e69d-48b0-9d51-183887275a0b'
+				data:
+					video_image: 'delta-gun'
+					page_uri: 'alpha-bravo'
+					name_uri: 'charlie-delta'
+			@mod._attachRedirectURI subscription
+			subscription.data.page_uri.should.equal '//localhost:3000/api/v1/subscription/707218d9-e69d-48b0-9d51-183887275a0b/ack?uri=alpha-bravo'
+			subscription.data.video_image.should.equal 'delta-gun'

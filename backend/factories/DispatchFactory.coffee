@@ -2,6 +2,7 @@ Q = require 'q'
 less = require 'less'
 _ = require 'lodash'
 {annotate, Inject} = require 'di'
+config = require '../config/config'
 
 # Round Robin DispatchFactory
 class DispatchFactory
@@ -9,8 +10,14 @@ class DispatchFactory
 	_elPrefix: (key)-> "ae-#{key}"
 	_getModel: (name) -> @modelFac.models()[name]
 	# Created so that dates can be mocked in the tests
+	_attachRedirectURI: (subscription) ->
+		_.each subscription.data, (value, field) ->
+			if field.match /_uri/
+				subscription.data[field] = "//#{config.appHost}/api/v1/subscription/#{subscription._id}/ack?uri=#{value}"
+
 	# TODO: Move it to a provider
 	_interpolateMarkup: (subscription) ->
+		@_attachRedirectURI subscription
 		# Required fields
 		{data} = subscription
 		{html,css, _id} = subscription.campaign.program.style
