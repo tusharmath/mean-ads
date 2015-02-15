@@ -8,6 +8,7 @@ Mailer = require '../backend/modules/Mailer'
 MailgunProviderMock = require './mocks/MailgunProviderMock'
 DispatchStamper = require '../backend/modules/DispatchStamper'
 config = require '../backend/config/config'
+{ErrorPool} = require '../backend/config/error-codes'
 {mockDataSetup} = require './mocks/MockData'
 {Injector} = require 'di'
 
@@ -15,8 +16,16 @@ describe 'SubscriptionController:', ->
 
 	beforeEach ->
 		#Initial Setup
-		@req = user : {sub: 9000} , params: {id: 9010} , signedCookies: {}
-		@res = send: sinon.spy(), set: sinon.spy()
+		@req =
+			user : {sub: 9000}
+			params: {id: 9010}
+			signedCookies: {}
+			query: {uri: 'tusharm.com'}
+
+		@res =
+			send: sinon.spy()
+			set: sinon.spy()
+			status: sinon.spy()
 
 		# Injector
 		@injector = new Injector [MongooseProviderMock, MailgunProviderMock]
@@ -181,3 +190,55 @@ describe 'SubscriptionController:', ->
 			@mod.actions.$convert @req, @res
 			.then => @fakePromise.done.called
 			.should.eventually.be.ok
+
+	describe "_clickAckQ()", ->
+		beforeEach ->
+			@mockDataSetup()
+			.then =>
+				# Request Mock
+				@req.params = id: @subscription._id
+
+				# Mocking the conversion count
+				@Models.Subscription.findByIdAndUpdate @subscription._id, clicks: 220
+				.execQ()
+
+		it "be a function", ->
+			@mod._clickAckQ.should.be.a.Function
+
+		it "updates clicks", ->
+			@mod._clickAckQ @subscription._id
+			.then => @Models.Subscription.findByIdQ @subscription._id
+			.should.eventually.have.property 'clicks'
+			.equals 221
+
+	describe "$clickAck()", ->
+		beforeEach ->
+			@fakePromise = done: sinon.spy()
+			sinon.stub @mod, '_clickAckQ'
+			.returns @fakePromise
+		it "be a function", ->
+			@mod.actions.$clickAck.should.be.a.Function
+		it "sends null", ->
+			@mod.actions.$clickAck @req, @res
+			.should.eventually.equal null
+		it "sets Location header", ->
+			@mod.actions.$clickAck @req, @res
+			.then => @res.set.calledWith 'Location', 'tusharm.com'
+			.should.eventually.be.ok
+		it "sets status to 301", ->
+			@mod.actions.$clickAck @req, @res
+			.then => @res.status.calledWith 302
+			.should.eventually.be.ok
+
+		it "calls the _clickAckQ", ->
+			@mod.actions.$clickAck @req, @res
+			.then => @mod._clickAckQ.calledWith @req.params.id
+			.should.eventually.be.ok
+		it "calls the _clickAckQ.done()", ->
+			@mod.actions.$clickAck @req, @res
+			.then => @fakePromise.done.called
+			.should.eventually.be.ok
+		it "throws if uri is not present", ->
+			delete @req.query.uri
+			expect => @mod.actions.$clickAck @req, @res
+			.to.throw ErrorPool.INVALID_PARAMETERS

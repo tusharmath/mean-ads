@@ -1,6 +1,7 @@
 config = require '../config/config'
 Q = require 'q'
 _ = require 'lodash'
+{ErrorPool} = require '../config/error-codes'
 {annotate, Inject} = require 'di'
 
 class SubscriptionController
@@ -18,12 +19,14 @@ class SubscriptionController
 
 		# OPEN
 		@actions.actionMap.$convert = ['get', (str) -> "/#{str}/:id/convert.gif"]
+		@actions.actionMap.$clickAck = ['get', (str) -> "/#{str}/:id/ack"]
 
 		@actions.postUpdateHook = @postUpdateHook
 		@actions.postCreateHook = @postCreateHook
 		@actions.$credits = @$credits
 		@actions.$convert = @$convert
 		@actions.$email = @$email
+		@actions.$clickAck = @$clickAck
 
 	postCreateHook: (subscription) =>
 		@dispatch.subscriptionCreated subscription._id
@@ -78,6 +81,23 @@ class SubscriptionController
 		.then (subscription) ->
 			Subscription.findByIdAndUpdate subscription._id, conversions: subscription.conversions + 1
 			.execQ()
+	_clickAckQ: (id) ->
+		model = @actions.getModel()
+		.findByIdQ id
+		.then (subscription) ->
+			return if not subscription
+			subscription.clicks++
+			subscription.saveQ()
+
+	$clickAck: (req, res) =>
+		if not req.query.uri
+			throw ErrorPool.INVALID_PARAMETERS
+		@_clickAckQ req.params.id
+		.done()
+		res.set 'Location', req.query.uri
+		res.status 302
+		Q null
+
 	# Perfect place to mutate request
 annotate SubscriptionController, new Inject(
 	require '../modules/Dispatcher'

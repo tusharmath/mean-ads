@@ -41,7 +41,10 @@ SubscriptionSchema = (mongoose) ->
 		keywords:
 			type: [String]
 			required: true
-
+		clicks:
+			type: Number
+			default: 0
+			required: true
 	schema.virtual 'hasCredits'
 	.get -> @totalCredits > @usedCredits
 	schema
