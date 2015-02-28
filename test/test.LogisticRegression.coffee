@@ -1,3 +1,4 @@
+_ = require 'lodash'
 {Injector} = require 'di'
 
 describe "LinearRegression", ->
@@ -17,15 +18,12 @@ describe "LinearRegression", ->
 			@mod._hypothesis @P, @Xi
 			.should.equal 1310
 
+
 	describe "_gradientDecent()", ->
 		beforeEach ->
 			@P = [10, 20]
 			# [X0, X1, X2]
-			@X = [
-				[1, 2]
-				[1, 3]
-				[1, 4]
-			]
+			@X = [[1, 2], [1, 3], [1, 4]]
 			@Y = [50, 70, 90]
 			@al = .01
 		it "does not change model params", ->
@@ -33,15 +31,24 @@ describe "LinearRegression", ->
 			.should.deep.equal @P
 		it "throws if label length doesnt match",  ->
 			@Y = [1, 2, 3]
-			@X = [
-				[1, 2]
-			]
+			@X = [[1, 2]]
 			expect(=> @mod._gradientDescent @P, @X, @Y, @al)
 			.to.throw "labels length not matching training data"
 	describe "train()", ->
-		it "should be a method", ->
-			@mod.train.should.be.a 'function'
+		X = [[1], [2], [3], [4]]
+		Y = [ 11, 21, 31, 41 ]
+		beforeEach ->
+			sinon.spy @mod, '_gradientDescent'
 
-	describe "predict()", ->
-		it "should be a method", ->
-			@mod.predict.should.be.a 'function'
+		it "solves", ->
+			@mod.train X, Y, 10000, .1
+			.predict [5]
+			.should.be.below 51
+			.and.above 50
+		it "inserts x0 as 1", ->
+			@X = [[1, 2, 3]]
+			@Y = [20]
+			@mod.train @X, @Y, 10000, .1
+			@mod._gradientDescent.calledWith [0, 0 ,0 , 0], [[1, 1, 2, 3]]
+			.should.be.ok
+

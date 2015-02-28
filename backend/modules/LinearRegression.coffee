@@ -26,11 +26,18 @@ class LinearRegression
 			func1 = (val, Xi, i) -> map1[i] * Xi[j]
 			Pj + al / m *_.reduce X, func1, 0
 
-	train: (X, Y) ->
-		# Initialize a
-		P = X.map -> 0
+	train: (X, Y, epoch = 100, al = 0.0001) ->
 
-	predict: ->
+		X = _.map X, (Xi)->
+			Xi.unshift 1
+			Xi
+		n = X[0].length
+		P = [0...n].map -> 0
+		_.times epoch, => P = @_gradientDescent P, X, Y, al
+		predict = (testXi) =>
+			testXi.unshift 1
+			@_hypothesis P, testXi
+		{predict}
 
 
 module.exports = LinearRegression
