@@ -31,6 +31,13 @@ describe "LinearRegression", ->
 		it "does not change model params", ->
 			@mod._gradientDescent @P, @X, @Y, @al
 			.should.deep.equal @P
+		it "throws if label length doesnt match",  ->
+			@Y = [1, 2, 3]
+			@X = [
+				[1, 2]
+			]
+			expect(=> @mod._gradientDescent @P, @X, @Y, @al)
+			.to.throw "labels length not matching training data"
 	describe "train()", ->
 		it "should be a method", ->
 			@mod.train.should.be.a 'function'

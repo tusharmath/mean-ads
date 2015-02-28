@@ -3,11 +3,14 @@ MeanError = require './MeanError'
 ###
 X: Training Set
 Y: Labels
-P: Parameters
+P: Model Parameters
+m: Size of Training Set
+n: Number of features
+al: Alpha
+I: Max Iterations
+
 ###
 class LinearRegression
-	_cost: ->
-	_hypothesis: () ->
 	# Predicts the value of Y
 	_hypothesis: (P, Xi) ->
 		throw new MeanError 'x1 should be 1' if Xi[0] isnt 1
@@ -17,11 +20,15 @@ class LinearRegression
 	# j model parameter
 	_gradientDescent: (P, X, Y, al) ->
 		m = X.length
-		map1 = _.map Y, (Yi, i) => (@_hypothesis P, X[i]) - Yi
-		_.map P,(Pj, j) ->
-			Pj - _.reduce(X, ((val, Xi, i)-> map1[i] * Xi[j]), 0)/m*al
+		throw new MeanError 'labels length not matching training data' if m isnt Y.length
+		map1 = _.map Y, (Yi, i) => Yi - @_hypothesis P, X[i]
+		_.map P, (Pj, j) ->
+			func1 = (val, Xi, i) -> map1[i] * Xi[j]
+			Pj + al / m *_.reduce X, func1, 0
 
 	train: (X, Y) ->
+		# Initialize a
+		P = X.map -> 0
 
 	predict: ->
 
