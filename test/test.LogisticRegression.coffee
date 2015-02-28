@@ -16,6 +16,21 @@ describe "LinearRegression", ->
 		it "should return a value", ->
 			@mod._hypothesis @P, @Xi
 			.should.equal 1310
+
+	describe "_gradientDecent()", ->
+		beforeEach ->
+			@P = [10, 20]
+			# [X0, X1, X2]
+			@X = [
+				[1, 2]
+				[1, 3]
+				[1, 4]
+			]
+			@Y = [50, 70, 90]
+			@al = .01
+		it "does not change model params", ->
+			@mod._gradientDescent @P, @X, @Y, @al
+			.should.deep.equal @P
 	describe "train()", ->
 		it "should be a method", ->
 			@mod.train.should.be.a 'function'
