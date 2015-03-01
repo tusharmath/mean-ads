@@ -23,13 +23,12 @@ class LinearRegression
 	_gradientDescent: (P, X, Y, al) ->
 		m = X.length
 		throw new MeanError 'labels length not matching training data' if m isnt Y.length
-		map1 = _.map Y, (Yi, i) => Yi - @_hypothesis P, X[i]
-		console.log map1
+		hypDiff = @_diffWithHypothesis X, Y, P
 		_.map P, (Pj, j) ->
-			func1 = (val, Xi, i) -> map1[i] * Xi[j]
-			Pj + al / m *_.reduce X, func1, 0
+			func1 = (val, Xi, i) -> val + hypDiff[i] * Xi[j]
+			Pj + al / m * _.reduce X, func1, 0
 
-	train: (X, Y, epoch = 100, al = 0.0001) ->
+	train: (X, Y, epoch = 1000, al = 0.1) ->
 
 		X = _.map X, (Xi)->
 			Xi.unshift 1
