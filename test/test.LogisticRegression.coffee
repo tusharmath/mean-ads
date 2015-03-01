@@ -18,6 +18,19 @@ describe "LinearRegression", ->
 			@mod._hypothesis @P, @Xi
 			.should.equal 1310
 
+	describe "_diffWithHypothesis()", ->
+		beforeEach ->
+			@P = [0, 0]
+			# [X0, X1, X2]
+			@X = [[1, 2], [1, 3], [1, 4]]
+			@Y = [50, 70, 90]
+		it "sample 1", ->
+			@mod._diffWithHypothesis @X, @Y, @P
+			.should.deep.equal [50, 70, 90]
+		it "sample 2", ->
+			@P = [1, 1]
+			@mod._diffWithHypothesis @X, @Y, @P
+			.should.deep.equal [47, 66, 85]
 
 	describe "_gradientDecent()", ->
 		beforeEach ->

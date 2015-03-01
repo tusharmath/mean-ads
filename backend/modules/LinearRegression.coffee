@@ -17,11 +17,14 @@ class LinearRegression
 		tmp = (cost, Xij, j) -> cost + Xij * P[j]
 		_.reduce Xi, tmp, 0
 
+	_diffWithHypothesis: (X, Y, P) ->
+		_.map Y, (Yi, i) => Yi - @_hypothesis P, X[i]
 	# j model parameter
 	_gradientDescent: (P, X, Y, al) ->
 		m = X.length
 		throw new MeanError 'labels length not matching training data' if m isnt Y.length
 		map1 = _.map Y, (Yi, i) => Yi - @_hypothesis P, X[i]
+		console.log map1
 		_.map P, (Pj, j) ->
 			func1 = (val, Xi, i) -> map1[i] * Xi[j]
 			Pj + al / m *_.reduce X, func1, 0
