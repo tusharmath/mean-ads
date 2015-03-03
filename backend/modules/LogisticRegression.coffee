@@ -1,5 +1,4 @@
 _ = require 'lodash'
-GradientDescent = require './GradientDescent'
 {annotate, Inject} = require 'di'
 class LogisticRegression
 	constructor: (@gradient) ->
@@ -12,5 +11,5 @@ class LogisticRegression
 	train: (X, Y, epoch, al) ->
 		@gradient.train X, Y, @_hypothesis, epoch, al
 
-annotate LogisticRegression, new Inject GradientDescent
+annotate LogisticRegression, new Inject require './GradientDescent'
 module.exports = LogisticRegression

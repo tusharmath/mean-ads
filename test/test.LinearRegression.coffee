@@ -25,7 +25,7 @@ describe "LinearRegression", ->
 			@Y = [ 11, 21, 31, 41 ]
 			sinon.spy @gradient, 'train'
 
-		it "solves", ->
-			@mod.train @X, @Y, 1000, .1
+		it "solves for X is 5", ->
+			@mod.train @X, @Y, 100, 1
 			.predict [5]
 			.should.be.closeTo 51, 0.001
