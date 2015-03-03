@@ -7,7 +7,6 @@ describe "GradientDescent", ->
 		@injector = new Injector
 		@mod = @injector.getModule 'modules.GradientDescent', mock: false
 		@_hypothesis = (P, Xi) ->
-			throw new MeanError 'x1 should be 1' if Xi[0] isnt 1
 			tmp = (cost, Xij, j) -> cost + Xij * P[j]
 			_.reduce Xi, tmp, 0
 	it "must exist", ->
@@ -26,6 +25,10 @@ describe "GradientDescent", ->
 			@P = [1, 1]
 			@mod._diffWithHypothesis @X, @Y, @P, @_hypothesis
 			.should.deep.equal [47, 66, 85]
+		it "throws if Xi[0] is not one", ->
+			@X = [[2], [3], [4]]
+			expect =>@mod._diffWithHypothesis @X, @Y, @P, @_hypothesis
+			.to.throw 'Xi0 should be 1'
 
 	describe "_gradientDescent()", ->
 

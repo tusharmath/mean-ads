@@ -3,7 +3,9 @@ MeanError = require './MeanError'
 
 class GradientDescent
 	_diffWithHypothesis: (X, Y, P, _hypothesis) ->
-		_.map Y, (Yi, i) => Yi - _hypothesis P, X[i]
+		_.map Y, (Yi, i) =>
+			throw new MeanError 'Xi0 should be 1' if X[i][0] isnt 1
+			Yi - _hypothesis P, X[i]
 
 	_gradientDescent: (P, X, Y, _hypothesis, al = 0.01) ->
 		m = X.length
