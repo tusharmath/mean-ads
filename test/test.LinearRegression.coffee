@@ -29,9 +29,3 @@ describe "LinearRegression", ->
 			@mod.train @X, @Y, 1000, .1
 			.predict [5]
 			.should.be.closeTo 51, 0.001
-		it "inserts x0 as 1", ->
-			@X = [[1, 2, 3]]
-			@Y = [20]
-			@mod.train @X, @Y, 120, .1
-			@mod.gradient.execute.calledWith [0, 0 ,0 , 0], [[1, 1, 2, 3]], @Y, @mod._hypothesis, 120, 0.1
-			.should.be.ok

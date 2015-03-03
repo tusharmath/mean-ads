@@ -20,12 +20,7 @@ class LinearRegression
 		tmp = (cost, Xij, j) -> cost + Xij * P[j]
 		_.reduce Xi, tmp, 0
 	train: (X, Y, epoch, al) ->
-		X = _.map X, (Xi)->
-			Xi.unshift 1
-			Xi
-		n = X[0].length
-		P = [0...n].map -> 0
-		P = @gradient.execute P, X, Y, @_hypothesis, epoch, al
+		P = @gradient.execute X, Y, @_hypothesis, epoch, al
 		predict = (testXi) =>
 			testXi.unshift 1
 			@_hypothesis P, testXi
