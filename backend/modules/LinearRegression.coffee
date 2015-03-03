@@ -1,17 +1,6 @@
 _ = require 'lodash'
-MeanError = require './MeanError'
 GradientDescent = require './GradientDescent'
 {annotate, Inject} = require 'di'
-###
-X: Training Set
-Y: Labels
-P: Model Parameters
-m: Size of Training Set
-n: Number of features
-al: Alpha
-I: Max Iterations
-
-###
 class LinearRegression
 	constructor: (@gradient) ->
 	# Predicts the value of Y

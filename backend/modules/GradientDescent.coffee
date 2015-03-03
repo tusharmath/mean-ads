@@ -1,5 +1,14 @@
 _ = require 'lodash'
 MeanError = require './MeanError'
+###
+X: Training Set
+Y: Labels
+P: Model Parameters
+m: Size of Training Set
+n: Number of features
+al: Alpha
+epoch: Max Iterations
+###
 
 class GradientDescent
 	_diffWithHypothesis: (X, Y, P, _hypothesis) ->
