@@ -1,5 +1,6 @@
 _ = require 'lodash'
 MeanError = require './MeanError'
+{annotate, Inject} = require 'di'
 ###
 X: Training Set
 Y: Labels
@@ -11,6 +12,7 @@ epoch: Max Iterations
 ###
 
 class GradientDescent
+	constructor: (@scaler) ->
 	_diffWithHypothesis: (X, Y, P, _hypothesis) ->
 		_.map Y, (Yi, i) =>
 			throw new MeanError 'Xi0 should be 1' if X[i][0] isnt 1
@@ -25,6 +27,8 @@ class GradientDescent
 			Pj + al / m * _.reduce X, func1, 0
 		_.map P, func2
 	train: (X, Y, _hypothesis, epoch = 1000, al) ->
+		scaleParams = @scaler.getScaleParams X
+		X = @scaler.scaleVectorList X, scaleParams
 		X = _.map X, (Xi)->
 			Xi.unshift 1
 			Xi
@@ -32,9 +36,11 @@ class GradientDescent
 		P = [0...X[0].length].map -> 0
 		_.times epoch, => P = @_gradientDescent P, X, Y, _hypothesis, al
 		predict = (testXi) =>
+			testXi = @scaler.scaleVectorList [testXi], scaleParams
 			testXi.unshift 1
 			_hypothesis P, testXi
 		{predict}
 
+annotate GradientDescent, new Inject require './FeatureScaler'
 
 module.exports = GradientDescent
