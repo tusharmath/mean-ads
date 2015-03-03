@@ -23,7 +23,7 @@ describe "LinearRegression", ->
 		beforeEach ->
 			@X = [[1], [2], [3], [4]]
 			@Y = [ 11, 21, 31, 41 ]
-			sinon.spy @gradient, 'execute'
+			sinon.spy @gradient, 'train'
 
 		it "solves", ->
 			@mod.train @X, @Y, 1000, .1

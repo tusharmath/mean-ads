@@ -19,11 +19,7 @@ class LinearRegression
 		tmp = (cost, Xij, j) -> cost + Xij * P[j]
 		_.reduce Xi, tmp, 0
 	train: (X, Y, epoch, al) ->
-		P = @gradient.execute X, Y, @_hypothesis, epoch, al
-		predict = (testXi) =>
-			testXi.unshift 1
-			@_hypothesis P, testXi
-		{predict}
+		@gradient.train X, Y, @_hypothesis, epoch, al
 
 annotate LinearRegression, new Inject GradientDescent
 module.exports = LinearRegression

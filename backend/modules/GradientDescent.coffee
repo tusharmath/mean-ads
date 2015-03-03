@@ -15,14 +15,17 @@ class GradientDescent
 			func1 = (val, Xi, i) -> val + hypDiff[i] * Xi[j]
 			Pj + al / m * _.reduce X, func1, 0
 		_.map P, func2
-	execute: (X, Y, _hypothesis, epoch = 1000, al) ->
+	train: (X, Y, _hypothesis, epoch = 1000, al) ->
 		X = _.map X, (Xi)->
 			Xi.unshift 1
 			Xi
 
-		out = [0...X[0].length].map -> 0
-		_.times epoch, => out = @_gradientDescent out, X, Y, _hypothesis, al
-		out
+		P = [0...X[0].length].map -> 0
+		_.times epoch, => P = @_gradientDescent P, X, Y, _hypothesis, al
+		predict = (testXi) =>
+			testXi.unshift 1
+			_hypothesis P, testXi
+		{predict}
 
 
 module.exports = GradientDescent

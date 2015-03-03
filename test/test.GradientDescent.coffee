@@ -57,13 +57,13 @@ describe "GradientDescent", ->
 			expect(=> @mod._gradientDescent @P, @X, @Y, @_hypothesis, @al)
 			.to.throw "labels length not matching training data"
 
-	describe "execute()", ->
+	describe "train()", ->
 		beforeEach ->
 			sinon.spy @mod, '_gradientDescent'
 		it "prepares X0 and P", ->
 			@X = [[1, 2, 3]]
 			@Y = [20]
-			@mod.execute @X, @Y, @_hypothesis, 3, .1
+			@mod.train @X, @Y, @_hypothesis, 3, .1
 			@mod._gradientDescent.calledWith [0, 0 ,0 , 0], [[1, 1, 2, 3]], @Y, @_hypothesis, 0.1
 			@mod._gradientDescent.calledThrice.should.be.ok
 			.should.be.ok
