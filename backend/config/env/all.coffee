@@ -15,6 +15,7 @@ module.exports =
 		'Program'
 		'Style'
 		'Subscription'
+		'UserActivity'
 	]
 	appName: process.env.APP_NAME || 'mean ads'
 	Q: longStackSupport: true
