@@ -32,3 +32,10 @@ describe "UserActivityRecorder", ->
 				thing: 'nivea cream'
 				timestamp: new Date 2010, 1, 1
 			]
+		it "ignores if user-id is not found", ->
+			objId = @modelFac.mongooseP.mongoose.Types.ObjectId();
+			@mod.recordWebActivityQ objId, 'nivea cream', 'search'
+			.should.eventually.equal null
+		it "ignores if action name not found", ->
+			@mod.recordWebActivityQ @user._id, 'nivea cream', 'my-poopie'
+			.should.eventually.equal null

@@ -8,6 +8,7 @@ class UserActivityRecorder
 	recordWebActivityQ: (userId, thing, action) ->
 		@UserActivity.findByIdQ userId
 		.then (user) =>
+			return null if not user or not UserActions[action]
 			user.webActivity.push (
 				action: UserActions[action]
 				thing: thing.toString()
