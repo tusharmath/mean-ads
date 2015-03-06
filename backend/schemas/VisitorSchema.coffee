@@ -8,6 +8,6 @@ VisitorSchema = (mongoose) ->
 			type: [Number]
 		updated:
 			type: Date
-			default: now
+			default: Date.now
 
 module.exports = VisitorSchema

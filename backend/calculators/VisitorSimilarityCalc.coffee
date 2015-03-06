@@ -15,6 +15,3 @@ class VisitorSimilarityCalc
 			u.jSimilarity a, b
 
 module.exports = VisitorSimilarityCalc
-
-
-
