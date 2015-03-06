@@ -17,6 +17,12 @@ module.exports =
 		'Subscription'
 		'UserActivity'
 	]
+	# NOTE: Never change the order. Only add more if really required
+	UserActions:
+		'checkout': 0
+		'search': 1
+		'shortlist': 2
+		'product': 3
 	appName: process.env.APP_NAME || 'mean ads'
 	Q: longStackSupport: true
 	root: rootPath
