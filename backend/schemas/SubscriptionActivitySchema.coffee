@@ -1,4 +1,4 @@
-AdActivitySchema = (mongoose) ->
+SubscriptionActivitySchema = (mongoose) ->
 	new mongoose.Schema
 		visitor:
 			type: mongoose.Schema.ObjectId
@@ -22,4 +22,4 @@ AdActivitySchema = (mongoose) ->
 			type: Date
 			default: Date.now
 
-module.exports = AdActivitySchema
+module.exports = SubscriptionActivitySchema

@@ -9,12 +9,12 @@ Q = require 'q'
 
 # TODO: Dynamically Set, Via Gulp
 ModelNames = [
-	'AdActivity'
 	'Campaign'
 	'Dispatch'
 	'Program'
 	'Style'
 	'Subscription'
+	'SubscriptionActivity'
 	'Visitor'
 ]
 
