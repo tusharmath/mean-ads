@@ -1,4 +1,3 @@
-{resources} = require '../config/config'
 {MeanError} = require '../config/error-codes'
 DbConnection = require '../connections/DbConnection'
 MongooseProvider = require '../providers/MongooseProvider'
@@ -7,6 +6,16 @@ RequireProvider = require '../providers/RequireProvider'
 glob = require 'glob'
 _ = require 'lodash'
 Q = require 'q'
+
+# TODO: Dynamically Set
+ModelNames = [
+	'Campaign'
+	'Dispatch'
+	'Program'
+	'Style'
+	'Subscription'
+	'UserActivity'
+]
 
 class ModelFactory
 	constructor: (@db, @mongooseP, @requireProvider) ->
@@ -19,7 +28,7 @@ class ModelFactory
 
 	models: ->
 		return @Models if @Models
-		@Models = _.reduce resources, @create, {}
+		@Models = _.reduce ModelNames, @create, {}
 
 ModelFactory.annotations = [
 	new Inject(
