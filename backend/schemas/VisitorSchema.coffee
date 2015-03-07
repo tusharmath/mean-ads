@@ -1,4 +1,4 @@
-UserActivitySchema = (mongoose) ->
+VisitorSchema = (mongoose) ->
 	new mongoose.Schema
 		webActivity:
 			type: mongoose.Schema.Types.Mixed
@@ -9,4 +9,4 @@ UserActivitySchema = (mongoose) ->
 			type: Date
 			default: Date.now
 
-module.exports = UserActivitySchema
+module.exports = VisitorSchema

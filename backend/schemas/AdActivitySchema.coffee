@@ -1,9 +1,9 @@
 AdActivitySchema = (mongoose) ->
 	new mongoose.Schema
-		userActivity:
+		visitor:
 			type: mongoose.Schema.ObjectId
 			required: true
-			ref: 'UserActivity'
+			ref: 'Visitor'
 			index: true
 		subscription:
 			type: mongoose.Schema.ObjectId

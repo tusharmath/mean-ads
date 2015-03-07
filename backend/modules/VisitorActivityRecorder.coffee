@@ -1,12 +1,12 @@
 {UserActions} = require '../config/config'
 {Inject, annotate} = require 'di'
 
-class UserActivityRecorder
+class VisitorActivityRecorder
 	constructor: (modelFac, @date) ->
-		{@UserActivity} = modelFac.models()
+		{@Visitor} = modelFac.models()
 
 	recordWebActivityQ: (userId, thing, action) ->
-		@UserActivity.findByIdQ userId
+		@Visitor.findByIdQ userId
 		.then (user) =>
 			return null if not user or not UserActions[action]
 			user.webActivity.push (
@@ -17,9 +17,9 @@ class UserActivityRecorder
 			user.saveQ()
 
 
-annotate UserActivityRecorder, new Inject(
+annotate VisitorActivityRecorder, new Inject(
 	require '../factories/ModelFactory'
 	require '../providers/DateProvider'
 	)
 
-module.exports = UserActivityRecorder
+module.exports = VisitorActivityRecorder

@@ -1,6 +1,6 @@
 MongooseProviderMock = require './mocks/MongooseProviderMock'
 {Injector} = require 'di'
-describe "UserActivityRecorder", ->
+describe "VisitorActivityRecorder", ->
 	beforeEach ->
 		# Injector
 		@injector = new Injector [MongooseProviderMock]
@@ -10,7 +10,7 @@ describe "UserActivityRecorder", ->
 		@Models = @modelFac.models()
 
 		#Controller
-		@mod = @injector.getModule 'modules.UserActivityRecorder', mock: false
+		@mod = @injector.getModule 'modules.VisitorActivityRecorder', mock: false
 		@date = @injector.getModule 'providers.DateProvider'
 
 	afterEach ->
@@ -19,13 +19,13 @@ describe "UserActivityRecorder", ->
 	describe "recordWebActivityQ()", ->
 		beforeEach ->
 			@date.now.returns new Date 2010, 1, 1
-			new @Models.UserActivity({}).saveQ()
+			new @Models.Visitor({}).saveQ()
 			.then (@user) =>
 		it "is a function", ->
 			@mod.recordWebActivityQ.should.be.a 'function'
 		it "adds action, thing and timestamp", ->
 			@mod.recordWebActivityQ @user._id, 'nivea cream', 'search'
-			.then => @Models.UserActivity.findByIdQ @user._id
+			.then => @Models.Visitor.findByIdQ @user._id
 			.should.eventually.have.property 'webActivity'
 			.deep.equal [
 				action: 1
