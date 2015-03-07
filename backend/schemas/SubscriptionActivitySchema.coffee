@@ -16,6 +16,8 @@ SubscriptionActivitySchema = (mongoose) ->
 			required: true
 		click:
 			type: Boolean
+			required: true
+			default: false
 		jSimilarity:
 			type: [Number]
 		created:
