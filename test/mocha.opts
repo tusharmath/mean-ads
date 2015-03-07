@@ -1,4 +1,4 @@
 --require ./test/mocha.setup.coffee
 --compilers coffee:coffee-script/register
 --ui bdd
---reporter min
+--reporter list
