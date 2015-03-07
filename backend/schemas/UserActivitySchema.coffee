@@ -3,9 +3,6 @@ UserActivitySchema = (mongoose) ->
 		webActivity:
 			type: mongoose.Schema.Types.Mixed
 			default: []
-		adActivity:
-			type: mongoose.Schema.Types.Mixed
-			default: []
 		modelParams:
 			type: [Number]
 		updated:

@@ -7,8 +7,9 @@ glob = require 'glob'
 _ = require 'lodash'
 Q = require 'q'
 
-# TODO: Dynamically Set
+# TODO: Dynamically Set, Via Gulp
 ModelNames = [
+	'AdActivity'
 	'Campaign'
 	'Dispatch'
 	'Program'
