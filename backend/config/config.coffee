@@ -9,6 +9,8 @@ config = _.merge(
 	require './env/all.coffee'
 	require './env/' + env + '.coffee' || {}
  )
+config.controllers = fs.readdirSync './backend/controllers'
+config.schemas = fs.readdirSync './backend/schemas'
 
 if process.env.USER and env isnt 'production'
 	userconfig = './user/' + process.env.USER + '.coffee'
