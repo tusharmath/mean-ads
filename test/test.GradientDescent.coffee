@@ -67,3 +67,21 @@ describe "GradientDescent", ->
 			@mod._gradientDescent.calledWith [0, 0 ,0 , 0], [[1, 1, 2, 3]], @Y, @_hypothesis, 0.1
 			@mod._gradientDescent.calledThrice.should.be.ok
 			.should.be.ok
+		it "returns theta", ->
+			@X = [[1, 2, 3]]
+			@Y = [20]
+			@mod.train @X, @Y, @_hypothesis, 3, .1
+			.should.have.property "theta"
+			.to.deep.equal [1.5, 1.5, 3, 4.5]
+		it "predicts via default theta", ->
+			@X = [[1, 2, 3]]
+			@Y = [20]
+			@mod.train @X, @Y, @_hypothesis, 1, .1
+			.predict [10, 20, 30]
+			.should.equal 282
+		it "predicts via custom theta", ->
+			@X = [[1, 2, 3]]
+			@Y = [20]
+			@mod.train @X, @Y, @_hypothesis, 3, .1
+			.predict [10, 20, 30], [1, 2, 3, 4]
+			.should.equal 201

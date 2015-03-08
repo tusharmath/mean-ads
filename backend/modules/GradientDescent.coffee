@@ -35,11 +35,12 @@ class GradientDescent
 
 		P = [0...X[0].length].map -> 0
 		_.times epoch, => P = @_gradientDescent P, X, Y, _hypothesis, al
-		predict = (testXi) =>
-			testXi = @scaler.scaleVectorList [testXi], scaleParams
+		predict = (testXi, theta = P) =>
+
+			[testXi] = @scaler.scaleVectorList [testXi], scaleParams
 			testXi.unshift 1
-			_hypothesis P, testXi
-		{predict}
+			_hypothesis theta, testXi
+		{predict, theta: P}
 
 annotate GradientDescent, new Inject require './FeatureScaler'
 

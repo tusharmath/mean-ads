@@ -27,9 +27,19 @@ describe "FeatureScaler", ->
 			]
 			@mod.getScaleParams @vectorList
 			.should.deep.equal [
-				{avg: 10, range: 1}
+				{avg: 10, range: 0}
 				{avg: 250, range: 100}
 			]
+		it "ignores scaling incase training set is unity", ->
+			@vectorList =[
+				[10, 300]
+			]
+			@mod.getScaleParams @vectorList
+			.should.deep.equal [
+				{avg: 10, range: 0}
+				{avg: 300, range: 0}
+			]
+
 	describe "scaleVectorList()", ->
 		beforeEach ->
 			@scaleParams = [
@@ -41,4 +51,18 @@ describe "FeatureScaler", ->
 			.should.deep.equal [
 				[-0.5, 0.5]
 				[0.5, -0.5]
+			]
+		it "scales the vectorList", ->
+			@vectorList = [
+				[10, 300]
+			]
+
+			@scaleParams = [
+				{avg: 10, range: 0}
+				{avg: 300, range: 0}
+			]
+
+			@mod.scaleVectorList @vectorList, @scaleParams
+			.should.deep.equal [
+				[10, 300]
 			]
