@@ -5,8 +5,8 @@ describe "LogisticRegression", ->
 	beforeEach ->
 		# Injector
 		@injector = new Injector
-		@mod = @injector.getModule 'modules.LogisticRegression', mock: false
-		@gradient = @injector.getModule 'modules.GradientDescent', mock: false
+		@mod = @injector.getModule 'forecaster.LogisticRegression', mock: false
+		@gradient = @injector.getModule 'forecaster.GradientDescent', mock: false
 	it "must exist", ->
 		@mod.should.exist
 

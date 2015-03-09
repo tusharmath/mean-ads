@@ -1,5 +1,5 @@
 _ = require 'lodash'
-MeanError = require './MeanError'
+MeanError = require '../modules/MeanError'
 {annotate, Inject} = require 'di'
 ###
 X: Training Set

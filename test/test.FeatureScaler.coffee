@@ -3,7 +3,7 @@
 describe "FeatureScaler", ->
 	beforeEach ->
 		@injector = new Injector
-		@mod = @injector.getModule 'modules.FeatureScaler', mock: false
+		@mod = @injector.getModule 'forecaster.FeatureScaler', mock: false
 		@vectorList = [
 			[10, 300]
 			[20, 10]

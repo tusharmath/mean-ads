@@ -5,8 +5,8 @@ describe "LinearRegression", ->
 	beforeEach ->
 		# Injector
 		@injector = new Injector
-		@mod = @injector.getModule 'modules.LinearRegression', mock: false
-		@gradient = @injector.getModule 'modules.GradientDescent', mock: false
+		@mod = @injector.getModule 'forecaster.LinearRegression', mock: false
+		@gradient = @injector.getModule 'forecaster.GradientDescent', mock: false
 	it "must exist", ->
 		@mod.should.exist
 

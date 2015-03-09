@@ -5,7 +5,7 @@ describe "GradientDescent", ->
 	beforeEach ->
 		# Injector
 		@injector = new Injector
-		@mod = @injector.getModule 'modules.GradientDescent', mock: false
+		@mod = @injector.getModule 'forecaster.GradientDescent', mock: false
 		@_hypothesis = (P, Xi) ->
 			tmp = (cost, Xij, j) -> cost + Xij * P[j]
 			_.reduce Xi, tmp, 0
