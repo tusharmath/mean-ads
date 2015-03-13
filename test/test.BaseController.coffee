@@ -29,7 +29,7 @@ describe 'BaseController:', ->
 			.to.throw 'FakeResource was not found'
 
 		it "returns model", ->
-			@mod.getModel().should.equal @mod.modelFac.models().Subscription
+			@mod.getModel().should.equal @mod.models.Subscription
 
 	describe "$controllers:", ->
 

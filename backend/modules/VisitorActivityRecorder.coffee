@@ -2,8 +2,8 @@
 {Inject, annotate} = require 'di'
 
 class VisitorActivityRecorder
-	constructor: (modelFac, @date) ->
-		{@Visitor} = modelFac.models()
+	constructor: (models, @date) ->
+		{@Visitor} = models
 
 	recordWebActivityQ: (userId, thing, action) ->
 		@Visitor.findByIdQ userId

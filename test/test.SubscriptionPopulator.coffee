@@ -25,8 +25,7 @@ describe 'SubscriptionPopulator:', ->
 		@date = @injector.get DateProvider
 
 		#ModelFactory
-		@modelFac = @injector.get ModelFactory
-		@Models = @modelFac.models()
+		@Models = @injector.get ModelFactory
 
 		#Mock Data
 		@mockDataSetup = mockDataSetup

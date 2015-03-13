@@ -6,15 +6,14 @@ describe "VisitorActivityRecorder", ->
 		@injector = new Injector [MongooseProviderMock]
 
 		#Models
-		@modelFac = @injector.getModule 'factories.ModelFactory', mock: false
-		@Models = @modelFac.models()
+		@Models = @injector.getModule 'factories.ModelFactory', mock: false
 
 		#Controller
 		@mod = @injector.getModule 'modules.VisitorActivityRecorder', mock: false
 		@date = @injector.getModule 'providers.DateProvider'
 
 	afterEach ->
-		@modelFac.mongooseP.__reset()
+		@Models.mongooseP.__reset()
 
 	describe "recordWebActivityQ()", ->
 		beforeEach ->
@@ -33,7 +32,7 @@ describe "VisitorActivityRecorder", ->
 				timestamp: new Date 2010, 1, 1
 			]
 		it "ignores if user-id is not found", ->
-			objId = @modelFac.mongooseP.mongoose.Types.ObjectId();
+			objId = @Models.mongooseP.mongoose.Types.ObjectId();
 			@mod.recordWebActivityQ objId, 'nivea cream', 'search'
 			.should.eventually.equal null
 		it "ignores if action name not found", ->
