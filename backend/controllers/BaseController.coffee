@@ -7,6 +7,7 @@ class BaseController
 	constructor: (@models) ->
 		@_filterKeys = []
 		@resourceName = null
+		@hasListOwner = yes
 	actionMap:
 		'$create': ['post', (str) -> "/core/#{str}"]
 		'$list': ['get', (str) -> "/core/#{str}s"]
@@ -47,7 +48,8 @@ class BaseController
 	$list: (req) ->
 		_populate = req.query?.populate or ''
 		filter = _.pick req.query, @_filterKeys
-		filter.owner = req.user.sub
+		if @hasListOwner
+			filter.owner = req.user.sub
 		@getModel().find filter
 		.populate _populate
 		.execQ()

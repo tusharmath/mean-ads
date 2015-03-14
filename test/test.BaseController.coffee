@@ -1,25 +1,16 @@
-BaseController = require '../backend/controllers/BaseController'
-MongooseProviderMock = require './mocks/MongooseProviderMock'
-MongooseProvider = require '../backend/providers/MongooseProvider'
-ModelFactory = require '../backend/factories/ModelFactory'
-{annotate, Injector, Provide} = require 'di'
+ioc = require './ioc'
 Q = require 'q'
 {ErrorPool} = require '../backend/config/error-codes'
 
 describe 'BaseController:', ->
 
 	beforeEach ->
-		@injector = new Injector [MongooseProviderMock]
-
 		# BaseCtrl
-		@mod = @injector.get BaseController
+		{@mod, @afterEach, @mongo} = ioc.resolve 'controllers.BaseController'
 		@mod.resourceName = 'Subscription'
 
-		#MongooseProvier
-		@mongo = @injector.get MongooseProvider
-
 	afterEach ->
-		@mongo.__reset()
+		@afterEach()
 
 
 	describe "getModel()", ->
@@ -142,7 +133,12 @@ describe 'BaseController:', ->
 				@req.query = age: 20
 				@mod.$list @req
 				.should.eventually.be.of.length 2
-
+			it "ignores user.sub if its open for all", ->
+				@req.user.sub = 10000
+				@req.query = age: 30
+				@mod.hasListOwner = no
+				@mod.$list @req
+				.should.eventually.be.of.length 2
 		describe "$remove()", ->
 			beforeEach ->
 				@mod.$create user: {sub: 1000}, body: {name: 'TusharC', age: 30}
