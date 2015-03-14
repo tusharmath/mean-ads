@@ -24,3 +24,6 @@ module.exports =
 		license: 'no-license'
 		enabled: false
 	appHost: 'localhost:3000'
+	nodetime:
+		accountKey: 'no-license'
+		enabled: false

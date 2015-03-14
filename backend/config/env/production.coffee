@@ -29,3 +29,6 @@ module.exports =
 		license: process.env.NEW_RELIC_LICENSE_KEY
 		enabled: true
 	appHost: process.env.APP_HOST || 'app.meanads.com'
+	nodetime:
+		accountKey: process.env.NODETIME_ACCOUNT_KEY
+		enabled: true
