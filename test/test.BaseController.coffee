@@ -6,7 +6,9 @@ describe 'BaseController:', ->
 
 	beforeEach ->
 		# BaseCtrl
-		{@mod, @afterEach, @mongo} = ioc.resolve 'controllers.BaseController'
+		ioc
+			.resolve 'controllers.BaseController'
+			.bindOn @
 		@mod.resourceName = 'Subscription'
 
 	afterEach ->

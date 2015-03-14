@@ -17,5 +17,5 @@ exports.resolve = (path, _options) ->
 	mod = injector.get Module
 	mongo = injector.get MongooseProvider
 	afterEach = -> mongo.__reset()
-
-	{mod, afterEach, mongo}
+	bindOn: (context) ->
+		_.assign context, {mod, afterEach, mongo}
