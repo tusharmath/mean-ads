@@ -4,7 +4,7 @@ Dispatcher = require '../modules/Dispatcher'
 
 class StyleController
 	constructor: (@actions, @dispatch) ->
-		delete @actions.$create = null
+		@actions.$create = null
 		@actions.resourceName = 'Style'
 		@actions.hasListOwner = no
 		@actions.postUpdateHook = @postUpdateHook
