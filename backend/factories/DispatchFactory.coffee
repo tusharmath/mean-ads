@@ -6,9 +6,9 @@ config = require '../config/config'
 
 # Round Robin DispatchFactory
 class DispatchFactory
-	constructor: (@modelFac, @dot, @htmlMinify, @date, @subPopulator) ->
+	constructor: (@models, @dot, @htmlMinify, @date, @subPopulator) ->
 	_elPrefix: (key)-> "ae-#{key}"
-	_getModel: (name) -> @modelFac.models()[name]
+	_getModel: (name) -> @models[name]
 	# Created so that dates can be mocked in the tests
 	_attachRedirectURI: (subscription) ->
 		_.each subscription.data, (value, field) ->

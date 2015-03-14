@@ -10,8 +10,8 @@ _ = require 'lodash'
 
 # Round Robin DispatchPostDelivery
 class DispatchPostDelivery
-	constructor: (@modelFac, @dot, @date, @subPopulator, @dispatchFac) ->
-	_getModel: (name) -> @modelFac.models()[name]
+	constructor: (@models, @dot, @date, @subPopulator, @dispatchFac) ->
+	_getModel: (name) -> @models[name]
 	# TODO: Could be a part of the campaign schema
 	_getImpressionCost: (subscriptionP, keywords) ->
 		defaultCost = subscriptionP.campaign.defaultCost / 1000

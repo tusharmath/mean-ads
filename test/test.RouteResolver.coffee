@@ -1,11 +1,16 @@
 RouteResolver = require '../backend/modules/RouteResolver'
+MongooseProviderMock = require './mocks/MongooseProviderMock'
 express = require 'express'
 {Injector} = require 'di'
 
 describe 'RouteResolver:', ->
 	beforeEach ->
-		@injector = new Injector
+		@injector = new Injector [MongooseProviderMock]
+		@Models = @injector.getModule 'factories.ModelFactory', mock: false
 		@mod = @injector.get RouteResolver
+	afterEach ->
+		@Models.mongooseP.__reset()
+
 	# describe "router()", ->
 	# 	it "returns a val", ->
 	# 		should.exist @mod.router()

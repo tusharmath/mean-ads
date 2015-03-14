@@ -33,12 +33,8 @@ describe 'SubscriptionController:', ->
 		#Mocks
 		@mockDataSetup = mockDataSetup
 
-		#MongooseProvier
-		@mongo = @injector.getModule 'providers.MongooseProvider', mock: false
-
 		#Models
-		@modelFac = @injector.getModule 'factories.ModelFactory', mock: false
-		@Models = @modelFac.models()
+		@Models = @injector.getModule 'factories.ModelFactory', mock: false
 
 		#Dispatcher
 		@dispatcher = @injector.getModule 'modules.Dispatcher'
@@ -55,7 +51,7 @@ describe 'SubscriptionController:', ->
 		@mod = @injector.getModule 'controllers.SubscriptionController', mock: false
 
 	afterEach ->
-		@mongo.__reset()
+		@Models.mongooseP.__reset()
 	it "actions should exist", ->
 		@mod.actions.should.be.an.instanceOf BaseController
 
