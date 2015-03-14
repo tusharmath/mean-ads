@@ -46,6 +46,7 @@
     "mongoose-q": "0.0.13",
     "newrelic": "^1.13.2",
     "node-uuid": "^1.4.2",
+    "nodetime": "^0.8.15",
     "q": "^1.0.1",
     "redis": "^0.12.1",
     "restangular": "^1.4.0",
