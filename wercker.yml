@@ -14,6 +14,11 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+    - script:
+        name: NPM outdated packages
+        code: |
+          npm outdated
+
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
