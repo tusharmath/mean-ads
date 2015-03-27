@@ -3,10 +3,15 @@
 Application Setup
 
 1. Install NodeJS, HomeBrew
-2. `./setup/dev.sh`
+2. Node Modules: node-dev gulp coffee-script
+2. Install MongoDb, Redis
+
+Git Commit Hooks
+`ln -s ./setup/validate-commit-msg.coffee ./.git/hooks/commit-msg`
+
 
 Start the server
-Mongo: `mongod --dbpath ./.db`
+Mongo: `mongod --dbpath ~/.db`
 
 Start the node server
 nodejs: `nodemon server.coffee --watch backend`
