@@ -7,5 +7,5 @@ class CommandExecutor
 		@_executables[cmd.alias] = cmd
 	execute: (alias, args) ->
 		@_executables[alias]?.execute? args...
-annotate CommandExecutor, new ClassProvider
+annotate CommandExecutor, new ClassProvider()
 module.exports = CommandExecutor
