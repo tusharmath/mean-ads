@@ -1,4 +1,3 @@
-require 'coffee-errors'
 require 'mock-promises'
 chai = require 'chai'
 chai.use require 'chai-datetime'
