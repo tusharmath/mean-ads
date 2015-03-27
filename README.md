@@ -17,4 +17,4 @@ Start the node server
 nodejs: `nodemon server.coffee --watch backend`
 
 
-TODO: Use commong templates for updated and edit
+TODO: Use common templates for updated and edit
