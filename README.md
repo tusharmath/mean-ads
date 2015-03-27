@@ -1,4 +1,4 @@
-[![wercker status](https://app.wercker.com/status/5646e9dcf1bf613106212f161c085219/m/master "wercker status")](https://app.wercker.com/project/bykey/5646e9dcf1bf613106212f161c085219)
+[![wercker status](https://app.wercker.com/status/854f646fa6b5501c8b7b13e4c70f0b02/m "wercker status")](https://app.wercker.com/project/bykey/854f646fa6b5501c8b7b13e4c70f0b02)
 
 Application Setup
 
@@ -6,7 +6,7 @@ Application Setup
 2. `./setup/dev.sh`
 
 Start the server
-Mongo: `mongod --dbpath ./db`
+Mongo: `mongod --dbpath ./.db`
 
 Start the node server
 nodejs: `nodemon server.coffee --watch backend`
