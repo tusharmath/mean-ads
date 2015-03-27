@@ -3,7 +3,7 @@ node_modules/
 frontend/lib/
 bower_components/
 frontend/css/
-db/
+.db/
 *.sublime-workspace
 .DS_Store
 *.log.*
