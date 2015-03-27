@@ -9,13 +9,13 @@ _ = require 'lodash'
 # Round Robin Dispatcher
 class Dispatcher
 	constructor: (
-		@modelFac
+		@models
 		@date
 		@dispatchDelivery
 		@dispatchFac
 		) ->
 
-	_getModel: (name) -> @modelFac.models()[name]
+	_getModel: (name) -> @models[name]
 	_defaultOptions: (options) ->
 		_options =
 			keywords: []

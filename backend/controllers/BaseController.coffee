@@ -4,9 +4,10 @@ ModelFactory = require '../factories/ModelFactory'
 _ = require 'lodash'
 {ErrorPool, MeanError} = require '../config/error-codes'
 class BaseController
-	constructor: (@modelFac) ->
+	constructor: (@models) ->
 		@_filterKeys = []
 		@resourceName = null
+		@hasListOwner = yes
 	actionMap:
 		'$create': ['post', (str) -> "/core/#{str}"]
 		'$list': ['get', (str) -> "/core/#{str}s"]
@@ -15,9 +16,9 @@ class BaseController
 		'$update': ['patch', (str) -> "/core/#{str}/:id"]
 		'$remove': ['delete', (str) -> "/core/#{str}/:id"]
 	getModel: ->
-		model = @modelFac.models()[@resourceName]
+		model = @models[@resourceName]
 		return model if model
-		throw new MeanError "#{@resourceName} was not found in #{_.keys @modelFac.Models}"
+		throw new MeanError "#{@resourceName} was not found in Models"
 
 	postCreateHook: (i) -> i
 	$create: (req) ->
@@ -47,7 +48,8 @@ class BaseController
 	$list: (req) ->
 		_populate = req.query?.populate or ''
 		filter = _.pick req.query, @_filterKeys
-		filter.owner = req.user.sub
+		if @hasListOwner
+			filter.owner = req.user.sub
 		@getModel().find filter
 		.populate _populate
 		.execQ()

@@ -20,7 +20,7 @@ describe 'ModelFactory:', ->
 	afterEach ->
 		@mongooseP.__reset()
 
-	describe "create()", ->
+	describe "reduce()", ->
 		beforeEach ->
 			MockSchema = (mongoose) ->
 				new mongoose.Schema field_1: type: String
@@ -28,34 +28,30 @@ describe 'ModelFactory:', ->
 			sinon.stub @requireProvider, 'require'
 			.returns MockSchema
 
-		it "function", -> @mod.create.should.be.a.Function
+		it "function", -> @mod._reduce.should.be.a.Function
 
-		it "creates instance", ->
-			@mod.create {}, 'woodo'
+		it "reduces instance", ->
+			@mod._reduce {}, 'woodo'
 			.woodo.findById.should.be.a.Function
 
 		it "supports Q", ->
-			@mod.create {}, 'woodo'
+			@mod._reduce {}, 'woodo'
 			.woodo.findById(1).execQ.should.be.a.Function
 		it "throws an error if resourceName is not provided", ->
-			expect => @mod.create 'woodo'
+			expect => @mod._reduce 'woodo'
 			.to.throw 'resourceName is required'
 
 
 		it "enables saving data", ->
-			models = @mod.create {}, 'doodo'
+			models = @mod._reduce {}, 'doodo'
 			doc = new models.doodo field_1: 'honeySingh'
 			doc.saveQ()
 			.then ->
 				models.doodo.findOne().execQ()
 				.should.eventually.have.property '_id'
-	describe "models()", ->
+	describe "this", ->
 		it "returns all the models", ->
-			@mod.models().Subscription.should.exist
-		it "it returns the same models", ->
-			model1 = @mod.models()
-			model2 = @mod.models()
-			model1.should.equal model2
+			@mod.Subscription.should.exist
 
 
 

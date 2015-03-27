@@ -1,10 +1,9 @@
 'use strict'
+config = require './backend/config/config'
 require 'newrelic'
 bragi = require 'bragi'
 di = require 'di'
 Q = require 'q'
-
-config = require './backend/config/config'
 
 if config.nodetime.enabled
 	require 'nodetime'

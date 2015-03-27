@@ -27,14 +27,13 @@ describe 'DispatchFactory:', ->
 		# @date = @injector.getModule 'providers.DateProvider'
 
 		#ModelFactory
-		@modelFac = @injector.getModule 'factories.ModelFactory', mock: false
-		@Models = @modelFac.models()
+		@Models = @injector.getModule 'factories.ModelFactory', mock: false
 
 		#Mock Data
 		@mockDataSetup = mockDataSetup
 
 	afterEach ->
-		@mongo.__reset()
+		@Models.mongooseP.__reset()
 
 	describe "_interpolateMarkup()", ->
 
