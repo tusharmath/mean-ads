@@ -15,8 +15,7 @@ describe 'SubscriptionSchema:', ->
 		@mongo = @injector.getModule 'providers.MongooseProvider', mock: no
 
 		#ModelFactory
-		@modelFac = @injector.getModule 'factories.ModelFactory', mock: no
-		@Models = @modelFac.models()
+		@Models = @injector.getModule 'factories.ModelFactory', mock: no
 
 		#Mock Data
 		@mockDataSetup = mockDataSetup

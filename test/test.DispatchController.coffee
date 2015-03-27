@@ -1,4 +1,5 @@
 errors = require '../backend/config/error-codes'
+MongooseProviderMock = require './mocks/MongooseProviderMock'
 Q = require 'q'
 {Injector} = require 'di'
 
@@ -12,14 +13,16 @@ describe 'DispatchController:', ->
 		@res = set: sinon.spy(), cookie: sinon.spy()
 
 
-		injector = new Injector
+		injector = new Injector [MongooseProviderMock]
 		@mod = injector.getModule 'controllers.DispatchController', mock: false
 
 		# Dispatcher
 		@dispatcher = injector.getModule 'modules.Dispatcher'
 		@dispatcher.next.resolves [markup: 'sample-markup']
 		@dispatcher.getAllowedOrigins.returns ['http://a.com', 'http://b.com']
-
+		@mongo = injector.getModule 'providers.MongooseProvider'
+	afterEach ->
+		@mongo.__reset()
 	describe "$index()", ->
 
 		it "calls resolve with dispatcher.next", ->

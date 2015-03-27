@@ -23,8 +23,7 @@ describe 'Dispatcher:', ->
 		@date.now.returns new Date 2014, 1, 2
 
 		#ModelFactory
-		@modelFac = @injector.getModule 'factories.ModelFactory', mock: no
-		@Models = @modelFac.models()
+		@Models = @injector.getModule 'factories.ModelFactory', mock: no
 
 		#Mock Data
 		@mockDataSetup = mockDataSetup
@@ -38,7 +37,7 @@ describe 'Dispatcher:', ->
 		@dispatchFac = @injector.getModule 'factories.DispatchFactory', mock: no
 
 	afterEach ->
-		@mongo.__reset()
+		@Models.mongooseP.__reset()
 
 	describe "next()", ->
 		beforeEach ->

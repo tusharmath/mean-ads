@@ -10,3 +10,4 @@ db/
 *.rdb
 *.log
 .idea
+.cache
