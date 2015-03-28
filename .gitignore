@@ -11,3 +11,4 @@ db/
 *.log
 .idea
 .cache
+.*
