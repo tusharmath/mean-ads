@@ -33,7 +33,6 @@ gulp.task 'inject-modules', ->
 	.pipe gulp.dest 'frontend/lib/'
 
 gulp.task 'move-files', ->
-	rename = require 'gulp-rename'
 	clean = require 'gulp-clean'
 
 	gulp.src 'frontend/**/*ctrl.coffee'
