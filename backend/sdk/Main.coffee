@@ -1,4 +1,4 @@
-{annotate, Inject} = require 'di'
+{annotate, Inject, ClassProvider} = require 'di'
 CommandExecutor = require './CommandExecutor'
 WindowProvider = require '../providers/WindowProvider'
 HostNameBuilder = require './HostNameBuilder'
@@ -26,7 +26,7 @@ class Main
 		window.ma = @ma
 
 
-injecteds = new Inject(
+annotate Main, new Inject(
 	# Actual Deps
 	CommandExecutor
 	WindowProvider
@@ -35,5 +35,6 @@ injecteds = new Inject(
 	require './AdCommand'
 	require './ConvertCommand'
 	)
-annotate Main, injecteds
+annotate Main, new ClassProvider
+
 module.exports = Main

@@ -1,5 +1,5 @@
 WindowProvider = require '../providers/WindowProvider'
-{annotate, Inject} = require 'di'
+{annotate, Inject, ClassProvider} = require 'di'
 
 class CreateImageElement
 	constructor: (@windowP) ->
@@ -10,6 +10,6 @@ class CreateImageElement
 		img.onload = img.onerror = ->
 			img.onload = img.onerror = null
 			callback() if callback
-
+annotate CreateImageElement, new ClassProvider
 annotate CreateImageElement, new Inject WindowProvider
 module.exports = CreateImageElement
