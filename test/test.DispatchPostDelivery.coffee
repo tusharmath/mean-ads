@@ -30,8 +30,7 @@ describe 'DispatchPostDelivery:', ->
 		@date = @injector.get DateProvider
 
 		#ModelFactory
-		@modelFac = @injector.get ModelFactory
-		@Models = @modelFac.models()
+		@Models = @injector.get ModelFactory
 
 		#DispatchFactory
 		@dispatchFac = @injector.get DispatchFactory
@@ -40,7 +39,7 @@ describe 'DispatchPostDelivery:', ->
 		@mockDataSetup = mockDataSetup
 
 	afterEach ->
-		@mongo.__reset()
+		@Models.mongooseP.__reset()
 
 	describe "_increaseUsedCredits()", ->
 		beforeEach ->

@@ -1,6 +1,6 @@
 WindowProvider = require '../providers/WindowProvider'
 Url = require 'url'
-{annotate, Inject} = require 'di'
+{annotate, Inject, ClassProvider} = require 'di'
 class HostNameBuilder
 	constructor: (@windowP) ->
 		@_hostCache=null
@@ -17,6 +17,6 @@ class HostNameBuilder
 	getHostWithProtocol: ->
 		throw new Error 'setup the HostNameBuilder first dude!' if not @_hostCache
 		"#{@windowP.window().location.protocol}//#{@_hostCache}"
-
+annotate HostNameBuilder, new ClassProvider
 annotate HostNameBuilder, new Inject WindowProvider
 module.exports = HostNameBuilder

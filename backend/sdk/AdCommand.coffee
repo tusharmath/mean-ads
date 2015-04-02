@@ -1,5 +1,5 @@
 querystring = require 'querystring'
-{annotate, Inject} = require 'di'
+{annotate, Inject, ClassProvider} = require 'di'
 class AdCommand
 	constructor: (@http, @host, @exec, @windowP) ->
 		@exec.register @
@@ -22,7 +22,7 @@ class AdCommand
 		@http.get url, {withCredentials: true} , (body, status, obj) ->
 			markupList = JSON.parse body
 			elements[i].innerHTML = markup for markup, i in markupList
-
+annotate AdCommand, new ClassProvider
 annotate AdCommand, new Inject(
 	require '../sdk/HttpProvider'
 	require './HostNameBuilder'

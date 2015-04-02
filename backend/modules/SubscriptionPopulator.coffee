@@ -6,8 +6,8 @@ _ = require 'lodash'
 
 # Round Robin SubscriptionPopulator
 class SubscriptionPopulator
-	constructor: (@modelFac) ->
-	_getModel: (name) -> @modelFac.models()[name]
+	constructor: (@models) ->
+	_getModel: (name) -> @models[name]
 	populateSubscription: (subscriptionId) ->
 		_subscription = {}
 		@_getModel 'Subscription'
