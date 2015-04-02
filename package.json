@@ -22,7 +22,7 @@
     "di": "2.0.0-pre-14",
     "dot": "~1.0.2",
     "errorhandler": "~1.1.0",
-    "express": "~4.4.3",
+    "express": "~4.12.3",
     "express-json": "~1.0.0",
     "express-jwt": "~0.3.2",
     "express-livereload": "0.0.24",
