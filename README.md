@@ -16,5 +16,5 @@ Mongo: `mongod --dbpath ~/.db`
 Start the node server
 nodejs: `nodemon server.coffee --watch backend`
 
-
 TODO: Use common templates for updated and edit
+TODO: Add Shell Scripts to manage releases
