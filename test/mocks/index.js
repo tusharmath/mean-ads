@@ -3,7 +3,7 @@ var f, files, glob;
 
 glob = require('glob');
 
-files = glob('*Mock.coffee', {
+files = glob('*Mock.js', {
   sync: true,
   cwd: './test/mocks'
 });

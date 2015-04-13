@@ -10,14 +10,14 @@ _ = require('lodash');
 
 env = process.env.NODE_ENV || 'development';
 
-config = _.merge(require('./env/all.coffee'), require('./env/' + env + '.coffee' || {}));
+config = _.merge(require('./env/all'), require('./env/' + env || {}));
 
 if (process.env.USER && env !== 'production') {
-  userconfig = './user/' + process.env.USER + '.coffee';
+  userconfig = './user/' + process.env.USER + '.js';
   if (fs.existsSync(path.join(path.join(__dirname, userconfig)))) {
     config = _.merge(config, require(userconfig));
   } else {
-    console.log('User config not found, defaulting to development.coffee');
+    console.log('User config not found, defaulting to development.js');
   }
 }
 

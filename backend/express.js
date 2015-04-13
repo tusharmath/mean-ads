@@ -46,7 +46,7 @@ V1 = (function() {
     if (env === 'production') {
       prod(app);
     }
-    app.use(cookieParser(config.cookie.secret)).use('/static', [middleware.coffeescript, middleware.stylus, express["static"](path.join(config.root, 'frontend'))]).use('/api/v1/core', [middleware.auth]).use('/api/v1/dispatch', [middleware.uuid]).use('/api/v1', [bodyParser.json(), v1]).get('/templates/*', middleware.partials).get('/', middleware.page('index')).all('/*', middleware.page('404'));
+    app.use(cookieParser(config.cookie.secret)).use('/static', [middleware.stylus, express["static"](path.join(config.root, 'frontend'))]).use('/api/v1/core', [middleware.auth]).use('/api/v1/dispatch', [middleware.uuid]).use('/api/v1', [bodyParser.json(), v1]).get('/templates/*', middleware.partials).get('/', middleware.page('index')).all('/*', middleware.page('404'));
     app.listen(config.port, config.ip, function() {
       return bragi.log('application', bragi.util.symbols.success, 'Server Started', bragi.util.print(config.ip + ":" + config.port, 'yellow'), 'in', bragi.util.print("" + (app.get('env')), 'yellow'), 'mode');
     });

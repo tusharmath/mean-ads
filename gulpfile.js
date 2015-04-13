@@ -36,7 +36,7 @@ gulp.task('inject-modules', function() {
 	starttag: '# start-inject:modules',
 	endtag: '# end-inject',
 	transform: function(filepath, file, index, length) {
-	  filepath = filepath.replace(/^.+?\//, '').replace(/\.coffee/, '');
+	  filepath = filepath.replace(/^.+?\//, '').replace(/\.js/, '');
 	  return "require('../" + filepath + "')";
 	}
   })).pipe(gulp.dest('frontend/lib/'));
@@ -45,7 +45,7 @@ gulp.task('inject-modules', function() {
 gulp.task('move-files', function() {
   var clean;
   clean = require('gulp-clean');
-  return gulp.src('frontend/**/*ctrl.coffee').pipe(clean()).pipe(rename(function(path) {
+  return gulp.src('frontend/**/*ctrl.js').pipe(clean()).pipe(rename(function(path) {
 	var basename;
 	basename = path.basename.replace(/\-ctrl/, 'Ctrl');
 	basename = basename.replace(/.?/, basename[0].toUpperCase());
@@ -55,28 +55,24 @@ gulp.task('move-files', function() {
 });
 
 gulp.task('browserify-sdk', function() {
-  return gulp.src('./backend/sdk/init.coffee', {
+  return gulp.src('./backend/sdk/init.js', {
 	read: false
   }).pipe(browserify({
-	debug: config.browserify.debug,
-	transform: ['coffeeify'],
-	extensions: ['.coffee']
+	debug: config.browserify.debug
   })).pipe(rename('meanads-sdk.js')).pipe(gulp.dest('./frontend/lib'));
 });
 
 gulp.task('browserify-client', function() {
-  return gulp.src('./frontend/app-bootstrap.coffee', {
+  return gulp.src('./frontend/app-bootstrap.js', {
 	read: false
   }).pipe(browserify({
-	debug: config.browserify.debug,
-	transform: ['coffeeify'],
-	extensions: ['.coffee']
+	debug: config.browserify.debug
   })).pipe(rename('meanads-client.js')).pipe(gulp.dest('./frontend/lib'));
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['frontend/modules/**/*.coffee', 'frontend/**.coffee'], ['inject-modules', 'browserify-client']);
-  gulp.watch('backend/sdk/*.coffee', ['browserify-sdk']);
+  gulp.watch(['frontend/modules/**/*.js', 'frontend/**.js'], ['inject-modules', 'browserify-client']);
+  gulp.watch('backend/sdk/*.js', ['browserify-sdk']);
   return gulp.watch('bower.json', ['setup-assets']);
 });
 
