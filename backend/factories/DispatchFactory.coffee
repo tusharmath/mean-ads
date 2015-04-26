@@ -1,7 +1,6 @@
 Q = require 'q'
 less = require 'less'
 _ = require 'lodash'
-{annotate, Inject} = require 'di'
 config = require '../config/config'
 
 # Round Robin DispatchFactory
@@ -76,11 +75,5 @@ class DispatchFactory
 		@removeForSubscriptionId subscriptionId
 		.then =>
 			@createForSubscriptionId subscriptionId
-annotate DispatchFactory, new Inject(
-	require './ModelFactory'
-	require '../providers/DotProvider'
-	require '../providers/HtmlMinifierProvider'
-	require '../providers/DateProvider'
-	require '../modules/SubscriptionPopulator'
-	)
+
 module.exports = DispatchFactory

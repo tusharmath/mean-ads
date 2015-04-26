@@ -2,7 +2,7 @@ config = require '../config/config'
 DateProvider = require '../providers/DateProvider'
 _  = require 'lodash'
 {MeanError} = require '../config/error-codes'
-{Inject, annotate} = require 'di'
+# {Inject, annotate} = require 'di'
 class DispatchStamper
 	constructor: (@date) ->
 	_reduce: (m, i) ->
@@ -47,5 +47,5 @@ class DispatchStamper
 			v.subscription is subscriptionId and
 			@date.now().getTime() - v.timestamp < @_getConversionMaxAge()
 
-annotate DispatchStamper, new Inject DateProvider
+# annotate DispatchStamper, new Inject DateProvider
 module.exports = DispatchStamper

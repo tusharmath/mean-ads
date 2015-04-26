@@ -1,6 +1,4 @@
 Q = require 'q'
-ModelFactory = require '../factories/ModelFactory'
-{TransientScope, Inject} = require 'di'
 _ = require 'lodash'
 {ErrorPool, MeanError} = require '../config/error-codes'
 class BaseController
@@ -69,8 +67,4 @@ class BaseController
 			doc
 
 
-BaseController.annotations = [
-	new TransientScope()
-	new Inject ModelFactory
-]
 module.exports = BaseController

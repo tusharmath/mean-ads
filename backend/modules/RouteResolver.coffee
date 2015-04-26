@@ -3,12 +3,11 @@ express = require 'express'
 _ = require 'lodash'
 config = require '../config/config'
 newrelic = require 'newrelic'
-ControllerFactory = require '../factories/ControllerFactory'
-di = require 'di'
 Q = require 'q'
+bragi = require 'bragi'
 {ErrorPool, MeanError} = require '../config/error-codes'
 
-class V1
+class RouteResolver
 	constructor: (ctrlFac) ->
 		{@Controllers} = ctrlFac
 	_resolveRoute: (ctrl, ctrlName, actionName) ->
@@ -65,5 +64,5 @@ class V1
 		@_otherRoutes router
 		router
 
-di.annotate V1, new di.Inject ControllerFactory
-module.exports = V1
+# di.annotate RouteResolver, new di.Inject ControllerFactory
+module.exports = RouteResolver

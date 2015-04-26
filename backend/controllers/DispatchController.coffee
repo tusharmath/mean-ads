@@ -1,5 +1,4 @@
 {ErrorPool} = require '../config/error-codes'
-{annotate, Inject} = require 'di'
 _ = require 'lodash'
 
 class DispatchController
@@ -25,7 +24,4 @@ class DispatchController
 				res.set 'Access-Control-Allow-Credentials', true
 			_.pluck dispatchList, 'markup'
 
-annotate DispatchController, new Inject(
-	require '../modules/Dispatcher'
-	)
 module.exports = DispatchController

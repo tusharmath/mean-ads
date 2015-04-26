@@ -4,7 +4,7 @@ DispatchFactory = require '../factories/DispatchFactory'
 DateProvder = require '../providers/DateProvider'
 Q = require 'q'
 _ = require 'lodash'
-{annotate, Inject} = require 'di'
+# {annotate, Inject} = require 'di'
 
 # Round Robin Dispatcher
 class Dispatcher
@@ -66,10 +66,10 @@ class Dispatcher
 	styleUpdated: (id) ->
 		@_resourceUpdated 'Program', 'Style', id
 
-annotate Dispatcher, new Inject(
-	ModelFactory
-	DateProvder
-	DispatchPostDelivery
-	DispatchFactory
-	)
+# annotate Dispatcher, new Inject(
+# 	ModelFactory
+# 	DateProvder
+# 	DispatchPostDelivery
+# 	DispatchFactory
+# 	)
 module.exports = Dispatcher

@@ -2,7 +2,6 @@ config = require '../config/config'
 Q = require 'q'
 _ = require 'lodash'
 {ErrorPool} = require '../config/error-codes'
-{annotate, Inject} = require 'di'
 
 class SubscriptionController
 	constructor: (@dispatch, @actions, @mailer) ->
@@ -98,10 +97,4 @@ class SubscriptionController
 		res.status 302
 		Q null
 
-	# Perfect place to mutate request
-annotate SubscriptionController, new Inject(
-	require '../modules/Dispatcher'
-	require './BaseController'
-	require '../modules/Mailer'
-	)
 module.exports = SubscriptionController

@@ -1,17 +1,19 @@
 config = require './config/config'
-dev = require './config/express-dev'
 express = require 'express'
+newrelic = require 'newrelic'
+packageFile = require '../package.json'
+humanize = require 'humanize'
+bragi = require 'bragi'
+
+# Middlewares
 middleware = require './middleware'
 path = require 'path'
-prod = require './config/express-prod'
 bodyParser = require 'body-parser'
-api = require './modules/RouteResolver'
-di = require 'di'
-newrelic = require 'newrelic'
-ModelFactory = require './factories/ModelFactory'
-packageFile = require '../package.json'
 cookieParser = require 'cookie-parser'
-humanize = require 'humanize'
+
+#TODO: Have one. Env Specific configs
+prod = require './config/express-prod'
+dev = require './config/express-dev'
 
 class V1
 	constructor: (api) ->
@@ -54,14 +56,12 @@ class V1
 			v1
 		]
 		# Routes
-		.get '/templates/*', middleware.partials
+		.get "/templates/*", middleware.partials
 		.get '/', middleware.page 'index'
 		.all '/*', middleware.page '404'
 
 		# Start server
 		app.listen config.port, config.ip, ->
 			bragi.log 'application', bragi.util.symbols.success, 'Server Started', bragi.util.print("#{config.ip}:#{config.port}", 'yellow'), 'in', bragi.util.print("#{app.get 'env'}", 'yellow'), 'mode'
-di.annotate V1, new di.Inject api, ModelFactory
 
-injector = new di.Injector()
-injector.get V1
+module.exports = V1

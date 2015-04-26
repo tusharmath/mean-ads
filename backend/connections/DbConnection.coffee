@@ -1,6 +1,6 @@
 config = require '../config/config'
+bragi = require 'bragi'
 MongooseProvider = require '../providers/MongooseProvider'
-{Inject} = require 'di'
 class DbConnection
 	constructor: (@mongooseProvider) ->
 		mongoose = @mongooseProvider.mongoose
@@ -26,7 +26,7 @@ class DbConnection
 					'Db Connection got disconnected'
 				)
 		@_connect()
-DbConnection.annotations = [
-	new Inject MongooseProvider
-]
+# DbConnection.annotations = [
+# 	new Inject MongooseProvider
+# ]
 module.exports = DbConnection

@@ -1,7 +1,7 @@
 JadeProvider = require '../providers/JadeProvider'
 JuiceProvider = require '../providers/JuiceProvider'
 MailgunProvider = require '../providers/MailgunProvider'
-{Inject, annotate} = require 'di'
+# {Inject, annotate} = require 'di'
 humanize = require 'humanize'
 
 class Mailer
@@ -22,5 +22,5 @@ class Mailer
 		.then (inlineMarkup) =>
 			@mail.sendMessageQ from, to, subject, inlineMarkup
 
-annotate Mailer, new Inject JadeProvider, JuiceProvider, MailgunProvider
+# annotate Mailer, new Inject JadeProvider, JuiceProvider, MailgunProvider
 module.exports = Mailer

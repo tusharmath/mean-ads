@@ -2,7 +2,7 @@ ModelFactory = require '../factories/ModelFactory'
 Q = require 'q'
 less = require 'less'
 _ = require 'lodash'
-{annotate, Inject} = require 'di'
+# {annotate, Inject} = require 'di'
 
 # Round Robin SubscriptionPopulator
 class SubscriptionPopulator
@@ -26,5 +26,5 @@ class SubscriptionPopulator
 				_subscription.campaign.program = program
 				_subscription
 
-annotate SubscriptionPopulator, new Inject ModelFactory
+# annotate SubscriptionPopulator, new Inject ModelFactory
 module.exports = SubscriptionPopulator

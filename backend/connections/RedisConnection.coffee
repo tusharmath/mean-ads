@@ -1,5 +1,4 @@
 config = require '../config/config'
-{Inject} = require 'di'
 class RedisConnection
 	constructor: (redisP) ->
 		@conn = redisP.redis().createClient config.redis.uri
@@ -17,7 +16,4 @@ class RedisConnection
 				'Redis Connection could not be established'
 			)
 
-RedisConnection.annotations = [
-	new Inject require '../providers/RedisProvider'
-]
 module.exports = RedisConnection

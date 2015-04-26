@@ -6,7 +6,7 @@ DotProvider = require '../providers/DotProvider'
 DateProvder = require '../providers/DateProvider'
 less = require 'less'
 _ = require 'lodash'
-{annotate, Inject} = require 'di'
+# {annotate, Inject} = require 'di'
 
 # Round Robin DispatchPostDelivery
 class DispatchPostDelivery
@@ -49,11 +49,11 @@ class DispatchPostDelivery
 					else
 						@dispatchFac.removeForSubscriptionId subscriptionP._id
 
-annotate DispatchPostDelivery, new Inject(
-	ModelFactory
-	DotProvider
-	DateProvder
-	SubscriptionPopulator
-	DispatchFactory
-	)
+# annotate DispatchPostDelivery, new Inject(
+# 	ModelFactory
+# 	DotProvider
+# 	DateProvder
+# 	SubscriptionPopulator
+# 	DispatchFactory
+# 	)
 module.exports = DispatchPostDelivery

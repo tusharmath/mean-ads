@@ -1,11 +1,9 @@
-{Inject, Injector, annotate} = require 'di'
 {resources} = require '../config/config'
 
 # TODO: Dynamically Set
 ControllerNames = [
 	'Campaign'
 	'Dispatch'
-	'Experiment'
 	'Program'
 	'Style'
 	'Subscription'
@@ -17,6 +15,6 @@ class ControllerFactory
 		@Controllers = {}
 		_.each ControllerNames, (i) =>
 			@Controllers[i] = injector.get require "../controllers/#{i}Controller"
-annotate ControllerFactory, new Inject Injector
+# annotate ControllerFactory, new Inject Injector
 
 module.exports = ControllerFactory

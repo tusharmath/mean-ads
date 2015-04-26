@@ -1,5 +1,5 @@
-{Injector} = require 'di'
+# {Injector} = require 'di'
 Main = require './Main'
-injector = new Injector()
-main = injector.get Main
-main.setup()
+# injector = new Injector()
+# main = injector.get Main
+# main.setup()

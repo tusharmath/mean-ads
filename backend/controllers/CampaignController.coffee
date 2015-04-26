@@ -1,5 +1,4 @@
 _ = require 'lodash'
-{Inject, annotate} = require 'di'
 BaseController = require './BaseController'
 Dispatcher = require '../modules/Dispatcher'
 
@@ -11,5 +10,4 @@ class CampaignController
 		@dispatch.campaignUpdated campaign._id
 		.then -> campaign
 
-annotate CampaignController, new Inject BaseController, Dispatcher
 module.exports = CampaignController
