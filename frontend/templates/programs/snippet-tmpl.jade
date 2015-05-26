@@ -6,10 +6,10 @@ div(style="background-color:#fff;")
 		| &nbsp;tag.
 	pre.
 		#{"<script type=\"text/javascript\">"}
-		  (function(i,s,o,g,r,a,m){i['MeanAdsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].g=g,i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//{{ctrl.host}}/static/lib/meanads-sdk.js','ma');
+			(function(i,s,o,g,r,a,m){i['MeanAdsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].g=g,i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//{{ctrl.host}}/static/lib/meanads-sdk.js','ma');
 		#{"</script>"}
 	h3 AD Snippet
 		a.pull-right(ng-href="#/programs/{{ctrl.program._id}}/update")  {{ctrl.program.name}}
@@ -28,16 +28,16 @@ div(style="background-color:#fff;")
 
 			pre.
 				#{"<script type=\"text/javascript\">"}
-				  //REQUIRED
-				  var program = '{{ctrl.program._id}}';
+					//REQUIRED
+					var program = '{{ctrl.program._id}}';
 
-				  //REQUIRED (Select all the dom elements where you would like to inject your ads)
-				  var elements = document.getElementsByClassName('ad-container');
+					//REQUIRED (Select all the dom elements where you would like to inject your ads)
+					var elements = document.getElementsByClassName('ad-container');
 
-				  //OPTIONAL
-				  var keywords = ['timber', 'wood', 'logs', 'tree'];
+					//OPTIONAL
+					var keywords = ['timber', 'wood', 'logs', 'tree'];
 
-				  ma('ad', program, elements, keywords);
+					ma('ad', program, elements, keywords);
 				#{"</script>"}
 
 			h5 Required Settings
@@ -60,5 +60,5 @@ div(style="background-color:#fff;")
 		| command and pass the subscription's unique identifier as the first parameter.
 	pre.
 		#{"<script type=\"text/javascript\">"}
-		  ma('convert', 'beiBunvfj4ippYjnsj');
+			ma('convert', 'beiBunvfj4ippYjnsj');
 		#{"</script>"}
