@@ -19,9 +19,9 @@ class NavbarCtrl
 
 			name: "Programs"
 			path: "/programs"
-		,
-			name: "Styles"
-			path: "/styles"
+		# ,
+		# 	name: "Styles"
+		# 	path: "/styles"
 		]
 		# TODO: Adding reverse because we might change the order later
 		.reverse()
