@@ -7,6 +7,7 @@ class StyleController
 		@actions.$create = null
 		@actions.resourceName = 'Style'
 		@actions.hasListOwner = no
+		@actions.hasOneOwner = no
 		@actions.postUpdateHook = @postUpdateHook
 	postUpdateHook: (style) =>
 		@dispatch.styleUpdated style._id

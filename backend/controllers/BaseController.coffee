@@ -8,6 +8,7 @@ class BaseController
 		@_filterKeys = []
 		@resourceName = null
 		@hasListOwner = yes
+		@hasOneOwner = yes
 	actionMap:
 		'$create': ['post', (str) -> "/core/#{str}"]
 		'$list': ['get', (str) -> "/core/#{str}s"]
@@ -63,9 +64,9 @@ class BaseController
 	$one: (req) ->
 		@getModel().findOne _id: req.params.id
 		.execQ()
-		.then (doc) ->
+		.then (doc) =>
 			if doc is null then throw ErrorPool.NOTFOUND_DOCUMENT
-			if doc.owner isnt req.user.sub then throw ErrorPool.FORBIDDEN_DOCUMENT
+			if @hasOneOwner && doc.owner isnt req.user.sub then throw ErrorPool.FORBIDDEN_DOCUMENT
 			doc
 
 
