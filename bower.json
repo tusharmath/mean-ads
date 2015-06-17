@@ -1,6 +1,6 @@
 {
   "name": "mean-ads",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "dependencies": {
     "angular": "~1.2.18",
     "angular-route": "~1.2.18",
