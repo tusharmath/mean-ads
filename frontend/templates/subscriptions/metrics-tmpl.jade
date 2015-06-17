@@ -34,7 +34,7 @@
 			.col-md-3
 				big {{ctrl.creditAnticipation | number: 0 }}
 			.col-md-3
-				big {{ctrl.subscription.usedCredits}}
+				big {{ctrl.subscription.usedCredits | number: 2 }}
 			.col-md-2 #[big {{ctrl.elapsedTime_days}}] Days
 			.col-md-2 #[big {{ctrl.subscription.conversions}}]
 		hr
