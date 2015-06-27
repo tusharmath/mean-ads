@@ -19,11 +19,16 @@ describe "AdCommand", ->
 		@exec = @injector.getModule 'sdk.CommandExecutor', mock: false
 
 		#WindowProvider
+		class NodeList
+			constructor: ->
+				@[0] = {}
+				@[1] = {}
+
 		class HTMLCollection
 			constructor: ->
 				@[0] = {}
 				@[1] = {}
-		@window = {HTMLCollection}
+		@window = {HTMLCollection, NodeList}
 		@windowP = @injector.getModule 'providers.WindowProvider'
 		@windowP.window.returns @window
 
@@ -57,6 +62,12 @@ describe "AdCommand", ->
 			el.innerHTML.should.equal '<fake-response></fake-response>'
 		it "handles non HTMLCollection elements", ->
 			@mod.execute @program, el = new @window.HTMLCollection
+			@http.$flush @response, null, null
+			el[0].innerHTML.should.equal '<fake-response></fake-response>'
+
+		it "handles non NodeList elements", ->
+			el = new @window.NodeList
+			@mod.execute @program, el
 			@http.$flush @response, null, null
 			el[0].innerHTML.should.equal '<fake-response></fake-response>'
 

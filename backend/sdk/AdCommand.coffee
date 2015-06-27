@@ -12,10 +12,11 @@ class AdCommand
 		@host.getHostWithProtocol() + @_baseUrl + "/#{p}?" + querystring.stringify req
 	execute: (program, elements, keywords) ->
 		return null if not program or not elements
-		{HTMLCollection} =  @windowP.window()
+		{NodeList, HTMLCollection} =  @windowP.window()
 		if (
 			elements instanceof Array is false and
-			elements instanceof HTMLCollection is false
+			elements instanceof HTMLCollection is false and
+			elements instanceof NodeList is false
 		)
 			elements = [elements]
 		url = @_getUrl program, keywords, elements.length
