@@ -18,3 +18,6 @@ nodejs: `nodemon server.coffee --watch backend`
 
 TODO: Use common templates for updated and edit
 TODO: Add Shell Scripts to manage releases
+
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/tusharmath/mean-ads.svg)](https://greenkeeper.io/)
