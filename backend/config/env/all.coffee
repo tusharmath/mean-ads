@@ -9,6 +9,12 @@ module.exports =
 	maxDispatchStampCount: 4
 	conversionMaxAge: 5 * 60 * 1000 #5 Mins (in ms)
 	uuidMaxAge: 10 * 365 * 24 * 60 * 60 * 1000 #10 Years (in ms)
+	# NOTE: Never change the order. Only add more if really required
+	UserActions:
+		'checkout': 0
+		'search': 1
+		'shortlist': 2
+		'product': 3
 	appName: process.env.APP_NAME || 'mean ads'
 	Q: longStackSupport: true
 	root: rootPath

@@ -79,3 +79,10 @@ describe 'Utils:', ->
 		it "returns undefined", ->
 			expect @mod.getType undefined
 			.to.equal 'undefined'
+	describe "jaccardianSimilarity()", ->
+		it "returns 0.5", ->
+			@mod.jSimilarity ['a', 'b', 'c'], ['a', 'b', 'd']
+			.should.equal 0.5
+		it "returns 0.5", ->
+			@mod.jSimilarity ['a', 'b', 'c'], ['a', 'b']
+			.should.equal 2/3

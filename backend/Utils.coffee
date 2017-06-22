@@ -1,4 +1,5 @@
 MeanError = require './modules/MeanError'
+_  = require 'lodash'
 module.exports = ->
 	dateSplit:(date) ->
 		[
@@ -43,3 +44,6 @@ module.exports = ->
 		x.toString.call item
 		.replace /\[object /, ''
 		.replace ']', ''
+	# TODO: Statistics Method move to a diff folder
+	jSimilarity: (list1, list2) ->
+		_.intersection(list1, list2).length/_.union(list1, list2).length

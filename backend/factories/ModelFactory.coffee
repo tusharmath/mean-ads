@@ -14,6 +14,8 @@ ModelNames = [
 	'Program'
 	'Style'
 	'Subscription'
+	'SubscriptionActivity'
+	'Visitor'
 ]
 
 class ModelFactory
